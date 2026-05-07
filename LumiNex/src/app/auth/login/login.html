@@ -1,0 +1,123 @@
+<div class="auth-wrapper">
+
+  <!-- Left Panel -->
+  <div class="left-panel">
+    <div class="left-inner">
+      <div class="brand">
+        <div class="brand-icon">🚀</div>
+        <span class="brand-name">StartupHub</span>
+      </div>
+
+      <div class="hero-text">
+        <h1>Your startup's<br><span class="gradient-text">command centre.</span></h1>
+        <p>Licenses, office space, legal, finance & more — managed through one smart platform.</p>
+      </div>
+
+      <div class="feature-list">
+        <div class="feature-item">
+          <span class="feature-icon">⚖️</span>
+          <div>
+            <div class="feature-title">Legal & Compliance</div>
+            <div class="feature-sub">Trade license, incorporation, VAT & more</div>
+          </div>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">🏢</span>
+          <div>
+            <div class="feature-title">Office Space</div>
+            <div class="feature-sub">Virtual, hot desk, private offices</div>
+          </div>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">💼</span>
+          <div>
+            <div class="feature-title">Finance & IT</div>
+            <div class="feature-sub">Bookkeeping, websites, email setup</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat"><div class="stat-n">30+</div><div class="stat-l">Services</div></div>
+        <div class="stat"><div class="stat-n">200+</div><div class="stat-l">Startups</div></div>
+        <div class="stat"><div class="stat-n">98%</div><div class="stat-l">Satisfaction</div></div>
+      </div>
+    </div>
+
+    <!-- Decorative blobs -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+  </div>
+
+  <!-- Right Panel -->
+  <div class="right-panel">
+    <div class="form-card">
+
+      <div class="form-header">
+        <h2>Welcome back</h2>
+        <p>Sign in to your StartupHub account</p>
+      </div>
+
+      <!-- Demo shortcuts -->
+      <div class="demo-chips">
+        <span class="demo-label">Quick demo:</span>
+        <button type="button" class="demo-chip" (click)="demoLogin('client')">Client</button>
+        <button type="button" class="demo-chip" (click)="demoLogin('admin')">Admin</button>
+        <button type="button" class="demo-chip" (click)="demoLogin('staff')">Staff</button>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+
+        <!-- Email -->
+        <div class="field" [class.error]="email?.invalid && email?.touched">
+          <label>Email address</label>
+          <div class="input-wrap">
+            <span class="input-icon">✉️</span>
+            <input type="email" formControlName="email" placeholder="you@company.com" autocomplete="email">
+          </div>
+          <div class="field-error" *ngIf="email?.invalid && email?.touched">
+            <span *ngIf="email?.errors?.['required']">Email is required</span>
+            <span *ngIf="email?.errors?.['email']">Enter a valid email</span>
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="field" [class.error]="password?.invalid && password?.touched">
+          <label>
+            Password
+            <a routerLink="/auth/forgot" class="forgot-link">Forgot password?</a>
+          </label>
+          <div class="input-wrap">
+            <span class="input-icon">🔒</span>
+            <input [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="Enter your password" autocomplete="current-password">
+            <button type="button" class="eye-btn" (click)="showPassword = !showPassword">
+              {{ showPassword ? '🙈' : '👁️' }}
+            </button>
+          </div>
+          <div class="field-error" *ngIf="password?.invalid && password?.touched">
+            Password is required
+          </div>
+        </div>
+
+        <!-- Error alert -->
+        <div class="alert-error" *ngIf="error">
+          ⚠️ {{ error }}
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn-submit" [class.loading]="loading" [disabled]="loading">
+          <span *ngIf="!loading">Sign In →</span>
+          <span *ngIf="loading" class="spinner"></span>
+        </button>
+
+      </form>
+
+      <div class="form-footer">
+        Don't have an account?
+        <a routerLink="/auth/register">Create one free →</a>
+      </div>
+
+    </div>
+  </div>
+
+</div>

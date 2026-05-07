@@ -1,0 +1,201 @@
+<div class="auth-wrapper">
+
+  <!-- Left Panel -->
+  <div class="left-panel">
+    <div class="left-inner">
+      <div class="brand">
+        <div class="brand-icon">🚀</div>
+        <span class="brand-name">StartupHub</span>
+      </div>
+
+      <div class="hero-text">
+        <h1>Launch your<br><span class="gradient-text">business faster.</span></h1>
+        <p>Join 200+ startups who use StartupHub to handle all their business setup needs in one place.</p>
+      </div>
+
+      <div class="steps-preview">
+        <div class="step-item" [class.done]="currentStep >= 1" [class.active]="currentStep === 1">
+          <div class="step-num">1</div>
+          <div>
+            <div class="step-title">Company Info</div>
+            <div class="step-sub">Name, type, address</div>
+          </div>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step-item" [class.done]="currentStep >= 2" [class.active]="currentStep === 2">
+          <div class="step-num">2</div>
+          <div>
+            <div class="step-title">Account Setup</div>
+            <div class="step-sub">Contact & password</div>
+          </div>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div>
+            <div class="step-title">You're Live!</div>
+            <div class="step-sub">Start requesting services</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="trust-badges">
+        <div class="trust-item">🔒 Secure & encrypted</div>
+        <div class="trust-item">✅ No credit card needed</div>
+        <div class="trust-item">⚡ Live in 2 minutes</div>
+      </div>
+    </div>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+  </div>
+
+  <!-- Right Panel -->
+  <div class="right-panel">
+    <div class="form-card">
+
+      <!-- Success State -->
+      <div class="success-state" *ngIf="success">
+        <div class="success-icon">🎉</div>
+        <h2>You're all set!</h2>
+        <p>Your account has been created. Redirecting to login…</p>
+      </div>
+
+      <ng-container *ngIf="!success">
+        <div class="form-header">
+          <div class="step-indicator">
+            <span [class.active]="currentStep === 1" [class.done]="currentStep > 1">1</span>
+            <div class="step-line" [class.done]="currentStep > 1"></div>
+            <span [class.active]="currentStep === 2">2</span>
+          </div>
+          <h2>{{ currentStep === 1 ? 'Create your account' : 'Almost there!' }}</h2>
+          <p>{{ currentStep === 1 ? 'Tell us about your startup' : 'Set up your login credentials' }}</p>
+        </div>
+
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+
+          <!-- STEP 1 -->
+          <div *ngIf="currentStep === 1">
+            <div class="field" [class.error]="companyName?.invalid && companyName?.touched">
+              <label>Company Name</label>
+              <div class="input-wrap">
+                <span class="input-icon">🏢</span>
+                <input type="text" formControlName="companyName" placeholder="e.g. TechNova BD Ltd.">
+              </div>
+              <div class="field-error" *ngIf="companyName?.invalid && companyName?.touched">Company name is required</div>
+            </div>
+
+            <div class="field" [class.error]="businessType?.invalid && businessType?.touched">
+              <label>Business Type</label>
+              <div class="input-wrap select-wrap">
+                <span class="input-icon">🏷️</span>
+                <select formControlName="businessType">
+                  <option value="" disabled>Select your industry</option>
+                  <option>IT & Software</option>
+                  <option>Food & Beverage</option>
+                  <option>Healthcare</option>
+                  <option>Finance & Fintech</option>
+                  <option>E-Commerce</option>
+                  <option>Education</option>
+                  <option>Logistics</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="field-error" *ngIf="businessType?.invalid && businessType?.touched">Please select a business type</div>
+            </div>
+
+            <!-- Plan Selection -->
+            <div class="plan-picker">
+              <label class="picker-label">Select Plan</label>
+              <div class="plan-options">
+                <div class="plan-opt" [class.selected]="form.get('plan')?.value === 'STARTER'" (click)="selectPlan('STARTER')">
+                  <div class="plan-opt-name">Starter</div>
+                  <div class="plan-opt-price">Free</div>
+                  <div class="plan-opt-sub">3 requests/mo</div>
+                </div>
+                <div class="plan-opt featured" [class.selected]="form.get('plan')?.value === 'GROWTH'" (click)="selectPlan('GROWTH')">
+                  <div class="plan-opt-tag">Popular</div>
+                  <div class="plan-opt-name">Growth</div>
+                  <div class="plan-opt-price">৳2,000</div>
+                  <div class="plan-opt-sub">15 requests/mo</div>
+                </div>
+                <div class="plan-opt" [class.selected]="form.get('plan')?.value === 'ENTERPRISE'" (click)="selectPlan('ENTERPRISE')">
+                  <div class="plan-opt-name">Enterprise</div>
+                  <div class="plan-opt-price">৳5,000</div>
+                  <div class="plan-opt-sub">Unlimited</div>
+                </div>
+              </div>
+            </div>
+
+            <button type="button" class="btn-submit" (click)="nextStep()">
+              Continue →
+            </button>
+          </div>
+
+          <!-- STEP 2 -->
+          <div *ngIf="currentStep === 2">
+            <div class="field" [class.error]="name?.invalid && name?.touched">
+              <label>Your Full Name</label>
+              <div class="input-wrap">
+                <span class="input-icon">👤</span>
+                <input type="text" formControlName="name" placeholder="e.g. Rahim Khan">
+              </div>
+              <div class="field-error" *ngIf="name?.invalid && name?.touched">Name is required</div>
+            </div>
+
+            <div class="two-fields">
+              <div class="field" [class.error]="email?.invalid && email?.touched">
+                <label>Email</label>
+                <div class="input-wrap">
+                  <span class="input-icon">✉️</span>
+                  <input type="email" formControlName="email" placeholder="you@company.com">
+                </div>
+                <div class="field-error" *ngIf="email?.invalid && email?.touched">Valid email required</div>
+              </div>
+              <div class="field" [class.error]="phone?.invalid && phone?.touched">
+                <label>Phone</label>
+                <div class="input-wrap">
+                  <span class="input-icon">📱</span>
+                  <input type="tel" formControlName="phone" placeholder="01XXXXXXXXX">
+                </div>
+                <div class="field-error" *ngIf="phone?.invalid && phone?.touched">Phone required</div>
+              </div>
+            </div>
+
+            <div class="field" [class.error]="password?.invalid && password?.touched">
+              <label>Password</label>
+              <div class="input-wrap">
+                <span class="input-icon">🔒</span>
+                <input [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="Min. 6 characters">
+                <button type="button" class="eye-btn" (click)="showPassword = !showPassword">
+                  {{ showPassword ? '🙈' : '👁️' }}
+                </button>
+              </div>
+              <div class="field-error" *ngIf="password?.invalid && password?.touched">
+                <span *ngIf="password?.errors?.['required']">Password is required</span>
+                <span *ngIf="password?.errors?.['minlength']">Minimum 6 characters</span>
+              </div>
+            </div>
+
+            <div class="alert-error" *ngIf="error">⚠️ {{ error }}</div>
+
+            <div class="btn-row">
+              <button type="button" class="btn-back" (click)="prevStep()">← Back</button>
+              <button type="submit" class="btn-submit flex-1" [class.loading]="loading" [disabled]="loading">
+                <span *ngIf="!loading">Create Account 🚀</span>
+                <span *ngIf="loading" class="spinner"></span>
+              </button>
+            </div>
+          </div>
+
+        </form>
+
+        <div class="form-footer">
+          Already have an account?
+          <a routerLink="/auth/login">Sign in →</a>
+        </div>
+      </ng-container>
+
+    </div>
+  </div>
+
+</div>
