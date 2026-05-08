@@ -1,0 +1,16 @@
+.bg-primary-soft {
+  background-color: #eef2ff;
+}
+
+.form-control:focus {
+  background-color: #fff !important;
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%) !important;
+}
+
+.card {
+  transition: all 0.3s ease;
+}

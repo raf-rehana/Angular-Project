@@ -1,1 +1,126 @@
-<p>sidebar works!</p>
+<div class="offcanvas-lg offcanvas-start bg-dark text-white sidebar-wrapper" tabindex="-1" id="sidebarOffcanvas">
+  <div class="offcanvas-header border-bottom border-secondary d-lg-none">
+    <h5 class="offcanvas-title text-primary fw-bold"><i class="bi bi-brightness-high-fill me-2"></i>LumiNex</h5>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" data-bs-target="#sidebarOffcanvas"></button>
+  </div>
+  
+  <div class="offcanvas-body p-0 d-flex flex-column h-100">
+    <div class="p-3 border-bottom border-secondary d-none d-lg-block">
+      <h6 class="text-uppercase text-muted mb-0 fw-bold small">Menu</h6>
+    </div>
+    
+    <div class="flex-grow-1 overflow-auto py-3">
+      <ul class="nav nav-pills flex-column mb-auto px-2 border-bottom border-secondary pb-3 mb-3">
+        <li class="nav-item">
+          <a routerLink="/" class="nav-link text-white opacity-75" routerLinkActive="active bg-primary" [routerLinkActiveOptions]="{exact: true}" data-bs-dismiss="offcanvas">
+            <i class="bi bi-house-door me-2"></i> Landing Page
+          </a>
+        </li>
+      </ul>
+
+      <ul class="nav nav-pills flex-column mb-auto px-2">
+        <!-- Client Links -->
+        <ng-container *ngIf="authService.hasRole('CLIENT')">
+          <li class="nav-item mb-1">
+            <a routerLink="/client/dashboard" class="nav-link text-white" routerLinkActive="active bg-primary" data-bs-dismiss="offcanvas">
+              <i class="bi bi-speedometer2 me-2"></i> Dashboard
+            </a>
+          </li>
+          <li class="nav-item mb-1">
+            <a routerLink="/client/catalogue" class="nav-link text-white" routerLinkActive="active bg-primary" data-bs-dismiss="offcanvas">
+              <i class="bi bi-grid me-2"></i> Services
+            </a>
+          </li>
+          <li class="nav-item mb-1">
+            <a routerLink="/client/plans" class="nav-link text-white" routerLinkActive="active bg-primary" data-bs-dismiss="offcanvas">
+              <i class="bi bi-pencil-square me-2"></i> Plan Project
+            </a>
+          </li>
+          <li class="nav-item mb-1">
+            <a routerLink="/client/my-requests" class="nav-link text-white" routerLinkActive="active bg-primary" data-bs-dismiss="offcanvas">
+              <i class="bi bi-file-earmark-text me-2"></i> My Requests
+            </a>
+          </li>
+          <li class="nav-item mb-1">
+            <a routerLink="/client/subscriptions" class="nav-link text-white" routerLinkActive="active bg-primary" data-bs-dismiss="offcanvas">
+              <i class="bi bi-calendar-check me-2"></i> Subscriptions
+            </a>
+          </li>
+          <li class="nav-item mb-1">
+            <a routerLink="/client/payments" class="nav-link text-white" routerLinkActive="active bg-primary" data-bs-dismiss="offcanvas">
+              <i class="bi bi-credit-card me-2"></i> Payments
+            </a>
+          </li>
+          <li class="nav-item mb-1">
+            <a routerLink="/client/profile" class="nav-link text-white" routerLinkActive="active bg-primary" data-bs-dismiss="offcanvas">
+              <i class="bi bi-person-circle me-2"></i> User Profile
+            </a>
+          </li>
+        </ng-container>
+
+        <!-- Admin Links -->
+        <ng-container *ngIf="authService.hasRole('ADMIN')">
+          <li class="nav-item mb-1">
+            <a routerLink="/admin/dashboard" class="nav-link text-white" routerLinkActive="active bg-primary" data-bs-dismiss="offcanvas">
+              <i class="bi bi-speedometer2 me-2"></i> Admin Dashboard
+            </a>
+          </li>
+          <li class="nav-item mb-1">
+            <a routerLink="/admin/all-requests" class="nav-link text-white" routerLinkActive="active bg-primary" data-bs-dismiss="offcanvas">
+              <i class="bi bi-files me-2"></i> All Requests
+            </a>
+          </li>
+          <li class="nav-item mb-1">
+            <a routerLink="/admin/client-management" class="nav-link text-white" routerLinkActive="active bg-primary" data-bs-dismiss="offcanvas">
+              <i class="bi bi-people me-2"></i> Clients
+            </a>
+          </li>
+          <li class="nav-item mb-1">
+            <a routerLink="/admin/staff-management" class="nav-link text-white" routerLinkActive="active bg-primary" data-bs-dismiss="offcanvas">
+              <i class="bi bi-person-badge me-2"></i> Staff
+            </a>
+          </li>
+          <li class="nav-item mb-1">
+            <a routerLink="/admin/service-management" class="nav-link text-white" routerLinkActive="active bg-primary" data-bs-dismiss="offcanvas">
+              <i class="bi bi-gear me-2"></i> Service Config
+            </a>
+          </li>
+          <li class="nav-item mb-1">
+            <a routerLink="/admin/revenue" class="nav-link text-white" routerLinkActive="active bg-primary" data-bs-dismiss="offcanvas">
+              <i class="bi bi-graph-up-arrow me-2"></i> Revenue
+            </a>
+          </li>
+          <li class="nav-item mb-1">
+            <a routerLink="/admin/payments" class="nav-link text-white" routerLinkActive="active bg-primary" data-bs-dismiss="offcanvas">
+              <i class="bi bi-credit-card-2-front me-2"></i> Payments
+            </a>
+          </li>
+          <li class="nav-item mb-1">
+            <a routerLink="/client/profile" class="nav-link text-white" routerLinkActive="active bg-primary" data-bs-dismiss="offcanvas">
+              <i class="bi bi-person-circle me-2"></i> My Profile
+            </a>
+          </li>
+        </ng-container>
+
+        <!-- Staff Links -->
+        <ng-container *ngIf="authService.hasRole('STAFF')">
+          <li class="nav-item mb-1">
+            <a routerLink="/staff/summary" class="nav-link text-white" routerLinkActive="active bg-primary" data-bs-dismiss="offcanvas">
+              <i class="bi bi-bar-chart me-2"></i> Summary
+            </a>
+          </li>
+          <li class="nav-item mb-1">
+            <a routerLink="/staff/my-tasks" class="nav-link text-white" routerLinkActive="active bg-primary" data-bs-dismiss="offcanvas">
+              <i class="bi bi-list-task me-2"></i> My Tasks
+            </a>
+          </li>
+          <li class="nav-item mb-1 mt-auto">
+            <a routerLink="/client/profile" class="nav-link text-white" routerLinkActive="active bg-primary" data-bs-dismiss="offcanvas">
+              <i class="bi bi-person-circle me-2"></i> My Profile
+            </a>
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+  </div>
+</div>

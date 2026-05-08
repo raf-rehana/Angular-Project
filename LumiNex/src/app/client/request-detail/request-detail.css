@@ -1,0 +1,18 @@
+.bg-primary-soft {
+  background-color: #eef2ff;
+}
+
+.btn-white {
+  background: #fff;
+  color: #4f46e5;
+  transition: all 0.3s ease;
+}
+
+.btn-white:hover {
+  background: #f8fafc;
+  transform: translateY(-2px);
+}
+
+.bg-primary {
+  background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%) !important;
+}

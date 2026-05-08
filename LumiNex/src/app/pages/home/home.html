@@ -1,0 +1,174 @@
+<div class="home-wrapper bg-white">
+
+  <!-- Hero Section -->
+  <header class="hero-section py-5">
+    <div class="container py-lg-4">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-6">
+          <div class="badge bg-soft-primary text-primary px-3 py-2 rounded-pill mb-3 fw-bold">NEXT GEN SERVICE HUB</div>
+          <h1 class="display-4 fw-bold text-dark mb-4 lh-sm">You Bring the <span class="text-primary">Idea</span>. We Build the <span class="text-primary">Business</span>.</h1>
+          <p class="lead text-secondary mb-5">Have money and a vision? We handle the rest. From Trade Licenses and Legal Paperwork to Web Development and Digital Marketing — LumiNex is your complete startup partner.</p>
+          <div class="d-flex flex-wrap gap-3 mb-5">
+            <a routerLink="/packages" class="btn btn-primary btn-lg px-5 py-3 rounded-pill text-white shadow">View Packages</a>
+            <a [routerLink]="['/']" fragment="about" class="btn btn-light btn-lg px-5 py-3 rounded-pill border">Learn More</a>
+          </div>
+          <div class="d-flex flex-wrap align-items-center gap-4">
+            <div class="d-flex align-items-center">
+              <i class="bi bi-check-circle-fill text-success me-2"></i>
+              <span class="text-secondary small">Expert Teams</span>
+            </div>
+            <div class="d-flex align-items-center">
+              <i class="bi bi-check-circle-fill text-success me-2"></i>
+              <span class="text-secondary small">24/7 Support</span>
+            </div>
+            <div class="d-flex align-items-center">
+              <i class="bi bi-check-circle-fill text-success me-2"></i>
+              <span class="text-secondary small">Secure Portal</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="position-relative">
+            <div class="hero-img-container shadow-lg rounded-4 overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Business Dashboard" class="img-fluid w-100">
+            </div>
+            <!-- Floating success card -->
+            <div class="hero-card shadow p-3 bg-white rounded-4 position-absolute bottom-0 start-0 ms-n3 mb-n3 d-none d-lg-block" style="width: 220px;">
+              <div class="d-flex align-items-center mb-2">
+                <div class="bg-success-soft p-2 rounded-3 me-2 flex-shrink-0">
+                  <i class="bi bi-graph-up-arrow text-success small"></i>
+                </div>
+                <div class="small fw-bold">98% Success Rate</div>
+              </div>
+              <div class="progress" style="height: 5px;">
+                <div class="progress-bar bg-success" role="progressbar" style="width: 98%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- About & Mission Section -->
+  <section id="about" class="py-5">
+    <div class="container py-5">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-6">
+          <div class="badge bg-soft-primary text-primary px-3 py-2 rounded-pill mb-3 fw-bold text-uppercase">Who We Are</div>
+          <h2 class="display-5 fw-bold text-dark mb-4">Driving Innovation with a Purpose</h2>
+          <p class="text-secondary lead mb-4">At LumiNex, we believe that professional service management should be seamless, transparent, and scalable for every business.</p>
+          
+          <div class="row g-4 mt-2">
+            <div class="col-md-6">
+              <div class="p-4 bg-light rounded-4 h-100 border-start border-4 border-primary">
+                <i class="bi bi-eye-fill text-primary fs-2 mb-3 d-block"></i>
+                <h5 class="fw-bold text-dark">Our Vision</h5>
+                <p class="small text-secondary mb-0">To redefine the global landscape of B2B service delivery by creating an intelligent, transparent, and highly accessible ecosystem. We envision a future where every business can access world-class professional services through a single, unified digital platform that blends cutting-edge AI automation with specialized human ingenuity.</p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="p-4 bg-light rounded-4 h-100 border-start border-4 border-success">
+                <i class="bi bi-bullseye text-success fs-2 mb-3 d-block"></i>
+                <h5 class="fw-bold text-dark">Our Mission</h5>
+                <p class="small text-secondary mb-0">Our mission is to eliminate the operational hurdles that stifle business growth. We are committed to providing a secure, reliable, and user-centric platform that handles everything from IT infrastructure and brand development to legal compliance. By simplifying complex workflows, we empower entrepreneurs to focus on innovation.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="position-relative">
+            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Team working" class="img-fluid rounded-5 shadow-lg">
+            <div class="position-absolute bottom-0 end-0 p-4 bg-white rounded-4 shadow-sm m-4 d-none d-md-block">
+              <div class="fw-bold text-dark fs-5">10+ Years</div>
+              <div class="small text-muted">of industry excellence</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="services" class="py-5 bg-light-soft">
+    <div class="container py-5">
+      <div class="text-center mb-5 pb-3">
+        <h2 class="fw-bold text-dark display-5">Startup Packages</h2>
+        <p class="text-secondary max-width-700 mx-auto">We don't just provide services; we build foundations. Choose a package that covers everything from your legal identity to your digital presence.</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card h-100 border-0 shadow-sm p-4 rounded-4 text-center hover-up">
+            <div class="icon-box bg-primary-soft text-primary mx-auto mb-4">
+              <i class="bi bi-rocket-takeoff fs-2"></i>
+            </div>
+            <h4 class="fw-bold mb-3">Launch Packages</h4>
+            <p class="text-secondary small mb-4">Full startup readiness including Trade Licenses, Web/Mobile Apps, and Business Registration.</p>
+            <a routerLink="/packages" class="text-primary fw-bold text-decoration-none">View Packages <i class="bi bi-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card h-100 border-0 shadow-sm p-4 rounded-4 text-center hover-up">
+            <div class="icon-box bg-success-soft text-success mx-auto mb-4">
+              <i class="bi bi-globe fs-2"></i>
+            </div>
+            <h4 class="fw-bold mb-3">Digital Presence</h4>
+            <p class="text-secondary small mb-4">High-end Web development, E-commerce platforms, and SEO to get your brand seen globally.</p>
+            <a routerLink="/packages" class="text-primary fw-bold text-decoration-none">Explore Web <i class="bi bi-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card h-100 border-0 shadow-sm p-4 rounded-4 text-center hover-up">
+            <div class="icon-box bg-warning-soft text-warning mx-auto mb-4">
+              <i class="bi bi-megaphone fs-2"></i>
+            </div>
+            <h4 class="fw-bold mb-3">Growth & Marketing</h4>
+            <p class="text-secondary small mb-4">Complete digital marketing, social media management, and brand identity kits for scale.</p>
+            <a routerLink="/packages" class="text-primary fw-bold text-decoration-none">Grow Now <i class="bi bi-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-5">
+    <div class="container py-5">
+      <div class="cta-card bg-primary text-white p-5 rounded-5 text-center shadow-lg">
+        <h2 class="display-5 fw-bold mb-4">Ready to start your journey?</h2>
+        <p class="lead mb-5 opacity-75">Join hundreds of successful businesses already using LumiNex.</p>
+        <a routerLink="/packages" class="btn btn-white btn-lg px-5 py-3 rounded-pill fw-bold text-primary shadow">Explore All Packages</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Social Proof Section -->
+  <section class="py-5 bg-light">
+    <div class="container text-center py-4">
+      <h5 class="text-muted fw-bold mb-5 small text-uppercase" style="letter-spacing: 2px;">Join our growing community</h5>
+      <div class="d-flex flex-wrap justify-content-center gap-4 gap-md-5 opacity-75">
+        <a href="https://facebook.com" target="_blank" class="text-decoration-none text-dark d-flex align-items-center">
+          <i class="bi bi-facebook fs-3 me-2 text-primary"></i>
+          <span class="fw-bold">Facebook</span>
+        </a>
+        <a href="https://linkedin.com" target="_blank" class="text-decoration-none text-dark d-flex align-items-center">
+          <i class="bi bi-linkedin fs-3 me-2 text-primary"></i>
+          <span class="fw-bold">LinkedIn</span>
+        </a>
+        <a href="https://github.com" target="_blank" class="text-decoration-none text-dark d-flex align-items-center">
+          <i class="bi bi-github fs-3 me-2"></i>
+          <span class="fw-bold">GitHub</span>
+        </a>
+        <a href="https://youtube.com" target="_blank" class="text-decoration-none text-dark d-flex align-items-center">
+          <i class="bi bi-youtube fs-3 me-2 text-danger"></i>
+          <span class="fw-bold">YouTube</span>
+        </a>
+        <a href="https://wa.me" target="_blank" class="text-decoration-none text-dark d-flex align-items-center">
+          <i class="bi bi-whatsapp fs-3 me-2 text-success"></i>
+          <span class="fw-bold">WhatsApp</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</div>

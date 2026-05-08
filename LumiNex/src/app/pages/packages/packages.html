@@ -1,0 +1,153 @@
+<div class="packages-page">
+
+  <!-- Hero Banner -->
+  <section class="packages-hero py-5 text-white">
+    <div class="container py-4">
+      <div class="text-center">
+        <div class="badge bg-white text-primary px-3 py-2 rounded-pill mb-3 fw-bold shadow-sm">
+          <i class="bi bi-box-seam me-2"></i>ALL PACKAGES
+        </div>
+        <h1 class="display-4 fw-bold mb-3">Startup Packages That Do the Heavy Lifting</h1>
+        <p class="lead opacity-90 mb-5 mx-auto" style="max-width: 680px;">
+          You have the vision and the capital. We bring the expertise. Choose a package — or mix and match — and we'll build your business from the ground up.
+        </p>
+        <div class="d-flex flex-wrap gap-3 justify-content-center">
+          <div class="stat-pill px-4 py-2 rounded-pill fw-bold">
+            <i class="bi bi-people-fill me-2"></i>500+ Startups Launched
+          </div>
+          <div class="stat-pill px-4 py-2 rounded-pill fw-bold">
+            <i class="bi bi-star-fill me-2"></i>4.9 / 5 Rating
+          </div>
+          <div class="stat-pill px-4 py-2 rounded-pill fw-bold">
+            <i class="bi bi-clock-fill me-2"></i>30-Day Delivery
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Category Filter -->
+  <section class="py-3 bg-white border-bottom">
+    <div class="container">
+      <div class="d-flex flex-wrap gap-2 justify-content-center">
+        <button *ngFor="let cat of categories"
+          class="btn rounded-pill px-4 py-2 fw-semibold category-btn"
+          [class.active]="selectedCategory === cat.id"
+          (click)="selectedCategory = cat.id">
+          <i class="bi {{ cat.icon }} me-2"></i>{{ cat.label }}
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Packages Grid -->
+  <section class="py-5 bg-light">
+    <div class="container py-3">
+      <div class="row g-4">
+        <div class="col-lg-6 col-xl-4" *ngFor="let pkg of filteredPackages">
+          <div class="package-card card border-0 shadow-sm rounded-4 h-100 overflow-hidden"
+               [style.border-left]="'4px solid ' + pkg.accent">
+
+            <!-- Card Header -->
+            <div class="card-header bg-white border-0 pt-4 pb-2 px-4">
+              <div class="d-flex align-items-start justify-content-between mb-3">
+                <div class="icon-wrap d-flex align-items-center justify-content-center rounded-3"
+                     [style.background]="pkg.accentLight"
+                     [style.color]="pkg.accent"
+                     style="width: 52px; height: 52px;">
+                  <i class="bi {{ pkg.icon }} fs-4"></i>
+                </div>
+                <span class="badge rounded-pill px-3 py-2 small fw-bold"
+                      [style.background]="pkg.accent">{{ pkg.badge }}</span>
+              </div>
+              <h5 class="fw-bold text-dark mb-1">{{ pkg.name }}</h5>
+              <p class="text-muted small mb-0">{{ pkg.tagline }}</p>
+            </div>
+
+            <!-- Pricing -->
+            <div class="px-4 py-2 border-bottom mx-3">
+              <div class="d-flex align-items-baseline gap-1">
+                <span class="text-muted small" *ngIf="pkg.period === 'from'">from</span>
+                <span class="fs-2 fw-bold" [style.color]="pkg.accent">{{ pkg.currency }}{{ pkg.price | number }}</span>
+                <span class="text-muted small" *ngIf="pkg.period !== 'from'">{{ pkg.period }}</span>
+              </div>
+            </div>
+
+            <!-- Features List -->
+            <div class="card-body px-4 pt-3 pb-0">
+              <ul class="list-unstyled mb-0">
+                <li class="d-flex align-items-start mb-2" *ngFor="let f of pkg.features">
+                  <i class="bi bi-check-circle-fill me-2 mt-1 flex-shrink-0 small"
+                     [style.color]="pkg.accent"></i>
+                  <span class="text-secondary small">{{ f }}</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Action -->
+            <div class="card-footer bg-white border-0 p-4">
+              <a routerLink="/auth/register" class="btn w-100 rounded-pill py-2 fw-bold text-white"
+                 [style.background]="pkg.accent">
+                <i class="bi bi-rocket-takeoff me-2"></i>Get Started
+              </a>
+              <a routerLink="/contact" class="btn btn-link w-100 text-muted small text-decoration-none py-1">
+                <i class="bi bi-chat-dots me-1"></i>Talk to an Expert
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- No Results -->
+      <div class="text-center py-5" *ngIf="filteredPackages.length === 0">
+        <i class="bi bi-box2 display-1 text-muted opacity-25"></i>
+        <p class="text-muted mt-3">No packages in this category yet.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Custom Package CTA -->
+  <section class="py-5 bg-white">
+    <div class="container">
+      <div class="rounded-4 p-5 text-center border" style="border-style: dashed !important; border-color: #ccc !important;">
+        <i class="bi bi-puzzle-fill display-5 text-primary mb-3 d-block"></i>
+        <h4 class="fw-bold text-dark mb-2">Need a Custom Package?</h4>
+        <p class="text-muted mb-4 mx-auto" style="max-width: 560px;">
+          Don't see exactly what you need? We build custom bundles for every type of startup. Mix services, adjust timelines, and set your own budget.
+        </p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+          <a routerLink="/contact" class="btn btn-primary rounded-pill px-5 py-2 fw-bold">
+            <i class="bi bi-chat-left-text me-2"></i>Get a Custom Quote
+          </a>
+          <a routerLink="/client/plans" class="btn btn-outline-primary rounded-pill px-5 py-2 fw-bold">
+            <i class="bi bi-sliders me-2"></i>Project Configurator
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="py-5 bg-light">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h3 class="fw-bold text-dark">How It Works</h3>
+        <p class="text-muted">From order to launch in 4 simple steps.</p>
+      </div>
+      <div class="row g-4 justify-content-center">
+        <div class="col-md-6 col-lg-3" *ngFor="let step of howItWorks; let i = index">
+          <div class="text-center p-4">
+            <div class="bg-primary text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center fw-bold"
+                 style="width: 56px; height: 56px; font-size: 1.2rem;">
+              <i class="bi {{ step.icon }}" *ngIf="step.icon; else stepNum"></i>
+              <ng-template #stepNum>{{ i + 1 }}</ng-template>
+            </div>
+            <h6 class="fw-bold text-dark">{{ step.title }}</h6>
+            <p class="text-muted small mb-0">{{ step.desc }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>

@@ -1,0 +1,29 @@
+.bg-primary {
+  background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%) !important;
+}
+
+.bg-success-soft {
+  background-color: #dcfce7;
+}
+
+.revenue-chart {
+  border-bottom: 2px solid #f1f5f9;
+}
+
+.chart-bar {
+  background: linear-gradient(to top, #4f46e5, #818cf8) !important;
+  box-shadow: 0 5px 15px rgba(79, 70, 229, 0.2);
+}
+
+.chart-bar-wrapper {
+  width: 100%;
+}
+
+.card {
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.05) !important;
+}

@@ -1,9 +1,199 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { AdminService } from '../../core/services/admin.service';
+import { User } from '../../core/models/user';
 
 @Component({
   selector: 'app-staff-management',
-  imports: [],
-  templateUrl: './staff-management.html',
-  styleUrl: './staff-management.css',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  template: `
+    <div class="container-fluid py-4">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h2 class="fw-bold text-dark mb-0">Staff Management</h2>
+          <p class="text-muted">Manage your team of developers and specialists.</p>
+        </div>
+        <div>
+          <button class="btn btn-primary" (click)="showAddForm = !showAddForm">
+            <i class="bi" [ngClass]="showAddForm ? 'bi-x-lg' : 'bi-person-plus'"></i>
+            {{ showAddForm ? 'Cancel' : 'Add Staff' }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Add Staff Form -->
+      <div class="card border-0 shadow-sm rounded-4 mb-4" *ngIf="showAddForm">
+        <div class="card-body p-4 p-md-5">
+          <h5 class="fw-bold mb-4">Add New Staff Member</h5>
+          <form (ngSubmit)="addStaff()" #staffForm="ngForm">
+            <div class="row g-3">
+              <div class="col-md-4">
+                <label class="form-label small fw-bold text-muted">Full Name</label>
+                <input type="text" class="form-control bg-light border-0 py-3 rounded-4" name="name" [(ngModel)]="newStaff.name" placeholder="John Doe" required>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label small fw-bold text-muted">Email</label>
+                <input type="email" class="form-control bg-light border-0 py-3 rounded-4" name="email" [(ngModel)]="newStaff.email" placeholder="john@luminex.com" required>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label small fw-bold text-muted">IT Designation</label>
+                <select class="form-select bg-light border-0 py-3 rounded-4" name="designation" [(ngModel)]="newStaff.designation" required>
+                  <option value="Java Developer">Java Developer</option>
+                  <option value="PHP Developer">PHP Developer</option>
+                  <option value="Python Developer">Python Developer</option>
+                  <option value="AI Developer">AI Developer</option>
+                  <option value="UI/UX Designer">UI/UX Designer</option>
+                  <option value="Full Stack Developer">Full Stack Developer</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label small fw-bold text-muted">Initial Password</label>
+                <input type="password" class="form-control bg-light border-0 py-3 rounded-4" name="password" [(ngModel)]="newStaff.password" required>
+              </div>
+              <div class="col-12 text-end mt-4">
+                <button type="submit" class="btn btn-primary btn-lg rounded-pill px-5 shadow" [disabled]="!staffForm.form.valid">Save Staff Member</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th class="ps-4 py-3 border-0">Name</th>
+                  <th class="py-3 border-0">Email</th>
+                  <th class="py-3 border-0">Designation</th>
+                  <th class="pe-4 py-3 border-0 text-end">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let s of staff">
+                  <td class="ps-4 py-3">
+                    <div class="d-flex align-items-center" (click)="viewProfile(s)" style="cursor: pointer;">
+                      <div class="avatar-circle bg-info text-white me-3 fw-bold d-flex align-items-center justify-content-center shadow-sm" style="width: 45px; height: 45px; border-radius: 12px;">
+                        <img *ngIf="s.avatar; else staffInitial" [src]="s.avatar" class="img-fluid w-100 h-100 object-fit-cover" style="border-radius: 12px;">
+                        <ng-template #staffInitial>{{ s.name.charAt(0) | uppercase }}</ng-template>
+                      </div>
+                      <div class="fw-bold text-dark text-primary-hover">{{ s.name }}</div>
+                    </div>
+                  </td>
+                  <td class="py-3 text-muted">{{ s.email }}</td>
+                  <td class="py-3">
+                    <span class="badge bg-primary-soft text-primary px-3 py-2 rounded-pill">{{ s.designation || 'Specialist' }}</span>
+                  </td>
+                  <td class="pe-4 py-3 text-end">
+                    <button class="btn btn-sm btn-light text-danger rounded-circle p-2" (click)="deleteStaff(s.id)">
+                      <i class="bi bi-trash fs-6"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr *ngIf="staff.length === 0">
+                  <td colspan="4" class="text-center py-5 text-muted">No staff members found.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Staff Profile Modal -->
+      <div class="modal-backdrop fade show" *ngIf="selectedStaff" (click)="selectedStaff = null"></div>
+      <div class="modal fade show d-block" *ngIf="selectedStaff" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content border-0 shadow-lg rounded-5 overflow-hidden">
+            <div class="modal-header border-0 bg-info text-white p-4">
+              <h5 class="modal-title fw-bold">Staff Profile</h5>
+              <button type="button" class="btn-close btn-close-white" (click)="selectedStaff = null"></button>
+            </div>
+            <div class="modal-body p-4 p-md-5">
+              <div class="text-center mb-4">
+                <div class="avatar-circle bg-light text-info mx-auto mb-3 shadow-sm d-flex align-items-center justify-content-center" style="width: 100px; height: 100px; border-radius: 20px; font-size: 2.5rem; font-weight: bold;">
+                  <img *ngIf="selectedStaff.avatar; else modalStaffInitial" [src]="selectedStaff.avatar" class="img-fluid w-100 h-100 object-fit-cover" style="border-radius: 20px;">
+                  <ng-template #modalStaffInitial>{{ selectedStaff.name.charAt(0) | uppercase }}</ng-template>
+                </div>
+                <h4 class="fw-bold mb-1">{{ selectedStaff.name }}</h4>
+                <div class="badge bg-primary-soft text-primary rounded-pill px-3">{{ selectedStaff.designation }}</div>
+              </div>
+              
+              <div class="row g-3">
+                <div class="col-12">
+                  <label class="small fw-bold text-muted text-uppercase mb-1">Email Address</label>
+                  <div class="p-3 bg-light rounded-3">{{ selectedStaff.email }}</div>
+                </div>
+                <div class="col-12" *ngIf="selectedStaff.phone">
+                  <label class="small fw-bold text-muted text-uppercase mb-1">Phone Number</label>
+                  <div class="p-3 bg-light rounded-3">{{ selectedStaff.phone }}</div>
+                </div>
+                <div class="col-12" *ngIf="selectedStaff.address">
+                  <label class="small fw-bold text-muted text-uppercase mb-1">Office Address</label>
+                  <div class="p-3 bg-light rounded-3 small">{{ selectedStaff.address }}</div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer border-0 p-4 pt-0">
+              <button type="button" class="btn btn-light w-100 rounded-pill py-2" (click)="selectedStaff = null">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `,
+  styles: [`
+    .bg-primary-soft { background-color: #eef2ff; }
+    .text-primary-hover:hover { color: var(--bs-primary) !important; text-decoration: underline; }
+  `]
 })
-export class StaffManagement {}
+export class StaffManagementComponent implements OnInit {
+  staff: User[] = [];
+  selectedStaff: User | null = null;
+  showAddForm = false;
+  newStaff: Partial<User> = {
+    name: '',
+    email: '',
+    password: 'demo123',
+    role: 'STAFF',
+    designation: 'Full Stack Developer'
+  };
+
+  constructor(
+    private adminService: AdminService,
+    private cdr: ChangeDetectorRef
+  ) {}
+
+  ngOnInit() {
+    this.loadStaff();
+  }
+
+  loadStaff() {
+    this.adminService.getUsers('STAFF').subscribe(data => {
+      this.staff = data;
+      this.cdr.detectChanges();
+    });
+  }
+
+  viewProfile(staff: User) {
+    this.selectedStaff = staff;
+  }
+
+  addStaff() {
+    this.adminService.addUser(this.newStaff).subscribe(() => {
+      this.loadStaff();
+      this.showAddForm = false;
+      this.newStaff = { name: '', email: '', password: 'demo123', role: 'STAFF', designation: 'Full Stack Developer' };
+    });
+  }
+
+  deleteStaff(id: string) {
+    if (confirm('Delete this staff member?')) {
+      this.adminService.deleteUser(id).subscribe(() => {
+        this.loadStaff();
+      });
+    }
+  }
+}

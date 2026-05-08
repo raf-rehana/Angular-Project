@@ -1,1 +1,95 @@
-<p>request-detail works!</p>
+<div class="container-fluid py-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-9">
+      <!-- Header -->
+      <div class="d-flex align-items-center mb-4">
+        <button class="btn btn-light rounded-circle me-3" (click)="goBack()">
+          <i class="bi bi-arrow-left"></i>
+        </button>
+        <div class="flex-grow-1">
+          <div class="d-flex align-items-center gap-3 mb-1">
+            <h2 class="fw-bold text-dark mb-0">Request Details</h2>
+            <app-status-badge [status]="request?.status || 'PENDING'"></app-status-badge>
+          </div>
+          <p class="text-muted mb-0" *ngIf="request">#REQ-{{ request.id }} - {{ request.serviceName }}</p>
+        </div>
+        <button class="btn btn-primary rounded-pill px-4" *ngIf="request?.status === 'COMPLETED'">
+          <i class="bi bi-download me-2"></i>Download Deliverables
+        </button>
+      </div>
+
+      <div class="row g-4" *ngIf="request">
+        <!-- Main Content -->
+        <div class="col-lg-8">
+          <!-- Progress -->
+          <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+            <h5 class="fw-bold mb-4">Service Status Timeline</h5>
+            <app-request-timeline [request]="request"></app-request-timeline>
+          </div>
+
+          <!-- Details -->
+          <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-4">
+            <h5 class="fw-bold mb-4">Project Overview</h5>
+            <div class="row g-4 mb-4">
+              <div class="col-md-6">
+                <div class="small text-muted fw-bold text-uppercase mb-1">Category</div>
+                <div class="fw-bold text-dark">{{ request.categoryName }}</div>
+              </div>
+              <div class="col-md-6">
+                <div class="small text-muted fw-bold text-uppercase mb-1">Submitted Date</div>
+                <div class="fw-bold text-dark">{{ request.createdAt | date:'mediumDate' }}</div>
+              </div>
+              <div class="col-md-6">
+                <div class="small text-muted fw-bold text-uppercase mb-1">Priority Level</div>
+                <div>
+                  <span class="badge" [ngClass]="{'bg-danger': request.priority === 'URGENT', 'bg-warning': request.priority === 'HIGH', 'bg-primary': request.priority === 'NORMAL'}">
+                    {{ request.priority }}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <h6 class="fw-bold text-muted text-uppercase small mb-3">My Instructions</h6>
+            <div class="p-4 bg-light rounded-4 text-dark mb-4">
+              {{ request.clientNotes || 'No notes provided.' }}
+            </div>
+
+            <div *ngIf="request.staffNotes">
+              <h6 class="fw-bold text-muted text-uppercase small mb-3">Team Response</h6>
+              <div class="p-4 bg-primary-soft text-primary rounded-4">
+                {{ request.staffNotes }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+          <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 text-center bg-primary text-white">
+            <div class="mb-3"><i class="bi bi-question-circle fs-1 opacity-50"></i></div>
+            <h5 class="fw-bold mb-2">Need Help?</h5>
+            <p class="small opacity-75 mb-4">Contact your assigned manager for any questions regarding this request.</p>
+            <button class="btn btn-white w-100 rounded-pill fw-bold">Chat with Support</button>
+          </div>
+
+          <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+            <h6 class="fw-bold text-muted text-uppercase small mb-3">Project Team</h6>
+            <div class="d-flex align-items-center" *ngIf="request.assignedTo; else unassigned">
+              <div class="bg-light rounded-circle p-2 me-3"><i class="bi bi-person-badge fs-4 text-primary"></i></div>
+              <div>
+                <div class="fw-bold small">Assigned Specialist</div>
+                <div class="text-muted small">ID: {{ request.assignedTo }}</div>
+              </div>
+            </div>
+            <ng-template #unassigned>
+              <div class="text-center py-3">
+                <i class="bi bi-hourglass-split fs-4 text-warning d-block mb-2"></i>
+                <div class="small text-muted">Awaiting assignment...</div>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

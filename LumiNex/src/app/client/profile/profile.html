@@ -1,1 +1,132 @@
-<p>profile works!</p>
+<div class="container-fluid py-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-11 col-xl-10">
+      
+      <div class="d-flex align-items-center mb-5" *ngIf="user">
+        <div class="position-relative me-4">
+          <img [src]="user.avatar || 'https://ui-avatars.com/api/?name=' + (user.name || 'User') + '&size=150'" 
+               class="img-fluid rounded-circle border border-4 border-white shadow object-fit-cover" 
+               style="width: 120px; height: 120px;">
+          
+          <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" class="d-none">
+          
+          <button type="button" (click)="fileInput.click()" class="btn btn-primary btn-sm rounded-circle position-absolute bottom-0 end-0 p-2 shadow border-white border-2">
+            <i class="bi bi-camera-fill"></i>
+          </button>
+        </div>
+        <div>
+          <h2 class="fw-bold text-dark mb-1">{{ user.name }}</h2>
+          <p class="text-muted mb-0"><i class="bi bi-envelope me-2"></i>{{ user.email }}</p>
+          <div class="badge bg-primary-soft text-primary mt-2 px-3 py-2 rounded-pill">{{ user.role }}</div>
+        </div>
+      </div>
+
+      <div class="row g-4" *ngIf="user">
+        <!-- Main Form Section -->
+        <div class="col-lg-8">
+          <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5">
+            <h5 class="fw-bold mb-4">Account Information</h5>
+            <form (ngSubmit)="saveProfile()">
+              
+              <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                  <label class="form-label small fw-bold text-muted">Full Name</label>
+                  <input type="text" class="form-control bg-light border-0 py-2 rounded-3" [(ngModel)]="user.name" name="name">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label small fw-bold text-muted">Company Name</label>
+                  <input type="text" class="form-control bg-light border-0 py-2 rounded-3" [(ngModel)]="user.companyName" name="company">
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <label class="form-label small fw-bold text-muted">Phone Number</label>
+                <div class="input-group">
+                  <div class="dropdown" style="width: 140px;">
+                    <select class="form-select bg-light border-0 py-2 rounded-start-3" [(ngModel)]="selectedCountry" name="countryCode" (change)="onCountryChange()">
+                      <option *ngFor="let c of countries" [ngValue]="c">{{ c.flag }} {{ c.code }}</option>
+                    </select>
+                  </div>
+                  <input type="text" class="form-control bg-light border-0 py-2 rounded-end-3" placeholder="1XXX-XXXXXX" [(ngModel)]="phoneNumber" name="phone">
+                </div>
+              </div>
+
+              <hr class="my-4 opacity-10">
+              
+              <h6 class="fw-bold text-primary mb-4 text-uppercase small" style="letter-spacing: 1px;">Mailing Address</h6>
+              
+              <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                  <label class="form-label small fw-bold text-muted">Country</label>
+                  <select class="form-select bg-light border-0 py-2 rounded-3" [(ngModel)]="selectedCountry" name="country" (change)="onCountryChange()">
+                    <option *ngFor="let c of countries" [ngValue]="c">{{ c.name }}</option>
+                  </select>
+                </div>
+                
+                <ng-container *ngIf="divisions.length > 0">
+                  <div class="col-md-6">
+                    <label class="form-label small fw-bold text-muted">State / Division</label>
+                    <select class="form-select bg-light border-0 py-2 rounded-3" [(ngModel)]="selectedDivision" name="division" (change)="onDivisionChange()">
+                      <option value="">Select State/Division</option>
+                      <option *ngFor="let d of divisions" [value]="d.name">{{ d.name }}</option>
+                    </select>
+                  </div>
+                  
+                  <div class="col-md-6" *ngIf="districts.length > 0">
+                    <label class="form-label small fw-bold text-muted">District / City</label>
+                    <select class="form-select bg-light border-0 py-2 rounded-3" [(ngModel)]="selectedDistrict" name="district" (change)="onDistrictChange()">
+                      <option value="">Select District/City</option>
+                      <option *ngFor="let dis of districts" [value]="dis.name">{{ dis.name }}</option>
+                    </select>
+                  </div>
+                  
+                  <div class="col-md-6" *ngIf="thanas.length > 0">
+                    <label class="form-label small fw-bold text-muted">Police Station / Thana / Area</label>
+                    <select class="form-select bg-light border-0 py-2 rounded-3" [(ngModel)]="selectedThana" name="thana">
+                      <option value="">Select Police Station/Thana</option>
+                      <option *ngFor="let t of thanas" [value]="t.name">{{ t.name }}</option>
+                    </select>
+                  </div>
+                </ng-container>
+
+                <div class="col-12">
+                  <label class="form-label small fw-bold text-muted">Village / Street Address</label>
+                  <textarea class="form-control bg-light border-0 py-2 rounded-3" rows="2" placeholder="House no, Road, Village..." [(ngModel)]="village" name="village"></textarea>
+                </div>
+              </div>
+
+              <div class="d-grid mt-5">
+                <button type="submit" class="btn btn-primary rounded-pill py-3 fw-bold shadow-sm" [disabled]="loading">
+                  <span *ngIf="!loading">Save Profile Updates</span>
+                  <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Sidebar Info -->
+        <div class="col-lg-4">
+          <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-dark text-white">
+            <h6 class="fw-bold mb-3 small text-uppercase opacity-75">Current Plan</h6>
+            <div class="d-flex align-items-center justify-content-between mb-4">
+              <div class="display-6 fw-bold">Growth</div>
+              <div class="badge bg-primary rounded-pill">Active</div>
+            </div>
+            <button class="btn btn-light w-100 rounded-pill py-2 small fw-bold text-dark" routerLink="/client/plans">Upgrade Plan</button>
+          </div>
+
+          <div class="card border-0 shadow-sm rounded-4 p-4">
+            <h6 class="fw-bold text-muted text-uppercase small mb-3">Quick Navigation</h6>
+            <a routerLink="/" class="btn btn-outline-secondary w-100 rounded-pill py-2 small fw-bold mb-2">
+              <i class="bi bi-house-door me-2"></i> Back to Website
+            </a>
+            <a routerLink="/client/dashboard" class="btn btn-outline-secondary w-100 rounded-pill py-2 small fw-bold">
+              <i class="bi bi-speedometer2 me-2"></i> Back to Dashboard
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

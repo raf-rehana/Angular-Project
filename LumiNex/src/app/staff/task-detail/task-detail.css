@@ -1,0 +1,25 @@
+.bg-primary-soft {
+  background-color: #eef2ff;
+}
+
+.timeline-simple {
+  position: relative;
+}
+
+.timeline-simple::before {
+  content: "";
+  position: absolute;
+  left: 20px;
+  top: 40px;
+  bottom: 0;
+  width: 2px;
+  background-color: #f1f5f9;
+}
+
+.form-range::-webkit-slider-thumb {
+  background: #4f46e5;
+}
+
+.form-range::-moz-range-thumb {
+  background: #4f46e5;
+}

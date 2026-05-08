@@ -1,0 +1,38 @@
+.auth-container {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  font-family: 'Inter', sans-serif;
+}
+
+.card {
+  transition: transform 0.3s ease;
+}
+
+.input-group-text, .form-control {
+  border-radius: 12px;
+}
+
+.btn-white {
+  background: #fff;
+  color: #64748b;
+  transition: all 0.2s ease;
+}
+
+.btn-white:hover {
+  background: #f1f5f9;
+  color: #334155;
+  transform: translateY(-1px);
+}
+
+.bg-primary {
+  background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%) !important;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s ease;
+}
+
+.feature-item:hover {
+  transform: translateX(5px);
+}

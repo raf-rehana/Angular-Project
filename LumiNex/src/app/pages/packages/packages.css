@@ -1,0 +1,38 @@
+.packages-hero {
+  background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+  min-height: 320px;
+}
+
+.stat-pill {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+
+.category-btn {
+  background: #f0f4ff;
+  color: #555;
+  border: 1px solid #dee2e6;
+  transition: all 0.2s ease;
+}
+
+.category-btn:hover {
+  background: #e8efff;
+  color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+.category-btn.active {
+  background: #0d6efd;
+  color: #fff;
+  border-color: #0d6efd;
+}
+
+.package-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.package-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1) !important;
+}

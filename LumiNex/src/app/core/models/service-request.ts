@@ -1,11 +1,11 @@
 export interface ServiceRequest {
-  id: number;
-  tenantId: number;
-  userId: number;
-  serviceId: number;
+  id: string | number;
+  tenantId?: string | number;
+  userId: string | number;
+  serviceId: string | number;
   serviceName: string;
   categoryName: string;
-  assignedTo?: string;
+  assignedTo?: string | number;
   status: 'PENDING' | 'ASSIGNED' | 'IN_PROGRESS' | 'REVIEW' | 'COMPLETED' | 'REJECTED';
   priority: 'LOW' | 'NORMAL' | 'HIGH' | 'URGENT';
   clientNotes?: string;
@@ -13,4 +13,5 @@ export interface ServiceRequest {
   createdAt: string;
   updatedAt?: string;
   completedAt?: string;
+  progress?: number;
 }

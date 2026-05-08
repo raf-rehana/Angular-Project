@@ -1,24 +1,23 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment';
 import { ServiceRequest } from '../models/service-request';
 
 @Injectable({ providedIn: 'root' })
 export class RequestService {
-  private api = `${environment.apiUrl}/service-requests`;
+  private api = 'http://127.0.0.1:3000/service-requests';
 
   constructor(private http: HttpClient) {}
 
-  getMyRequests(): Observable<ServiceRequest[]> {
-    return this.http.get<ServiceRequest[]>(`${this.api}/my`);
+  getMyRequests(userId: string | number): Observable<ServiceRequest[]> {
+    return this.http.get<ServiceRequest[]>(`${this.api}?userId=${userId}`);
   }
 
   getAllRequests(): Observable<ServiceRequest[]> {
     return this.http.get<ServiceRequest[]>(this.api);
   }
 
-  getById(id: number): Observable<ServiceRequest> {
+  getById(id: string | number): Observable<ServiceRequest> {
     return this.http.get<ServiceRequest>(`${this.api}/${id}`);
   }
 
@@ -26,18 +25,11 @@ export class RequestService {
     return this.http.post<ServiceRequest>(this.api, data);
   }
 
-  updateStatus(id: number, status: string, staffNotes?: string): Observable<ServiceRequest> {
-    return this.http.patch<ServiceRequest>(`${this.api}/${id}/status`, { status, staffNotes });
+  updateStatus(id: string | number, status: string, staffNotes?: string): Observable<ServiceRequest> {
+    return this.http.patch<ServiceRequest>(`${this.api}/${id}`, { status, staffNotes });
   }
 
-  assignToStaff(requestId: number, staffId: number): Observable<ServiceRequest> {
-    return this.http.patch<ServiceRequest>(`${this.api}/${requestId}/assign`, { staffId });
-  }
-
-  uploadDocument(requestId: number, file: File, docName: string): Observable<any> {
-    const form = new FormData();
-    form.append('file', file);
-    form.append('docName', docName);
-    return this.http.post(`${this.api}/${requestId}/documents`, form);
+  assignToStaff(requestId: string | number, staffId: string | number): Observable<ServiceRequest> {
+    return this.http.patch<ServiceRequest>(`${this.api}/${requestId}`, { assignedTo: staffId.toString() });
   }
 }

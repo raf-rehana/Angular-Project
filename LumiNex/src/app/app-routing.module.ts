@@ -1,38 +1,15 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './core/guards/auth.guard';
-import { RoleGuard } from './core/guards/role-guard';
+import { Routes } from '@angular/router';
+import { HomeComponent } from './pages/home/home';
+import { ContactComponent } from './pages/contact/contact';
+import { PackagesComponent } from './pages/packages/packages';
 
-const routes: Routes = [
-  { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
-
-  {
-    path: 'auth',
-    loadChildren: () => import('./auth/auth-module').then(m => m.AuthModule)
-  },
-  {
-    path: 'client',
-    canActivate: [AuthGuard, RoleGuard],
-    data: { role: 'CLIENT' },
-    loadChildren: () => import('./client/client-module').then(m => m.ClientModule)
-  },
-  {
-    path: 'admin',
-    canActivate: [AuthGuard, RoleGuard],
-    data: { role: 'ADMIN' },
-    loadChildren: () => import('./admin/admin-module').then(m => m.AdminModule)
-  },
-  {
-    path: 'staff',
-    canActivate: [AuthGuard, RoleGuard],
-    data: { role: 'STAFF' },
-    loadChildren: () => import('./staff/staff-module').then(m => m.StaffModule)
-  },
-  { path: '**', redirectTo: 'auth/login' }
+export const routes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'contact', component: ContactComponent },
+  { path: 'packages', component: PackagesComponent },
+  { path: 'auth', loadChildren: () => import('./auth/auth.routes').then(m => m.AUTH_ROUTES) },
+  { path: 'client', loadChildren: () => import('./client/client.routes').then(m => m.CLIENT_ROUTES) },
+  { path: 'admin', loadChildren: () => import('./admin/admin.routes').then(m => m.ADMIN_ROUTES) },
+  { path: 'staff', loadChildren: () => import('./staff/staff.routes').then(m => m.STAFF_ROUTES) },
+  { path: '**', redirectTo: '' }
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
-})
-export class AppRoutingModule {}

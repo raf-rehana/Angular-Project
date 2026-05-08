@@ -1,7 +1,15 @@
 export interface User {
-     id: number;
+  id: string;
   name: string;
   email: string;
-  role: 'SUPER_ADMIN' | 'ADMIN' | 'STAFF' | 'CLIENT';
-  tenantId?: number;
+  role: 'ADMIN' | 'STAFF' | 'CLIENT';
+  password?: string;
+  phone?: string;
+  companyName?: string;
+  businessType?: string;
+  plan?: string;
+  tenantId?: string;
+  designation?: string;
+  avatar?: string;
+  address?: string;
 }

@@ -1,9 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-status-badge',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './status-badge.html',
-  styleUrl: './status-badge.css',
+  styleUrls: ['./status-badge.css']
 })
-export class StatusBadge {}
+export class StatusBadgeComponent {
+  @Input() status!: string;
+
+  get badgeClass(): string {
+    switch (this.status?.toUpperCase()) {
+      case 'PENDING': return 'bg-warning text-dark';
+      case 'ASSIGNED': return 'bg-info text-dark';
+      case 'IN_PROGRESS': return 'bg-primary';
+      case 'REVIEW': return 'bg-secondary';
+      case 'COMPLETED': return 'bg-success';
+      case 'REJECTED': return 'bg-danger';
+      case 'PAID': return 'bg-success';
+      case 'FAILED': return 'bg-danger';
+      case 'REFUNDED': return 'bg-dark';
+      default: return 'bg-secondary';
+    }
+  }
+}

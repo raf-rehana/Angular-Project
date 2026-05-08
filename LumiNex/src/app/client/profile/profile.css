@@ -1,0 +1,20 @@
+.bg-primary-soft {
+  background-color: #eef2ff;
+}
+
+.img-fluid {
+  object-fit: cover;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%) !important;
+}
+
+.card {
+  transition: transform 0.3s ease;
+}
+
+.form-control:disabled {
+  opacity: 0.7;
+  background-color: #e2e8f0 !important;
+}

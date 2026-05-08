@@ -1,9 +1,20 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { AuthService } from '../../../core/services/auth.services';
+import { NotificationBellComponent } from '../notification-bell/notification-bell';
 
 @Component({
   selector: 'app-navbar',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, RouterModule, NotificationBellComponent],
   templateUrl: './navbar.html',
-  styleUrl: './navbar.css',
+  styleUrl: './navbar.css'
 })
-export class Navbar {}
+export class NavbarComponent {
+  constructor(public authService: AuthService) {}
+
+  logout() {
+    this.authService.logout();
+  }
+}

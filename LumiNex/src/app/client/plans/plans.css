@@ -1,0 +1,50 @@
+.config-card, .stack-card, .security-btn {
+  transition: all 0.3s ease;
+  border-width: 2px !important;
+  background-color: #fff;
+}
+
+.config-card:hover, .stack-card:hover, .security-btn:hover {
+  transform: translateY(-5px);
+  border-color: #4f46e5 !important;
+  background-color: #f8faff;
+}
+
+.config-card.active, .stack-card.active, .security-btn.active {
+  border-color: #4f46e5 !important;
+  background-color: #eef2ff;
+  box-shadow: 0 10px 20px rgba(79, 70, 229, 0.1);
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.bg-soft-primary {
+  background-color: #e0e7ff;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.progress-line {
+  height: 4px;
+}
+
+.step-circle {
+  transition: all 0.3s ease;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

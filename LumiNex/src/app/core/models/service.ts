@@ -1,13 +1,13 @@
 export interface ServiceCategory {
-  id: number;
+  id: string | number;
   name: string;
   icon: string;
   color: string;
 }
 
 export interface Service {
-  id: number;
-  categoryId: number;
+  id: string | number;
+  categoryId: string | number;
   categoryName: string;
   name: string;
   description: string;
@@ -15,11 +15,11 @@ export interface Service {
   priceType: 'FIXED' | 'MONTHLY' | 'YEARLY' | 'CUSTOM';
   deliveryDays: string;
   isActive: boolean;
-  requiredDocuments: RequiredDocument[];
+  requiredDocuments?: RequiredDocument[];
 }
 
 export interface RequiredDocument {
-  id: number;
+  id: string | number;
   docName: string;
   isMandatory: boolean;
   description: string;

@@ -1,0 +1,319 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Admin User",
+      "email": "admin@luminex.com",
+      "role": "ADMIN",
+      "password": "demo123"
+    },
+    {
+      "id": "3",
+      "name": "Staff Worker",
+      "email": "staff@luminex.com",
+      "role": "STAFF",
+      "password": "demo123"
+    },
+    {
+      "companyName": "Techno",
+      "businessType": "IT & Software",
+      "name": "Rafiaah",
+      "email": "rehanaa2102@gmail.com",
+      "phone": "01605142112",
+      "password": "123456",
+      "plan": "GROWTH",
+      "role": "STAFF",
+      "id": "uCiYnu2i-ks"
+    },
+    {
+      "name": "Badrul",
+      "email": "badrul@gmail.com",
+      "password": "demo123",
+      "role": "CLIENT",
+      "id": "JB4SI6t0Z-Q"
+    },
+    {
+      "name": "tanvir",
+      "email": "tanvir@gmail.com",
+      "password": "123456",
+      "role": "CLIENT",
+      "id": "QIEctZDSWJ4"
+    },
+    {
+      "companyName": "Labaid",
+      "businessType": "HEALTHCARE",
+      "country": "Bangladesh",
+      "division": "Dhaka",
+      "district": "Dhaka District",
+      "thana": "Uttara",
+      "village": "Sector 11",
+      "name": "Sajin Ahmed",
+      "email": "sajin@gmail.com",
+      "countryCode": "+880",
+      "phone": "+880 0178100000",
+      "password": "demo123",
+      "plan": "STARTER",
+      "address": "Sector 11, Uttara, Dhaka District, Dhaka, Bangladesh",
+      "role": "CLIENT",
+      "id": "ET-Up2VjpcQ"
+    }
+  ],
+  "categories": [
+    {
+      "id": "1",
+      "name": "Web Development",
+      "icon": "bi-code-slash",
+      "color": "#0d6efd"
+    },
+    {
+      "id": "2",
+      "name": "Graphic Design",
+      "icon": "bi-palette",
+      "color": "#198754"
+    },
+    {
+      "id": "3",
+      "name": "Marketing",
+      "icon": "bi-megaphone",
+      "color": "#fd7e14"
+    },
+    {
+      "id": "4",
+      "name": "Consulting",
+      "icon": "bi-briefcase",
+      "color": "#6f42c1"
+    }
+  ],
+  "services": [
+    {
+      "id": "1",
+      "categoryId": "1",
+      "categoryName": "Web Development",
+      "name": "Custom E-Commerce Store",
+      "description": "Full-stack e-commerce solution with payment integration.",
+      "price": 1500,
+      "priceType": "FIXED",
+      "deliveryDays": "14",
+      "isActive": true
+    },
+    {
+      "id": "2",
+      "categoryId": "2",
+      "categoryName": "Graphic Design",
+      "name": "Brand Identity Kit",
+      "description": "Logo, typography, and brand guidelines for your startup.",
+      "price": 500,
+      "priceType": "FIXED",
+      "deliveryDays": "7",
+      "isActive": true
+    },
+    {
+      "id": "3",
+      "categoryId": "3",
+      "categoryName": "Marketing",
+      "name": "Social Media Management",
+      "description": "Monthly management of 3 social media profiles.",
+      "price": 300,
+      "priceType": "MONTHLY",
+      "deliveryDays": "Ongoing",
+      "isActive": true
+    },
+    {
+      "id": "4",
+      "categoryId": "1",
+      "categoryName": "Web Development",
+      "name": "Landing Page Design",
+      "description": "Professional landing page for your marketing campaigns.",
+      "price": 200,
+      "priceType": "FIXED",
+      "deliveryDays": "3",
+      "isActive": true
+    },
+    {
+      "name": "Android App",
+      "categoryId": "1",
+      "categoryName": "Web Development",
+      "price": 1000,
+      "priceType": "FIXED",
+      "deliveryDays": "45",
+      "description": "High Security",
+      "isActive": true,
+      "id": "YgR6ewGkq1w"
+    },
+    {
+      "name": "",
+      "categoryId": "1",
+      "categoryName": "Web Development",
+      "price": 0,
+      "priceType": "FIXED",
+      "deliveryDays": "",
+      "description": "",
+      "isActive": true,
+      "id": "lkL-1keoL30"
+    }
+  ],
+  "service-requests": [
+    {
+      "id": "1",
+      "userId": null,
+      "serviceId": "1",
+      "serviceName": "Custom E-Commerce Store",
+      "categoryName": "Web Development",
+      "status": "IN_PROGRESS",
+      "priority": "HIGH",
+      "createdAt": "2026-05-01T10:00:00.000Z",
+      "progress": 65
+    },
+    {
+      "id": "2",
+      "userId": null,
+      "serviceId": "2",
+      "serviceName": "Brand Identity Kit",
+      "categoryName": "Graphic Design",
+      "status": "COMPLETED",
+      "priority": "NORMAL",
+      "createdAt": "2026-04-15T14:30:00.000Z",
+      "progress": 100
+    },
+    {
+      "id": "3",
+      "userId": null,
+      "serviceId": "3",
+      "serviceName": "Social Media Management",
+      "categoryName": "Marketing",
+      "status": "PENDING",
+      "priority": "NORMAL",
+      "createdAt": "2026-05-07T09:15:00.000Z",
+      "clientNotes": "Please focus on Instagram and LinkedIn.",
+      "progress": 0
+    },
+    {
+      "id": "4",
+      "userId": null,
+      "serviceId": "4",
+      "serviceName": "Landing Page Design",
+      "categoryName": "Web Development",
+      "status": "REVIEW",
+      "priority": "URGENT",
+      "createdAt": "2026-05-08T08:00:00.000Z",
+      "progress": 90
+    }
+  ],
+  "notifications": [
+    {
+      "id": "1",
+      "userId": null,
+      "title": "Request Started",
+      "message": "Your request for E-Commerce Store is now in progress.",
+      "type": "STATUS_UPDATE",
+      "isRead": false,
+      "createdAt": "2026-05-02T10:00:00.000Z"
+    }
+  ],
+  "subscriptions": [
+    {
+      "id": "1",
+      "name": "Digital Foundation",
+      "price": 499,
+      "features": [
+        "Professional Website Design",
+        "Domain & Hosting (1 Year)",
+        "Business Email Setup",
+        "Basic SEO Optimization",
+        "3 Months Support"
+      ],
+      "recommended": false
+    },
+    {
+      "id": "2",
+      "name": "Growth Accelerator",
+      "price": 1499,
+      "features": [
+        "E-Commerce / Custom Web Platform",
+        "Digital Marketing (3 Months)",
+        "Social Media Management",
+        "Logo & Brand Identity",
+        "Priority 24/7 Support"
+      ],
+      "recommended": true
+    },
+    {
+      "id": "3",
+      "name": "A-to-Z Launchpad",
+      "price": 3499,
+      "features": [
+        "Full Business Formation Support",
+        "Trade License & Legal Paperwork",
+        "Full Online Platform Readiness",
+        "Premium Web & Mobile App",
+        "1 Year Marketing Strategy",
+        "Dedicated Launch Manager"
+      ],
+      "recommended": false
+    }
+  ],
+  "payments": [
+    {
+      "id": "1",
+      "clientId": "USR-101",
+      "client": "Rafiaah",
+      "item": "Premium Plan",
+      "amount": 299,
+      "method": "bKash",
+      "status": "PAID",
+      "date": "2026-05-08"
+    },
+    {
+      "id": "2",
+      "clientId": "USR-102",
+      "client": "Siam Ahmed",
+      "item": "Web Development",
+      "amount": 1200,
+      "method": "Bank Transfer",
+      "status": "PAID",
+      "date": "2026-05-07"
+    },
+    {
+      "id": "3",
+      "clientId": "USR-103",
+      "client": "Arifur Rahman",
+      "item": "Logo Design",
+      "amount": 150,
+      "method": "Nagad",
+      "status": "PENDING",
+      "date": "2026-05-06"
+    },
+    {
+      "id": "4",
+      "clientId": "USR-104",
+      "client": "Mehedi Hasan",
+      "item": "Starter Plan",
+      "amount": 29,
+      "method": "Rocket",
+      "status": "PAID",
+      "date": "2026-05-05"
+    },
+    {
+      "id": "5",
+      "clientId": "USR-105",
+      "client": "Kamrul Islam",
+      "item": "AI Consultation",
+      "amount": 3500,
+      "method": "Bank Transfer",
+      "status": "PAID",
+      "date": "2026-05-04"
+    }
+  ],
+  "auth": {
+    "login": {
+      "token": "mock-jwt-token-for-dev",
+      "user": {
+        "id": "2",
+        "name": "Siam Ahmed",
+        "email": "client@luminex.com",
+        "role": "CLIENT"
+      }
+    }
+  },
+  "$schema": "./node_modules/json-server/schema.json"
+}

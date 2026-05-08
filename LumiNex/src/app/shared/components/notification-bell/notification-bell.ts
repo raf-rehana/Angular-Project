@@ -1,9 +1,32 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { NotificationService } from '../../../core/services/notification.service';
+import { AuthService } from '../../../core/services/auth.services';
 
 @Component({
   selector: 'app-notification-bell',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, RouterModule],
   templateUrl: './notification-bell.html',
-  styleUrl: './notification-bell.css',
+  styleUrls: ['./notification-bell.css']
 })
-export class NotificationBell {}
+export class NotificationBellComponent implements OnInit {
+  unreadCount = 0;
+
+  constructor(
+    public notificationService: NotificationService,
+    private authService: AuthService
+  ) {}
+
+  ngOnInit() {
+    this.notificationService.unreadCount$.subscribe(count => {
+      this.unreadCount = count;
+    });
+    
+    const user = this.authService.currentUser;
+    if (user) {
+      this.notificationService.getAll(user.id).subscribe();
+    }
+  }
+}

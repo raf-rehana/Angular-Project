@@ -1,1 +1,115 @@
-<p>summary works!</p>
+<div class="container-fluid py-4">
+  <div class="row mb-4">
+    <div class="col-12">
+      <h2 class="fw-bold text-dark mb-0">Staff Dashboard</h2>
+      <p class="text-muted">Welcome back! Here's an overview of your active projects.</p>
+    </div>
+  </div>
+
+  <!-- Stats Row -->
+  <div class="row g-4 mb-5">
+    <div class="col-md-3">
+      <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-primary text-white">
+        <div class="small fw-bold opacity-75 text-uppercase mb-1">My Active Tasks</div>
+        <div class="h1 fw-bold mb-0">{{ activeCount }}</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-success text-white">
+        <div class="small fw-bold opacity-75 text-uppercase mb-1">Completed</div>
+        <div class="h1 fw-bold mb-0">{{ completedCount }}</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-warning text-dark">
+        <div class="small fw-bold opacity-75 text-uppercase mb-1">Pending Review</div>
+        <div class="h1 fw-bold mb-0">{{ reviewCount }}</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white border">
+        <div class="small fw-bold text-muted text-uppercase mb-1">Total Assigned</div>
+        <div class="h1 fw-bold text-dark mb-0">{{ myTasks.length }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Upcoming Tasks -->
+    <div class="col-lg-7">
+      <div class="card border-0 shadow-sm rounded-4 h-100">
+        <div class="card-header bg-white border-0 pt-4 pb-0 px-4">
+          <h5 class="fw-bold mb-0">Upcoming Tasks</h5>
+        </div>
+        <div class="card-body p-4">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th class="border-0">Project</th>
+                  <th class="border-0">Priority</th>
+                  <th class="border-0">Status</th>
+                  <th class="border-0 text-end">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let t of myTasks.slice(0, 5)">
+                  <td>
+                    <div class="fw-bold small text-dark">{{ t.serviceName }}</div>
+                    <div class="text-muted" style="font-size: 11px;">#REQ-{{ t.id }}</div>
+                  </td>
+                  <td>
+                    <span class="badge" [ngClass]="{'bg-danger': t.priority === 'URGENT', 'bg-warning text-dark': t.priority === 'HIGH', 'bg-info text-dark': t.priority === 'NORMAL'}">
+                      {{ t.priority }}
+                    </span>
+                  </td>
+                  <td>
+                    <div class="progress" style="height: 6px; width: 80px;">
+                      <div class="progress-bar" role="progressbar" [style.width.%]="t.progress || 0"></div>
+                    </div>
+                    <div class="small text-muted mt-1" style="font-size: 10px;">{{ t.status }}</div>
+                  </td>
+                  <td class="text-end">
+                    <button class="btn btn-sm btn-outline-primary rounded-pill px-3" [routerLink]="['/staff/task-detail', t.id]">Manage</button>
+                  </td>
+                </tr>
+                <tr *ngIf="myTasks.length === 0">
+                  <td colspan="4" class="text-center py-4 text-muted small">No tasks assigned yet.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Performance -->
+    <div class="col-lg-5">
+      <div class="card border-0 shadow-sm rounded-4 h-100 p-4">
+        <h5 class="fw-bold mb-4">Performance Metrics</h5>
+        <div class="mb-4">
+          <div class="d-flex justify-content-between mb-2">
+            <span class="small fw-bold text-muted">Tasks Completion Rate</span>
+            <span class="small fw-bold text-success">{{ completionRate }}%</span>
+          </div>
+          <div class="progress" style="height: 8px;">
+            <div class="progress-bar bg-success" role="progressbar" [style.width.%]="completionRate"></div>
+          </div>
+        </div>
+        <div class="mb-4">
+          <div class="d-flex justify-content-between mb-2">
+            <span class="small fw-bold text-muted">Average Turnaround</span>
+            <span class="small fw-bold text-primary">3.2 Days</span>
+          </div>
+          <div class="progress" style="height: 8px;">
+            <div class="progress-bar bg-primary" role="progressbar" style="width: 75%"></div>
+          </div>
+        </div>
+        <div class="mt-auto bg-light rounded-4 p-3 border-start border-4 border-info">
+          <div class="small fw-bold text-dark mb-1">Announcement</div>
+          <p class="small text-muted mb-0">Team meeting scheduled for next Monday at 10:00 AM.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

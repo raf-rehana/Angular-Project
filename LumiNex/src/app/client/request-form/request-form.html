@@ -1,1 +1,48 @@
-<p>request-form works!</p>
+<div class="container-fluid py-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="d-flex align-items-center mb-4">
+        <button class="btn btn-light rounded-circle me-3" (click)="goBack()">
+          <i class="bi bi-arrow-left"></i>
+        </button>
+        <h2 class="fw-bold text-dark mb-0">Submit New Request</h2>
+      </div>
+
+      <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5">
+        <div class="mb-4" *ngIf="selectedService">
+          <div class="badge bg-primary-soft text-primary px-3 py-2 rounded-pill mb-2 fw-bold text-uppercase">Service Selected</div>
+          <h4 class="fw-bold text-dark">{{ selectedService.name }}</h4>
+          <p class="text-muted small">{{ selectedService.description }}</p>
+        </div>
+
+        <form #requestForm="ngForm" (ngSubmit)="submit()">
+          <div class="mb-4">
+            <label class="form-label small fw-bold text-muted">Project Description</label>
+            <textarea class="form-control bg-light border-0 py-3 rounded-4" rows="4" [(ngModel)]="notes" name="notes" placeholder="Describe your requirements in detail..." required></textarea>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label small fw-bold text-muted">Priority</label>
+            <div class="d-flex gap-2">
+              <button type="button" class="btn rounded-pill px-4 py-2 flex-grow-1" [class.btn-light]="priority !== 'NORMAL'" [class.btn-info]="priority === 'NORMAL'" (click)="priority = 'NORMAL'">Normal</button>
+              <button type="button" class="btn rounded-pill px-4 py-2 flex-grow-1" [class.btn-light]="priority !== 'HIGH'" [class.btn-warning]="priority === 'HIGH'" (click)="priority = 'HIGH'">High</button>
+              <button type="button" class="btn rounded-pill px-4 py-2 flex-grow-1" [class.btn-light]="priority !== 'URGENT'" [class.btn-danger]="priority === 'URGENT'" (click)="priority = 'URGENT'">Urgent</button>
+            </div>
+          </div>
+
+          <div class="alert alert-info border-0 rounded-4 p-3 d-flex align-items-center">
+            <i class="bi bi-info-circle-fill me-3 fs-4"></i>
+            <div class="small">Our team will review your request and assign a specialist within 24 hours. You'll be notified via email.</div>
+          </div>
+
+          <div class="d-grid mt-5">
+            <button type="submit" class="btn btn-primary btn-lg rounded-pill py-3 shadow" [disabled]="!requestForm.form.valid || loading">
+              <span *ngIf="!loading">Submit Request</span>
+              <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

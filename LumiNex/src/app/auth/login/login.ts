@@ -38,12 +38,22 @@ export class LoginComponent {
     this.auth.login(this.email?.value, this.password?.value).subscribe({
       next: (res) => {
         const role = res.user.role;
-        if (role === 'ADMIN' || role === 'SUPER_ADMIN') this.router.navigate(['/admin']);
-        else if (role === 'STAFF')  this.router.navigate(['/staff']);
-        else                        this.router.navigate(['/client']);
+        let route = '/client';
+        if (role === 'ADMIN' || role === 'SUPER_ADMIN') route = '/admin';
+        else if (role === 'STAFF') route = '/staff';
+
+        this.router.navigate([route]).then(success => {
+          if (!success) {
+            this.error = 'Navigation failed. Route not found.';
+            this.loading = false;
+          }
+        }).catch(err => {
+          this.error = 'Routing error: ' + err.message;
+          this.loading = false;
+        });
       },
       error: (err) => {
-        this.error = err.error?.message || 'Invalid email or password.';
+        this.error = err.error?.message || err.message || 'Invalid email or password.';
         this.loading = false;
       }
     });
@@ -52,9 +62,9 @@ export class LoginComponent {
   // Demo login shortcuts
   demoLogin(role: string): void {
     const demos: any = {
-      client: { email: 'client@technova.com',  password: 'demo123' },
-      admin:  { email: 'admin@startuphub.com', password: 'demo123' },
-      staff:  { email: 'karim@startuphub.com', password: 'demo123' }
+      client: { email: 'client@luminex.com',  password: 'demo123' },
+      admin:  { email: 'admin@luminex.com', password: 'demo123' },
+      staff:  { email: 'staff@luminex.com', password: 'demo123' }
     };
     this.form.setValue(demos[role]);
   }

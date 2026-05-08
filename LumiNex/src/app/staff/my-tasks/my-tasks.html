@@ -1,1 +1,69 @@
-<p>my-tasks works!</p>
+<div class="container-fluid py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="fw-bold text-dark mb-0">My Assigned Tasks</h2>
+      <p class="text-muted">Manage your workload and update project progress.</p>
+    </div>
+    <div class="d-flex gap-2">
+      <button class="btn btn-light rounded-pill px-4 border" (click)="filterStatus('ALL')">All</button>
+      <button class="btn btn-light rounded-pill px-4 border" (click)="filterStatus('IN_PROGRESS')">Active</button>
+    </div>
+  </div>
+
+  <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0 border-0">
+          <thead class="table-light">
+            <tr>
+              <th class="ps-4 py-3 border-0">Project Details</th>
+              <th class="py-3 border-0">Priority</th>
+              <th class="py-3 border-0">Status</th>
+              <th class="py-3 border-0">Progress</th>
+              <th class="pe-4 py-3 border-0 text-end">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let t of filteredTasks" class="border-bottom">
+              <td class="ps-4 py-3">
+                <div class="fw-bold text-dark">{{ t.serviceName }}</div>
+                <div class="small text-muted">ID: #REQ-{{ t.id }} | Category: {{ t.categoryName }}</div>
+              </td>
+              <td class="py-3">
+                <span class="badge" [ngClass]="{
+                  'bg-danger-soft text-danger': t.priority === 'URGENT', 
+                  'bg-warning-soft text-warning': t.priority === 'HIGH', 
+                  'bg-primary-soft text-primary': t.priority === 'NORMAL' || t.priority === 'LOW'
+                }">
+                  {{ t.priority }}
+                </span>
+              </td>
+              <td class="py-3">
+                <app-status-badge [status]="t.status"></app-status-badge>
+              </td>
+              <td class="py-3" style="width: 200px;">
+                <div class="d-flex align-items-center gap-3">
+                  <div class="progress flex-grow-1" style="height: 6px; border-radius: 3px;">
+                    <div class="progress-bar" role="progressbar" [style.width.%]="t.progress || 0"></div>
+                  </div>
+                  <span class="small fw-bold text-muted">{{ t.progress || 0 }}%</span>
+                </div>
+              </td>
+              <td class="pe-4 py-3 text-end">
+                <button class="btn btn-primary rounded-pill px-4 py-2 shadow-sm fw-bold small" [routerLink]="['/staff/task-detail', t.id]">
+                  Update Work
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="filteredTasks.length === 0">
+              <td colspan="5" class="text-center py-5 text-muted">
+                <i class="bi bi-journal-x display-4 opacity-25 mb-3 d-block"></i>
+                No tasks found matching the criteria.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
