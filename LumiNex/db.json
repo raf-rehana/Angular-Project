@@ -8,24 +8,6 @@
       "password": "demo123"
     },
     {
-      "id": "3",
-      "name": "Staff Worker",
-      "email": "staff@luminex.com",
-      "role": "STAFF",
-      "password": "demo123"
-    },
-    {
-      "companyName": "Techno",
-      "businessType": "IT & Software",
-      "name": "Rafiaah",
-      "email": "rehanaa2102@gmail.com",
-      "phone": "01605142112",
-      "password": "123456",
-      "plan": "GROWTH",
-      "role": "STAFF",
-      "id": "uCiYnu2i-ks"
-    },
-    {
       "name": "Badrul",
       "email": "badrul@gmail.com",
       "password": "demo123",
@@ -56,6 +38,22 @@
       "address": "Sector 11, Uttara, Dhaka District, Dhaka, Bangladesh",
       "role": "CLIENT",
       "id": "ET-Up2VjpcQ"
+    },
+    {
+      "name": "Emon",
+      "email": "emon@gmail.com",
+      "password": "demo123",
+      "role": "STAFF",
+      "designation": "Full Stack Developer",
+      "id": "B_-CcSNquXE"
+    },
+    {
+      "name": "Sadiya",
+      "email": "sadiya@gmail.com",
+      "password": "demo123",
+      "role": "STAFF",
+      "designation": "Java Developer",
+      "id": "ugUMorBpCeM"
     }
   ],
   "categories": [
