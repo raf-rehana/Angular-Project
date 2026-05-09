@@ -43,7 +43,7 @@
             <div class="avatar-circle bg-primary text-white me-2 fw-bold d-flex align-items-center justify-content-center overflow-hidden" style="width: 32px; height: 32px; border-radius: 50%;">
               <img *ngIf="user.avatar; else initialAvatar" [src]="user.avatar" class="img-fluid w-100 h-100 object-fit-cover">
               <ng-template #initialAvatar>
-                {{ user.name?.charAt(0) | uppercase }}
+                {{ user.name.charAt(0) | uppercase }}
               </ng-template>
             </div>
             <span class="d-none d-md-inline">{{ user.name }}</span>

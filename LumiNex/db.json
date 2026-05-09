@@ -21,7 +21,7 @@
       "name": "tanvir",
       "email": "tanvir@gmail.com",
       "password": "123456",
-      "role": "CLIENT",
+      "role": "STAFF",
       "id": "QIEctZDSWJ4"
     },
     {
@@ -348,6 +348,26 @@
       "method": "Bank Transfer",
       "status": "PAID",
       "date": "2026-05-04"
+    },
+    {
+      "clientId": "nrWRvhnV-mI",
+      "client": "Client",
+      "item": "Digital Foundation",
+      "amount": 523.95,
+      "method": "CASH",
+      "status": "PENDING",
+      "date": "2026-05-09",
+      "id": "eKKBkczMw1M"
+    },
+    {
+      "clientId": "nrWRvhnV-mI",
+      "client": "Client",
+      "item": "Digital Foundation",
+      "amount": 523.95,
+      "method": "CASH",
+      "status": "PENDING",
+      "date": "2026-05-09",
+      "id": "P93GolXiHTs"
     }
   ],
   "auth": {

@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PaymentService } from '../../core/services/payment';
+import { PaymentService } from '../../core/services/payment.service';
 
 @Component({
   selector: 'app-revenue',
