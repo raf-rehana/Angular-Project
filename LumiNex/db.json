@@ -5,7 +5,10 @@
       "name": "Admin User",
       "email": "admin@luminex.com",
       "role": "ADMIN",
-      "password": "demo123"
+      "password": "demo123",
+      "companyName": "LumiNex",
+      "address": "Dhaka, Bangladesh",
+      "phone": "+880 01605142112"
     },
     {
       "name": "Badrul",
