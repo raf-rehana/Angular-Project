@@ -1,5 +1,9 @@
 {
   "version": 2,
+  "buildCommand": "ng build --configuration production",
+  "outputDirectory": "dist/LumiNex/browser",
+  "installCommand": "npm install",
+  "framework": "angular",
   "routes": [
     {
       "src": "/(.*)",
