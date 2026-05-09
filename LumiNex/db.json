@@ -1,7 +1,7 @@
 {
   "users": [
     {
-      "id": "1",
+      "id": "10141",
       "name": "Admin User",
       "email": "admin@luminex.com",
       "role": "ADMIN",
@@ -15,14 +15,14 @@
       "email": "badrul@gmail.com",
       "password": "demo123",
       "role": "CLIENT",
-      "id": "JB4SI6t0Z-Q"
+      "id": "10142"
     },
     {
       "name": "tanvir",
       "email": "tanvir@gmail.com",
       "password": "123456",
-      "role": "STAFF",
-      "id": "QIEctZDSWJ4"
+      "role": "EMPLOYEE",
+      "id": "10143"
     },
     {
       "companyName": "Labaid",
@@ -40,23 +40,23 @@
       "plan": "STARTER",
       "address": "Sector 11, Uttara, Dhaka District, Dhaka, Bangladesh",
       "role": "CLIENT",
-      "id": "ET-Up2VjpcQ"
+      "id": "10144"
     },
     {
       "name": "Emon",
       "email": "emon@gmail.com",
       "password": "demo123",
-      "role": "STAFF",
+      "role": "EMPLOYEE",
       "designation": "Full Stack Developer",
-      "id": "B_-CcSNquXE"
+      "id": "10145"
     },
     {
       "name": "Sadiya",
       "email": "sadiya@gmail.com",
       "password": "demo123",
-      "role": "STAFF",
+      "role": "EMPLOYEE",
       "designation": "Java Developer",
-      "id": "ugUMorBpCeM"
+      "id": "10146"
     },
     {
       "companyName": "AirAsia",
@@ -74,22 +74,22 @@
       "plan": "STARTER",
       "address": "Riyadh, Saudi Arabia",
       "role": "CLIENT",
-      "id": "qWN2mX14dTM"
+      "id": "10147"
     },
     {
       "name": "Client",
       "email": "client@luminex.com",
       "password": "demo123",
       "role": "CLIENT",
-      "id": "nrWRvhnV-mI"
+      "id": "10148"
     },
     {
       "name": "Staff",
       "email": "staff@luminex.com",
       "password": "demo123",
-      "role": "STAFF",
+      "role": "EMPLOYEE",
       "designation": "AI Developer",
-      "id": "QRDbiPFw_7M"
+      "id": "10149"
     }
   ],
   "categories": [
@@ -184,6 +184,54 @@
       "description": "",
       "isActive": true,
       "id": "lkL-1keoL30"
+    },
+    {
+      "id": "s101",
+      "categoryId": "1",
+      "categoryName": "Web Development",
+      "name": "Full-Stack SaaS Platform",
+      "description": "Custom SaaS platform with authentication, billing, and dashboard.",
+      "price": 4999,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "60",
+      "isActive": true
+    },
+    {
+      "id": "s102",
+      "categoryId": "3",
+      "categoryName": "Marketing",
+      "name": "SEO Optimization Package",
+      "description": "Complete on-page and off-page SEO strategy to rank #1.",
+      "price": 500,
+      "currency": "BDT",
+      "priceType": "MONTHLY",
+      "deliveryDays": "Ongoing",
+      "isActive": true
+    },
+    {
+      "id": "s103",
+      "categoryId": "4",
+      "categoryName": "Consulting",
+      "name": "Cloud Architecture Setup",
+      "description": "Scalable AWS/GCP architecture setup for high-traffic startups.",
+      "price": 1500,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "14",
+      "isActive": true
+    },
+    {
+      "id": "s104",
+      "categoryId": "2",
+      "categoryName": "Graphic Design",
+      "name": "UI/UX Redesign",
+      "description": "Complete UI/UX redesign of your existing app or website.",
+      "price": 1200,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "21",
+      "isActive": true
     }
   ],
   "service-requests": [
@@ -227,13 +275,13 @@
       "serviceId": "4",
       "serviceName": "Landing Page Design",
       "categoryName": "Web Development",
-      "status": "REVIEW",
+      "status": "ASSIGNED",
       "priority": "URGENT",
       "createdAt": "2026-05-08T08:00:00.000Z",
       "progress": 90
     },
     {
-      "userId": "qWN2mX14dTM",
+      "userId": "10147",
       "serviceId": "4",
       "serviceName": "Landing Page Design",
       "categoryName": "Web Development",
@@ -350,7 +398,7 @@
       "date": "2026-05-04"
     },
     {
-      "clientId": "nrWRvhnV-mI",
+      "clientId": "10148",
       "client": "Client",
       "item": "Digital Foundation",
       "amount": 523.95,
@@ -360,7 +408,7 @@
       "id": "eKKBkczMw1M"
     },
     {
-      "clientId": "nrWRvhnV-mI",
+      "clientId": "10148",
       "client": "Client",
       "item": "Digital Foundation",
       "amount": 523.95,

@@ -36,12 +36,12 @@ export class TaskDetail implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/staff/my-tasks']);
+    this.router.navigate(['/employee/my-tasks']);
   }
 
   updateTask() {
     if (!this.task) return;
-    this.requestService.updateStatus(this.task.id, this.task.status, this.task.staffNotes).subscribe(() => {
+    this.requestService.updateStatus(this.task.id, this.task.status, this.task.employeeNotes).subscribe(() => {
       alert('Task updated successfully!');
     });
   }

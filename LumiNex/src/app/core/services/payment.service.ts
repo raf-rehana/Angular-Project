@@ -24,6 +24,7 @@ export interface PaymentInitRequest {
   clientName?: string;
   clientEmail?: string;
   clientPhone?: string;
+  paymentMethod?: string;  // 'ONLINE' | 'MOBILE_WALLET' | 'BANK'
 }
 
 export interface PaymentInitResponse {
@@ -56,5 +57,9 @@ export class PaymentService {
   /** Initiate SSLCommerz session — returns a gateway URL to redirect/embed */
   initiatePayment(data: PaymentInitRequest): Observable<PaymentInitResponse> {
     return this.http.post<PaymentInitResponse>(`${this.backendUrl}/init`, data);
+  }
+
+  getSubscriptions(): Observable<any[]> {
+    return this.http.get<any[]>('http://localhost:3000/subscriptions');
   }
 }

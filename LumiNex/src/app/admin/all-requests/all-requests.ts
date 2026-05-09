@@ -138,16 +138,16 @@ import { User } from '../../core/models/user';
               </div>
 
               <div class="mb-4">
-                <label class="form-label small fw-bold text-muted text-uppercase">Assign to Staff</label>
+                <label class="form-label small fw-bold text-muted text-uppercase">Assign to Employee</label>
                 <select class="form-select" [(ngModel)]="selectedRequest.assignedTo" (change)="updateRequest()">
                   <option [ngValue]="undefined">Unassigned</option>
-                  <option *ngFor="let s of staff" [value]="s.id">{{ s.name }}</option>
+                  <option *ngFor="let s of employee" [value]="s.id">{{ s.name }}</option>
                 </select>
               </div>
 
               <div class="mb-4">
                 <label class="form-label small fw-bold text-muted text-uppercase">Internal Notes</label>
-                <textarea class="form-control" rows="3" [(ngModel)]="selectedRequest.staffNotes" placeholder="Add notes for the team..."></textarea>
+                <textarea class="form-control" rows="3" [(ngModel)]="selectedRequest.employeeNotes" placeholder="Add notes for the team..."></textarea>
               </div>
 
               <div class="d-grid gap-2">
@@ -163,7 +163,7 @@ import { User } from '../../core/models/user';
 })
 export class AllRequestsComponent implements OnInit {
   requests: ServiceRequest[] = [];
-  staff: User[] = [];
+  employee: User[] = [];
   selectedRequest: ServiceRequest | null = null;
   
   showFilters = false;
@@ -193,8 +193,8 @@ export class AllRequestsComponent implements OnInit {
       this.requests = data;
       this.cdr.detectChanges();
     });
-    this.adminService.getUsers('STAFF').subscribe(data => {
-      this.staff = data;
+    this.adminService.getUsers('EMPLOYEE').subscribe(data => {
+      this.employee = data;
       this.cdr.detectChanges();
     });
   }
@@ -205,7 +205,7 @@ export class AllRequestsComponent implements OnInit {
 
   updateRequest() {
     if (!this.selectedRequest) return;
-    this.requestService.updateStatus(this.selectedRequest.id, this.selectedRequest.status, this.selectedRequest.staffNotes).subscribe(() => {
+    this.requestService.updateStatus(this.selectedRequest.id, this.selectedRequest.status, this.selectedRequest.employeeNotes).subscribe(() => {
       this.loadData();
     });
   }
@@ -213,6 +213,7 @@ export class AllRequestsComponent implements OnInit {
   saveNotes() {
     this.updateRequest();
     alert('Notes saved successfully!');
+    this.selectedRequest = null;
   }
 
   cancelRequest() {

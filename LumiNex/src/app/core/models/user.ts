@@ -2,7 +2,7 @@ export interface User {
   id: string;
   name: string;
   email: string;
-  role: 'ADMIN' | 'STAFF' | 'CLIENT';
+  role: 'ADMIN' | 'EMPLOYEE' | 'CLIENT';
   password?: string;
   phone?: string;
   companyName?: string;
@@ -12,4 +12,6 @@ export interface User {
   designation?: string;
   avatar?: string;
   address?: string;
+  district?: string;
+  policeStation?: string;
 }

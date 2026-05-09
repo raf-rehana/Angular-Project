@@ -25,11 +25,11 @@ export class RequestService {
     return this.http.post<ServiceRequest>(this.api, data);
   }
 
-  updateStatus(id: string | number, status: string, staffNotes?: string): Observable<ServiceRequest> {
-    return this.http.patch<ServiceRequest>(`${this.api}/${id}`, { status, staffNotes });
+  updateStatus(id: string | number, status: string, employeeNotes?: string): Observable<ServiceRequest> {
+    return this.http.patch<ServiceRequest>(`${this.api}/${id}`, { status, employeeNotes });
   }
 
-  assignToStaff(requestId: string | number, staffId: string | number): Observable<ServiceRequest> {
-    return this.http.patch<ServiceRequest>(`${this.api}/${requestId}`, { assignedTo: staffId.toString() });
+  assignToEmployee(requestId: string | number, employeeId: string | number): Observable<ServiceRequest> {
+    return this.http.patch<ServiceRequest>(`${this.api}/${requestId}`, { assignedTo: employeeId.toString() });
   }
 }

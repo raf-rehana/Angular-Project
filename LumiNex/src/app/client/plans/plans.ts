@@ -10,41 +10,28 @@ import { Router } from '@angular/router';
   templateUrl: './plans.html',
   styleUrl: './plans.css',
 })
-export class Plans {
-  step = 1;
+export class PlansComponent {
   config = {
-    type: 'WEB',
-    subType: 'E_COMMERCE',
-    security: 'ADVANCED',
-    stack: 'JAVA',
-    features: [] as string[]
+    projectName: '',
+    projectType: 'Web Application',
+    timeline: '1-3 Months',
+    budget: 'BDT 50,000 - BDT 100,000',
+    targetAudience: '',
+    existingBranding: 'No',
+    keyFeatures: '',
+    description: ''
   };
 
-  stacks = [
-    { id: 'JAVA', name: 'Java / Spring Boot', icon: 'bi-cup-hot-fill' },
-    { id: 'PYTHON', name: 'Python / Django', icon: 'bi-snake' },
-    { id: 'PHP', name: 'PHP / Laravel', icon: 'bi-elephant' },
-    { id: 'AI', name: 'AI Integrated (Python/Node)', icon: 'bi-cpu' }
-  ];
+  loading = false;
 
   constructor(private router: Router) {}
 
-  nextStep() {
-    this.step++;
-  }
-
-  prevStep() {
-    this.step--;
-  }
-
-  toggleFeature(feature: string) {
-    const idx = this.config.features.indexOf(feature);
-    if (idx > -1) this.config.features.splice(idx, 1);
-    else this.config.features.push(feature);
-  }
-
   submitConfig() {
-    alert('Project Configuration Saved! Our team will contact you with a custom quote.');
-    this.router.navigate(['/client/dashboard']);
+    this.loading = true;
+    setTimeout(() => {
+      this.loading = false;
+      alert('Project Configuration Saved! Our team will contact you with a custom quote.');
+      this.router.navigate(['/client/dashboard']);
+    }, 1500);
   }
 }

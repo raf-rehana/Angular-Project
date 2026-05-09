@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { PaymentService } from '../../core/services/payment.service';
 
 @Component({
   selector: 'app-subscriptions',
@@ -24,7 +25,7 @@ import { HttpClient } from '@angular/common/http';
               <h4 class="fw-bold mb-0">{{ plan.name }}</h4>
             </div>
             <div class="card-body p-4 text-center">
-              <div class="display-5 fw-bold text-dark mb-4">\${{ plan.price }}<span class="fs-6 text-muted fw-normal">/month</span></div>
+              <div class="display-5 fw-bold text-dark mb-4">BDT {{ plan.price }}<span class="fs-6 text-muted fw-normal">/month</span></div>
               <ul class="list-unstyled text-start mb-5">
                 <li class="mb-3 d-flex align-items-center" *ngFor="let feature of plan.features">
                   <i class="bi bi-check-circle-fill text-success me-3"></i>
@@ -52,17 +53,46 @@ import { HttpClient } from '@angular/common/http';
 })
 export class SubscriptionsComponent implements OnInit {
   plans: any[] = [];
-  currentPlan: string = 'Growth'; // Mock current plan
+  currentPlan: string = 'Growth Accelerator'; // Set to a valid plan name from DB
 
-  constructor(private http: HttpClient) {}
+  constructor(private paymentService: PaymentService, private router: Router) {}
 
   ngOnInit() {
-    this.http.get<any[]>('http://127.0.0.1:3000/subscriptions').subscribe(data => {
-      this.plans = data;
+    this.paymentService.getSubscriptions().subscribe({
+      next: (data) => {
+        this.plans = data;
+      },
+      error: () => {
+        // Fallback data if server is down
+        this.plans = [
+          {
+            id: '1',
+            name: 'Digital Foundation',
+            price: 499,
+            features: ['Professional Website', 'Domain (1 Year)', 'Business Email', 'Basic SEO'],
+            recommended: false
+          },
+          {
+            id: '2',
+            name: 'Growth Accelerator',
+            price: 1499,
+            features: ['E-Commerce Platform', 'Marketing (3 Months)', 'Social Media Mgmt', '24/7 Support'],
+            recommended: true
+          },
+          {
+            id: '3',
+            name: 'A-to-Z Launchpad',
+            price: 3499,
+            features: ['Business Formation', 'Trade License', 'Web & Mobile App', 'Launch Manager'],
+            recommended: false
+          }
+        ];
+      }
     });
   }
 
   subscribe(plan: any) {
-    alert(`Thank you for choosing the ${plan.name} plan! We are redirecting you to the payment gateway.`);
+    this.router.navigate(['/client/payments'], { queryParams: { planId: plan.id } });
   }
 }
+

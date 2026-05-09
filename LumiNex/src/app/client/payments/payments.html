@@ -1,1 +1,303 @@
-<p>payments works!</p>
+<!-- payments.html -->
+<div class="payments-page">
+
+  <!-- ── Success / Fail / Cancel Banner ── -->
+  <div *ngIf="paymentStatus" class="status-banner-wrap mb-4">
+    <div class="status-banner"
+         [class.success]="paymentStatus === 'success'"
+         [class.failed]="paymentStatus === 'failed'"
+         [class.cancelled]="paymentStatus === 'cancelled'">
+      <div class="status-icon">
+        <i class="bi" [ngClass]="{
+          'bi-check-circle-fill': paymentStatus === 'success',
+          'bi-x-circle-fill':     paymentStatus === 'failed',
+          'bi-slash-circle-fill': paymentStatus === 'cancelled'
+        }"></i>
+      </div>
+      <div class="status-content">
+        <div class="status-title">
+          <span *ngIf="paymentStatus === 'success'">Payment Successful! 🎉</span>
+          <span *ngIf="paymentStatus === 'failed'">Payment Failed</span>
+          <span *ngIf="paymentStatus === 'cancelled'">Payment Cancelled</span>
+        </div>
+        <div class="status-sub" *ngIf="tranId">Transaction ID: <strong>{{ tranId }}</strong></div>
+        <div class="status-sub" *ngIf="paidAmount && paymentStatus === 'success'">Amount Paid: <strong>BDT {{ paidAmount | number:'1.2-2' }}</strong></div>
+      </div>
+      <button class="status-close" (click)="paymentStatus = null"><i class="bi bi-x-lg"></i></button>
+    </div>
+  </div>
+
+  <!-- ── Page Header ── -->
+  <div class="page-header mb-4">
+    <div>
+      <h2 class="fw-bold text-dark mb-1">Payments &amp; Billing</h2>
+      <p class="text-muted mb-0">Secure payments powered by <strong>SSLCommerz</strong> · Sandbox Mode</p>
+    </div>
+    <button class="btn btn-outline-secondary rounded-pill px-4 py-2 small fw-bold"
+            (click)="showHistory = !showHistory">
+      <i class="bi bi-clock-history me-2"></i>{{ showHistory ? 'Hide' : 'View' }} History
+    </button>
+  </div>
+
+  <!-- ── Payment History (collapsible) ── -->
+  <div class="history-panel mb-4" *ngIf="showHistory">
+    <div class="card border-0 shadow-sm rounded-4">
+      <div class="card-header bg-white border-0 py-3 px-4">
+        <h6 class="fw-bold mb-0"><i class="bi bi-receipt me-2 text-primary"></i>Recent Transactions</h6>
+      </div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th class="ps-4 py-3 border-0 small fw-bold text-muted">Plan</th>
+                <th class="py-3 border-0 small fw-bold text-muted">Amount</th>
+                <th class="py-3 border-0 small fw-bold text-muted">Method</th>
+                <th class="py-3 border-0 small fw-bold text-muted">Date</th>
+                <th class="pe-4 py-3 border-0 small fw-bold text-muted">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let h of paymentHistory">
+                <td class="ps-4 py-3 small fw-bold">{{ h.item }}</td>
+                <td class="py-3 small fw-bold text-dark">BDT {{ h.amount | number:'1.2-2' }}</td>
+                <td class="py-3 small text-muted">{{ h.method }}</td>
+                <td class="py-3 small text-muted">{{ h.date | date:'mediumDate' }}</td>
+                <td class="pe-4 py-3">
+                  <span class="badge rounded-pill px-3"
+                        [ngClass]="h.status === 'PAID' ? 'bg-success' : (h.status === 'PENDING' ? 'bg-warning text-dark' : 'bg-danger')">
+                    {{ h.status }}
+                  </span>
+                </td>
+              </tr>
+              <tr *ngIf="paymentHistory.length === 0">
+                <td colspan="5" class="text-center py-4 text-muted small">No payment history found.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Main Grid ── -->
+  <div class="row g-4 align-items-start">
+
+    <!-- LEFT: Payment Method Selection -->
+    <div class="col-lg-8">
+      <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5">
+
+        <!-- Step label -->
+        <div class="step-label mb-4">
+          <span class="step-num">1</span>
+          <span class="step-text">Select Payment Method</span>
+        </div>
+
+        <!-- ── Method Category Tabs ── -->
+        <div class="method-tabs mb-4">
+          <button class="method-tab" [class.active]="methodCategory === 'ONLINE'"        (click)="methodCategory = 'ONLINE'">
+            <i class="bi bi-globe2"></i><span>SSLCommerz</span>
+          </button>
+          <button class="method-tab" [class.active]="methodCategory === 'MOBILE_WALLET'" (click)="methodCategory = 'MOBILE_WALLET'">
+            <i class="bi bi-phone-fill"></i><span>Mobile Wallet</span>
+          </button>
+          <button class="method-tab" [class.active]="methodCategory === 'BANK'"          (click)="methodCategory = 'BANK'">
+            <i class="bi bi-credit-card-fill"></i><span>Card / Bank</span>
+          </button>
+          <button class="method-tab" [class.active]="methodCategory === 'CASH'"          (click)="methodCategory = 'CASH'">
+            <i class="bi bi-cash-stack"></i><span>Cash</span>
+          </button>
+        </div>
+
+        <!-- ── ONLINE (SSLCommerz Gateway) ── -->
+        <div *ngIf="methodCategory === 'ONLINE'" class="method-panel animate-in">
+          <div class="gateway-card">
+            <div class="gateway-logo">
+              <div class="ssl-badge">
+                <i class="bi bi-shield-lock-fill text-primary me-2"></i>
+                <span class="fw-bold">SSLCommerz</span>
+                <span class="badge bg-success-soft text-success ms-2 small">SANDBOX</span>
+              </div>
+              <p class="text-muted small mt-2 mb-3">
+                Pay securely using any method available on the SSLCommerz gateway — includes cards, mobile banking, internet banking, and more.
+              </p>
+            </div>
+            <div class="channel-grid">
+              <div class="channel-pill" *ngFor="let ch of ['bKash','Nagad','Rocket','Visa','Mastercard','Dutch-Bangla','BRAC Bank','Net Banking','Upay','mCash']">
+                {{ ch }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Installment toggle -->
+          <div class="installment-box mt-4">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <div class="fw-bold small">Enable EMI / Installment</div>
+                <div class="text-muted" style="font-size:12px;">Split your payment into monthly parts (selected banks)</div>
+              </div>
+              <div class="form-check form-switch mb-0">
+                <input class="form-check-input" type="checkbox" [(ngModel)]="isInstallment" id="installToggle">
+              </div>
+            </div>
+            <div class="mt-3" *ngIf="isInstallment">
+              <select class="form-select form-select-sm border-0 bg-white rounded-3" [(ngModel)]="installmentMonths">
+                <option value="3">3 Months — 0% Interest</option>
+                <option value="6">6 Months — 5% Interest</option>
+                <option value="12">12 Months — 10% Interest</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── MOBILE WALLET ── -->
+        <div *ngIf="methodCategory === 'MOBILE_WALLET'" class="method-panel animate-in">
+          <p class="text-muted small mb-3">Select your preferred mobile wallet. You will be redirected to the secure SSLCommerz gateway to complete payment.</p>
+          <div class="wallet-grid">
+            <div class="wallet-card" *ngFor="let w of wallets"
+                 [class.selected]="selectedWallet === w.id"
+                 [style.--accent]="w.color"
+                 [style.--bg]="w.bg"
+                 (click)="selectedWallet = w.id">
+              <div class="wallet-icon" [style.background]="w.bg">
+                <i class="bi" [class]="w.icon" [style.color]="w.color"></i>
+              </div>
+              <span class="wallet-label">{{ w.label }}</span>
+              <i class="bi bi-check-circle-fill wallet-check" *ngIf="selectedWallet === w.id"></i>
+            </div>
+          </div>
+          <div class="info-box mt-4">
+            <i class="bi bi-info-circle-fill text-primary me-2"></i>
+            Enter your mobile wallet number on the next screen to complete the payment.
+          </div>
+        </div>
+
+        <!-- ── CARD / BANK ── -->
+        <div *ngIf="methodCategory === 'BANK'" class="method-panel animate-in">
+          <p class="text-muted small mb-3">Select your card or bank to proceed to the secure payment gateway.</p>
+          <div class="bank-grid">
+            <div class="bank-card" *ngFor="let b of banks"
+                 [class.selected]="selectedBank === b.id"
+                 [style.--accent]="b.color"
+                 (click)="selectedBank = b.id">
+              <div class="bank-icon" [style.background]="b.bg">
+                <i class="bi" [class]="b.icon" [style.color]="b.color"></i>
+              </div>
+              <span class="bank-label">{{ b.label }}</span>
+              <i class="bi bi-check-circle-fill bank-check" *ngIf="selectedBank === b.id"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── CASH ── -->
+        <div *ngIf="methodCategory === 'CASH'" class="method-panel animate-in">
+          <div class="cash-instructions">
+            <div class="cash-step">
+              <div class="cash-step-num">1</div>
+              <div>
+                <div class="fw-bold small mb-1">Send via bKash</div>
+                <p class="text-muted small mb-0">Send <strong>BDT {{ total | number:'1.2-2' }}</strong> to bKash merchant number <strong>01700-000000</strong></p>
+              </div>
+            </div>
+            <div class="cash-step">
+              <div class="cash-step-num">2</div>
+              <div>
+                <div class="fw-bold small mb-1">Bank Deposit</div>
+                <p class="text-muted small mb-0">Deposit to <strong>Dutch-Bangla Bank</strong> · A/C: <strong>1234-5678-9012</strong> · Branch: Gulshan</p>
+              </div>
+            </div>
+            <div class="cash-step">
+              <div class="cash-step-num">3</div>
+              <div>
+                <div class="fw-bold small mb-1">Visit Our Office</div>
+                <p class="text-muted small mb-0">Bring cash to our Dhaka office. Monday–Friday, 9AM–6PM.</p>
+              </div>
+            </div>
+            <div class="cash-step">
+              <div class="cash-step-num">4</div>
+              <div>
+                <div class="fw-bold small mb-1">Confirmation</div>
+                <p class="text-muted small mb-0">Click <strong>"Record Payment"</strong> below and our team will verify within 24 hours.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Proceed Button ── -->
+        <div class="mt-5">
+          <button class="pay-btn" (click)="pay()" [disabled]="loadingPayment || !selectedPlanId">
+            <span *ngIf="!loadingPayment">
+              <i class="bi" [ngClass]="methodCategory === 'CASH' ? 'bi-check-circle me-2' : 'bi-lock-fill me-2'"></i>
+              {{ methodCategory === 'CASH' ? 'Record Cash Payment' : 'Proceed to Pay — BDT ' + (total | number:'1.2-2') }}
+            </span>
+            <span *ngIf="loadingPayment" class="d-flex align-items-center gap-2">
+              <span class="spinner-border spinner-border-sm"></span> Connecting to gateway...
+            </span>
+          </button>
+          <p class="text-center text-muted mt-3" style="font-size:12px;">
+            <i class="bi bi-shield-lock-fill text-success me-1"></i>
+            256-bit SSL encrypted · PCI DSS compliant · Secured by SSLCommerz
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- RIGHT: Order Summary -->
+    <div class="col-lg-4">
+      <div class="card border-0 shadow-sm rounded-4 overflow-hidden sticky-top" style="top: 80px;">
+
+        <!-- Header -->
+        <div class="summary-header p-4">
+          <div class="step-label mb-0">
+            <span class="step-num">2</span>
+            <span class="step-text text-white">Order Summary</span>
+          </div>
+        </div>
+
+        <div class="card-body p-4">
+
+          <!-- Plan selector -->
+          <label class="form-label small fw-bold text-muted text-uppercase mb-2">Select Plan</label>
+          <select class="form-select rounded-3 mb-4" [(ngModel)]="selectedPlanId" (ngModelChange)="onPlanChange($event)">
+            <option *ngFor="let p of plans" [value]="p.id">{{ p.name }} — BDT {{ p.price | number }}</option>
+          </select>
+
+          <!-- Breakdown -->
+          <div class="price-row">
+            <span class="text-muted small">Subtotal</span>
+            <span class="fw-bold small">BDT {{ selectedPlanPrice | number:'1.2-2' }}</span>
+          </div>
+          <div class="price-row">
+            <span class="text-muted small">VAT (5%)</span>
+            <span class="fw-bold small">BDT {{ vat | number:'1.2-2' }}</span>
+          </div>
+          <div class="price-row total-row">
+            <span class="fw-bold">Total</span>
+            <span class="total-amount">BDT {{ total | number:'1.2-2' }}</span>
+          </div>
+
+          <!-- Method chip -->
+          <div class="method-chip mt-3">
+            <i class="bi bi-credit-card me-2"></i> {{ methodLabel }}
+          </div>
+
+          <!-- SSL Badge -->
+          <div class="ssl-trust-box mt-3">
+            <i class="bi bi-shield-fill-check text-success me-2"></i>
+            <span class="small fw-bold text-success">Secured by SSLCommerz</span>
+          </div>
+
+          <!-- Accepted channels -->
+          <div class="mt-3 pt-3 border-top">
+            <p class="text-muted mb-2" style="font-size:11px; text-transform:uppercase; letter-spacing:.5px; font-weight:600;">Accepted Payments</p>
+            <div class="channel-pills-sm">
+              <span *ngFor="let ch of ['bKash','Nagad','Rocket','Visa','MC','DBBL','BRAC','Upay']">{{ ch }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

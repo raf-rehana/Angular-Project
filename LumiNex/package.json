@@ -7,7 +7,9 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "server": "json-server --watch db.json --port 3000"
+    "server": "json-server --watch db.json --port 3000",
+    "backend": "node server.js",
+    "dev:all": "start cmd /k npm run server && start cmd /k npm run backend && npm run start"
   },
   "private": true,
   "packageManager": "npm@11.12.1",

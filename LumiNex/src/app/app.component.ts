@@ -52,7 +52,7 @@ export class AppComponent {
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
       const url = event.urlAfterRedirects || event.url;
-      this.showSidebar = url.includes('/client') || url.includes('/admin') || url.includes('/staff');
+      this.showSidebar = url.includes('/client') || url.includes('/admin') || url.includes('/employee');
     });
   }
 }

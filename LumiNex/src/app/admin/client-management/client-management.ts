@@ -78,7 +78,7 @@ import { User } from '../../core/models/user';
                             [(ngModel)]="client.role" 
                             (change)="changeRole(client)">
                       <option value="CLIENT">CLIENT</option>
-                      <option value="STAFF">STAFF</option>
+                      <option value="EMPLOYEE">EMPLOYEE</option>
                       <option value="ADMIN">ADMIN</option>
                     </select>
                   </td>

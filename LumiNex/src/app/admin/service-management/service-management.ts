@@ -41,7 +41,7 @@ import { Service } from '../../core/models/service';
                 </select>
               </div>
               <div class="col-md-4">
-                <label class="form-label">Price ($)</label>
+                <label class="form-label">Price (BDT)</label>
                 <input type="number" class="form-control" name="price" [(ngModel)]="newService.price" required>
               </div>
               <div class="col-md-4">
@@ -87,7 +87,7 @@ import { Service } from '../../core/models/service';
                     <div class="small text-muted">{{ s.deliveryDays }} delivery</div>
                   </td>
                   <td class="py-3 text-muted">{{ s.categoryName }}</td>
-                  <td class="py-3 fw-bold text-dark">\${{ s.price }} <span class="fw-normal text-muted small" *ngIf="s.priceType === 'MONTHLY'">/mo</span></td>
+                  <td class="py-3 fw-bold text-dark">BDT {{ s.price }} <span class="fw-normal text-muted small" *ngIf="s.priceType === 'MONTHLY'">/mo</span></td>
                   <td class="py-3">
                     <span class="badge" [ngClass]="s.isActive ? 'bg-success' : 'bg-secondary'">{{ s.isActive ? 'Active' : 'Inactive' }}</span>
                   </td>

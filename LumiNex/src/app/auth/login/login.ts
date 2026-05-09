@@ -40,7 +40,7 @@ export class LoginComponent {
         const role = res.user.role;
         let route = '/client';
         if (role === 'ADMIN' || role === 'SUPER_ADMIN') route = '/admin';
-        else if (role === 'STAFF') route = '/staff';
+        else if (role === 'EMPLOYEE') route = '/employee';
 
         this.router.navigate([route]).then(success => {
           if (!success) {
@@ -64,7 +64,7 @@ export class LoginComponent {
     const demos: any = {
       client: { email: 'client@luminex.com',  password: 'demo123' },
       admin:  { email: 'admin@luminex.com', password: 'demo123' },
-      staff:  { email: 'staff@luminex.com', password: 'demo123' }
+      employee:  { email: 'employee@luminex.com', password: 'demo123' }
     };
     this.form.setValue(demos[role]);
   }

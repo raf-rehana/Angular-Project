@@ -9,7 +9,7 @@ export interface ServiceRequest {
   status: 'PENDING' | 'ASSIGNED' | 'IN_PROGRESS' | 'REVIEW' | 'COMPLETED' | 'REJECTED';
   priority: 'LOW' | 'NORMAL' | 'HIGH' | 'URGENT';
   clientNotes?: string;
-  staffNotes?: string;
+  employeeNotes?: string;
   createdAt: string;
   updatedAt?: string;
   completedAt?: string;

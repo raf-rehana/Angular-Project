@@ -1,101 +1,81 @@
-<div class="auth-container bg-light d-flex align-items-center justify-content-center min-vh-100 py-5">
-  <div class="container">
+<div class="auth-container d-flex align-items-center justify-content-center min-vh-100 position-relative overflow-hidden">
+  <!-- Dynamic Background -->
+  <div class="bg-shape shape-1"></div>
+  <div class="bg-shape shape-2"></div>
+  <div class="bg-shape shape-3"></div>
+
+  <div class="container position-relative z-index-1">
     <div class="row justify-content-center">
-      <div class="col-md-10 col-lg-8">
-        <div class="card border-0 shadow-lg rounded-5 overflow-hidden">
-          <div class="row g-0">
-            <!-- Left Info Panel -->
-            <div class="col-md-5 bg-primary text-white d-none d-md-flex flex-column justify-content-center p-5">
-              <div class="mb-4">
-                <div class="bg-white rounded-3 d-inline-flex align-items-center justify-content-center mb-3" style="width: 48px; height: 48px;">
-                  <i class="bi bi-lightning-fill text-primary fs-3"></i>
+      <div class="col-11 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+        <div class="card glass-card border-0 rounded-4 overflow-hidden">
+          <div class="card-body p-4 p-sm-5">
+            <div class="text-center mb-5">
+              <a routerLink="/" class="text-decoration-none d-inline-block mb-3">
+                <div class="logo-box mx-auto d-flex align-items-center justify-content-center rounded-3 bg-gradient-primary">
+                  <i class="bi bi-brightness-high-fill text-white fs-3"></i>
                 </div>
-                <h2 class="fw-bold">LumiNex</h2>
-                <p class="opacity-75">Your vision, our expertise. The ultimate portal for professional service management.</p>
-              </div>
-              <div class="feature-item mb-3">
-                <i class="bi bi-check-circle-fill me-2"></i>
-                <span class="small">Real-time status tracking</span>
-              </div>
-              <div class="feature-item mb-3">
-                <i class="bi bi-check-circle-fill me-2"></i>
-                <span class="small">Secure payment gateway</span>
-              </div>
-              <div class="feature-item mb-4">
-                <i class="bi bi-check-circle-fill me-2"></i>
-                <span class="small">Expert support 24/7</span>
-              </div>
-              <div class="mt-4 pt-4 border-top border-white border-opacity-10">
-                <div class="small opacity-75">Trusted by 500+ global enterprises.</div>
+              </a>
+              <h3 class="fw-bold text-dark tracking-tight">Welcome to LumiNex</h3>
+              <p class="text-secondary small">Enter your credentials to access your portal</p>
+            </div>
+
+            <!-- Demo Access -->
+            <div class="demo-access mb-4 text-center">
+              <div class="d-flex justify-content-center gap-2">
+                <button type="button" class="btn btn-outline-primary btn-sm rounded-pill px-3 fw-medium" (click)="demoLogin('client')">Client</button>
+                <button type="button" class="btn btn-outline-primary btn-sm rounded-pill px-3 fw-medium" (click)="demoLogin('admin')">Admin</button>
+                <button type="button" class="btn btn-outline-primary btn-sm rounded-pill px-3 fw-medium" (click)="demoLogin('employee')">Employee</button>
               </div>
             </div>
 
-            <!-- Login Form Panel -->
-            <div class="col-md-7 bg-white p-5">
-              <div class="mb-4 d-flex justify-content-between align-items-center">
-                <a routerLink="/" class="text-decoration-none text-secondary small d-flex align-items-center fw-medium">
-                  <i class="bi bi-arrow-left me-2"></i> Back to Website
-                </a>
-              </div>
-              <div class="mb-5">
-                <h3 class="fw-bold text-dark">Welcome Back</h3>
-                <p class="text-secondary">Please enter your details to sign in.</p>
-              </div>
+            <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate autocomplete="off">
+              <!-- Dummy input to trick browsers from autofilling -->
+              <input type="email" style="display:none" autocomplete="false">
+              <input type="password" style="display:none" autocomplete="false">
 
-              <!-- Demo Access -->
-              <div class="mb-4 p-3 bg-light rounded-4">
-                <div class="small fw-bold text-muted mb-2 text-uppercase">Quick Demo Access</div>
-                <div class="d-flex flex-wrap gap-2">
-                  <button type="button" class="btn btn-sm btn-white border shadow-sm rounded-pill px-3" (click)="demoLogin('client')">Client</button>
-                  <button type="button" class="btn btn-sm btn-white border shadow-sm rounded-pill px-3" (click)="demoLogin('admin')">Admin</button>
-                  <button type="button" class="btn btn-sm btn-white border shadow-sm rounded-pill px-3" (click)="demoLogin('staff')">Staff</button>
+              <div class="form-floating mb-3 custom-floating">
+                <input type="email" class="form-control" id="emailInput" formControlName="email" placeholder="name@example.com" autocomplete="new-password">
+                <label for="emailInput">Email Address</label>
+                <div class="text-danger small mt-1 ps-2" *ngIf="email?.invalid && email?.touched">
+                  Valid email required.
                 </div>
               </div>
 
-              <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
-                <div class="mb-4">
-                  <label class="form-label fw-bold small text-muted">Email Address</label>
-                  <div class="input-group">
-                    <span class="input-group-text bg-light border-0"><i class="bi bi-envelope text-muted"></i></span>
-                    <input type="email" class="form-control bg-light border-0 py-2" formControlName="email" placeholder="name@company.com">
-                  </div>
-                  <div class="text-danger small mt-1" *ngIf="email?.invalid && email?.touched">
-                    Please enter a valid email.
-                  </div>
-                </div>
+              <div class="form-floating mb-4 custom-floating position-relative">
+                <input [type]="showPassword ? 'text' : 'password'" class="form-control pe-5" id="passwordInput" formControlName="password" placeholder="Password" autocomplete="new-password">
+                <label for="passwordInput">Password</label>
+                <button type="button" class="btn btn-link text-muted position-absolute end-0 top-50 translate-middle-y text-decoration-none shadow-none" (click)="showPassword = !showPassword">
+                  <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+                </button>
+              </div>
 
-                <div class="mb-4">
-                  <div class="d-flex justify-content-between align-items-center mb-1">
-                    <label class="form-label fw-bold small text-muted mb-0">Password</label>
-                    <a routerLink="/auth/forgot" class="small text-primary text-decoration-none fw-bold">Forgot?</a>
-                  </div>
-                  <div class="input-group">
-                    <span class="input-group-text bg-light border-0"><i class="bi bi-lock text-muted"></i></span>
-                    <input [type]="showPassword ? 'text' : 'password'" class="form-control bg-light border-0 py-2" formControlName="password" placeholder="••••••••">
-                    <button type="button" class="btn bg-light border-0" (click)="showPassword = !showPassword">
-                      <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
-                    </button>
-                  </div>
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="form-check">
+                  <input class="form-check-input custom-checkbox" type="checkbox" id="rememberMe">
+                  <label class="form-check-label small text-secondary" for="rememberMe">Remember me</label>
                 </div>
+                <a routerLink="/auth/forgot" class="small text-primary fw-bold text-decoration-none hover-underline">Forgot Password?</a>
+              </div>
 
-                <div class="alert alert-danger border-0 small mb-4" *ngIf="error">
-                  <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ error }}
-                </div>
+              <div class="alert alert-danger border-0 small mb-4 rounded-3 d-flex align-items-center" *ngIf="error">
+                <i class="bi bi-exclamation-octagon-fill me-2 fs-5"></i> {{ error }}
+              </div>
 
-                <div class="d-grid mb-4">
-                  <button type="submit" class="btn btn-primary btn-lg rounded-pill py-3 fw-bold text-white shadow" [disabled]="loading">
-                    <span *ngIf="!loading">Sign In</span>
-                    <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
-                  </button>
-                </div>
-
-                <div class="text-center">
-                  <span class="text-secondary small">Don't have an account?</span>
-                  <a routerLink="/auth/register" class="text-primary text-decoration-none fw-bold small ms-2">Create Account</a>
-                </div>
-              </form>
-            </div>
+              <div class="d-grid mb-4">
+                <button type="submit" class="btn btn-primary btn-lg rounded-pill py-3 fw-bold text-white btn-glow transition-all" [disabled]="loading">
+                  <span *ngIf="!loading">Sign In</span>
+                  <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
+                </button>
+              </div>
+            </form>
           </div>
+        </div>
+        
+        <div class="text-center mt-4">
+          <p class="text-secondary small fw-medium">
+            Don't have an account? 
+            <a routerLink="/auth/register" class="text-primary fw-bold text-decoration-none hover-underline ms-1">Create Account</a>
+          </p>
         </div>
       </div>
     </div>

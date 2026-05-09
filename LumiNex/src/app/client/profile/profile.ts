@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { AuthService } from '../../core/services/auth.services';
 import { LocationService, Country, LocationNode } from '../../core/services/location.service';
 import { User } from '../../core/models/user';
@@ -8,7 +9,7 @@ import { User } from '../../core/models/user';
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })
@@ -58,13 +59,18 @@ export class Profile implements OnInit {
       }
     }
 
+    if (this.user.district) {
+      this.selectedDistrict = this.user.district;
+    }
+    if (this.user.policeStation) {
+      this.selectedThana = this.user.policeStation;
+    }
+
     if (this.user.address) {
       const parts = this.user.address.split(', ');
-      // Try to map back from saved address parts
-      if (parts.length >= 4) {
+      // Try to map back from saved address parts for village and country
+      if (parts.length >= 2) {
         this.village = parts[0];
-        this.selectedThana = parts[1];
-        this.selectedDistrict = parts[2];
         this.selectedCountry = this.countries.find(c => c.name === parts[parts.length - 1]) || this.selectedCountry;
       }
     }
@@ -106,12 +112,12 @@ export class Profile implements OnInit {
 
     const parts = [
       this.village,
-      this.selectedThana,
-      this.selectedDistrict,
       this.selectedCountry?.name
     ].filter(p => !!p);
     
     this.user.address = parts.join(', ');
+    this.user.district = this.selectedDistrict;
+    this.user.policeStation = this.selectedThana;
     this.user.phone = `${this.selectedCountry?.code} ${this.phoneNumber}`;
     
     this.authService.updateProfile(this.user).subscribe({

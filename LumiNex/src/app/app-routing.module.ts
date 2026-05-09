@@ -10,6 +10,6 @@ export const routes: Routes = [
   { path: 'auth', loadChildren: () => import('./auth/auth.routes').then(m => m.AUTH_ROUTES) },
   { path: 'client', loadChildren: () => import('./client/client.routes').then(m => m.CLIENT_ROUTES) },
   { path: 'admin', loadChildren: () => import('./admin/admin.routes').then(m => m.ADMIN_ROUTES) },
-  { path: 'staff', loadChildren: () => import('./staff/staff.routes').then(m => m.STAFF_ROUTES) },
+  { path: 'employee', loadChildren: () => import('./employee/employee.routes').then(m => m.EMPLOYEE_ROUTES) },
   { path: '**', redirectTo: '' }
 ];

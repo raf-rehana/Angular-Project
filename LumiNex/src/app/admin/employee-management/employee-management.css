@@ -2,16 +2,16 @@
   background-color: #eef2ff;
 }
 
-.staff-name {
+.employee-name {
   cursor: pointer;
 }
 
-.staff-name:hover .fw-bold {
+.employee-name:hover .fw-bold {
   color: var(--bs-primary) !important;
   text-decoration: underline;
 }
 
-.staff-avatar {
+.employee-avatar {
   width: 45px;
   height: 45px;
   border-radius: 12px;
@@ -23,7 +23,7 @@
   overflow: hidden;
 }
 
-.staff-avatar-lg {
+.employee-avatar-lg {
   width: 100px;
   height: 100px;
   border-radius: 20px;
