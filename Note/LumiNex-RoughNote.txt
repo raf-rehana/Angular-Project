@@ -1,0 +1,238 @@
+📁 Angular Project Structure
+startuphub-frontend/
+├── src/
+│   ├── app/
+│   │   ├── core/
+│   │   │   ├── guards/
+│   │   │   │   ├── auth.guard.ts
+│   │   │   │   └── role.guard.ts
+│   │   │   ├── interceptors/
+│   │   │   │   └── jwt.interceptor.ts
+│   │   │   ├── models/
+│   │   │   │   ├── user.model.ts
+│   │   │   │   ├── service.model.ts
+│   │   │   │   ├── service-request.model.ts
+│   │   │   │   ├── payment.model.ts
+│   │   │   │   └── notification.model.ts
+│   │   │   └── services/
+│   │   │       ├── auth.service.ts
+│   │   │       ├── service-catalogue.service.ts
+│   │   │       ├── request.service.ts
+│   │   │       ├── payment.service.ts
+│   │   │       └── notification.service.ts
+│   │   │
+│   │   ├── shared/
+│   │   │   ├── components/
+│   │   │   │   ├── navbar/
+│   │   │   │   ├── sidebar/
+│   │   │   │   ├── status-badge/
+│   │   │   │   ├── notification-bell/
+│   │   │   │   └── request-timeline/
+│   │   │   └── pipes/
+│   │   │       ├── status-color.pipe.ts
+│   │   │       └── bdt-currency.pipe.ts
+│   │   │
+│   │   ├── auth/
+│   │   │   ├── login/
+│   │   │   └── register/
+│   │   │
+│   │   ├── client/                      ← Startup Portal
+│   │   │   ├── dashboard/
+│   │   │   ├── catalogue/
+│   │   │   │   ├── catalogue.component.ts
+│   │   │   │   └── service-card/
+│   │   │   ├── request-form/
+│   │   │   ├── my-requests/
+│   │   │   ├── request-detail/
+│   │   │   │   └── timeline/
+│   │   │   ├── payments/
+│   │   │   └── profile/
+│   │   │
+│   │   ├── admin/                       ← Admin Portal
+│   │   │   ├── dashboard/
+│   │   │   ├── all-requests/
+│   │   │   ├── request-detail/
+│   │   │   ├── staff-management/
+│   │   │   ├── service-management/
+│   │   │   ├── client-management/
+│   │   │   ├── payments-reports/
+│   │   │   └── settings/
+│   │   │
+│   │   ├── staff/                       ← Staff Portal
+│   │   │   ├── my-tasks/
+│   │   │   ├── task-detail/
+│   │   │   └── daily-summary/
+│   │   │
+│   │   └── app-routing.module.ts
+│   │
+│   ├── assets/
+│   │   ├── icons/
+│   │   ├── images/
+│   │   └── data/
+│   │       └── services.json           ← JSON mock data
+│   │
+│   └── environments/
+│       ├── environment.ts
+│       └── environment.prod.ts
+
+📦 JSON Data Structure (assets/data/)
+assets/data/
+├── services.json          ← All 30+ services with categories
+├── requests.json          ← Mock service requests
+├── staff.json             ← Staff members
+├── clients.json           ← Startup clients/tenants
+├── notifications.json     ← Notifications
+└── payments.json          ← Payment records
+
+Now let me build the beautiful UI — I'll start with the full app shell + Client Dashboard:Reading frontend design skillReading frontend design skillNow I'll build the full StartupHub UI — a beautiful, production-grade multi-portal Angular-style app rendered as an interactive HTML artifact:Created a file, read a fileCreated a file, read a fileHere's your complete StartupHub UI — fully interactive! Here's what's included:
+3 Portals (switch with top buttons):
+
+Client — Dashboard, Service Catalogue, Request Form (with doc upload), My Requests, Payments, Subscription Plans, Company Profile
+Admin — Dashboard with KPIs, All Requests (assign/filter), Staff Management with workload bars, Service Management, Client Companies, Revenue Reports
+Staff — My Tasks, Quick Status Update form, Summary stats
+
+Key UI features:
+
+Dark, professional SaaS theme with Syne + DM Sans fonts
+Status badges (Pending, In Progress, Review, Completed, Rejected)
+Live request timeline with animated "current step" pulse
+Subscription plan comparison cards
+Staff workload progress bars
+All navigation is fully clickable
+
+
+Next steps I can build for you:
+
+📁 JSON data files (services.json, requests.json, etc.) — ready to plug into Angular
+🅰️ Angular component files — actual .ts + .html + .scss per component
+🔌 Angular services — auth.service.ts, request.service.ts, etc. with HTTP calls
+🗄️ Full services.json with all 30+ services structured for Angular
+
+Which do you want next?Startuphub uiCode · HTML DownloadYou said: i have created my project folder, now give me command line for install npm, server and all filei have created my project folder, now give me command line for install npm, server and all file3:42 PMClaude responded: Here are all the commands you need, step by step:Check skills availableCheck skills availableHere are all the commands you need, step by step:
+
+✅ Step 1 — Install Node.js (if not installed)
+Download from https://nodejs.org (LTS version), then verify:
+bashnode -v
+npm -v
+
+✅ Step 2 — Install Angular CLI globally
+bashnpm install -g @angular/cli
+Verify install:
+bashng version
+
+✅ Step 3 — Create the Angular Project
+Go inside your project folder first:
+bashcd startuphub-frontend
+Then create the Angular app:
+bashng new startuphub --routing=true --style=scss
+cd startuphub
+
+✅ Step 4 — Install All Required Dependencies
+bash# HTTP Client & Forms (built-in, just confirm in app.module)
+npm install @angular/forms @angular/common @angular/router
+
+# Angular Material (UI components)
+ng add @angular/material
+
+# JWT Token handling
+npm install @auth0/angular-jwt
+
+# Icons (optional but recommended)
+npm install @fortawesome/fontawesome-free
+
+# HTTP interceptor & guards support
+npm install jwt-decode
+
+# File upload support
+npm install ng2-file-upload
+
+# Charts/graphs for dashboard (optional)
+npm install ng2-charts chart.js
+
+✅ Step 5 — Generate All Modules
+bash# Core module
+ng generate module core
+
+# Feature modules
+ng generate module auth --routing
+ng generate module client --routing
+ng generate module admin --routing
+ng generate module staff --routing
+ng generate module shared
+
+✅ Step 6 — Generate All Components
+bash# AUTH
+ng g component auth/login
+ng g component auth/register
+
+# CLIENT PORTAL
+ng g component client/dashboard
+ng g component client/catalogue
+ng g component client/request-form
+ng g component client/my-requests
+ng g component client/request-detail
+ng g component client/payments
+ng g component client/plans
+ng g component client/profile
+
+# ADMIN PORTAL
+ng g component admin/dashboard
+ng g component admin/all-requests
+ng g component admin/staff-management
+ng g component admin/service-management
+ng g component admin/client-management
+ng g component admin/revenue
+
+# STAFF PORTAL
+ng g component staff/my-tasks
+ng g component staff/task-detail
+ng g component staff/summary
+
+# SHARED COMPONENTS
+ng g component shared/components/navbar
+ng g component shared/components/sidebar
+ng g component shared/components/status-badge
+ng g component shared/components/notification-bell
+ng g component shared/components/request-timeline
+
+✅ Step 7 — Generate Services
+bashng g service core/services/auth
+ng g service core/services/service-catalogue
+ng g service core/services/request
+ng g service core/services/payment
+ng g service core/services/notification
+ng g service core/services/staff
+
+✅ Step 8 — Generate Guards & Interceptors
+bashng g guard core/guards/auth
+ng g guard core/guards/role
+ng g interceptor core/interceptors/jwt
+
+✅ Step 9 — Generate Models (Interfaces)
+bashng g interface core/models/user
+ng g interface core/models/service
+ng g interface core/models/service-request
+ng g interface core/models/payment
+ng g interface core/models/notification
+ng g interface core/models/tenant
+
+✅ Step 10 — Create JSON Data Folder
+bashmkdir src/assets/data
+touch src/assets/data/services.json
+touch src/assets/data/requests.json
+touch src/assets/data/staff.json
+touch src/assets/data/clients.json
+touch src/assets/data/notifications.json
+touch src/assets/data/payments.json
+
+✅ Step 11 — Run the Dev Server
+bashng serve
+Then open your browser at:
+http://localhost:4200
+
+✅ Step 12 — Build for Production (when ready)
+bashng build --configuration production
+
+📋 Quick Summary
+CommandPurposenpm install -g @angular/cliInstall Angular CLIng new startuphubCreate projectng add @angular/materialAdd Material UIng serveRun dev serverng build --configuration productionProduction build
+

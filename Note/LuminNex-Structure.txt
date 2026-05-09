@@ -1,0 +1,174 @@
+C:\USERS\HP\ONEDRIVE\DESKTOP\ANGULAR-PROJECT\LUMINEX\SRC\APP
+│   app-routing.module.ts
+│   app.component.html
+│   app.component.ts
+│   app.config.ts
+│   app.module.ts
+│   app.scss
+│   
+├───admin
+│   │   admin-module.ts
+│   │   admin-routing-module.ts
+│   │   
+│   ├───all-requests
+│   │       all-requests.css
+│   │       all-requests.html
+│   │       all-requests.ts
+│   │       
+│   ├───client-management
+│   │       client-management.css
+│   │       client-management.html
+│   │       client-management.ts
+│   │       
+│   ├───dashboard
+│   │       dashboard.css
+│   │       dashboard.html
+│   │       dashboard.ts
+│   │       
+│   ├───revenue
+│   │       revenue.css
+│   │       revenue.html
+│   │       revenue.ts
+│   │       
+│   ├───service-management
+│   │       service-management.css
+│   │       service-management.html
+│   │       service-management.ts
+│   │       
+│   └───staff-management
+│           staff-management.css
+│           staff-management.html
+│           staff-management.ts
+│           
+├───auth
+│   │   auth-module.ts
+│   │   auth-routing-module.ts
+│   │   
+│   ├───login
+│   │       login.html
+│   │       login.scss
+│   │       login.ts
+│   │       
+│   └───register
+│           register.html
+│           register.scss
+│           register.ts
+│           
+├───client
+│   │   client-module.ts
+│   │   client-routing-module.ts
+│   │   
+│   ├───catalogue
+│   │       catalogue.css
+│   │       catalogue.html
+│   │       catalogue.ts
+│   │       
+│   ├───dashboard
+│   │       dashboard.css
+│   │       dashboard.html
+│   │       dashboard.ts
+│   │       
+│   ├───my-requests
+│   │       my-requests.css
+│   │       my-requests.html
+│   │       my-requests.ts
+│   │       
+│   ├───payments
+│   │       payments.css
+│   │       payments.html
+│   │       payments.ts
+│   │       
+│   ├───plans
+│   │       plans.css
+│   │       plans.html
+│   │       plans.ts
+│   │       
+│   ├───profile
+│   │       profile.css
+│   │       profile.html
+│   │       profile.ts
+│   │       
+│   ├───request-detail
+│   │       request-detail.css
+│   │       request-detail.html
+│   │       request-detail.ts
+│   │       
+│   └───request-form
+│           request-form.css
+│           request-form.html
+│           request-form.ts
+│           
+├───core
+│   │   core-module.ts
+│   │   
+│   ├───guards
+│   │       auth.guard.ts
+│   │       role-guard.ts
+│   │       
+│   ├───interceptors
+│   │       jwt.interceptor.ts
+│   │       
+│   ├───models
+│   │       notification.ts
+│   │       payment.ts
+│   │       service-request.ts
+│   │       service.ts
+│   │       tenant.ts
+│   │       user.ts
+│   │       
+│   └───services
+│           auth.services.ts
+│           notification.service.ts
+│           payment.ts
+│           request.service.ts
+│           service-catalogue.ts
+│           staff.ts
+│           
+├───shared
+│   │   shared-module.ts
+│   │   
+│   └───components
+│       ├───navbar
+│       │       navbar.css
+│       │       navbar.html
+│       │       navbar.ts
+│       │       
+│       ├───notification-bell
+│       │       notification-bell.css
+│       │       notification-bell.html
+│       │       notification-bell.ts
+│       │       
+│       ├───request-timeline
+│       │       request-timeline.css
+│       │       request-timeline.html
+│       │       request-timeline.ts
+│       │       
+│       ├───sidebar
+│       │       sidebar.css
+│       │       sidebar.html
+│       │       sidebar.ts
+│       │       
+│       └───status-badge
+│               status-badge.css
+│               status-badge.html
+│               status-badge.ts
+│               
+└───staff
+    │   staff-module.ts
+    │   staff-routing-module.ts
+    │   
+    ├───my-tasks
+    │       my-tasks.css
+    │       my-tasks.html
+    │       my-tasks.ts
+    │       
+    ├───summary
+    │       summary.css
+    │       summary.html
+    │       summary.ts
+    │       
+    └───task-detail
+            task-detail.css
+            task-detail.html
+            task-detail.ts
+            
