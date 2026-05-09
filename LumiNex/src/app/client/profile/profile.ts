@@ -17,11 +17,9 @@ export class Profile implements OnInit {
   countries: Country[] = [];
   selectedCountry: Country | null = null;
   
-  divisions: LocationNode[] = [];
   districts: LocationNode[] = [];
   thanas: LocationNode[] = [];
   
-  selectedDivision: string = '';
   selectedDistrict: string = '';
   selectedThana: string = '';
   
@@ -62,35 +60,28 @@ export class Profile implements OnInit {
 
     if (this.user.address) {
       const parts = this.user.address.split(', ');
-      if (parts.length >= 5) {
+      // Try to map back from saved address parts
+      if (parts.length >= 4) {
         this.village = parts[0];
         this.selectedThana = parts[1];
         this.selectedDistrict = parts[2];
-        this.selectedDivision = parts[3];
-        this.selectedCountry = this.countries.find(c => c.name === parts[4]) || this.selectedCountry;
+        this.selectedCountry = this.countries.find(c => c.name === parts[parts.length - 1]) || this.selectedCountry;
       }
     }
   }
 
   loadHierarchy() {
-    this.locationService.getHierarchy(this.selectedCountry?.name || '').subscribe(data => {
-      this.divisions = data;
+    this.locationService.getFlattenedHierarchy(this.selectedCountry?.name || '').subscribe(data => {
+      this.districts = data;
       // Re-trigger cascade if we have initial values
-      if (this.selectedDivision) this.onDivisionChange();
       if (this.selectedDistrict) this.onDistrictChange();
     });
   }
 
   onCountryChange() {
-    this.selectedDivision = '';
     this.selectedDistrict = '';
     this.selectedThana = '';
     this.loadHierarchy();
-  }
-
-  onDivisionChange() {
-    const division = this.divisions.find(d => d.name === this.selectedDivision);
-    this.districts = division ? (division.children || []) : [];
   }
 
   onDistrictChange() {
@@ -117,7 +108,6 @@ export class Profile implements OnInit {
       this.village,
       this.selectedThana,
       this.selectedDistrict,
-      this.selectedDivision,
       this.selectedCountry?.name
     ].filter(p => !!p);
     

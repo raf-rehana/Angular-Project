@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdminService } from '../../core/services/admin.service';
+import { LocationService, Country, LocationNode } from '../../core/services/location.service';
 import { User } from '../../core/models/user';
 
 @Component({
@@ -16,7 +17,7 @@ import { User } from '../../core/models/user';
           <p class="text-muted">Manage your team of developers and specialists.</p>
         </div>
         <div>
-          <button class="btn btn-primary" (click)="showAddForm = !showAddForm">
+          <button class="btn btn-primary" (click)="toggleAddForm()">
             <i class="bi" [ngClass]="showAddForm ? 'bi-x-lg' : 'bi-person-plus'"></i>
             {{ showAddForm ? 'Cancel' : 'Add Staff' }}
           </button>
@@ -48,6 +49,35 @@ import { User } from '../../core/models/user';
                   <option value="Full Stack Developer">Full Stack Developer</option>
                 </select>
               </div>
+              
+              <div class="col-md-4">
+                <label class="form-label small fw-bold text-muted">Country</label>
+                <select class="form-select bg-light border-0 py-3 rounded-4" name="country" [(ngModel)]="locationData.country" (change)="onCountryChange()" required>
+                  <option *ngFor="let c of countries" [value]="c.name">{{ c.name }}</option>
+                </select>
+              </div>
+              
+              <div class="col-md-4" *ngIf="districts.length > 0">
+                <label class="form-label small fw-bold text-muted">District / State</label>
+                <select class="form-select bg-light border-0 py-3 rounded-4" name="district" [(ngModel)]="locationData.district" (change)="onDistrictChange()" required>
+                  <option value="">Select District / State</option>
+                  <option *ngFor="let d of districts" [value]="d.name">{{ d.name }}</option>
+                </select>
+              </div>
+              
+              <div class="col-md-4" *ngIf="thanas.length > 0">
+                <label class="form-label small fw-bold text-muted">Police Station / Area</label>
+                <select class="form-select bg-light border-0 py-3 rounded-4" name="thana" [(ngModel)]="locationData.thana" required>
+                  <option value="">Select Police Station / Area</option>
+                  <option *ngFor="let t of thanas" [value]="t.name">{{ t.name }}</option>
+                </select>
+              </div>
+
+              <div class="col-md-8">
+                <label class="form-label small fw-bold text-muted">Office Address / Street</label>
+                <input type="text" class="form-control bg-light border-0 py-3 rounded-4" name="village" [(ngModel)]="locationData.village" placeholder="House no, Road..." required>
+              </div>
+
               <div class="col-md-4">
                 <label class="form-label small fw-bold text-muted">Initial Password</label>
                 <input type="password" class="form-control bg-light border-0 py-3 rounded-4" name="password" [(ngModel)]="newStaff.password" required>

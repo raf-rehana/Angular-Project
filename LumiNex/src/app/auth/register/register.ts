@@ -21,7 +21,6 @@ export class RegisterComponent implements OnInit {
   currentStep = 1;
 
   countries: Country[] = [];
-  divisions: LocationNode[] = [];
   districts: LocationNode[] = [];
   thanas: LocationNode[] = [];
 
@@ -35,7 +34,6 @@ export class RegisterComponent implements OnInit {
       companyName:  ['', Validators.required],
       businessType: ['', Validators.required],
       country:      ['Bangladesh', Validators.required],
-      division:     [''],
       district:     [''],
       thana:        [''],
       village:      ['', Validators.required],
@@ -55,8 +53,8 @@ export class RegisterComponent implements OnInit {
 
   loadHierarchy() {
     const countryName = this.form.get('country')?.value;
-    this.locationService.getHierarchy(countryName).subscribe(data => {
-      this.divisions = data;
+    this.locationService.getFlattenedHierarchy(countryName).subscribe(data => {
+      this.districts = data;
     });
   }
 
@@ -66,15 +64,8 @@ export class RegisterComponent implements OnInit {
     if (country) {
       this.form.patchValue({ countryCode: country.code });
     }
-    this.form.patchValue({ division: '', district: '', thana: '' });
-    this.loadHierarchy();
-  }
-
-  onDivisionChange() {
-    const divName = this.form.get('division')?.value;
-    const division = this.divisions.find(d => d.name === divName);
-    this.districts = division ? (division.children || []) : [];
     this.form.patchValue({ district: '', thana: '' });
+    this.loadHierarchy();
   }
 
   onDistrictChange() {
@@ -112,7 +103,7 @@ export class RegisterComponent implements OnInit {
     this.error = '';
 
     const val = this.form.value;
-    const parts = [val.village, val.thana, val.district, val.division, val.country].filter(p => !!p);
+    const parts = [val.village, val.thana, val.district, val.country].filter(p => !!p);
     const registrationData = {
       ...val,
       phone: `${val.countryCode} ${val.phone}`,

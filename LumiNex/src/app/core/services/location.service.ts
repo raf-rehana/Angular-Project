@@ -73,4 +73,24 @@ export class LocationService {
       })
     );
   }
+
+  getFlattenedHierarchy(countryName: string): Observable<LocationNode[]> {
+    return this.getHierarchy(countryName).pipe(
+      map(hierarchy => {
+        if (countryName === 'Bangladesh') {
+          // Flatten Divisions into Districts
+          const allDistricts: LocationNode[] = [];
+          hierarchy.forEach(division => {
+            if (division.children) {
+              allDistricts.push(...division.children);
+            }
+          });
+          // Sort districts alphabetically
+          return allDistricts.sort((a, b) => a.name.localeCompare(b.name));
+        }
+        // For others, the first level is already what we want (e.g. US States)
+        return hierarchy;
+      })
+    );
+  }
 }

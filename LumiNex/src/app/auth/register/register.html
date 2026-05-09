@@ -90,29 +90,22 @@
                     </select>
                   </div>
 
-                  <ng-container *ngIf="divisions.length > 0">
+                  <ng-container *ngIf="districts.length > 0">
                     <div class="row g-3 mb-3">
                       <div class="col-md-6">
-                        <label class="form-label fw-bold small text-muted">State / Division</label>
-                        <select class="form-select bg-light border-0 py-2" formControlName="division" (change)="onDivisionChange()">
-                          <option value="">Select State/Division</option>
-                          <option *ngFor="let d of divisions" [value]="d.name">{{ d.name }}</option>
-                        </select>
-                      </div>
-                      <div class="col-md-6" *ngIf="districts.length > 0">
-                        <label class="form-label fw-bold small text-muted">District / City</label>
+                        <label class="form-label fw-bold small text-muted">District / State</label>
                         <select class="form-select bg-light border-0 py-2" formControlName="district" (change)="onDistrictChange()">
-                          <option value="">Select District/City</option>
+                          <option value="">Select District / State</option>
                           <option *ngFor="let dis of districts" [value]="dis.name">{{ dis.name }}</option>
                         </select>
                       </div>
-                    </div>
-                    <div class="mb-3" *ngIf="thanas.length > 0">
-                      <label class="form-label fw-bold small text-muted">Police Station / Thana / Area</label>
-                      <select class="form-select bg-light border-0 py-2" formControlName="thana">
-                        <option value="">Select Police Station/Thana</option>
-                        <option *ngFor="let t of thanas" [value]="t.name">{{ t.name }}</option>
-                      </select>
+                      <div class="col-md-6" *ngIf="thanas.length > 0">
+                        <label class="form-label fw-bold small text-muted">Police Station / Area</label>
+                        <select class="form-select bg-light border-0 py-2" formControlName="thana">
+                          <option value="">Select Police Station / Area</option>
+                          <option *ngFor="let t of thanas" [value]="t.name">{{ t.name }}</option>
+                        </select>
+                      </div>
                     </div>
                   </ng-container>
 
