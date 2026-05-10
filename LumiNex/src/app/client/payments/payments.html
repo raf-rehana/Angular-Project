@@ -54,6 +54,7 @@
                 <th class="py-3 border-0 small fw-bold text-muted">Amount</th>
                 <th class="py-3 border-0 small fw-bold text-muted">Method</th>
                 <th class="py-3 border-0 small fw-bold text-muted">Date</th>
+                <th class="py-3 border-0 small fw-bold text-muted text-center">Actions</th>
                 <th class="pe-4 py-3 border-0 small fw-bold text-muted">Status</th>
               </tr>
             </thead>
@@ -63,6 +64,11 @@
                 <td class="py-3 small fw-bold text-dark">BDT {{ h.amount | number:'1.2-2' }}</td>
                 <td class="py-3 small text-muted">{{ h.method }}</td>
                 <td class="py-3 small text-muted">{{ h.date | date:'mediumDate' }}</td>
+                <td class="py-3 text-center">
+                  <button class="btn btn-sm btn-outline-primary" (click)="generateInvoice(h)">
+                    <i class="bi bi-file-earmark-pdf"></i>
+                  </button>
+                </td>
                 <td class="pe-4 py-3">
                   <span class="badge rounded-pill px-3"
                         [ngClass]="h.status === 'PAID' ? 'bg-success' : (h.status === 'PENDING' ? 'bg-warning text-dark' : 'bg-danger')">

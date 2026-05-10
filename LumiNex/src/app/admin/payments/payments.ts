@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PaymentService } from '../../core/services/payment.service';
+import { PdfGeneratorService } from '../../core/services/pdf-generator.service';
 
 @Component({
   selector: 'app-admin-payments',
@@ -15,7 +16,8 @@ export class AdminPaymentsComponent implements OnInit {
 
   constructor(
     private paymentService: PaymentService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private pdfGeneratorService: PdfGeneratorService
   ) {}
 
   ngOnInit() {
@@ -27,5 +29,16 @@ export class AdminPaymentsComponent implements OnInit {
       this.payments = data;
       this.cdr.detectChanges();
     });
+  }
+
+  generateInvoice(payment: any): void {
+    const invoiceDetails = {
+      id: payment.id,
+      clientName: payment.client,
+      service: payment.item,
+      amount: payment.amount,
+      date: payment.date
+    };
+    this.pdfGeneratorService.generateInvoicePdf(invoiceDetails);
   }
 }

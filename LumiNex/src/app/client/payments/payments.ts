@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { PaymentService, PaymentInitRequest } from '../../core/services/payment.service';
 import { AuthService } from '../../core/services/auth.services';
+import { PdfGeneratorService } from '../../core/services/pdf-generator.service';
 
 @Component({
   selector: 'app-payments',
@@ -65,7 +66,8 @@ export class Payments implements OnInit, OnDestroy {
   constructor(
     private paymentService: PaymentService,
     public authService: AuthService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private pdfGeneratorService: PdfGeneratorService
   ) {}
 
   ngOnInit() {
@@ -202,6 +204,17 @@ export class Payments implements OnInit, OnDestroy {
         alert('Payment server error. Make sure the Node server is running on port 4000.\n\nRun: node server.js');
       }
     });
+  }
+
+  generateInvoice(payment: any): void {
+    const invoiceDetails = {
+      id: payment.id,
+      clientName: payment.client,
+      service: payment.item,
+      amount: payment.amount,
+      date: payment.date
+    };
+    this.pdfGeneratorService.generateInvoicePdf(invoiceDetails);
   }
 
   get methodLabel(): string {

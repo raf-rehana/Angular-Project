@@ -1,7 +1,7 @@
-
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export interface Payment {
   id?: string | number;
@@ -37,10 +37,8 @@ export interface PaymentInitResponse {
 
 @Injectable({ providedIn: 'root' })
 export class PaymentService {
-  // json-server (existing)
-  private dbUrl = 'http://localhost:3000/payments';
-  // Your new Node backend
-  private backendUrl = 'http://localhost:4000/api/payment';
+  private dbUrl = `${environment.apiUrl}/payments`;
+  private backendPaymentUrl = `${environment.backendUrl}/payment`;
 
   constructor(private http: HttpClient) {}
 
@@ -56,10 +54,10 @@ export class PaymentService {
 
   /** Initiate SSLCommerz session — returns a gateway URL to redirect/embed */
   initiatePayment(data: PaymentInitRequest): Observable<PaymentInitResponse> {
-    return this.http.post<PaymentInitResponse>(`${this.backendUrl}/init`, data);
+    return this.http.post<PaymentInitResponse>(`${this.backendPaymentUrl}/init`, data);
   }
 
   getSubscriptions(): Observable<any[]> {
-    return this.http.get<any[]>('http://localhost:3000/subscriptions');
+    return this.http.get<any[]>(`${environment.apiUrl}/subscriptions`);
   }
 }

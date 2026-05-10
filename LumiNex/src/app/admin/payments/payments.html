@@ -42,6 +42,7 @@
               <th class="py-3 border-0">Amount</th>
               <th class="py-3 border-0">Method</th>
               <th class="py-3 border-0">Status</th>
+              <th class="py-3 border-0 text-center">Actions</th>
               <th class="pe-4 py-3 border-0 text-end">Date</th>
             </tr>
           </thead>
@@ -60,6 +61,11 @@
               </td>
               <td class="py-3">
                 <span class="badge" [ngClass]="p.status === 'PAID' ? 'bg-success' : 'bg-warning'">{{ p.status }}</span>
+              </td>
+              <td class="py-3 text-center">
+                <button class="btn btn-sm btn-outline-secondary" (click)="generateInvoice(p)">
+                  <i class="bi bi-file-earmark-pdf me-2"></i>Generate Invoice
+                </button>
               </td>
               <td class="pe-4 py-3 text-end text-muted">{{ p.date | date:'mediumDate' }}</td>
             </tr>

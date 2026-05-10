@@ -6,6 +6,7 @@ import { EmployeeManagementComponent } from './employee-management/employee-mana
 import { ServiceManagementComponent } from './service-management/service-management';
 import { Revenue } from './revenue/revenue';
 import { AdminPaymentsComponent } from './payments/payments';
+import { ThemeSettingsComponent } from './theme-settings/theme-settings';
 
 export const ADMIN_ROUTES: Routes = [
   { path: 'dashboard', component: Dashboard },
@@ -15,5 +16,6 @@ export const ADMIN_ROUTES: Routes = [
   { path: 'service-management', component: ServiceManagementComponent },
   { path: 'revenue', component: Revenue },
   { path: 'payments', component: AdminPaymentsComponent },
+  { path: 'theme', component: ThemeSettingsComponent },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
 ];

@@ -6,6 +6,7 @@ import { NavbarComponent } from './shared/components/navbar/navbar';
 import { SidebarComponent } from './shared/components/sidebar/sidebar';
 import { FooterComponent } from './shared/components/footer/footer';
 import { LoadingBarComponent } from './shared/components/loading-bar/loading-bar';
+import { ThemeService } from './core/services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -47,7 +48,7 @@ export class AppComponent {
   title = 'LumiNex';
   showSidebar = false;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private themeService: ThemeService) {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {

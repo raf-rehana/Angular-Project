@@ -429,5 +429,15 @@
       }
     }
   },
+  "theme-settings": [
+    {
+      "id": "1",
+      "primaryColor": "#0d6efd",
+      "accentColor": "#6c757d",
+      "logoUrl": "assets/logo.png",
+      "fontFamily": "Roboto, \"Helvetica Neue\", sans-serif",
+      "siteName": "LumiNex"
+    }
+  ],
   "$schema": "./node_modules/json-server/schema.json"
 }
