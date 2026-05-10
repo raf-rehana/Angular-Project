@@ -2,9 +2,8 @@ import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.services';
-import { ChatService, ChatMessage } from '../../core/services/chat.service';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { io, Socket } from 'socket.io-client';
 
 @Component({
   selector: 'app-chat-widget',
@@ -32,7 +31,7 @@ import { Subject } from 'rxjs';
         <div class="messages-container" #messagesContainer>
           <div class="message" *ngFor="let message of messages" [class.client-message]="message.type === 'client'" [class.employee-message]="message.type === 'employee'">
             <div class="message-header">
-              <span class="sender-name">{{ getSenderName(message) }}</span>
+              <span class="sender-name">{{ message.type === 'client' ? message.clientName : message.employeeName }}</span>
               <span class="message-time">{{ formatTime(message.timestamp) }}</span>
             </div>
             <div class="message-content">{{ message.message }}</div>
@@ -239,7 +238,8 @@ export class ChatWidgetComponent implements OnInit, OnDestroy {
     }
   }
 
-  messages: ChatMessage[] = [];
+  socket: Socket;
+  messages: any[] = [];
   newMessage: string = '';
   isMinimized: boolean = true;
   isOnline: boolean = false;
@@ -248,52 +248,104 @@ export class ChatWidgetComponent implements OnInit, OnDestroy {
   typingTimeout: any;
   currentUser: any;
   
-  private destroy$ = new Subject<void>();
-
   constructor(
     private authService: AuthService,
-    private chatService: ChatService
-  ) {}
+    private http: HttpClient
+  ) {
+    // Initialize Socket.io client
+    this.socket = io('http://localhost:4000', {
+      withCredentials: true
+    });
+
+    // Listen for connection
+    this.socket.on('connect', () => {
+      console.log('Connected to chat server');
+      this.authenticateUser();
+    });
+
+    this.socket.on('disconnect', () => {
+      console.log('Disconnected from chat server');
+      this.isOnline = false;
+    });
+  }
 
   ngOnInit(): void {
-    // Get current user from auth service
-    this.authService.getCurrentUser()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(user => {
-        this.currentUser = user;
-        if (user) {
-          // Authenticate with chat service
-          this.chatService.authenticateUser({
-            id: user.id,
-            name: user.name || (user.role === 'client' ? 'Client' : 'Support Agent'),
-            role: user.role as 'client' | 'employee' | 'admin',
-            online: true
-          });
-        }
-      });
+    // Listen for new messages
+    this.socket.on('new-message', (messageData) => {
+      this.messages.push(messageData);
+      this.scrollToBottom();
+      this.isTyping = false;
+      this.typingUser = '';
+    });
 
-    // Listen for messages
-    this.chatService.messages$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(messages => {
-        this.messages = messages;
-        this.scrollToBottom();
-      });
+    // Listen for typing indicators
+    this.socket.on('client-typing', ({ clientId }) => {
+      if (this.currentUser?.role === 'employee') {
+        this.showTypingIndicator('Client');
+      }
+    });
 
-    // Listen for online status
-    this.chatService.currentUser$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(user => {
-        this.isOnline = !!user;
-      });
+    this.socket.on('employee-typing', ({ employeeId }) => {
+      if (this.currentUser?.role === 'client') {
+        this.showTypingIndicator('Employee');
+      }
+    });
+
+    // Listen for user presence
+    this.socket.on('client-joined', ({ clientId, clientName }) => {
+      if (this.currentUser?.role === 'employee') {
+        this.addSystemMessage(`${clientName} joined the chat`);
+      }
+      this.isOnline = true;
+    });
+
+    this.socket.on('employee-joined', ({ employeeId, employeeName }) => {
+      if (this.currentUser?.role === 'client') {
+        this.addSystemMessage(`${employeeName} joined the chat`);
+      }
+      this.isOnline = true;
+    });
+
+    this.socket.on('client-left', ({ clientId }) => {
+      if (this.currentUser?.role === 'employee') {
+        this.addSystemMessage('Client left the chat');
+      }
+    });
+
+    this.socket.on('employee-left', ({ employeeId }) => {
+      if (this.currentUser?.role === 'client') {
+        this.addSystemMessage('Support agent left the chat');
+      }
+    });
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+    if (this.socket) {
+      this.socket.disconnect();
+    }
     if (this.typingTimeout) {
       clearTimeout(this.typingTimeout);
     }
+  }
+
+  authenticateUser(): void {
+    this.authService.getCurrentUser().subscribe(user => {
+      this.currentUser = user;
+      
+      if (user) {
+        if (user.role === 'client') {
+          this.socket.emit('authenticate-client', {
+            clientId: user.id,
+            clientName: user.name || 'Client'
+          });
+        } else if (user.role === 'employee' || user.role === 'admin') {
+          this.socket.emit('authenticate-employee', {
+            employeeId: user.id,
+            employeeName: user.name || 'Support Agent'
+          });
+        }
+      }
+    });
   }
 
   toggleMinimize(): void {
@@ -304,24 +356,45 @@ export class ChatWidgetComponent implements OnInit, OnDestroy {
   }
 
   sendMessage(): void {
-    if (this.newMessage.trim()) {
-      this.chatService.sendMessage(this.newMessage);
+    if (this.newMessage.trim() && this.socket.connected) {
+      if (this.currentUser?.role === 'client') {
+        // Send to all employees
+        this.socket.emit('client-message', {
+          message: this.newMessage,
+          timestamp: new Date().toISOString()
+        });
+      } else if (this.currentUser?.role === 'employee' || user.role === 'admin') {
+        // For employees, we need a way to specify which client to respond to
+        // For now, broadcast to all clients
+        this.socket.emit('employee-message', {
+          message: this.newMessage,
+          timestamp: new Date().toISOString()
+        });
+      }
+
+      this.messages.push({
+        message: this.newMessage,
+        timestamp: new Date().toISOString(),
+        type: this.currentUser?.role === 'client' ? 'client' : 'employee',
+        clientName: this.currentUser?.name || (this.currentUser?.role === 'client' ? 'Client' : 'Support Agent'),
+        employeeName: this.currentUser?.name || (this.currentUser?.role === 'employee' ? 'Support Agent' : 'Client')
+      });
+
       this.newMessage = '';
-      this.isTyping = false;
-      this.typingUser = '';
+      this.scrollToBottom();
     }
   }
 
   onTyping(): void {
     if (this.newMessage.trim()) {
       this.showTypingIndicator();
-      this.chatService.sendTypingIndicator();
+      this.emitTyping();
     }
   }
 
-  showTypingIndicator(): void {
+  showTypingIndicator(userType?: string): void {
     this.isTyping = true;
-    this.typingUser = this.currentUser?.role === 'client' ? 'Client' : 'Support Agent';
+    this.typingUser = userType || (this.currentUser?.role === 'client' ? 'Client' : 'Support Agent');
     
     if (this.typingTimeout) {
       clearTimeout(this.typingTimeout);
@@ -333,13 +406,20 @@ export class ChatWidgetComponent implements OnInit, OnDestroy {
     }, 3000);
   }
 
-  getSenderName(message: ChatMessage): string {
-    if (message.type === 'client') {
-      return message.clientName || 'Client';
-    } else if (message.type === 'employee') {
-      return message.employeeName || 'Support Agent';
+  emitTyping(): void {
+    if (this.currentUser?.role === 'client') {
+      this.socket.emit('client-typing', {});
+    } else if (this.currentUser?.role === 'employee' || this.currentUser?.role === 'admin') {
+      this.socket.emit('employee-typing', {});
     }
-    return 'System';
+  }
+
+  addSystemMessage(message: string): void {
+    this.messages.push({
+      message: message,
+      timestamp: new Date().toISOString(),
+      type: 'system'
+    });
   }
 
   scrollToBottom(): void {

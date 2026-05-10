@@ -6,21 +6,17 @@ import { NavbarComponent } from './shared/components/navbar/navbar';
 import { SidebarComponent } from './shared/components/sidebar/sidebar';
 import { FooterComponent } from './shared/components/footer/footer';
 import { LoadingBarComponent } from './shared/components/loading-bar/loading-bar';
-import { ChatWidgetComponent } from './shared/components/chat-widget/chat-widget';
 import { ThemeService } from './core/services/theme.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, NavbarComponent, SidebarComponent, FooterComponent, LoadingBarComponent, ChatWidgetComponent],
+  imports: [RouterOutlet, CommonModule, NavbarComponent, SidebarComponent, FooterComponent, LoadingBarComponent],
   template: `
     <div class="app-container bg-light min-vh-100 d-flex flex-column">
       <app-loading-bar></app-loading-bar>
       
       <app-navbar></app-navbar>
-      
-      <!-- Chat Widget -->
-      <app-chat-widget></app-chat-widget>
       
       <!-- Offset for fixed-top navbar (approx 64px) -->
       <div style="margin-top: 64px;" class="flex-grow-1">

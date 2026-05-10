@@ -1,0 +1,355 @@
+<div class="site-content-editor">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">
+      <i class="bi bi-pencil-square me-2"></i>Website Content Editor
+    </h2>
+    <div>
+      <button class="btn btn-outline-secondary me-2" (click)="loadContent()">
+        <i class="bi bi-arrow-clockwise me-1"></i>Reload
+      </button>
+      <button class="btn btn-primary" (click)="saveContent()" [disabled]="isSaving || isLoading">
+        <span *ngIf="isSaving" class="spinner-border spinner-border-sm me-1"></span>
+        <i *ngIf="!isSaving" class="bi bi-save me-1"></i>
+        {{ isSaving ? 'Saving...' : 'Save Changes' }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Alert Message -->
+  <div *ngIf="message" class="alert" [ngClass]="{
+    'alert-success': messageType === 'success',
+    'alert-danger': messageType === 'error'
+  }" role="alert">
+    {{ message }}
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2 text-muted">Loading content...</p>
+  </div>
+
+  <!-- Editor Content -->
+  <div *ngIf="!isLoading && siteContent" class="content-editor">
+    <!-- Tabs -->
+    <ul class="nav nav-tabs mb-4" role="tablist">
+      <li class="nav-item" *ngFor="let tab of tabs">
+        <button 
+          class="nav-link" 
+          [class.active]="activeTab === tab.id"
+          (click)="setActiveTab(tab.id)"
+          type="button"
+          role="tab">
+          <i [class]="tab.icon + ' me-1'"></i>
+          {{ tab.label }}
+        </button>
+      </li>
+    </ul>
+
+    <!-- Hero Section Tab -->
+    <div *ngIf="activeTab === 'hero'" class="tab-content">
+      <h4 class="mb-3">Hero Section</h4>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Badge Text</label>
+          <input type="text" class="form-control" [(ngModel)]="siteContent.heroBadge" 
+                 placeholder="e.g., NEXT GEN SERVICE HUB">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Hero Image URL</label>
+          <input type="text" class="form-control" [(ngModel)]="siteContent.heroImageUrl" 
+                 placeholder="https://...">
+        </div>
+        <div class="col-12">
+          <label class="form-label">Main Title (HTML allowed)</label>
+          <textarea class="form-control" rows="2" [(ngModel)]="siteContent.heroTitle"></textarea>
+        </div>
+        <div class="col-12">
+          <label class="form-label">Subtitle</label>
+          <textarea class="form-control" rows="3" [(ngModel)]="siteContent.heroSubtitle"></textarea>
+        </div>
+      </div>
+
+      <!-- Hero Features -->
+      <div class="mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="mb-0">Hero Features</h5>
+          <button class="btn btn-sm btn-outline-primary" (click)="addHeroFeature()">
+            <i class="bi bi-plus me-1"></i>Add Feature
+          </button>
+        </div>
+        <div class="row g-3">
+          <div class="col-md-6" *ngFor="let feature of siteContent.heroFeatures; let i = index">
+            <div class="input-group">
+              <input type="text" class="form-control" [(ngModel)]="feature.icon" 
+                     placeholder="Bootstrap icon class">
+              <input type="text" class="form-control" [(ngModel)]="feature.text" 
+                     placeholder="Feature text">
+              <button class="btn btn-outline-danger" (click)="removeHeroFeature(i)">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Preview -->
+      <div class="mt-4 p-3 bg-light rounded">
+        <h6 class="text-muted mb-3">Preview:</h6>
+        <div class="bg-primary text-white p-4 rounded">
+          <span class="badge bg-white text-primary mb-2">{{ siteContent.heroBadge }}</span>
+          <h2 [innerHTML]="siteContent.heroTitle"></h2>
+          <p class="lead">{{ siteContent.heroSubtitle }}</p>
+          <div class="d-flex gap-3">
+            <div *ngFor="let feature of siteContent.heroFeatures">
+              <i [class]="feature.icon + ' text-success me-1'"></i>
+              <span>{{ feature.text }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- About Section Tab -->
+    <div *ngIf="activeTab === 'about'" class="tab-content">
+      <h4 class="mb-3">About Section</h4>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Badge Text</label>
+          <input type="text" class="form-control" [(ngModel)]="siteContent.aboutBadge" 
+                 placeholder="e.g., Who We Are">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Experience Years</label>
+          <input type="text" class="form-control" [(ngModel)]="siteContent.experienceYears" 
+                 placeholder="e.g., 10+ Years">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">About Image URL</label>
+          <input type="text" class="form-control" [(ngModel)]="siteContent.aboutImageUrl" 
+                 placeholder="https://...">
+        </div>
+        <div class="col-12">
+          <label class="form-label">Section Title</label>
+          <input type="text" class="form-control" [(ngModel)]="siteContent.aboutTitle" 
+                 placeholder="Driving Innovation with a Purpose">
+        </div>
+        <div class="col-12">
+          <label class="form-label">Section Description</label>
+          <textarea class="form-control" rows="3" [(ngModel)]="siteContent.aboutDescription"></textarea>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Vision Title</label>
+          <input type="text" class="form-control" [(ngModel)]="siteContent.visionTitle">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Mission Title</label>
+          <input type="text" class="form-control" [(ngModel)]="siteContent.missionTitle">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Vision Description</label>
+          <textarea class="form-control" rows="4" [(ngModel)]="siteContent.visionDescription"></textarea>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Mission Description</label>
+          <textarea class="form-control" rows="4" [(ngModel)]="siteContent.missionDescription"></textarea>
+        </div>
+      </div>
+
+      <!-- Preview -->
+      <div class="mt-4 p-3 bg-light rounded">
+        <h6 class="text-muted mb-3">Preview:</h6>
+        <div class="row">
+          <div class="col-md-6">
+            <span class="badge bg-primary mb-2">{{ siteContent.aboutBadge }}</span>
+            <h3>{{ siteContent.aboutTitle }}</h3>
+            <p>{{ siteContent.aboutDescription }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Services Section Tab -->
+    <div *ngIf="activeTab === 'services'" class="tab-content">
+      <h4 class="mb-3">Services Section</h4>
+      <div class="row g-3 mb-4">
+        <div class="col-12">
+          <label class="form-label">Section Title</label>
+          <input type="text" class="form-control" [(ngModel)]="siteContent.servicesTitle">
+        </div>
+        <div class="col-12">
+          <label class="form-label">Section Subtitle</label>
+          <textarea class="form-control" rows="2" [(ngModel)]="siteContent.servicesSubtitle"></textarea>
+        </div>
+      </div>
+
+      <!-- Service Cards -->
+      <div class="mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="mb-0">Service Cards</h5>
+          <button class="btn btn-sm btn-outline-primary" (click)="addServiceCard()">
+            <i class="bi bi-plus me-1"></i>Add Card
+          </button>
+        </div>
+        
+        <div class="card mb-3" *ngFor="let service of siteContent.services; let i = index">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h6 class="mb-0">Service Card #{{ i + 1 }}</h6>
+              <div>
+                <button class="btn btn-sm btn-outline-secondary me-1" (click)="moveServiceCard(i, 'up')" 
+                        [disabled]="i === 0">
+                  <i class="bi bi-arrow-up"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-secondary me-1" (click)="moveServiceCard(i, 'down')" 
+                        [disabled]="i === siteContent.services.length - 1">
+                  <i class="bi bi-arrow-down"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger" (click)="removeServiceCard(i)">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </div>
+            <div class="row g-3">
+              <div class="col-md-4">
+                <label class="form-label">Icon Class</label>
+                <input type="text" class="form-control" [(ngModel)]="service.icon" 
+                       placeholder="bi-rocket-takeoff">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Color</label>
+                <select class="form-select" [(ngModel)]="service.color">
+                  <option value="primary">Primary (Blue)</option>
+                  <option value="success">Success (Green)</option>
+                  <option value="warning">Warning (Orange)</option>
+                  <option value="danger">Danger (Red)</option>
+                  <option value="info">Info (Cyan)</option>
+                  <option value="secondary">Secondary (Gray)</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Title</label>
+                <input type="text" class="form-control" [(ngModel)]="service.title">
+              </div>
+              <div class="col-12">
+                <label class="form-label">Description</label>
+                <textarea class="form-control" rows="2" [(ngModel)]="service.description"></textarea>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Link Text</label>
+                <input type="text" class="form-control" [(ngModel)]="service.linkText">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Link URL</label>
+                <input type="text" class="form-control" [(ngModel)]="service.linkUrl">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Preview -->
+      <div class="mt-4 p-3 bg-light rounded">
+        <h6 class="text-muted mb-3">Preview:</h6>
+        <div class="text-center mb-4">
+          <h4>{{ siteContent.servicesTitle }}</h4>
+          <p class="text-muted">{{ siteContent.servicesSubtitle }}</p>
+        </div>
+        <div class="row g-3">
+          <div class="col-md-4" *ngFor="let service of siteContent.services">
+            <div class="card h-100 text-center p-3">
+              <div class="mb-3">
+                <i [class]="'fs-2 text-' + service.color + ' bi ' + service.icon"></i>
+              </div>
+              <h5>{{ service.title }}</h5>
+              <p class="small text-muted">{{ service.description }}</p>
+              <a class="text-primary">{{ service.linkText }}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA Section Tab -->
+    <div *ngIf="activeTab === 'cta'" class="tab-content">
+      <h4 class="mb-3">Call-to-Action Section</h4>
+      <div class="row g-3">
+        <div class="col-12">
+          <label class="form-label">CTA Title</label>
+          <input type="text" class="form-control" [(ngModel)]="siteContent.ctaTitle">
+        </div>
+        <div class="col-12">
+          <label class="form-label">CTA Description</label>
+          <textarea class="form-control" rows="2" [(ngModel)]="siteContent.ctaDescription"></textarea>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Button Text</label>
+          <input type="text" class="form-control" [(ngModel)]="siteContent.ctaButtonText">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Button Link</label>
+          <input type="text" class="form-control" [(ngModel)]="siteContent.ctaButtonLink">
+        </div>
+      </div>
+
+      <!-- Preview -->
+      <div class="mt-4 p-3 bg-light rounded">
+        <h6 class="text-muted mb-3">Preview:</h6>
+        <div class="bg-primary text-white p-5 rounded text-center">
+          <h3>{{ siteContent.ctaTitle }}</h3>
+          <p class="lead">{{ siteContent.ctaDescription }}</p>
+          <button class="btn btn-light btn-lg rounded-pill px-4">{{ siteContent.ctaButtonText }}</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Social Proof Tab -->
+    <div *ngIf="activeTab === 'social'" class="tab-content">
+      <h4 class="mb-3">Social Proof Section</h4>
+      <div class="row g-3 mb-4">
+        <div class="col-12">
+          <label class="form-label">Section Title</label>
+          <input type="text" class="form-control" [(ngModel)]="siteContent.socialProofTitle">
+        </div>
+      </div>
+
+      <!-- Social Links -->
+      <div class="mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="mb-0">Social Links</h5>
+          <button class="btn btn-sm btn-outline-primary" (click)="addSocialLink()">
+            <i class="bi bi-plus me-1"></i>Add Link
+          </button>
+        </div>
+
+        <div class="input-group mb-2" *ngFor="let link of siteContent.socialLinks; let i = index">
+          <span class="input-group-text">
+            <i [class]="link.icon"></i>
+          </span>
+          <input type="text" class="form-control" [(ngModel)]="link.name" placeholder="Platform name">
+          <input type="text" class="form-control" [(ngModel)]="link.icon" placeholder="Icon class (bi-facebook)">
+          <input type="text" class="form-control" [(ngModel)]="link.url" placeholder="https://...">
+          <button class="btn btn-outline-danger" (click)="removeSocialLink(i)">
+            <i class="bi bi-trash"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Preview -->
+      <div class="mt-4 p-3 bg-light rounded">
+        <h6 class="text-muted mb-3">Preview:</h6>
+        <div class="text-center">
+          <h6 class="text-muted text-uppercase">{{ siteContent.socialProofTitle }}</h6>
+          <div class="d-flex justify-content-center gap-4 mt-3">
+            <div *ngFor="let link of siteContent.socialLinks" class="text-center">
+              <i [class]="'fs-3 bi ' + link.icon"></i>
+              <div class="small">{{ link.name }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

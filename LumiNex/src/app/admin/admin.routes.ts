@@ -7,6 +7,7 @@ import { ServiceManagementComponent } from './service-management/service-managem
 import { Revenue } from './revenue/revenue';
 import { AdminPaymentsComponent } from './payments/payments';
 import { ThemeSettingsComponent } from './theme-settings/theme-settings';
+import { SiteContentComponent } from './site-content/site-content.component';
 
 export const ADMIN_ROUTES: Routes = [
   { path: 'dashboard', component: Dashboard },
@@ -17,5 +18,6 @@ export const ADMIN_ROUTES: Routes = [
   { path: 'revenue', component: Revenue },
   { path: 'payments', component: AdminPaymentsComponent },
   { path: 'theme', component: ThemeSettingsComponent },
+  { path: 'site-content', component: SiteContentComponent },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
 ];
