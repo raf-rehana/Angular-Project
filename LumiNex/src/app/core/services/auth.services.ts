@@ -89,7 +89,21 @@ export class AuthService {
     return this.http.get<User[]>(`${this.apiUrl}/users`);
   }
 
-  deleteUser(id: string): Observable<any> {
+    deleteUser(id: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/users/${id}`);
+  }
+
+  getCurrentUser(): Observable<User | null> {
+    return this.currentUser$.pipe(
+      tap(user => {
+        // If no user is available yet, try to get from storage
+        if (!user) {
+          const stored = localStorage.getItem('user');
+          if (stored) {
+            this.currentUserSubject.next(JSON.parse(stored));
+          }
+        }
+      })
+    );
   }
 }

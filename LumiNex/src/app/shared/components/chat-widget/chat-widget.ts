@@ -1,15 +1,16 @@
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgIf, NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from '../../core/services/auth.services';
-import { ChatService, ChatMessage } from '../../core/services/chat.service';
+import { AuthService } from '../../../core/services/auth.services';
+import { ChatService, ChatMessage, ChatUser } from '../../../core/services/chat.service';
+import { User } from '../../../core/models/user';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-chat-widget',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NgIf, NgFor],
   template: `
     <div class="chat-widget" [class.minimized]="isMinimized">
       <!-- Chat Header -->
@@ -54,7 +55,7 @@ import { Subject } from 'rxjs';
               [(ngModel)]="newMessage"
               (keydown.enter)="sendMessage()"
               (input)="onTyping()"
-              (focus)="showTyping = false"
+              (focus)="isTyping = false"
               #messageInput
             >
             <button class="btn btn-primary" (click)="sendMessage()" [disabled]="!newMessage.trim()">
@@ -232,11 +233,9 @@ import { Subject } from 'rxjs';
   ]
 })
 export class ChatWidgetComponent implements OnInit, OnDestroy {
-  @HostListener('document:keydown.escape', ['$event'])
-  onEscapeKey(event: KeyboardEvent) {
-    if (event.key === 'Escape') {
-      this.isMinimized = true;
-    }
+    @HostListener('document:keydown.escape')
+  onEscapeKey() {
+    this.isMinimized = true;
   }
 
   messages: ChatMessage[] = [];
@@ -245,8 +244,8 @@ export class ChatWidgetComponent implements OnInit, OnDestroy {
   isOnline: boolean = false;
   isTyping: boolean = false;
   typingUser: string = '';
-  typingTimeout: any;
-  currentUser: any;
+    typingTimeout: any;
+    currentUser: User | null = null;
   
   private destroy$ = new Subject<void>();
 
@@ -255,18 +254,18 @@ export class ChatWidgetComponent implements OnInit, OnDestroy {
     private chatService: ChatService
   ) {}
 
-  ngOnInit(): void {
-    // Get current user from auth service
+    ngOnInit(): void {
+        // Get current user from auth service
     this.authService.getCurrentUser()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(user => {
+      .subscribe((user: User | null) => {
         this.currentUser = user;
         if (user) {
           // Authenticate with chat service
           this.chatService.authenticateUser({
             id: user.id,
-            name: user.name || (user.role === 'client' ? 'Client' : 'Support Agent'),
-            role: user.role as 'client' | 'employee' | 'admin',
+            name: user.name || (user.role === 'CLIENT' ? 'Client' : 'Support Agent'),
+            role: user.role.toLowerCase() as 'client' | 'employee' | 'admin',
             online: true
           });
         }
@@ -275,7 +274,7 @@ export class ChatWidgetComponent implements OnInit, OnDestroy {
     // Listen for messages
     this.chatService.messages$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(messages => {
+      .subscribe((messages: ChatMessage[]) => {
         this.messages = messages;
         this.scrollToBottom();
       });
@@ -283,7 +282,7 @@ export class ChatWidgetComponent implements OnInit, OnDestroy {
     // Listen for online status
     this.chatService.currentUser$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(user => {
+      .subscribe((user: ChatUser | null) => {
         this.isOnline = !!user;
       });
   }
@@ -321,7 +320,7 @@ export class ChatWidgetComponent implements OnInit, OnDestroy {
 
   showTypingIndicator(): void {
     this.isTyping = true;
-    this.typingUser = this.currentUser?.role === 'client' ? 'Client' : 'Support Agent';
+    this.typingUser = this.currentUser?.role === 'CLIENT' ? 'Client' : 'Support Agent';
     
     if (this.typingTimeout) {
       clearTimeout(this.typingTimeout);

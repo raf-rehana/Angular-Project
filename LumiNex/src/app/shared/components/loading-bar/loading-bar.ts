@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { LoadingService } from '../../../core/services/loading.service';
 
 @Component({
   selector: 'app-loading-bar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgIf],
   template: `
     <div class="loading-bar-container" *ngIf="loadingService.isLoading$ | async">
       <div class="loading-bar shadow-sm"></div>

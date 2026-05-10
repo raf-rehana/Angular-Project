@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NotificationService } from '../../../core/services/notification.service';
 import { AuthService } from '../../../core/services/auth.services';
@@ -7,7 +7,7 @@ import { AuthService } from '../../../core/services/auth.services';
 @Component({
   selector: 'app-notification-bell',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, NgIf, RouterModule],
   templateUrl: './notification-bell.html',
   styleUrls: ['./notification-bell.css']
 })

@@ -1,33 +1,120 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* Dynamic Theme Variables */
 :root {
-  --primary-color: #0d6efd;
+  --primary-color: #4f46e5;
   --accent-color: #6c757d;
   --font-family: 'Roboto', sans-serif;
 }
 
 body {
-  font-family: var(--font-family) !important;
+  font-family: var(--font-family);
+  background-color: #f3f4f6;
 }
 
-.bg-primary {
-  background-color: var(--primary-color) !important;
+/* Custom component classes */
+@layer components {
+  .btn-primary {
+    @apply bg-primary-600 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-200 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+  }
+
+  .btn-outline-primary {
+    @apply border-2 border-primary-600 text-primary-600 px-4 py-2 rounded-lg font-semibold transition-all duration-200 hover:bg-primary-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+  }
+
+  .btn-success {
+    @apply bg-success-600 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-200 hover:bg-success-700 focus:outline-none focus:ring-2 focus:ring-success-500 focus:ring-offset-2;
+  }
+
+  .btn-warning {
+    @apply bg-warning-500 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-200 hover:bg-warning-600 focus:outline-none focus:ring-2 focus:ring-warning-500 focus:ring-offset-2;
+  }
+
+  .btn-danger {
+    @apply bg-danger-500 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-200 hover:bg-danger-600 focus:outline-none focus:ring-2 focus:ring-danger-500 focus:ring-offset-2;
+  }
+
+  .btn-light {
+    @apply bg-white text-gray-700 border border-gray-300 px-4 py-2 rounded-lg font-semibold transition-all duration-200 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2;
+  }
+
+  .card {
+    @apply bg-white rounded-xl shadow-md p-6;
+  }
+
+  .form-input {
+    @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
+  }
+
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-primary {
+    @apply bg-primary-100 text-primary-800;
+  }
+
+  .badge-success {
+    @apply bg-success-100 text-success-800;
+  }
+
+  .badge-warning {
+    @apply bg-warning-100 text-warning-800;
+  }
+
+  .badge-danger {
+    @apply bg-danger-100 text-danger-800;
+  }
 }
 
-.text-primary {
-  color: var(--primary-color) !important;
-}
+@layer utilities {
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
 
-.btn-primary {
-  background-color: var(--primary-color) !important;
-  border-color: var(--primary-color) !important;
-}
+  .glass-effect {
+    @apply bg-white bg-opacity-10 backdrop-blur-lg border border-white border-opacity-20 shadow-glass;
+  }
 
-.btn-outline-primary {
-  color: var(--primary-color) !important;
-  border-color: var(--primary-color) !important;
-}
+  .hover-glow {
+    @apply transition-all duration-300 hover:shadow-glow;
+  }
 
-.btn-outline-primary:hover {
-  background-color: var(--primary-color) !important;
-  color: white !important;
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.8s ease-out forwards;
+  }
+
+  .animate-shake {
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+  }
+
+  .bg-soft-primary { @apply bg-primary-50; }
+  .bg-success-soft { @apply bg-success-50; }
+  .bg-warning-soft { @apply bg-warning-50; }
+  .bg-danger-soft { @apply bg-danger-50; }
+  .bg-info-soft { @apply bg-sky-50; }
+  .bg-secondary-soft { @apply bg-slate-50; }
+
+  @keyframes shake {
+    10%, 90% { transform: translate3d(-1px, 0, 0); }
+    20%, 80% { transform: translate3d(2px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+    40%, 60% { transform: translate3d(4px, 0, 0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
 }

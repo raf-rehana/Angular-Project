@@ -36,9 +36,9 @@ export class ThemeService {
       } else {
         // Default settings
         const defaultSettings: ThemeSettings = {
-          primaryColor: '#0d6efd',
+          primaryColor: '#4f46e5',
           accentColor: '#6c757d',
-          logoUrl: 'assets/logo.png',
+          logoUrl: '',
           fontFamily: 'Roboto, "Helvetica Neue", sans-serif',
           siteName: 'LumiNex'
         };

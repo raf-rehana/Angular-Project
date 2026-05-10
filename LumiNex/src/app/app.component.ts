@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgIf, NgFor } from '@angular/common';
 import { filter } from 'rxjs/operators';
 import { NavbarComponent } from './shared/components/navbar/navbar';
 import { SidebarComponent } from './shared/components/sidebar/sidebar';
@@ -12,7 +12,7 @@ import { ThemeService } from './core/services/theme.service';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, NavbarComponent, SidebarComponent, FooterComponent, LoadingBarComponent, ChatWidgetComponent],
+  imports: [RouterOutlet, CommonModule, NgIf, NavbarComponent, SidebarComponent, FooterComponent, LoadingBarComponent, ChatWidgetComponent],
   template: `
     <div class="app-container bg-light min-vh-100 d-flex flex-column">
       <app-loading-bar></app-loading-bar>
