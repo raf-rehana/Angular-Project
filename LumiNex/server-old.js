@@ -3,21 +3,8 @@ const cors = require('cors');
 const axios = require('axios');
 const bodyParser = require('body-parser');
 const { v4: uuidv4 } = require('uuid');
-const http = require('http');
-const { Server } = require('socket.io');
-const jwt = require('jsonwebtoken');
 
 const app = express();
-const server = http.createServer(app);
-const io = new Server(server, {
-  cors: {
-    origin: [
-      'http://localhost:4200',
-      'https://saas-luminex.vercel.app'
-    ],
-    credentials: true
-  }
-});
 const PORT = 4000;
 
 // ── SSLCommerz Sandbox Credentials ──────────────────────────────────────────
@@ -56,117 +43,6 @@ app.use(cors({
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// ── Socket.io Chat Logic ─────────────────────────────────────────────────────
-const connectedClients = new Map();
-const connectedEmployees = new Map();
-
-io.on('connection', (socket) => {
-  console.log(`User connected: ${socket.id}`);
-
-  // Handle client authentication
-  socket.on('authenticate-client', ({ clientId, clientName }) => {
-    socket.clientId = clientId;
-    socket.clientName = clientName;
-    socket.role = 'client';
-    
-    connectedClients.set(clientId, socket);
-    socket.join(`client-${clientId}`);
-    
-    console.log(`Client authenticated: ${clientName} (${clientId})`);
-    
-    // Notify available employees
-    io.emit('client-joined', { clientId, clientName });
-  });
-
-  // Handle employee authentication
-  socket.on('authenticate-employee', ({ employeeId, employeeName }) => {
-    socket.employeeId = employeeId;
-    socket.employeeName = employeeName;
-    socket.role = 'employee';
-    
-    connectedEmployees.set(employeeId, socket);
-    socket.join(`employee-${employeeId}`);
-    
-    console.log(`Employee authenticated: ${employeeName} (${employeeId})`);
-    
-    // Notify available clients
-    io.emit('employee-joined', { employeeId, employeeName });
-  });
-
-  // Handle client messages
-  socket.on('client-message', ({ message, employeeId }) => {
-    if (socket.role === 'client' && socket.clientId) {
-      const messageData = {
-        id: uuidv4(),
-        clientId: socket.clientId,
-        clientName: socket.clientName,
-        message,
-        timestamp: new Date().toISOString(),
-        type: 'client'
-      };
-      
-      // Send to specific employee if specified
-      if (employeeId && connectedEmployees.has(employeeId)) {
-        io.to(`employee-${employeeId}`).emit('new-message', messageData);
-      } else {
-        // Broadcast to all employees
-        io.to('employees').emit('new-message', messageData);
-      }
-      
-      console.log(`Client message from ${socket.clientName}: ${message}`);
-    }
-  });
-
-  // Handle employee messages
-  socket.on('employee-message', ({ message, clientId }) => {
-    if (socket.role === 'employee' && socket.employeeId) {
-      const messageData = {
-        id: uuidv4(),
-        employeeId: socket.employeeId,
-        employeeName: socket.employeeName,
-        message,
-        timestamp: new Date().toISOString(),
-        type: 'employee'
-      };
-      
-      // Send to specific client
-      if (clientId && connectedClients.has(clientId)) {
-        io.to(`client-${clientId}`).emit('new-message', messageData);
-      }
-      
-      console.log(`Employee message from ${socket.employeeName}: ${message}`);
-    }
-  });
-
-  // Handle typing indicators
-  socket.on('client-typing', ({ employeeId }) => {
-    if (socket.role === 'client' && socket.clientId) {
-      io.to(`employee-${employeeId}`).emit('client-typing', { clientId: socket.clientId });
-    }
-  });
-
-  socket.on('employee-typing', ({ clientId }) => {
-    if (socket.role === 'employee' && socket.employeeId) {
-      io.to(`client-${clientId}`).emit('employee-typing', { employeeId: socket.employeeId });
-    }
-  });
-
-  // Handle disconnection
-  socket.on('disconnect', () => {
-    console.log(`User disconnected: ${socket.id}`);
-    
-    if (socket.role === 'client' && socket.clientId) {
-      connectedClients.delete(socket.clientId);
-      io.emit('client-left', { clientId: socket.clientId });
-    }
-    
-    if (socket.role === 'employee' && socket.employeeId) {
-      connectedEmployees.delete(socket.employeeId);
-      io.emit('employee-left', { employeeId: socket.employeeId });
-    }
-  });
-});
-
 // ── Health check ──────────────────────────────────────────────────────────────
 app.get('/api/health', (req, res) => {
   res.json({
@@ -177,23 +53,6 @@ app.get('/api/health', (req, res) => {
     myStoreId: MY_STORE_ID,
     timestamp: new Date().toISOString()
   });
-});
-
-// ── Chat Status Endpoints ─────────────────────────────────────────────────────
-app.get('/api/chat/online-clients', (req, res) => {
-  const onlineClients = Array.from(connectedClients.keys()).map(clientId => ({
-    clientId,
-    connected: true
-  }));
-  res.json(onlineClients);
-});
-
-app.get('/api/chat/online-employees', (req, res) => {
-  const onlineEmployees = Array.from(connectedEmployees.keys()).map(employeeId => ({
-    employeeId,
-    connected: true
-  }));
-  res.json(onlineEmployees);
 });
 
 // ── POST /api/payment/init ───────────────────────────────────────────────────
@@ -408,13 +267,12 @@ app.get('/api/payments/history/:clientId', async (req, res) => {
   }
 });
 
-server.listen(PORT, () => {
-  console.log('\n🚀 LumiNex Payment & Chat Server Started');
+app.listen(PORT, () => {
+  console.log('\n🚀 LumiNex Payment Server Started');
   console.log('──────────────────────────────────────────');
   console.log(`   Port    : http://localhost:${PORT}`);
   console.log(`   Mode    : ${IS_LIVE ? '🔴 LIVE' : '🟡 SANDBOX'}`);
   console.log(`   Store   : ${STORE_ID}`);
   console.log(`   Frontend: ${FRONTEND_URL}`);
   console.log('──────────────────────────────────────────\n');
-  console.log('💬 Chat Server Ready - Socket.io enabled');
 });
