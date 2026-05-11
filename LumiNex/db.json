@@ -349,7 +349,7 @@
       "clientId": "USR-101",
       "client": "Rafiaah",
       "item": "Premium Plan",
-      "amount": 299,
+      "amount": 250000,
       "method": "bKash",
       "status": "PAID",
       "date": "2026-05-08"
@@ -359,7 +359,7 @@
       "clientId": "USR-102",
       "client": "Siam Ahmed",
       "item": "Web Development",
-      "amount": 1200,
+      "amount": 120000,
       "method": "Bank Transfer",
       "status": "PAID",
       "date": "2026-05-07"
@@ -369,7 +369,7 @@
       "clientId": "USR-103",
       "client": "Arifur Rahman",
       "item": "Logo Design",
-      "amount": 150,
+      "amount": 150000,
       "method": "Nagad",
       "status": "PENDING",
       "date": "2026-05-06"
@@ -379,7 +379,7 @@
       "clientId": "USR-104",
       "client": "Mehedi Hasan",
       "item": "Starter Plan",
-      "amount": 29,
+      "amount": 90000,
       "method": "Rocket",
       "status": "PAID",
       "date": "2026-05-05"
@@ -389,7 +389,7 @@
       "clientId": "USR-105",
       "client": "Kamrul Islam",
       "item": "AI Consultation",
-      "amount": 3500,
+      "amount": 85000,
       "method": "Bank Transfer",
       "status": "PAID",
       "date": "2026-05-04"
@@ -398,7 +398,7 @@
       "clientId": "10148",
       "client": "Client",
       "item": "Digital Foundation",
-      "amount": 523.95,
+      "amount": 52300.95,
       "method": "CASH",
       "status": "PENDING",
       "date": "2026-05-09",
@@ -408,7 +408,7 @@
       "clientId": "10148",
       "client": "Client",
       "item": "Digital Foundation",
-      "amount": 523.95,
+      "amount": 52300.95,
       "method": "CASH",
       "status": "PENDING",
       "date": "2026-05-09",
@@ -419,7 +419,7 @@
       "client": "Digital Foundation - Client",
       "item": "Digital Foundation",
       "planId": "1",
-      "amount": 523.95,
+      "amount": 100000,
       "method": "BKASH-BKash",
       "status": "PAID",
       "date": "2026-05-10",
@@ -427,6 +427,20 @@
       "bankTranId": "2605101801566lleeJdcbNEKBuf",
       "currency": "BDT",
       "id": "qPMtj9zQnZk"
+    },
+    {
+      "clientId": "10148",
+      "client": "Digital Foundation - Client",
+      "item": "Digital Foundation",
+      "planId": "1",
+      "amount": 523.95,
+      "method": "BKASH-BKash",
+      "status": "PAID",
+      "date": "2026-05-11",
+      "tranId": "LNX-8C56BD36-DD9",
+      "bankTranId": "260511184437EqWQl7CeU2lYGNx",
+      "currency": "BDT",
+      "id": "3mkNrMyzAg8"
     }
   ],
   "auth": {
@@ -443,8 +457,8 @@
   "theme-settings": [
     {
       "id": "1",
-      "primaryColor": "#0d6efd",
-      "accentColor": "#6c757d",
+      "primaryColor": "#111827",
+      "accentColor": "#64748b",
       "logoUrl": "assets/logo.png",
       "fontFamily": "Roboto, \"Helvetica Neue\", sans-serif",
       "siteName": "LumiNex"
@@ -541,7 +555,7 @@
         }
       ],
       "isActive": true,
-      "updatedAt": "2026-05-10T00:00:00.000Z"
+      "updatedAt": "2026-05-11T10:51:42.822Z"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

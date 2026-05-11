@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "server": "json-server --watch db.json --port 3000",
-    "backend": "node server.js",
+    "Node": "node server.js",
     "dev:all": "start cmd /k npm run server && start cmd /k npm run backend && npm run start"
   },
   "private": true,
@@ -32,6 +32,7 @@
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "jspdf": "^4.2.1",
+    "jspdf-autotable": "^5.0.7",
     "jwt-decode": "^4.0.0",
     "rxjs": "~7.8.0",
     "socket.io": "^4.8.3",

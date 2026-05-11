@@ -3,29 +3,29 @@
     <div class="col-md-3">
       <div class="card border-0 shadow-sm rounded-4 p-4 text-center">
         <div class="small fw-bold text-muted text-uppercase mb-1">Total Revenue</div>
-        <div class="h3 fw-bold text-dark">$124BDT 124,500</div>
-        <div class="small text-success fw-bold mt-2"><i class="bi bi-arrow-up"></i> 12.5%</div>
+        <div class="h3 fw-bold text-dark">{{ totalRevenue | number:'1.0-0' }}</div>
+        <div class="small text-muted mt-1">Paid payments only</div>
       </div>
     </div>
     <div class="col-md-3">
       <div class="card border-0 shadow-sm rounded-4 p-4 text-center">
         <div class="small fw-bold text-muted text-uppercase mb-1">Subscriptions</div>
-        <div class="h3 fw-bold text-dark">$45BDT 45,200</div>
-        <div class="small text-success fw-bold mt-2"><i class="bi bi-arrow-up"></i> 8.2%</div>
+        <div class="h3 fw-bold text-dark">{{ subscriptionRevenue | number:'1.0-0' }}</div>
+        <div class="small text-muted mt-1">Plans & packages</div>
       </div>
     </div>
     <div class="col-md-3">
       <div class="card border-0 shadow-sm rounded-4 p-4 text-center">
         <div class="small fw-bold text-muted text-uppercase mb-1">Services</div>
-        <div class="h3 fw-bold text-dark">$79BDT 79,300</div>
-        <div class="small text-danger fw-bold mt-2"><i class="bi bi-arrow-down"></i> 2.1%</div>
+        <div class="h3 fw-bold text-dark">{{ serviceRevenue | number:'1.0-0' }}</div>
+        <div class="small text-muted mt-1">One-time services</div>
       </div>
     </div>
     <div class="col-md-3">
       <div class="card border-0 shadow-sm rounded-4 p-4 text-center bg-primary text-white">
         <div class="small fw-bold opacity-75 text-uppercase mb-1">Projected</div>
-        <div class="h3 fw-bold">$150BDT 150,000</div>
-        <div class="small opacity-75 mt-2">End of Quarter</div>
+        <div class="h3 fw-bold">{{ projectedRevenue | number:'1.0-0' }}</div>
+        <div class="small opacity-75 mt-1">Includes 20% of pending</div>
       </div>
     </div>
   </div>
@@ -41,10 +41,14 @@
             <option>Year 2026</option>
           </select>
         </div>
-        
+
         <div class="revenue-chart d-flex align-items-end justify-content-between px-3" style="height: 250px;">
           <div *ngFor="let m of months" class="chart-bar-wrapper text-center">
-            <div class="chart-bar bg-primary rounded-pill mb-2 mx-auto" [style.height.%]="m.val" style="width: 25px; transition: height 1s ease;"></div>
+            <div
+              class="chart-bar bg-primary rounded-pill mb-2 mx-auto"
+              [style.height.%]="m.val"
+              style="width: 25px; transition: height 1s ease;">
+            </div>
             <div class="small text-muted fw-bold">{{ m.name }}</div>
           </div>
         </div>
@@ -58,20 +62,38 @@
           <h5 class="fw-bold mb-0">Latest Income</h5>
         </div>
         <div class="card-body p-4">
-          <div *ngFor="let t of transactions" class="d-flex align-items-center justify-content-between mb-4 pb-3 border-bottom">
+          <div
+            *ngFor="let t of transactions"
+            class="d-flex align-items-center justify-content-between mb-4 pb-3 border-bottom">
             <div class="d-flex align-items-center">
-              <div class="bg-light rounded-circle p-2 me-3"><i class="bi bi-person-circle fs-5 text-primary"></i></div>
+              <div class="bg-light rounded-circle p-2 me-3">
+                <i class="bi bi-person-circle fs-5 text-primary"></i>
+              </div>
               <div>
                 <div class="fw-bold small text-dark">{{ t.client }}</div>
-                <div class="text-muted" style="font-size: 11px;">{{ t.date | date }}</div>
+                <div class="text-muted" style="font-size: 11px;">{{ t.date | date:'mediumDate' }}</div>
               </div>
             </div>
             <div class="text-end">
-              <div class="fw-bold text-dark small">BDT {{ t.amount }}</div>
-              <span class="badge bg-success-soft text-success p-1 rounded" style="font-size: 9px;">PAID</span>
+              <div class="fw-bold text-dark small">{{ t.amount | number:'1.0-0' }}</div>
+              <span
+                class="badge p-1 rounded"
+                style="font-size: 9px;"
+                [ngClass]="{
+                  'bg-success text-white': t.status === 'PAID',
+                  'bg-warning text-dark': t.status === 'PENDING',
+                  'bg-danger text-white': t.status === 'FAILED'
+                }">
+                {{ t.status }}
+              </span>
             </div>
           </div>
-          <button class="btn btn-outline-primary w-100 rounded-pill py-2 fw-bold small">View Full Report</button>
+
+          <button
+            class="btn btn-outline-primary w-100 rounded-pill py-2 fw-bold small"
+            (click)="viewFullReport()">
+            <i class="bi bi-bar-chart-line me-2"></i>View Full Report
+          </button>
         </div>
       </div>
     </div>

@@ -31,14 +31,26 @@ export class AdminPaymentsComponent implements OnInit {
     });
   }
 
-  generateInvoice(payment: any): void {
-    const invoiceDetails = {
-      id: payment.id,
-      clientName: payment.client,
-      service: payment.item,
-      amount: payment.amount,
-      date: payment.date
-    };
-    this.pdfGeneratorService.generateInvoicePdf(invoiceDetails);
-  }
+ generateInvoice(payment: any): void {
+  const invoiceDetails = {
+    id: payment.id,
+    clientName: payment.client,
+    clientEmail: payment.email || '',
+    
+    // Convert single item into items array (Stripe-style compatible)
+    items: [
+      {
+        description: payment.item,
+        qty: 1,
+        price: payment.amount,
+      },
+    ],
+
+    // optional extras
+    discount: payment.discount || 0,
+    date: payment.date,
+  };
+
+  this.pdfGeneratorService.generateInvoicePdf(invoiceDetails);
+}
 }
