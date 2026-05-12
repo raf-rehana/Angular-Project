@@ -14,7 +14,7 @@ import { ThemeService } from './core/services/theme.service';
   standalone: true,
   imports: [RouterOutlet, CommonModule, NgIf, NavbarComponent, SidebarComponent, FooterComponent, LoadingBarComponent, ChatWidgetComponent],
   template: `
-    <div class="app-container bg-light min-vh-100 d-flex flex-column">
+    <div class="app-container min-vh-100 d-flex flex-column">
       <app-loading-bar></app-loading-bar>
       
       <app-navbar></app-navbar>
@@ -22,16 +22,16 @@ import { ThemeService } from './core/services/theme.service';
       <!-- Chat Widget -->
       <app-chat-widget></app-chat-widget>
       
-      <!-- Offset for fixed-top navbar (approx 64px) -->
-      <div style="margin-top: 64px;" class="flex-grow-1">
+      <!-- Offset for fixed-top navbar (Premium height is 80px) -->
+      <div style="margin-top: 80px;" class="flex-grow-1">
         <ng-container *ngIf="showSidebar; else simpleLayout">
           <div class="container-fluid p-0">
             <div class="row g-0">
               <div class="col-auto">
                 <app-sidebar></app-sidebar>
               </div>
-              <div class="col">
-                <div class="p-4">
+              <div class="col overflow-hidden">
+                <div class="p-0"> <!-- Removed extra padding here to let pages control their own spacing -->
                   <router-outlet></router-outlet>
                 </div>
               </div>
@@ -57,7 +57,9 @@ export class AppComponent {
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
       const url = event.urlAfterRedirects || event.url;
-      this.showSidebar = url.includes('/client') || url.includes('/admin') || url.includes('/employee');
+      const isDashboardPath = url.includes('/client') || url.includes('/admin') || url.includes('/employee');
+      const isPublicFlow = url.includes('/client/subscriptions') || url.includes('/client/payments') || url.includes('/client/plans');
+      this.showSidebar = isDashboardPath && !isPublicFlow;
     });
   }
 }

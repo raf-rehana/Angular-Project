@@ -1,4 +1,4 @@
-<nav class="fixed top-0 left-0 right-0 z-[100] w-full transition-all duration-300 bg-white/80 backdrop-blur-md border-b border-gray-100/50">
+<nav class="fixed top-0 left-0 right-0 z-[100] w-full transition-all duration-300 bg-slate-50 border-b border-gray-200 shadow-sm">
   <div class="container mx-auto px-4 md:px-6">
     <div class="flex h-16 md:h-20 items-center justify-between">
       
@@ -21,11 +21,11 @@
             Home
             <span class="absolute bottom-0 left-0 w-full h-0.5 bg-primary-600 scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
           </a>
-          <a class="relative text-sm font-bold text-slate-600 hover:text-primary-600 transition-colors py-2 group" [routerLink]="['/']" fragment="services">
+          <a class="relative text-sm font-bold text-slate-600 hover:text-primary-600 transition-colors py-2 group" [routerLink]="['/']" fragment="sector-01">
             Services
             <span class="absolute bottom-0 left-0 w-full h-0.5 bg-primary-600 scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
           </a>
-          <a class="relative text-sm font-bold text-slate-600 hover:text-primary-600 transition-colors py-2 group" routerLink="/packages" routerLinkActive="text-primary-600">
+          <a class="relative text-sm font-bold text-slate-600 hover:text-primary-600 transition-colors py-2 group" [routerLink]="['/']" fragment="services">
             Packages
             <span class="absolute bottom-0 left-0 w-full h-0.5 bg-primary-600 scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
           </a>

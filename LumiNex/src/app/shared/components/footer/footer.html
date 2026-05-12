@@ -1,45 +1,63 @@
-<footer class="bg-white py-5 border-top">
-  <div class="container">
-    <div class="row g-4">
-      <div class="col-lg-4">
-        <a class="navbar-brand d-flex align-items-center mb-4" routerLink="/">
-          <div class="logo-icon bg-primary text-white rounded-3 me-2 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
-            <i class="bi bi-lightning-fill"></i>
+<footer class="bg-slate-900 text-white py-10 mt-5 border-top border-slate-800">
+  <div class="container py-4">
+    <div class="row g-5">
+      <div class="col-lg-5">
+        <a class="d-flex align-items-center mb-4 no-underline" routerLink="/">
+          <div class="w-10 h-10 rounded-xl bg-primary-600 flex items-center justify-center shadow-lg me-3">
+            <i class="bi bi-lightning-charge-fill text-white fs-5"></i>
           </div>
-          <span class="fw-bold text-dark fs-4">LumiNex</span>
+          <span class="text-2xl font-black text-white tracking-tight">LumiNex</span>
         </a>
-        <p class="text-secondary small mb-4">Your A-to-Z startup partner. From idea to fully operational business — we handle everything.</p>
-        <div class="d-flex gap-3">
-          <a href="https://facebook.com" target="_blank" class="social-icon text-secondary fs-5"><i class="bi bi-facebook"></i></a>
-          <a href="https://twitter.com" target="_blank" class="social-icon text-secondary fs-5"><i class="bi bi-twitter-x"></i></a>
-          <a href="https://linkedin.com" target="_blank" class="social-icon text-secondary fs-5"><i class="bi bi-linkedin"></i></a>
-          <a href="https://github.com" target="_blank" class="social-icon text-secondary fs-5"><i class="bi bi-github"></i></a>
-          <a href="https://youtube.com" target="_blank" class="social-icon text-secondary fs-5"><i class="bi bi-youtube"></i></a>
-          <a href="https://wa.me" target="_blank" class="social-icon text-secondary fs-5"><i class="bi bi-whatsapp"></i></a>
+        <p class="text-slate-400 mb-5 max-w-sm leading-relaxed">
+          The ultimate A-to-Z partner for modern startups. From legal identity to global scale, we provide the infrastructure your vision deserves.
+        </p>
+        <div class="d-flex gap-4">
+          <a href="#" class="text-slate-500 hover:text-white transition-colors fs-5"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="text-slate-500 hover:text-white transition-colors fs-5"><i class="bi bi-linkedin"></i></a>
+          <a href="#" class="text-slate-500 hover:text-white transition-colors fs-5"><i class="bi bi-github"></i></a>
+          <a href="#" class="text-slate-500 hover:text-white transition-colors fs-5"><i class="bi bi-youtube"></i></a>
         </div>
       </div>
-      <div class="col-lg-2 ms-lg-auto">
-        <h6 class="fw-bold mb-4">Quick Links</h6>
-        <ul class="list-unstyled text-secondary small">
-          <li class="mb-2"><a routerLink="/" class="text-decoration-none text-secondary">Home</a></li>
-          <li class="mb-2"><a [routerLink]="['/']" fragment="services" class="text-decoration-none text-secondary">Services</a></li>
-          <li class="mb-2"><a routerLink="/packages" class="text-decoration-none text-secondary">Packages</a></li>
-          <li class="mb-2"><a [routerLink]="['/']" fragment="about" class="text-decoration-none text-secondary">About Us</a></li>
-          <li class="mb-2"><a routerLink="/contact" class="text-decoration-none text-secondary">Contact</a></li>
-        </ul>
-      </div>
-      <div class="col-lg-3">
-        <h6 class="fw-bold mb-4">Contact Us</h6>
-        <ul class="list-unstyled text-secondary small">
-          <li class="mb-2"><i class="bi bi-geo-alt me-2"></i> Tech Plaza, Uttara, Dhaka</li>
-          <li class="mb-2"><i class="bi bi-envelope me-2"></i> hello@luminex.com</li>
-          <li class="mb-2"><i class="bi bi-telephone me-2"></i> +880 1605 142112</li>
-        </ul>
+      
+      <div class="col-lg-7">
+        <div class="row g-4">
+          <div class="col-md-4">
+            <h6 class="text-xs font-black uppercase tracking-widest text-primary-500 mb-4">Platform</h6>
+            <ul class="list-unstyled space-y-3">
+              <li><a routerLink="/" class="text-slate-400 hover:text-white text-sm no-underline transition-colors">Home</a></li>
+              <li><a routerLink="/packages" class="text-slate-400 hover:text-white text-sm no-underline transition-colors">Launch Packages</a></li>
+              <li><a routerLink="/client/catalogue" class="text-slate-400 hover:text-white text-sm no-underline transition-colors">Service Catalogue</a></li>
+              <li><a [routerLink]="['/']" fragment="services" class="text-slate-400 hover:text-white text-sm no-underline transition-colors">Enterprise Solutions</a></li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <h6 class="text-xs font-black uppercase tracking-widest text-primary-500 mb-4">Support</h6>
+            <ul class="list-unstyled space-y-3">
+              <li><a routerLink="/contact" class="text-slate-400 hover:text-white text-sm no-underline transition-colors">Help Center</a></li>
+              <li><a class="text-slate-400 hover:text-white text-sm no-underline transition-colors">API Documentation</a></li>
+              <li><a class="text-slate-400 hover:text-white text-sm no-underline transition-colors">Privacy Policy</a></li>
+              <li><a class="text-slate-400 hover:text-white text-sm no-underline transition-colors">Terms of Service</a></li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <h6 class="text-xs font-black uppercase tracking-widest text-primary-500 mb-4">Connect</h6>
+            <ul class="list-unstyled space-y-3">
+              <li class="text-slate-400 text-sm"><i class="bi bi-geo-alt me-2 text-primary-500"></i> Tech Plaza, Dhaka</li>
+              <li class="text-slate-400 text-sm"><i class="bi bi-envelope me-2 text-primary-500"></i> hello@luminex.com</li>
+              <li class="text-slate-400 text-sm"><i class="bi bi-telephone me-2 text-primary-500"></i> +880 1605 142112</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
-    <hr class="my-5 opacity-10">
-    <div class="text-center text-secondary small">
-      &copy; 2026 LumiNex. All rights reserved.
+    
+    <div class="pt-10 mt-10 border-top border-slate-800 d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+      <div class="text-slate-500 text-xs font-medium">
+        &copy; 2026 LumiNex Global Platform. All rights reserved.
+      </div>
+      <div class="d-flex gap-4">
+        <span class="text-slate-500 text-xs">Infrastructure Status: <span class="text-success fw-bold">All Systems Operational</span></span>
+      </div>
     </div>
   </div>
 </footer>

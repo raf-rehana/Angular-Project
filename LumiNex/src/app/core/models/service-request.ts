@@ -1,3 +1,10 @@
+export interface Attachment {
+  id: string | number;
+  name: string;
+  url: string;
+  uploadedAt: string;
+}
+
 export interface ServiceRequest {
   id: string | number;
   tenantId?: string | number;
@@ -14,4 +21,5 @@ export interface ServiceRequest {
   updatedAt?: string;
   completedAt?: string;
   progress?: number;
+  documents?: Attachment[];
 }

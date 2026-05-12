@@ -1,58 +1,79 @@
-<div class="container-fluid py-4">
-  <div class="row mb-4">
+<div class="container-fluid py-5 px-lg-5">
+  <!-- Header with Glassmorphism -->
+  <div class="row mb-5">
     <div class="col-12">
-      <h2 class="fw-bold text-dark mb-0">Welcome back, {{ authService.currentUser?.name }}! 👋</h2>
-      <p class="text-muted">Here's what's happening with your services today.</p>
+      <div class="welcome-banner p-5 rounded-5 shadow-premium text-white position-relative overflow-hidden mb-4">
+        <div class="position-relative z-10">
+          <h1 class="display-5 fw-black mb-2">Welcome back, {{ authService.currentUser?.name }}! 👋</h1>
+          <p class="lead opacity-75 mb-0">Your LumiNex startup dashboard is up to date.</p>
+        </div>
+        <!-- Decorative circles -->
+        <div class="circle-decoration decoration-1"></div>
+        <div class="circle-decoration decoration-2"></div>
+      </div>
     </div>
   </div>
 
   <div class="row g-4 mb-5">
-    <div class="col-md-4">
-      <div class="card border-0 shadow-sm rounded-4 bg-primary text-white h-100">
-        <div class="card-body p-4 d-flex flex-column justify-content-between">
+    <div class="col-lg-4">
+      <div class="card border-0 shadow-premium-sm rounded-5 stats-card-gradient text-white h-100">
+        <div class="card-body p-5 d-flex flex-column justify-content-between">
           <div>
-            <h6 class="text-white-50 text-uppercase fw-bold mb-1">Total Requests</h6>
-            <h1 class="display-4 fw-bold mb-0">{{ requests.length }}</h1>
+            <div class="d-flex justify-content-between align-items-start mb-4">
+              <div class="stats-icon-box bg-white bg-opacity-20">
+                <i class="bi bi-stack"></i>
+              </div>
+              <span class="badge bg-white bg-opacity-20 rounded-pill px-3 py-2 small">Active Services</span>
+            </div>
+            <h6 class="text-white text-opacity-75 text-uppercase fw-black small mb-1 tracking-widest">Total Requests</h6>
+            <h1 class="display-3 fw-black mb-0">{{ requests.length }}</h1>
           </div>
-          <div class="mt-3">
-            <a routerLink="/client/my-requests" class="text-white text-decoration-none bg-white bg-opacity-25 px-3 py-2 rounded-pill small fw-bold">View All <i class="bi bi-arrow-right"></i></a>
+          <div class="mt-5">
+            <a routerLink="/client/my-requests" class="btn btn-glass w-100 rounded-pill py-3 fw-bold">
+              Manage Requests <i class="bi bi-arrow-right ms-2"></i>
+            </a>
           </div>
         </div>
       </div>
     </div>
     
-    <div class="col-md-8">
-      <div class="card border-0 shadow-sm rounded-4 h-100">
-        <div class="card-header bg-white border-0 pt-4 pb-0 px-4 d-flex justify-content-between align-items-center">
-          <h5 class="fw-bold mb-0">Recent Requests</h5>
-          <a routerLink="/client/my-requests" class="btn btn-sm btn-light">See all</a>
+    <div class="col-lg-8">
+      <div class="card border-0 shadow-premium-sm rounded-5 h-100">
+        <div class="card-header bg-white border-0 pt-5 pb-0 px-5 d-flex justify-content-between align-items-center">
+          <h4 class="fw-black text-dark mb-0">Recent Activity</h4>
+          <a routerLink="/client/my-requests" class="btn btn-sm btn-light rounded-pill px-4 py-2 fw-bold">View History</a>
         </div>
-        <div class="card-body p-4">
+        <div class="card-body p-5">
           <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-              <thead class="table-light">
-                <tr>
-                  <th>Service</th>
-                  <th>Date</th>
-                  <th>Status</th>
-                  <th>Action</th>
+            <table class="table table-hover align-middle mb-0 custom-table">
+              <thead>
+                <tr class="text-muted small text-uppercase tracking-widest">
+                  <th class="border-0 ps-0">Service Details</th>
+                  <th class="border-0">Requested Date</th>
+                  <th class="border-0">Current Status</th>
+                  <th class="border-0 text-end pe-0">Action</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let req of recentRequests">
-                  <td>
-                    <div class="fw-bold text-dark">{{ req.serviceName }}</div>
-                    <div class="small text-muted">{{ req.categoryName }}</div>
+                <tr *ngFor="let req of recentRequests" class="border-bottom-soft">
+                  <td class="ps-0 py-4">
+                    <div class="fw-bold text-dark fs-6">{{ req.serviceName }}</div>
+                    <div class="x-small text-primary fw-black text-uppercase">{{ req.categoryName }}</div>
                   </td>
-                  <td>{{ req.createdAt | date:'mediumDate' }}</td>
+                  <td class="text-muted small">{{ req.createdAt | date:'mediumDate' }}</td>
                   <td><app-status-badge [status]="req.status"></app-status-badge></td>
-                  <td>
-                    <button class="btn btn-sm btn-outline-primary rounded-pill px-3">Details</button>
+                  <td class="text-end pe-0">
+                    <button class="btn btn-icon-round" [routerLink]="['/client/request-detail', req.id]">
+                      <i class="bi bi-chevron-right"></i>
+                    </button>
                   </td>
                 </tr>
                 <tr *ngIf="requests.length === 0">
-                  <td colspan="4" class="text-center py-4 text-muted">
-                    No requests found. <a routerLink="/client/catalogue">Browse catalogue</a> to start a new request.
+                  <td colspan="4" class="text-center py-5">
+                    <div class="py-4">
+                      <i class="bi bi-inbox display-1 text-light mb-3 d-block"></i>
+                      <p class="text-muted">No requests found. <a routerLink="/client/catalogue" class="text-primary fw-bold">Start a new project</a></p>
+                    </div>
                   </td>
                 </tr>
               </tbody>
@@ -61,37 +82,39 @@
         </div>
       </div>
     </div>
+  </div>
+
   <!-- Analytics & SaaS Features -->
-  <div class="row g-4 mb-4">
+  <div class="row g-4">
     <div class="col-lg-7">
-      <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
-        <h5 class="fw-bold mb-4">Usage Analytics</h5>
-        <div class="d-flex flex-column gap-4">
-          <div>
-            <div class="d-flex justify-content-between mb-2">
-              <span class="small fw-bold text-muted">Web Development Resources</span>
-              <span class="small fw-bold text-primary">85% utilized</span>
+      <div class="card border-0 shadow-premium-sm rounded-5 p-5 h-100">
+        <h4 class="fw-black text-dark mb-5">Performance Analytics</h4>
+        <div class="d-flex flex-column gap-5">
+          <div class="analytics-item">
+            <div class="d-flex justify-content-between mb-3">
+              <span class="small fw-black text-muted text-uppercase tracking-widest">Infrastructure Utilization</span>
+              <span class="badge bg-primary-soft text-primary rounded-pill">85% Optimal</span>
             </div>
-            <div class="progress" style="height: 8px;">
-              <div class="progress-bar" role="progressbar" style="width: 85%"></div>
-            </div>
-          </div>
-          <div>
-            <div class="d-flex justify-content-between mb-2">
-              <span class="small fw-bold text-muted">Marketing Budget</span>
-              <span class="small fw-bold text-success">BDT 1,32,000 / BDT 2,20,000 spent</span>
-            </div>
-            <div class="progress" style="height: 8px;">
-              <div class="progress-bar bg-success" role="progressbar" style="width: 60%"></div>
+            <div class="progress-premium" style="height: 10px;">
+              <div class="progress-bar-premium bg-primary" role="progressbar" style="width: 85%"></div>
             </div>
           </div>
-          <div>
-            <div class="d-flex justify-content-between mb-2">
-              <span class="small fw-bold text-muted">Support Tickets response time</span>
-              <span class="small fw-bold text-warning">Avg 2.4h</span>
+          <div class="analytics-item">
+            <div class="d-flex justify-content-between mb-3">
+              <span class="small fw-black text-muted text-uppercase tracking-widest">Budget Allocation</span>
+              <span class="small fw-bold text-dark">1,32,000 / 2,20,000 <span class="text-primary opacity-50">BDT</span> Spent</span>
             </div>
-            <div class="progress" style="height: 8px;">
-              <div class="progress-bar bg-warning" role="progressbar" style="width: 45%"></div>
+            <div class="progress-premium" style="height: 10px;">
+              <div class="progress-bar-premium bg-success" role="progressbar" style="width: 60%"></div>
+            </div>
+          </div>
+          <div class="analytics-item">
+            <div class="d-flex justify-content-between mb-3">
+              <span class="small fw-black text-muted text-uppercase tracking-widest">Team Response Rate</span>
+              <span class="small fw-bold text-dark">Avg 2.4 Hours</span>
+            </div>
+            <div class="progress-premium" style="height: 10px;">
+              <div class="progress-bar-premium bg-warning" role="progressbar" style="width: 45%"></div>
             </div>
           </div>
         </div>
@@ -99,16 +122,19 @@
     </div>
     
     <div class="col-lg-5">
-      <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-light-soft">
-        <h5 class="fw-bold mb-3">Next Invoicing Cycle</h5>
-        <div class="p-4 bg-white rounded-4 shadow-sm border-start border-4 border-primary mb-3">
-          <div class="small text-muted mb-1">Upcoming Payment (May 15)</div>
-          <div class="fs-3 fw-bold text-dark">BDT 32,890.00</div>
-          <div class="small text-success mt-2"><i class="bi bi-clock-history"></i> Automatic renewal enabled</div>
+      <div class="card border-0 shadow-premium-sm rounded-5 p-5 h-100 bg-dark text-white billing-card">
+        <h4 class="fw-black mb-4">Billing & Payments</h4>
+        <div class="p-4 bg-white bg-opacity-10 rounded-4 mb-4 border border-white border-opacity-10">
+          <div class="small text-white text-opacity-50 mb-1 tracking-widest uppercase fw-bold">Next Billing Cycle (May 15)</div>
+          <div class="display-5 fw-black">32,890.00 <span class="fs-4 opacity-50">BDT</span></div>
+          <div class="d-flex align-items-center mt-3 text-success small">
+            <i class="bi bi-shield-check me-2"></i>
+            <span class="fw-bold">Auto-pay Secured</span>
+          </div>
         </div>
-        <div class="d-grid gap-2">
-          <button class="btn btn-outline-primary rounded-pill py-2" routerLink="/client/payments">Manage Billing</button>
-          <button class="btn btn-light rounded-pill py-2">Download Last Receipt</button>
+        <div class="d-grid gap-3">
+          <button class="btn btn-primary-premium py-3 rounded-pill fw-bold" routerLink="/client/payments">Manage Subscriptions</button>
+          <button class="btn btn-outline-light border-opacity-25 py-3 rounded-pill fw-bold">Download Statements</button>
         </div>
       </div>
     </div>

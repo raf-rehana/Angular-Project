@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ServiceCatalogueService } from '../../core/services/service-catalogue';
 import { Service, ServiceCategory } from '../../core/models/service';
-import { RouterModule } from '@angular/router';
+import { RouterModule, ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../core/services/auth.services';
 
 @Component({
   selector: 'app-catalogue',
@@ -18,15 +19,31 @@ export class CatalogueComponent implements OnInit {
   activeCategoryId: string | number | null = null;
   searchQuery = '';
 
-  constructor(private serviceCatalogue: ServiceCatalogueService) {}
+  constructor(
+    private serviceCatalogue: ServiceCatalogueService,
+    private route: ActivatedRoute,
+    public authService: AuthService
+  ) {}
 
   ngOnInit() {
     this.serviceCatalogue.getCategories().subscribe((data: ServiceCategory[]) => {
       this.categories = data;
+      
+      // Handle categoryId from query params after categories are loaded
+      this.route.queryParams.subscribe(params => {
+        const catId = params['categoryId'];
+        if (catId) {
+          this.activeCategoryId = catId;
+        }
+        this.loadServices();
+      });
     });
+  }
+
+  loadServices() {
     this.serviceCatalogue.getServices().subscribe((data: Service[]) => {
       this.services = data;
-      this.filteredServices = data;
+      this.applyFilters();
     });
   }
 
@@ -53,5 +70,50 @@ export class CatalogueComponent implements OnInit {
     }
     
     this.filteredServices = filtered;
+  }
+
+  get groupedServices() {
+    const groups: { category: ServiceCategory, services: Service[] }[] = [];
+    
+    const relevantCategories = this.activeCategoryId 
+      ? this.categories.filter(c => c.id.toString() === this.activeCategoryId?.toString())
+      : this.categories;
+
+    relevantCategories.forEach(cat => {
+      const catServices = this.filteredServices.filter(s => s.categoryId.toString() === cat.id.toString());
+      if (catServices.length > 0) {
+        groups.push({ category: cat, services: catServices });
+      }
+    });
+    
+    return groups;
+  }
+
+  getCategoryColor(categoryId: string | number): string {
+    const category = this.categories.find(c => c.id.toString() === categoryId.toString());
+    return category?.color || '#0d6efd';
+  }
+
+  getActiveCategoryName(): string {
+    const cat = this.categories.find(c => c.id.toString() === this.activeCategoryId?.toString());
+    return cat?.name || 'Selected Sector';
+  }
+
+  getServiceBadgeColor(index: number): string {
+    const palette = [
+      '#1D4ED8', // Bold Blue
+      '#065F46', // Deep Emerald
+      '#92400E', // Burnt Amber
+      '#1E3A5F', // Navy
+      '#7C3AED', // Deep Violet
+      '#0F766E', // Teal
+      '#B45309', // Dark Orange
+      '#1F2937', // Charcoal
+      '#155E75', // Dark Cyan
+      '#3B0764', // Deep Indigo
+      '#064E3B', // Forest Green
+      '#1C1917', // Dark Stone
+    ];
+    return palette[index % palette.length];
   }
 }

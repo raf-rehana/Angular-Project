@@ -150,8 +150,23 @@ import { User } from '../../core/models/user';
                 <textarea class="form-control" rows="3" [(ngModel)]="selectedRequest.employeeNotes" placeholder="Add notes for the team..."></textarea>
               </div>
 
+              <!-- Client Documents -->
+              <div class="mb-4" *ngIf="selectedRequest.documents?.length">
+                <label class="form-label small fw-bold text-muted text-uppercase">Client Attachments</label>
+                <div class="list-group list-group-flush border rounded-3 overflow-hidden">
+                  <a *ngFor="let doc of selectedRequest.documents" [href]="doc.url" target="_blank" 
+                     class="list-group-item list-group-item-action py-2 d-flex align-items-center justify-content-between small">
+                    <div class="text-truncate me-2">
+                      <i class="bi bi-file-earmark-text text-primary me-2"></i>
+                      {{ doc.name }}
+                    </div>
+                    <i class="bi bi-eye"></i>
+                  </a>
+                </div>
+              </div>
+
               <div class="d-grid gap-2">
-                <button class="btn btn-primary py-2" (click)="saveNotes()">Save Notes</button>
+                <button class="btn btn-primary py-2" (click)="saveNotes()">Save & Update</button>
                 <button class="btn btn-outline-danger py-2" (click)="cancelRequest()">Cancel Request</button>
               </div>
             </div>
@@ -205,14 +220,22 @@ export class AllRequestsComponent implements OnInit {
 
   updateRequest() {
     if (!this.selectedRequest) return;
-    this.requestService.updateStatus(this.selectedRequest.id, this.selectedRequest.status, this.selectedRequest.employeeNotes).subscribe(() => {
-      this.loadData();
-    });
+    
+    // First update status and notes
+    this.requestService.updateStatus(this.selectedRequest.id, this.selectedRequest.status, this.selectedRequest.employeeNotes)
+      .subscribe(() => {
+        // Then update assignment if changed
+        if (this.selectedRequest?.assignedTo) {
+          this.requestService.assignToEmployee(this.selectedRequest.id, this.selectedRequest.assignedTo)
+            .subscribe(() => this.loadData());
+        } else {
+          this.loadData();
+        }
+      });
   }
 
   saveNotes() {
     this.updateRequest();
-    alert('Notes saved successfully!');
     this.selectedRequest = null;
   }
 

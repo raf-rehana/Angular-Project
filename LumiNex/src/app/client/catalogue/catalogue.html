@@ -1,59 +1,110 @@
-<div class="container-fluid py-4">
-  <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-    <div>
-      <h2 class="fw-bold text-dark mb-0">Service Catalogue</h2>
-      <p class="text-muted">Browse and request our available services</p>
+<div class="container-fluid py-5 ps-0 pe-4 min-vh-100 bg-catalogue">
+  <!-- Header Section - Hidden when filtered by category for a cleaner look -->
+  <div class="row mb-5 align-items-center animate-fade-in" *ngIf="!activeCategoryId">
+    <div class="col-lg-7">
+      <div class="d-inline-flex align-items-center px-4 py-2 rounded-pill bg-primary-600 text-white x-small fw-black mb-4 uppercase tracking-widest shadow-sm">
+        <i class="bi bi-grid-fill me-2"></i> Service Marketplace
+      </div>
+      <h1 class="text-5xl lg:text-7xl font-black text-slate-900 mb-3 tracking-tighter">Service <span class="text-primary-600">Catalogue</span></h1>
+      <p class="text-slate-500 lead mb-0 max-w-xl">Premium solutions tailored for your startup journey. Browse our curated collection of enterprise-grade services.</p>
     </div>
-    <div class="position-relative" style="max-width: 300px; width: 100%;">
-      <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
-      <input type="text" class="form-control form-control-lg bg-white border-0 shadow-sm ps-5 rounded-pill" placeholder="Search services..." (input)="onSearch($event)">
+    <div class="col-lg-5 mt-5 mt-lg-0">
+      <div class="d-flex flex-column gap-3">
+        <!-- Admin Action -->
+        <button *ngIf="authService.hasRole('ADMIN')" routerLink="/admin/service-management" class="btn btn-primary-premium rounded-full px-8 py-4 font-black uppercase tracking-widest shadow-lg mb-2">
+          <i class="bi bi-plus-lg me-2"></i> Add New Service
+        </button>
+
+        <div class="glass-search-box p-3 rounded-[2rem] shadow-premium-sm bg-white d-flex gap-2">
+          <div class="position-relative flex-grow-1">
+            <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-4 text-slate-400"></i>
+            <input type="text" class="form-control border-0 bg-transparent ps-5 py-3 fw-medium" 
+                   placeholder="Search services..." (input)="onSearch($event)">
+          </div>
+          <div class="position-relative select-container" style="min-width: 160px;">
+            <select class="form-select border-0 bg-transparent py-3 fw-black text-slate-900 appearance-none cursor-pointer" 
+                    (change)="filterByCategory($any($event.target).value === 'all' ? null : $any($event.target).value)">
+              <option value="all">All Sectors</option>
+              <option *ngFor="let cat of categories" [value]="cat.id" [selected]="activeCategoryId === cat.id">
+                {{ cat.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Categories -->
-  <div class="d-flex overflow-auto pb-3 mb-4 gap-2 no-scrollbar">
-    <button class="btn rounded-pill px-4" 
-            [ngClass]="activeCategoryId === null ? 'btn-primary shadow-sm' : 'btn-outline-secondary bg-white text-dark'"
-            (click)="filterByCategory(null)">
-      All Services
-    </button>
-    <button *ngFor="let cat of categories" class="btn rounded-pill px-4 text-nowrap d-flex align-items-center"
-            [ngClass]="activeCategoryId === cat.id ? 'btn-primary shadow-sm' : 'btn-outline-secondary bg-white text-dark'"
-            (click)="filterByCategory(cat.id)">
-      <i class="{{ cat.icon }} me-2"></i> {{ cat.name }}
-    </button>
+  <!-- Minimal Header for Filtered View -->
+  <div class="row mb-5 animate-fade-in" *ngIf="activeCategoryId">
+    <div class="col-12 d-flex justify-content-between align-items-center">
+      <div>
+        <button (click)="filterByCategory(null)" class="btn btn-link text-slate-400 p-0 mb-3 text-decoration-none x-small font-black uppercase tracking-widest hover:text-primary-600 transition-colors">
+          <i class="bi bi-arrow-left me-2"></i> Back to all solutions
+        </button>
+        <h1 class="text-4xl lg:text-6xl font-black text-slate-900 tracking-tighter mb-0">
+          {{ getActiveCategoryName() }} <span class="text-primary-600">Solutions</span>
+        </h1>
+      </div>
+      
+      <div class="d-flex align-items-center gap-4">
+        <!-- Admin Action -->
+        <button *ngIf="authService.hasRole('ADMIN')" routerLink="/admin/service-management" class="btn btn-primary-premium rounded-full px-8 py-3 font-black x-small uppercase tracking-widest shadow-lg">
+          <i class="bi bi-plus-lg me-2"></i> Add Service
+        </button>
+
+        <div class="glass-search-box p-2 rounded-full shadow-premium-sm bg-white d-flex gap-2" style="min-width: 320px;">
+          <i class="bi bi-search ms-3 mt-2.5 text-slate-400"></i>
+          <input type="text" class="form-control border-0 bg-transparent ps-2 py-2 fw-medium" 
+                 placeholder="Search in this sector..." (input)="onSearch($event)">
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- Services Grid -->
-  <div class="row g-4">
-    <div class="col-md-6 col-lg-4 col-xl-3" *ngFor="let service of filteredServices">
-      <div class="card h-100 border-0 shadow-sm rounded-4 service-card overflow-hidden">
-        <div class="card-body p-4 d-flex flex-column">
-          <div class="d-flex justify-content-between align-items-start mb-3">
-            <span class="badge bg-light text-primary border border-primary px-3 py-2 rounded-pill">{{ service.categoryName }}</span>
-            <div class="fs-4 fw-bold text-dark">${{ service.price }} <span class="fs-6 text-muted fw-normal" *ngIf="service.priceType === 'MONTHLY'">/mo</span></div>
+  <!-- Grouped Services View -->
+  <div class="animate-fade-in mt-5">
+    <div *ngFor="let group of groupedServices" class="mb-10">
+      <div class="d-flex align-items-center justify-content-between mb-5 pb-3 border-bottom border-light">
+        <div class="d-flex align-items-center gap-3">
+          <div class="category-indicator-thick" [style.background-color]="group.category.color"></div>
+          <h2 class="text-3xl font-black text-slate-900 mb-0 uppercase tracking-widest">
+            {{ group.category.name }}
+          </h2>
+        </div>
+        <span class="text-xs font-black text-slate-400 uppercase tracking-widest">{{ group.services.length }} solutions available</span>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-3" *ngFor="let service of group.services; let j = index">
+          <div class="card h-100 border-0 shadow-premium-sm rounded-[2.5rem] bg-white p-8 transition-all hover-shadow-premium d-flex flex-column">
+            <div class="px-4 py-2 rounded-xl mb-6 d-inline-block align-self-start shadow-sm" [style.background-color]="getServiceBadgeColor(j)">
+              <h4 class="text-xs font-black text-white mb-0 uppercase tracking-widest">{{ service.name }}</h4>
+            </div>
+            
+            <p class="text-slate-500 text-sm leading-relaxed mb-10 flex-grow-1 text-start">{{ service.description }}</p>
+            
+            <div class="pt-6 border-top border-light d-flex justify-content-between align-items-center mt-auto">
+              <span class="text-xs font-black text-slate-400 uppercase tracking-widest">{{ service.price.toLocaleString() }} BDT</span>
+              <a [routerLink]="['/client/request-form']" [queryParams]="{ serviceId: service.id }" class="text-primary-600 text-xs font-black uppercase tracking-widest text-decoration-none">
+                Request <i class="bi bi-chevron-right ms-1"></i>
+              </a>
+            </div>
           </div>
-          
-          <h5 class="fw-bold text-dark mb-2">{{ service.name }}</h5>
-          <p class="text-muted flex-grow-1 small">{{ service.description }}</p>
-          
-          <div class="d-flex align-items-center mb-4 text-muted small">
-            <i class="bi bi-clock me-2 text-primary"></i> {{ service.deliveryDays }} delivery
-          </div>
-          
-          <button class="btn btn-outline-primary w-100 rounded-pill py-2 fw-bold" 
-                  [routerLink]="['/client/request-form']" 
-                  [queryParams]="{ serviceId: service.id }">
-            Request Service
-          </button>
         </div>
       </div>
     </div>
     
-    <div class="col-12 text-center py-5" *ngIf="filteredServices.length === 0">
-      <i class="bi bi-search display-1 text-muted mb-3 d-block opacity-25"></i>
-      <h4 class="text-muted">No services found</h4>
-      <p class="text-muted mb-0">Try adjusting your filters or search query.</p>
+    <!-- Empty State -->
+    <div class="col-12 text-center py-20" *ngIf="groupedServices.length === 0">
+      <div class="empty-state-card p-12 rounded-[3rem] bg-white shadow-premium-sm d-inline-block">
+        <div class="w-24 h-24 rounded-full bg-slate-50 flex items-center justify-center mx-auto mb-6">
+          <i class="bi bi-search text-slate-300 text-4xl"></i>
+        </div>
+        <h3 class="text-2xl font-black text-slate-900 mb-3">No matching solutions</h3>
+        <p class="text-slate-500 mb-8 max-w-sm mx-auto">We couldn't find any services matching your current search. Try a different sector or keyword.</p>
+        <button class="btn btn-primary-premium rounded-full px-10 py-3 font-bold" (click)="filterByCategory(null)">Show All Services</button>
+      </div>
     </div>
   </div>
 </div>

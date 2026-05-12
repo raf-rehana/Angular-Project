@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-packages',
@@ -9,7 +9,16 @@ import { RouterLink } from '@angular/router';
   templateUrl: './packages.html',
   styleUrl: './packages.css'
 })
-export class PackagesComponent {
+export class PackagesComponent implements OnInit {
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      if (params['category']) {
+        this.selectedCategory = params['category'];
+      }
+    });
+  }
   selectedCategory = 'all';
 
   categories = [

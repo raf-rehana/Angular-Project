@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { SiteContentService } from '../../core/services/site-content.service';
 import { SiteContent } from '../../core/models/site-content';
+import { ServiceCatalogueService } from '../../core/services/service-catalogue';
+import { ServiceCategory } from '../../core/models/service';
 
 @Component({
   selector: 'app-home',
@@ -13,12 +15,35 @@ import { SiteContent } from '../../core/models/site-content';
 })
 export class HomeComponent implements OnInit {
   siteContent: SiteContent | null = null;
+  categories: ServiceCategory[] = [];
+  groupedServices: { category: ServiceCategory, services: any[] }[] = [];
   isLoading = true;
 
-  constructor(private siteContentService: SiteContentService) {}
+  constructor(
+    private siteContentService: SiteContentService,
+    private catalogueService: ServiceCatalogueService
+  ) {}
 
   ngOnInit() {
     this.loadSiteContent();
+    this.loadHomeData();
+  }
+
+  loadHomeData() {
+    this.catalogueService.getCategories().subscribe(cats => {
+      this.categories = cats;
+      this.catalogueService.getServices().subscribe(services => {
+        // Target specific categories requested by user (IDs 5 to 10)
+        const targetIds = ['5', '6', '7', '8', '9', '10'];
+        this.groupedServices = targetIds.map(id => {
+          const category = cats.find(c => c.id === id);
+          const catServices = services.filter(s => s.categoryId === id).slice(0, 4); // Show top 4 per category
+          return { category: category!, services: catServices };
+        }).filter(group => group.category);
+        
+        this.isLoading = false;
+      });
+    });
   }
 
   loadSiteContent() {
@@ -67,27 +92,27 @@ export class HomeComponent implements OnInit {
       servicesSubtitle: "We don't just provide services; we build foundations. Choose a package that covers everything from your legal identity to your digital presence.",
       services: [
         {
-          icon: 'bi-rocket-takeoff',
-          title: 'Launch Packages',
-          description: 'Full startup readiness including Trade Licenses, Web/Mobile Apps, and Business Registration.',
-          linkText: 'View Packages',
-          linkUrl: '/packages',
+          icon: 'bi-laptop',
+          title: 'Digital Foundation',
+          description: 'Professional Website, Domain (1 Year), Business Email, and Basic SEO.',
+          linkText: 'Subscribe Now',
+          linkUrl: '/client/subscriptions',
           color: 'primary'
         },
         {
-          icon: 'bi-globe',
-          title: 'Digital Presence',
-          description: 'High-end Web development, E-commerce platforms, and SEO to get your brand seen globally.',
-          linkText: 'Explore Web',
-          linkUrl: '/packages',
+          icon: 'bi-graph-up-arrow',
+          title: 'Growth Accelerator',
+          description: 'E-Commerce Platform, Marketing (3 Months), Social Media Mgmt, and 24/7 Support.',
+          linkText: 'Subscribe Now',
+          linkUrl: '/client/subscriptions',
           color: 'success'
         },
         {
-          icon: 'bi-megaphone',
-          title: 'Growth & Marketing',
-          description: 'Complete digital marketing, social media management, and brand identity kits for scale.',
-          linkText: 'Grow Now',
-          linkUrl: '/packages',
+          icon: 'bi-rocket-takeoff',
+          title: 'A-to-Z Launchpad',
+          description: 'Business Formation, Trade License, Web & Mobile App, and Launch Manager.',
+          linkText: 'Subscribe Now',
+          linkUrl: '/client/subscriptions',
           color: 'warning'
         }
       ],
@@ -130,5 +155,27 @@ export class HomeComponent implements OnInit {
       'secondary': 'bg-secondary-soft'
     };
     return colorMap[color] || 'bg-soft-primary';
+  }
+
+  // Returns a strong, professional badge background color per service index
+  getServiceBadgeColor(index: number): string {
+    const palette = [
+      '#1D4ED8', '#065F46', '#92400E', '#1E3A5F',
+      '#7C3AED', '#0F766E', '#B45309', '#1F2937',
+      '#155E75', '#3B0764', '#064E3B', '#1C1917',
+    ];
+    return palette[index % palette.length];
+  }
+
+  getCategoryButtonColor(index: number): string {
+    const palette = [
+      '#2563EB', // Blue
+      '#059669', // Emerald
+      '#D97706', // Amber
+      '#DC2626', // Red
+      '#7C3AED', // Violet
+      '#0891B2', // Cyan
+    ];
+    return palette[index % palette.length];
   }
 }

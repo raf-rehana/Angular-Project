@@ -1,0 +1,109 @@
+.welcome-banner {
+  background: linear-gradient(135deg, #0d6efd 0%, #0056b3 100%);
+}
+
+.circle-decoration {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.decoration-1 {
+  width: 300px;
+  height: 300px;
+  top: -150px;
+  right: -50px;
+}
+
+.decoration-2 {
+  width: 150px;
+  height: 150px;
+  bottom: -50px;
+  left: 20%;
+}
+
+.stats-card-gradient {
+  background: linear-gradient(135deg, #6610f2 0%, #6f42c1 100%);
+}
+
+.stats-icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+.btn-glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.btn-glass:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.custom-table thead th {
+  padding-bottom: 1.5rem;
+}
+
+.border-bottom-soft {
+  border-bottom: 1px solid #f8f9fa;
+}
+
+.btn-icon-round {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #adb5bd;
+  transition: all 0.3s ease;
+}
+
+.btn-icon-round:hover {
+  background: #f8f9fa;
+  color: var(--bs-primary);
+  border-color: var(--bs-primary);
+}
+
+.progress-premium {
+  background-color: #f1f3f5;
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.progress-bar-premium {
+  border-radius: 100px;
+  transition: width 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.billing-card {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.btn-primary-premium {
+  background: #0d6efd;
+  border: none;
+  box-shadow: 0 10px 20px rgba(13, 110, 253, 0.3);
+  transition: all 0.3s ease;
+}
+
+.btn-primary-premium:hover {
+  background: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px rgba(13, 110, 253, 0.4);
+}
+
+.fw-black { font-weight: 900; }
+.tracking-widest { letter-spacing: 0.15em; }
+.x-small { font-size: 0.65rem; }

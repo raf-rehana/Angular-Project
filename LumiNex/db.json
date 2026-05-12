@@ -98,6 +98,14 @@
       "role": "EMPLOYEE",
       "designation": "Full Stack Developer",
       "id": "IsbP6SrliRM"
+    },
+    {
+      "name": "Employee",
+      "email": "employee@luminex.com",
+      "password": "demo123",
+      "role": "EMPLOYEE",
+      "designation": "Service Specialist",
+      "id": "10150"
     }
   ],
   "categories": [
@@ -124,6 +132,42 @@
       "name": "Consulting",
       "icon": "bi-briefcase",
       "color": "#6f42c1"
+    },
+    {
+      "id": "5",
+      "name": "Legal & Compliance",
+      "icon": "bi-shield-check",
+      "color": "#dc3545"
+    },
+    {
+      "id": "6",
+      "name": "Office Space",
+      "icon": "bi-building",
+      "color": "#6610f2"
+    },
+    {
+      "id": "7",
+      "name": "Office Stationery & Supplies",
+      "icon": "bi-printer",
+      "color": "#6f42c1"
+    },
+    {
+      "id": "8",
+      "name": "Finance & Accounting",
+      "icon": "bi-calculator",
+      "color": "#20c997"
+    },
+    {
+      "id": "9",
+      "name": "IT & Technology",
+      "icon": "bi-laptop",
+      "color": "#0dcaf0"
+    },
+    {
+      "id": "10",
+      "name": "HR & Recruitment",
+      "icon": "bi-people",
+      "color": "#d63384"
     }
   ],
   "services": [
@@ -136,7 +180,11 @@
       "price": 1500,
       "priceType": "FIXED",
       "deliveryDays": "14",
-      "isActive": true
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "w1", "docName": "Requirements Doc", "isMandatory": true, "description": "Detailed list of features and functionalities." },
+        { "id": "w2", "docName": "Logo Assets", "isMandatory": false, "description": "High-quality logo files for branding." }
+      ]
     },
     {
       "id": "2",
@@ -147,7 +195,10 @@
       "price": 500,
       "priceType": "FIXED",
       "deliveryDays": "7",
-      "isActive": true
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "g1", "docName": "Design Brief", "isMandatory": true, "description": "Summary of your brand's vision and preferences." }
+      ]
     },
     {
       "id": "3",
@@ -158,7 +209,10 @@
       "price": 300,
       "priceType": "MONTHLY",
       "deliveryDays": "Ongoing",
-      "isActive": true
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "m1", "docName": "Social Media Links", "isMandatory": true, "description": "URLs of existing profiles." }
+      ]
     },
     {
       "id": "4",
@@ -169,18 +223,27 @@
       "price": 200,
       "priceType": "FIXED",
       "deliveryDays": "3",
-      "isActive": true
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "w3", "docName": "Content Copy", "isMandatory": true, "description": "Text content to be used on the page." }
+      ]
     },
     {
-      "name": "Android App",
+      "id": "YgR6ewGkq1w",
       "categoryId": "1",
       "categoryName": "Web Development",
+      "name": "Android App",
+      "description": "High-performance custom Android application development.",
       "price": 1000,
+      "currency": "BDT",
       "priceType": "FIXED",
       "deliveryDays": "45",
-      "description": "High Security",
       "isActive": true,
-      "id": "YgR6ewGkq1w"
+      "requiredDocuments": [
+        { "id": "ap1", "docName": "App Feature List (SRS)", "isMandatory": true, "description": "Detailed document of app functionalities." },
+        { "id": "ap2", "docName": "UI/UX Wireframes", "isMandatory": false, "description": "Any existing sketches or designs." },
+        { "id": "ap3", "docName": "Server Requirements", "isMandatory": false, "description": "Backend and API specifications if known." }
+      ]
     },
     {
       "id": "s101",
@@ -192,7 +255,10 @@
       "currency": "BDT",
       "priceType": "FIXED",
       "deliveryDays": "60",
-      "isActive": true
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "w5", "docName": "System Architecture Plan", "isMandatory": true, "description": "Initial draft of the system flow." }
+      ]
     },
     {
       "id": "s102",
@@ -204,7 +270,10 @@
       "currency": "BDT",
       "priceType": "MONTHLY",
       "deliveryDays": "Ongoing",
-      "isActive": true
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "m2", "docName": "Website URL", "isMandatory": true, "description": "The site to be optimized." }
+      ]
     },
     {
       "id": "s103",
@@ -216,7 +285,10 @@
       "currency": "BDT",
       "priceType": "FIXED",
       "deliveryDays": "14",
-      "isActive": true
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "c1", "docName": "Current Traffic Stats", "isMandatory": false, "description": "Data on current user load." }
+      ]
     },
     {
       "id": "s104",
@@ -228,8 +300,675 @@
       "currency": "BDT",
       "priceType": "FIXED",
       "deliveryDays": "21",
-      "isActive": true
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "g2", "docName": "Current Site URL", "isMandatory": true, "description": "Site to be redesigned." }
+      ]
+    },
+    {
+      "id": "s143",
+      "categoryId": "2",
+      "categoryName": "Graphic Design",
+      "name": "Social Media Graphics Pack",
+      "description": "10 custom-designed posts for your social media channels.",
+      "price": 3500,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "5",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "g3", "docName": "Brand Assets", "isMandatory": true, "description": "Logo and color preferences." }
+      ]
+    },
+    {
+      "id": "s144",
+      "categoryId": "2",
+      "categoryName": "Graphic Design",
+      "name": "Company Profile Design",
+      "description": "Professional 8-page company profile or brochure design.",
+      "price": 8000,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "7-10",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "g4", "docName": "Company Text Content", "isMandatory": true, "description": "Written content for the brochure." }
+      ]
+    },
+    {
+      "id": "s145",
+      "categoryId": "3",
+      "categoryName": "Marketing",
+      "name": "Google Ads Management",
+      "description": "End-to-end management of your Google Search and Display ads.",
+      "price": 10000,
+      "currency": "BDT",
+      "priceType": "MONTHLY",
+      "deliveryDays": "Ongoing",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "m3", "docName": "Ad Account Access", "isMandatory": true, "description": "Access to Google Ads manager." }
+      ]
+    },
+    {
+      "id": "s146",
+      "categoryId": "3",
+      "categoryName": "Marketing",
+      "name": "Content Marketing Strategy",
+      "description": "6-month content plan including blog topics and social strategy.",
+      "price": 15000,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "14",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "m4", "docName": "Target Audience Profile", "isMandatory": true, "description": "Details about your ideal customers." }
+      ]
+    },
+    {
+      "id": "s147",
+      "categoryId": "4",
+      "categoryName": "Consulting",
+      "name": "Pitch Deck for Investors",
+      "description": "Professional 12-15 slide pitch deck design and content strategy.",
+      "price": 25000,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "10-14",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "c2", "docName": "Business Summary", "isMandatory": true, "description": "Executive summary of your startup." }
+      ]
+    },
+    {
+      "id": "s148",
+      "categoryId": "4",
+      "categoryName": "Consulting",
+      "name": "Market Research Report",
+      "description": "In-depth analysis of your industry, competitors, and trends.",
+      "price": 45000,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "30",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "c3", "docName": "Industry Focus", "isMandatory": true, "description": "Specific market segments to analyze." }
+      ]
+    },
+    {
+      "id": "s105",
+      "categoryId": "5",
+      "categoryName": "Legal & Compliance",
+      "name": "Trade License Registration",
+      "description": "Essential registration for any business operating in Bangladesh.",
+      "price": 5000,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "7-10",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "d1", "docName": "NID Copy", "isMandatory": true, "description": "National ID card of the business owner." },
+        { "id": "d2", "docName": "Recent Photo", "isMandatory": true, "description": "Passport size photograph." },
+        { "id": "d3", "docName": "Rent Agreement", "isMandatory": true, "description": "Trade license requires a commercial address proof." }
+      ]
+    },
+    {
+      "id": "s106",
+      "categoryId": "5",
+      "categoryName": "Legal & Compliance",
+      "name": "Company Incorporation (RJSC)",
+      "description": "Full support for registering your private limited company with RJSC.",
+      "price": 15000,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "14-21",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "d4", "docName": "NID of All Directors", "isMandatory": true, "description": "NID copies for all proposed directors." },
+        { "id": "d5", "docName": "Proposed Company Name", "isMandatory": true, "description": "Draft names for name clearance." },
+        { "id": "d6", "docName": "TIN Certificate", "isMandatory": true, "description": "TIN of all directors." }
+      ]
+    },
+    {
+      "id": "s107",
+      "categoryId": "5",
+      "categoryName": "Legal & Compliance",
+      "name": "VAT Registration (NBR)",
+      "description": "Get your Business Identification Number (BIN) from NBR.",
+      "price": 3000,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "5-7",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "v1", "docName": "Trade License Copy", "isMandatory": true, "description": "Updated trade license." },
+        { "id": "v2", "docName": "TIN Certificate", "isMandatory": true, "description": "Tax ID certificate." }
+      ]
+    },
+    {
+      "id": "s108",
+      "categoryId": "5",
+      "categoryName": "Legal & Compliance",
+      "name": "TIN Certificate",
+      "description": "Taxpayer Identification Number registration for individuals or companies.",
+      "price": 1500,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "2-3",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "t1", "docName": "NID / Passport", "isMandatory": true, "description": "Identification document." }
+      ]
+    },
+    {
+      "id": "s109",
+      "categoryId": "5",
+      "categoryName": "Legal & Compliance",
+      "name": "Import/Export License (IRC/ERC)",
+      "description": "Required licenses for international trade operations.",
+      "price": 12000,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "15-20",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "i1", "docName": "Trade License", "isMandatory": true, "description": "Valid trade license." },
+        { "id": "i2", "docName": "Membership Certificate", "isMandatory": true, "description": "Certificate from recognized chamber of commerce." }
+      ]
+    },
+    {
+      "id": "s110",
+      "categoryId": "5",
+      "categoryName": "Legal & Compliance",
+      "name": "Fire License",
+      "description": "Safety compliance certification from Fire Service & Civil Defence.",
+      "price": 4000,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "10-15",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "f1", "docName": "Trade License", "isMandatory": true, "description": "Updated trade license of the business." },
+        { "id": "f2", "docName": "NID of Owner", "isMandatory": true, "description": "National ID card of the applicant." },
+        { "id": "f3", "docName": "Building Layout Plan", "isMandatory": true, "description": "Layout plan attested by an architect or authorized person." },
+        { "id": "f4", "docName": "Rent Agreement / Land Deed", "isMandatory": true, "description": "Proof of commercial space usage." },
+        { "id": "f5", "docName": "Treasury Chalan", "isMandatory": false, "description": "Copy of the payment chalan (if already paid)." }
+      ]
+    },
+    {
+      "id": "s111",
+      "categoryId": "5",
+      "categoryName": "Legal & Compliance",
+      "name": "Environment Clearance",
+      "description": "Environmental impact certification from Department of Environment.",
+      "price": 8000,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "20-30",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "e1", "docName": "Trade License", "isMandatory": true, "description": "Valid trade license." },
+        { "id": "e2", "docName": "Layout Plan", "isMandatory": true, "description": "Plan showing waste management details." }
+      ]
+    },
+    {
+      "id": "s112",
+      "categoryId": "5",
+      "categoryName": "Legal & Compliance",
+      "name": "BIDA Registration",
+      "description": "Investment promotion and facilitation registration for industries.",
+      "price": 10000,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "15-20",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "b1", "docName": "Incorporation Certificate", "isMandatory": true, "description": "Certificate of incorporation from RJSC." },
+        { "id": "b2", "docName": "Project Profile", "isMandatory": true, "description": "Detailed project description." }
+      ]
+    },
+    {
+      "id": "s113",
+      "categoryId": "6",
+      "categoryName": "Office Space",
+      "name": "Virtual Office Address",
+      "description": "Premium business address for registration and mail handling.",
+      "price": 3000,
+      "currency": "BDT",
+      "priceType": "MONTHLY",
+      "deliveryDays": "Immediate",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "o1", "docName": "NID of Applicant", "isMandatory": true, "description": "National ID card." }
+      ]
+    },
+    {
+      "id": "s114",
+      "categoryId": "6",
+      "categoryName": "Office Space",
+      "name": "Hot Desk (Shared)",
+      "description": "Flexible workspace in a shared environment.",
+      "price": 8000,
+      "currency": "BDT",
+      "priceType": "MONTHLY",
+      "deliveryDays": "1-2",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "o2", "docName": "NID / Passport", "isMandatory": true, "description": "Identification for entry pass." }
+      ]
+    },
+    {
+      "id": "s115",
+      "categoryId": "6",
+      "categoryName": "Office Space",
+      "name": "Dedicated Desk",
+      "description": "Your own permanent desk in a professional co-working space.",
+      "price": 15000,
+      "currency": "BDT",
+      "priceType": "MONTHLY",
+      "deliveryDays": "1-2",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "o3", "docName": "Company Letterhead", "isMandatory": true, "description": "Formal request on company letterhead." }
+      ]
+    },
+    {
+      "id": "s116",
+      "categoryId": "6",
+      "categoryName": "Office Space",
+      "name": "Private Office (2-4 seats)",
+      "description": "Secure, private office space for small teams.",
+      "price": 35000,
+      "currency": "BDT",
+      "priceType": "MONTHLY",
+      "deliveryDays": "3-5",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "o4", "docName": "Company Registration", "isMandatory": true, "description": "Trade license or incorporation copy." }
+      ]
+    },
+    {
+      "id": "s117",
+      "categoryId": "6",
+      "categoryName": "Office Space",
+      "name": "Conference Room (per day)",
+      "description": "Fully equipped meeting rooms for professional presentations.",
+      "price": 5000,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "Booking basis",
+      "isActive": true,
+      "requiredDocuments": []
+    },
+    {
+      "id": "s118",
+      "categoryId": "6",
+      "categoryName": "Office Space",
+      "name": "Co-working Space Tour",
+      "description": "Free guided tour of our facilities.",
+      "price": 0,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "Same day",
+      "isActive": true,
+      "requiredDocuments": []
+    },
+    {
+      "id": "s119",
+      "categoryId": "7",
+      "categoryName": "Office Stationery & Supplies",
+      "name": "Basic Stationery Pack",
+      "description": "Essential office supplies including pens, pads, and folders.",
+      "price": 2500,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "1-2",
+      "isActive": true,
+      "requiredDocuments": []
+    },
+    {
+      "id": "s120",
+      "categoryId": "7",
+      "categoryName": "Office Stationery & Supplies",
+      "name": "Premium Stationery Pack",
+      "description": "High-quality stationery set for executive needs.",
+      "price": 5000,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "1-2",
+      "isActive": true,
+      "requiredDocuments": []
+    },
+    {
+      "id": "s121",
+      "categoryId": "7",
+      "categoryName": "Office Stationery & Supplies",
+      "name": "Business Card Design & Print (500)",
+      "description": "Professional business cards with custom design.",
+      "price": 2000,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "3-5",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "st1", "docName": "Logo File", "isMandatory": true, "description": "High-res logo for printing." }
+      ]
+    },
+    {
+      "id": "s122",
+      "categoryId": "7",
+      "categoryName": "Office Stationery & Supplies",
+      "name": "Letterhead Design & Print",
+      "description": "Official company letterheads for formal communication.",
+      "price": 1800,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "3-5",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "st2", "docName": "Company Details", "isMandatory": true, "description": "Address and contacts for letterhead." }
+      ]
+    },
+    {
+      "id": "s123",
+      "categoryId": "7",
+      "categoryName": "Office Stationery & Supplies",
+      "name": "Office Stamp / Seal",
+      "description": "Customized company stamps and official seals.",
+      "price": 800,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "2-3",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "st3", "docName": "Seal Draft", "isMandatory": true, "description": "Text to be included in the seal." }
+      ]
+    },
+    {
+      "id": "s124",
+      "categoryId": "7",
+      "categoryName": "Office Stationery & Supplies",
+      "name": "Company Signage Board",
+      "description": "Professional office signage and branding boards.",
+      "price": 4500,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "5-7",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "st4", "docName": "Design Preview", "isMandatory": false, "description": "Any existing design idea." }
+      ]
+    },
+    {
+      "id": "s125",
+      "categoryId": "7",
+      "categoryName": "Office Stationery & Supplies",
+      "name": "Receipt Book / Invoice Pad",
+      "description": "Customized billing and receipt books for your business.",
+      "price": 600,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "1",
+      "isActive": true,
+      "requiredDocuments": []
+    },
+    {
+      "id": "s126",
+      "categoryId": "8",
+      "categoryName": "Finance & Accounting",
+      "name": "Monthly Bookkeeping",
+      "description": "Ongoing management of your company's daily financial records.",
+      "price": 6000,
+      "currency": "BDT",
+      "priceType": "MONTHLY",
+      "deliveryDays": "Ongoing",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "acc1", "docName": "Previous Month's Records", "isMandatory": true, "description": "Existing financial logs." }
+      ]
+    },
+    {
+      "id": "s127",
+      "categoryId": "8",
+      "categoryName": "Finance & Accounting",
+      "name": "Annual Tax Filing",
+      "description": "Professional preparation and submission of annual tax returns.",
+      "price": 8000,
+      "currency": "BDT",
+      "priceType": "YEARLY",
+      "deliveryDays": "7-14",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "acc2", "docName": "Bank Statement (1 Year)", "isMandatory": true, "description": "Last 12 months bank statement." },
+        { "id": "acc3", "docName": "Company TIN", "isMandatory": true, "description": "Tax ID certificate." }
+      ]
+    },
+    {
+      "id": "s128",
+      "categoryId": "8",
+      "categoryName": "Finance & Accounting",
+      "name": "Bank Account Opening Assist",
+      "description": "Expert assistance in opening business bank accounts.",
+      "price": 2000,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "3-5",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "acc4", "docName": "Trade License", "isMandatory": true, "description": "Updated trade license." },
+        { "id": "acc5", "docName": "NID of Nominee", "isMandatory": true, "description": "Identification of account nominee." }
+      ]
+    },
+    {
+      "id": "s129",
+      "categoryId": "8",
+      "categoryName": "Finance & Accounting",
+      "name": "Payroll Management",
+      "description": "End-to-end management of employee salaries and benefits.",
+      "price": 5000,
+      "currency": "BDT",
+      "priceType": "MONTHLY",
+      "deliveryDays": "Ongoing",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "acc6", "docName": "Employee List", "isMandatory": true, "description": "List with salary details." }
+      ]
+    },
+    {
+      "id": "s130",
+      "categoryId": "8",
+      "categoryName": "Finance & Accounting",
+      "name": "Financial Statement Prep",
+      "description": "Preparation of Balance Sheets, P&L, and Cash Flow statements.",
+      "price": 7000,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "5-7",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "acc7", "docName": "Transaction Logs", "isMandatory": true, "description": "Raw financial data for the period." }
+      ]
+    },
+    {
+      "id": "s131",
+      "categoryId": "8",
+      "categoryName": "Finance & Accounting",
+      "name": "Business Plan Financial Model",
+      "description": "Detailed financial projections for business plans and investors.",
+      "price": 12000,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "7-10",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "acc8", "docName": "Project Description", "isMandatory": true, "description": "Summary of business goals." }
+      ]
+    },
+    {
+      "id": "s132",
+      "categoryId": "9",
+      "categoryName": "IT & Technology",
+      "name": "Domain & Hosting Setup",
+      "description": "Registration and configuration of your business website address and hosting.",
+      "price": 3500,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "1-2",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "it1", "docName": "Preferred Domain Names", "isMandatory": true, "description": "List of domains to check." }
+      ]
+    },
+    {
+      "id": "s133",
+      "categoryId": "9",
+      "categoryName": "IT & Technology",
+      "name": "Business Email Setup (G-Suite)",
+      "description": "Professional email setup for your team using Google Workspace.",
+      "price": 4000,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "1-2",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "it2", "docName": "User List", "isMandatory": true, "description": "Names and preferred email IDs." }
+      ]
+    },
+    {
+      "id": "s134",
+      "categoryId": "9",
+      "categoryName": "IT & Technology",
+      "name": "Basic Website (5 pages)",
+      "description": "A professional 5-page website to establish your online presence.",
+      "price": 20000,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "10-14",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "it3", "docName": "Logo Assets", "isMandatory": true, "description": "High-quality logo." },
+        { "id": "it4", "docName": "Content Outline", "isMandatory": true, "description": "What goes in each page." }
+      ]
+    },
+    {
+      "id": "s135",
+      "categoryId": "9",
+      "categoryName": "IT & Technology",
+      "name": "IT Equipment Procurement",
+      "description": "Sourcing and setup of necessary IT hardware for your office.",
+      "price": 0,
+      "currency": "BDT",
+      "priceType": "CUSTOM",
+      "deliveryDays": "5-7",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "it5", "docName": "Requirements Specification", "isMandatory": true, "description": "List of needed hardware." }
+      ]
+    },
+    {
+      "id": "s136",
+      "categoryId": "9",
+      "categoryName": "IT & Technology",
+      "name": "Cloud Storage Setup",
+      "description": "Configuring secure cloud storage solutions for business data.",
+      "price": 2500,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "1",
+      "isActive": true,
+      "requiredDocuments": []
+    },
+    {
+      "id": "s137",
+      "categoryId": "9",
+      "categoryName": "IT & Technology",
+      "name": "CCTV & Security Setup",
+      "description": "Installation and configuration of security camera systems.",
+      "price": 15000,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "3-5",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "it6", "docName": "Premises Layout", "isMandatory": false, "description": "Plan to identify camera points." }
+      ]
+    },
+    {
+      "id": "s138",
+      "categoryId": "10",
+      "categoryName": "HR & Recruitment",
+      "name": "Employment Contract Templates",
+      "description": "Legally compliant templates for various employment agreements.",
+      "price": 2000,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "1",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "hr1", "docName": "Company Registration Copy", "isMandatory": true, "description": "To verify company details." }
+      ]
+    },
+    {
+      "id": "s139",
+      "categoryId": "10",
+      "categoryName": "HR & Recruitment",
+      "name": "Job Posting & Shortlisting",
+      "description": "End-to-end recruitment support from posting to candidate shortlisting.",
+      "price": 8000,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "7-14",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "hr2", "docName": "Job Description", "isMandatory": true, "description": "Detailed JD for the role." }
+      ]
+    },
+    {
+      "id": "s140",
+      "categoryId": "10",
+      "categoryName": "HR & Recruitment",
+      "name": "HR Policy Manual",
+      "description": "Customized HR policy handbook for your organization.",
+      "price": 5000,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "5-7",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "hr3", "docName": "Current Policies (if any)", "isMandatory": false, "description": "Existing draft or rules." }
+      ]
+    },
+    {
+      "id": "s141",
+      "categoryId": "10",
+      "categoryName": "HR & Recruitment",
+      "name": "Staff Training Coordination",
+      "description": "Organizing and managing professional development workshops for staff.",
+      "price": 10000,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "As scheduled",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "hr4", "docName": "Training Topic Ideas", "isMandatory": true, "description": "What you want your staff to learn." }
+      ]
+    },
+    {
+      "id": "s142",
+      "categoryId": "10",
+      "categoryName": "HR & Recruitment",
+      "name": "Payroll & Leave System Setup",
+      "description": "Implementing automated systems for payroll and leave management.",
+      "price": 6000,
+      "currency": "BDT",
+      "priceType": "FIXED",
+      "deliveryDays": "3-5",
+      "isActive": true,
+      "requiredDocuments": [
+        { "id": "hr5", "docName": "Employee Records", "isMandatory": true, "description": "Names, IDs, and joining dates." }
+      ]
     }
+  ],
   ],
   "service-requests": [
     {
@@ -498,27 +1237,27 @@
       "servicesSubtitle": "We don't just provide services; we build foundations. Choose a package that covers everything from your legal identity to your digital presence.",
       "services": [
         {
-          "icon": "bi-rocket-takeoff",
-          "title": "Launch Packages",
-          "description": "Full startup readiness including Trade Licenses, Web/Mobile Apps, and Business Registration.",
-          "linkText": "View Packages",
-          "linkUrl": "/packages",
+          "icon": "bi-laptop",
+          "title": "Digital Foundation",
+          "description": "Professional Website, Domain (1 Year), Business Email, and Basic SEO.",
+          "linkText": "Subscribe Now",
+          "linkUrl": "/client/subscriptions",
           "color": "primary"
         },
         {
-          "icon": "bi-globe",
-          "title": "Digital Presence",
-          "description": "High-end Web development, E-commerce platforms, and SEO to get your brand seen globally.",
-          "linkText": "Explore Web",
-          "linkUrl": "/packages",
+          "icon": "bi-graph-up-arrow",
+          "title": "Growth Accelerator",
+          "description": "E-Commerce Platform, Marketing (3 Months), Social Media Mgmt, and 24/7 Support.",
+          "linkText": "Subscribe Now",
+          "linkUrl": "/client/subscriptions",
           "color": "success"
         },
         {
-          "icon": "bi-megaphone",
-          "title": "Growth & Marketing",
-          "description": "Complete digital marketing, social media management, and brand identity kits for scale.",
-          "linkText": "Grow Now",
-          "linkUrl": "/packages",
+          "icon": "bi-rocket-takeoff",
+          "title": "A-to-Z Launchpad",
+          "description": "Business Formation, Trade License, Web & Mobile App, and Launch Manager.",
+          "linkText": "Subscribe Now",
+          "linkUrl": "/client/subscriptions",
           "color": "warning"
         }
       ],

@@ -86,12 +86,16 @@
 
             <!-- Action -->
             <div class="card-footer bg-white border-0 p-4">
-              <a routerLink="/auth/register" class="btn w-100 rounded-pill py-2 fw-bold text-white"
+              <a routerLink="/auth/register" class="btn w-100 rounded-pill py-2 fw-bold text-white shadow-sm hover-shadow transition-all"
                  [style.background]="pkg.accent">
                 <i class="bi bi-rocket-takeoff me-2"></i>Get Started
               </a>
-              <a routerLink="/contact" class="btn btn-link w-100 text-muted small text-decoration-none py-1">
-                <i class="bi bi-chat-dots me-1"></i>Talk to an Expert
+              <a routerLink="/contact" class="btn w-100 rounded-pill py-2 fw-bold mt-3 transition-all"
+                 [style.color]="pkg.accent"
+                 [style.backgroundColor]="pkg.accentLight"
+                 onmouseover="this.style.filter='brightness(0.95)'"
+                 onmouseout="this.style.filter='brightness(1)'">
+                <i class="bi bi-chat-dots-fill me-2"></i>Talk to an Expert
               </a>
             </div>
           </div>

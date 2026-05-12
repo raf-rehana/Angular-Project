@@ -32,6 +32,7 @@ export class Payments implements OnInit, OnDestroy {
   paymentStatus: 'success' | 'failed' | 'cancelled' | null = null;
   tranId: string | null = null;
   paidAmount: string | null = null;
+  private invoiceGenerated = false;
 
   // Plans
   plans: { id: string; name: string; price: number }[] = [];
@@ -80,6 +81,15 @@ export class Payments implements OnInit, OnDestroy {
       if (params['planId']) {
         this.initialPlanId = params['planId'];
       }
+      if (params['serviceId']) {
+        this.selectedPlanId = params['serviceId'];
+        this.selectedPlanName = params['serviceName'];
+        this.selectedPlanPrice = Number(params['amount']) || 0;
+      }
+
+      if (this.paymentStatus === 'success' && !this.invoiceGenerated) {
+        this.triggerAutoInvoice();
+      }
     });
     this.loadPlans();
     this.loadHistory();
@@ -90,6 +100,7 @@ export class Payments implements OnInit, OnDestroy {
       next: data => {
         this.plans = data.map(p => ({ id: p.id, name: p.name, price: p.price }));
         if (this.plans.length > 0) {
+          if (this.selectedPlanId) return; // Already set via query params
           const match = this.initialPlanId
             ? this.plans.find(p => p.id === this.initialPlanId) || this.plans[0]
             : this.plans[0];
@@ -159,6 +170,7 @@ export class Payments implements OnInit, OnDestroy {
         this.loadingPayment = false;
         this.paymentStatus = 'success';
         this.tranId = 'CASH-' + Date.now();
+        this.triggerAutoInvoice();
         this.loadHistory();
       },
       error: () => {
@@ -215,6 +227,23 @@ export class Payments implements OnInit, OnDestroy {
       date: payment.date
     };
     this.pdfGeneratorService.generateInvoicePdf(invoiceDetails);
+  }
+
+  private triggerAutoInvoice() {
+    if (this.invoiceGenerated) return;
+    this.invoiceGenerated = true;
+    
+    // Small delay to ensure UI reflects success before showing PDF
+    setTimeout(() => {
+      const mockPayment = {
+        id: this.tranId || 'INV-' + Date.now(),
+        client: this.authService.currentUser?.name || 'Client',
+        item: this.selectedPlanName || 'Service Payment',
+        amount: this.total || this.paidAmount,
+        date: new Date().toISOString().split('T')[0]
+      };
+      this.generateInvoice(mockPayment);
+    }, 1000);
   }
 
   get methodLabel(): string {

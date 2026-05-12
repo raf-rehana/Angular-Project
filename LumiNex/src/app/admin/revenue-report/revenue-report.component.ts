@@ -32,14 +32,14 @@ import { PaymentService, Payment } from '../../core/services/payment.service';
         <div class="col-6 col-md-3">
           <div class="card border-0 shadow-sm rounded-4 p-3 text-center">
             <div class="small text-muted fw-bold text-uppercase mb-1">Total Revenue</div>
-            <div class="h4 fw-bold text-primary mb-0">৳{{ totalRevenue | number:'1.0-0' }}</div>
+            <div class="h4 fw-bold text-primary mb-0">{{ totalRevenue | number:'1.0-0' }} BDT</div>
             <div class="small text-muted">{{ paidCount }} paid</div>
           </div>
         </div>
         <div class="col-6 col-md-3">
           <div class="card border-0 shadow-sm rounded-4 p-3 text-center">
             <div class="small text-muted fw-bold text-uppercase mb-1">Pending</div>
-            <div class="h4 fw-bold text-warning mb-0">৳{{ pendingRevenue | number:'1.0-0' }}</div>
+            <div class="h4 fw-bold text-warning mb-0">{{ pendingRevenue | number:'1.0-0' }} BDT</div>
             <div class="small text-muted">{{ pendingCount }} pending</div>
           </div>
         </div>
@@ -53,7 +53,7 @@ import { PaymentService, Payment } from '../../core/services/payment.service';
         <div class="col-6 col-md-3">
           <div class="card border-0 shadow-sm rounded-4 p-3 text-center">
             <div class="small text-muted fw-bold text-uppercase mb-1">Avg. Transaction</div>
-            <div class="h4 fw-bold text-success mb-0">৳{{ avgTransaction | number:'1.0-0' }}</div>
+            <div class="h4 fw-bold text-success mb-0">{{ avgTransaction | number:'1.0-0' }} BDT</div>
             <div class="small text-muted">Per payment</div>
           </div>
         </div>
@@ -142,7 +142,7 @@ import { PaymentService, Payment } from '../../core/services/payment.service';
                   <span class="badge bg-light text-dark border small">{{ t.method }}</span>
                 </td>
                 <td class="px-4 py-3 small text-muted">{{ t.date | date:'mediumDate' }}</td>
-                <td class="px-4 py-3 text-end fw-bold">৳{{ t.amount | number:'1.0-0' }}</td>
+                <td class="px-4 py-3 text-end fw-bold">{{ t.amount | number:'1.0-0' }} BDT</td>
                 <td class="px-4 py-3 text-center">
                   <span class="badge rounded-pill px-3 py-1"
                     [ngClass]="{
@@ -165,7 +165,7 @@ import { PaymentService, Payment } from '../../core/services/payment.service';
               <tr>
                 <td colspan="5" class="px-4 py-3 fw-bold text-end">Filtered Total (PAID):</td>
                 <td class="px-4 py-3 fw-bold text-end text-primary">
-                  ৳{{ filteredPaidTotal | number:'1.0-0' }}
+                  {{ filteredPaidTotal | number:'1.0-0' }} BDT
                 </td>
                 <td></td>
               </tr>

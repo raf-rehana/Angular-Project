@@ -10,8 +10,16 @@
 
       <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5">
         <div class="mb-4" *ngIf="selectedService">
-          <div class="badge bg-primary-soft text-primary px-3 py-2 rounded-pill mb-2 fw-bold text-uppercase">Service Selected</div>
-          <h4 class="fw-bold text-dark">{{ selectedService.name }}</h4>
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <div class="badge bg-primary-soft text-primary px-3 py-2 rounded-pill mb-2 fw-bold text-uppercase">Service Selected</div>
+              <h4 class="fw-bold text-dark">{{ selectedService.name }}</h4>
+            </div>
+            <div class="text-end">
+              <div class="fs-4 fw-bold text-primary">{{ selectedService.price.toLocaleString() }} <span class="small opacity-50">BDT</span></div>
+              <div class="small text-muted">{{ selectedService.priceType }}</div>
+            </div>
+          </div>
           <p class="text-muted small">{{ selectedService.description }}</p>
         </div>
 
@@ -27,6 +35,69 @@
               <button type="button" class="btn rounded-pill px-4 py-2 flex-grow-1" [class.btn-light]="priority !== 'NORMAL'" [class.btn-info]="priority === 'NORMAL'" (click)="priority = 'NORMAL'">Normal</button>
               <button type="button" class="btn rounded-pill px-4 py-2 flex-grow-1" [class.btn-light]="priority !== 'HIGH'" [class.btn-warning]="priority === 'HIGH'" (click)="priority = 'HIGH'">High</button>
               <button type="button" class="btn rounded-pill px-4 py-2 flex-grow-1" [class.btn-light]="priority !== 'URGENT'" [class.btn-danger]="priority === 'URGENT'" (click)="priority = 'URGENT'">Urgent</button>
+            </div>
+          </div>
+
+          <!-- Document Upload Section -->
+          <div class="mb-4" *ngIf="selectedService?.requiredDocuments?.length">
+            <label class="form-label small fw-bold text-muted">Required Documents</label>
+            <div class="list-group list-group-flush border rounded-4 overflow-hidden mb-3">
+              <div class="list-group-item bg-light border-0 py-2 d-flex align-items-center justify-content-between" *ngFor="let doc of selectedService?.requiredDocuments">
+                <div>
+                  <span class="small fw-medium">{{ doc.docName }}</span>
+                  <span class="badge bg-danger ms-2" *ngIf="doc.isMandatory" style="font-size: 0.65rem;">REQUIRED</span>
+                </div>
+                <i class="bi bi-file-earmark-check text-success" *ngIf="isDocumentUploaded(doc.docName)"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Image/Visual Upload Section -->
+          <div class="mb-4">
+            <label class="form-label small fw-bold text-muted">
+              {{ selectedService?.categoryId === '1' || selectedService?.categoryId === '9' ? 'Design Samples / Screenshots' : 
+                 selectedService?.categoryId === '5' || selectedService?.categoryId === '8' ? 'Official Proofs / Identification' : 
+                 'Supporting Visuals / Images' }}
+            </label>
+            <div class="upload-area border-2 border-dashed rounded-4 p-4 text-center bg-light position-relative" (click)="imageInput.click()">
+              <input type="file" #imageInput class="d-none" accept="image/*" multiple (change)="onImageSelected($event)">
+              <i class="bi bi-image fs-1 text-primary mb-2"></i>
+              <p class="mb-0 small text-muted">Click to upload images</p>
+              <p class="mb-0 x-small text-muted">JPG, PNG (Max 2MB each)</p>
+            </div>
+
+            <!-- Image Previews -->
+            <div class="d-flex flex-wrap gap-2 mt-3" *ngIf="imagePreviews.length > 0">
+              <div class="position-relative" *ngFor="let preview of imagePreviews; let i = index">
+                <img [src]="preview" class="rounded-3 shadow-sm" style="width: 80px; height: 80px; object-fit: cover;">
+                <button type="button" class="btn btn-danger btn-sm rounded-circle position-absolute top-0 start-100 translate-middle p-1" style="line-height: 0;" (click)="$event.stopPropagation(); removeImage(i)">
+                  <i class="bi bi-x-small" style="font-size: 0.75rem;"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label small fw-bold text-muted">
+              {{ selectedService?.categoryId === '1' || selectedService?.categoryId === '9' ? 'Project Requirements (SRS/DOCX)' : 'Official Documents (PDF/DOCX)' }}
+            </label>
+            <div class="upload-area border-2 border-dashed rounded-4 p-4 text-center bg-light position-relative" (click)="fileInput.click()">
+              <input type="file" #fileInput class="d-none" accept=".pdf,.doc,.docx" multiple (change)="onFileSelected($event)">
+              <i class="bi bi-cloud-arrow-up fs-1 text-primary mb-2"></i>
+              <p class="mb-0 small text-muted">Click to upload documents</p>
+            </div>
+
+            <!-- Uploaded Files List -->
+            <div class="mt-3" *ngIf="uploadedFiles.length > 0">
+              <div class="d-flex align-items-center justify-content-between p-2 bg-white border rounded-3 mb-2" *ngFor="let file of uploadedFiles; let i = index">
+                <div class="d-flex align-items-center">
+                  <i class="bi bi-file-earmark-text text-primary me-2"></i>
+                  <span class="small text-truncate" style="max-width: 200px;">{{ file.name }}</span>
+                </div>
+                <button type="button" class="btn btn-sm text-danger" (click)="removeFile(i)">
+                  <i class="bi bi-x-lg"></i>
+                </button>
+              </div>
             </div>
           </div>
 
