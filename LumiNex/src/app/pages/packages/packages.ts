@@ -55,7 +55,7 @@ export class PackagesComponent implements OnInit {
     {
       id: 3, category: 'web', badge: 'STARTER', badgeClass: 'bg-primary text-white',
       name: 'Digital Foundation', tagline: 'Your Professional Online Presence Starts Here',
-      price: 49000, currency: 'BDT ', period: 'one-time', icon: 'bi-globe2',
+      price: 50000, currency: 'BDT ', period: 'one-time', icon: 'bi-globe2',
       accent: '#198754', accentLight: '#edfdf5',
       features: ['Professional 5-Page Website','Domain & Hosting (1 Year)','Business Email Setup (3 Accounts)','Mobile Responsive Design','Basic SEO Optimization','3 Months Technical Support']
     },

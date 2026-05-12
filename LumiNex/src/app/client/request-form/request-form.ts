@@ -57,6 +57,18 @@ export class RequestForm implements OnInit {
     }
   }
 
+  onRequiredDocSelected(event: any, docName: string) {
+    const file = event.target.files[0];
+    if (file) {
+      // We wrap the file to ensure the name matches the requirement for isDocumentUploaded
+      // This is a simple way to track which requirement is met
+      const blob = file.slice(0, file.size, file.type);
+      const newFile = new File([blob], `${docName} - ${file.name}`, { type: file.type });
+      this.uploadedFiles.push(newFile);
+      this.cdr.detectChanges();
+    }
+  }
+
   onImageSelected(event: any) {
     const files = event.target.files;
     if (files) {

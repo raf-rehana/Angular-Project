@@ -38,16 +38,29 @@
             </div>
           </div>
 
-          <!-- Document Upload Section -->
           <div class="mb-4" *ngIf="selectedService?.requiredDocuments?.length">
             <label class="form-label small fw-bold text-muted">Required Documents</label>
             <div class="list-group list-group-flush border rounded-4 overflow-hidden mb-3">
-              <div class="list-group-item bg-light border-0 py-2 d-flex align-items-center justify-content-between" *ngFor="let doc of selectedService?.requiredDocuments">
-                <div>
-                  <span class="small fw-medium">{{ doc.docName }}</span>
-                  <span class="badge bg-danger ms-2" *ngIf="doc.isMandatory" style="font-size: 0.65rem;">REQUIRED</span>
+              <div class="list-group-item bg-light border-0 py-3 d-flex align-items-center justify-content-between" *ngFor="let doc of selectedService?.requiredDocuments">
+                <div class="d-flex flex-column">
+                  <div class="d-flex align-items-center">
+                    <span class="small fw-bold text-dark">{{ doc.docName }}</span>
+                    <span class="badge bg-danger ms-2" *ngIf="doc.isMandatory" style="font-size: 0.65rem;">REQUIRED</span>
+                  </div>
+                  <span class="x-small text-muted" *ngIf="!isDocumentUploaded(doc.docName)">Not uploaded yet</span>
+                  <span class="x-small text-success fw-bold" *ngIf="isDocumentUploaded(doc.docName)">
+                    <i class="bi bi-check-circle-fill me-1"></i> File ready
+                  </span>
                 </div>
-                <i class="bi bi-file-earmark-check text-success" *ngIf="isDocumentUploaded(doc.docName)"></i>
+                <div class="d-flex align-items-center gap-2">
+                  <input type="file" #docInput class="d-none" (change)="onRequiredDocSelected($event, doc.docName)">
+                  <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-3 py-1" (click)="docInput.click()" *ngIf="!isDocumentUploaded(doc.docName)">
+                    <i class="bi bi-cloud-arrow-up me-1"></i> Upload
+                  </button>
+                  <button type="button" class="btn btn-sm btn-light rounded-pill px-3 py-1" disabled *ngIf="isDocumentUploaded(doc.docName)">
+                    <i class="bi bi-check2"></i> Uploaded
+                  </button>
+                </div>
               </div>
             </div>
           </div>

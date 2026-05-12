@@ -35,4 +35,8 @@ export class AdminService {
   deleteService(id: string | number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/services/${id}`);
   }
+
+  updateService(id: string | number, service: any): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/services/${id}`, service);
+  }
 }

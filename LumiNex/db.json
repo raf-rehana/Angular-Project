@@ -182,8 +182,18 @@
       "deliveryDays": "14",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "w1", "docName": "Requirements Doc", "isMandatory": true, "description": "Detailed list of features and functionalities." },
-        { "id": "w2", "docName": "Logo Assets", "isMandatory": false, "description": "High-quality logo files for branding." }
+        {
+          "id": "w1",
+          "docName": "Requirements Doc",
+          "isMandatory": true,
+          "description": "Detailed list of features and functionalities."
+        },
+        {
+          "id": "w2",
+          "docName": "Logo Assets",
+          "isMandatory": false,
+          "description": "High-quality logo files for branding."
+        }
       ]
     },
     {
@@ -197,7 +207,12 @@
       "deliveryDays": "7",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "g1", "docName": "Design Brief", "isMandatory": true, "description": "Summary of your brand's vision and preferences." }
+        {
+          "id": "g1",
+          "docName": "Design Brief",
+          "isMandatory": true,
+          "description": "Summary of your brand's vision and preferences."
+        }
       ]
     },
     {
@@ -211,7 +226,12 @@
       "deliveryDays": "Ongoing",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "m1", "docName": "Social Media Links", "isMandatory": true, "description": "URLs of existing profiles." }
+        {
+          "id": "m1",
+          "docName": "Social Media Links",
+          "isMandatory": true,
+          "description": "URLs of existing profiles."
+        }
       ]
     },
     {
@@ -225,7 +245,12 @@
       "deliveryDays": "3",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "w3", "docName": "Content Copy", "isMandatory": true, "description": "Text content to be used on the page." }
+        {
+          "id": "w3",
+          "docName": "Content Copy",
+          "isMandatory": true,
+          "description": "Text content to be used on the page."
+        }
       ]
     },
     {
@@ -240,9 +265,24 @@
       "deliveryDays": "45",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "ap1", "docName": "App Feature List (SRS)", "isMandatory": true, "description": "Detailed document of app functionalities." },
-        { "id": "ap2", "docName": "UI/UX Wireframes", "isMandatory": false, "description": "Any existing sketches or designs." },
-        { "id": "ap3", "docName": "Server Requirements", "isMandatory": false, "description": "Backend and API specifications if known." }
+        {
+          "id": "ap1",
+          "docName": "App Feature List (SRS)",
+          "isMandatory": true,
+          "description": "Detailed document of app functionalities."
+        },
+        {
+          "id": "ap2",
+          "docName": "UI/UX Wireframes",
+          "isMandatory": false,
+          "description": "Any existing sketches or designs."
+        },
+        {
+          "id": "ap3",
+          "docName": "Server Requirements",
+          "isMandatory": false,
+          "description": "Backend and API specifications if known."
+        }
       ]
     },
     {
@@ -257,7 +297,12 @@
       "deliveryDays": "60",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "w5", "docName": "System Architecture Plan", "isMandatory": true, "description": "Initial draft of the system flow." }
+        {
+          "id": "w5",
+          "docName": "System Architecture Plan",
+          "isMandatory": true,
+          "description": "Initial draft of the system flow."
+        }
       ]
     },
     {
@@ -272,7 +317,12 @@
       "deliveryDays": "Ongoing",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "m2", "docName": "Website URL", "isMandatory": true, "description": "The site to be optimized." }
+        {
+          "id": "m2",
+          "docName": "Website URL",
+          "isMandatory": true,
+          "description": "The site to be optimized."
+        }
       ]
     },
     {
@@ -287,7 +337,12 @@
       "deliveryDays": "14",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "c1", "docName": "Current Traffic Stats", "isMandatory": false, "description": "Data on current user load." }
+        {
+          "id": "c1",
+          "docName": "Current Traffic Stats",
+          "isMandatory": false,
+          "description": "Data on current user load."
+        }
       ]
     },
     {
@@ -302,7 +357,12 @@
       "deliveryDays": "21",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "g2", "docName": "Current Site URL", "isMandatory": true, "description": "Site to be redesigned." }
+        {
+          "id": "g2",
+          "docName": "Current Site URL",
+          "isMandatory": true,
+          "description": "Site to be redesigned."
+        }
       ]
     },
     {
@@ -317,7 +377,12 @@
       "deliveryDays": "5",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "g3", "docName": "Brand Assets", "isMandatory": true, "description": "Logo and color preferences." }
+        {
+          "id": "g3",
+          "docName": "Brand Assets",
+          "isMandatory": true,
+          "description": "Logo and color preferences."
+        }
       ]
     },
     {
@@ -332,7 +397,12 @@
       "deliveryDays": "7-10",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "g4", "docName": "Company Text Content", "isMandatory": true, "description": "Written content for the brochure." }
+        {
+          "id": "g4",
+          "docName": "Company Text Content",
+          "isMandatory": true,
+          "description": "Written content for the brochure."
+        }
       ]
     },
     {
@@ -347,7 +417,12 @@
       "deliveryDays": "Ongoing",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "m3", "docName": "Ad Account Access", "isMandatory": true, "description": "Access to Google Ads manager." }
+        {
+          "id": "m3",
+          "docName": "Ad Account Access",
+          "isMandatory": true,
+          "description": "Access to Google Ads manager."
+        }
       ]
     },
     {
@@ -362,7 +437,12 @@
       "deliveryDays": "14",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "m4", "docName": "Target Audience Profile", "isMandatory": true, "description": "Details about your ideal customers." }
+        {
+          "id": "m4",
+          "docName": "Target Audience Profile",
+          "isMandatory": true,
+          "description": "Details about your ideal customers."
+        }
       ]
     },
     {
@@ -377,7 +457,12 @@
       "deliveryDays": "10-14",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "c2", "docName": "Business Summary", "isMandatory": true, "description": "Executive summary of your startup." }
+        {
+          "id": "c2",
+          "docName": "Business Summary",
+          "isMandatory": true,
+          "description": "Executive summary of your startup."
+        }
       ]
     },
     {
@@ -392,7 +477,12 @@
       "deliveryDays": "30",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "c3", "docName": "Industry Focus", "isMandatory": true, "description": "Specific market segments to analyze." }
+        {
+          "id": "c3",
+          "docName": "Industry Focus",
+          "isMandatory": true,
+          "description": "Specific market segments to analyze."
+        }
       ]
     },
     {
@@ -407,9 +497,24 @@
       "deliveryDays": "7-10",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "d1", "docName": "NID Copy", "isMandatory": true, "description": "National ID card of the business owner." },
-        { "id": "d2", "docName": "Recent Photo", "isMandatory": true, "description": "Passport size photograph." },
-        { "id": "d3", "docName": "Rent Agreement", "isMandatory": true, "description": "Trade license requires a commercial address proof." }
+        {
+          "id": "d1",
+          "docName": "NID Copy",
+          "isMandatory": true,
+          "description": "National ID card of the business owner."
+        },
+        {
+          "id": "d2",
+          "docName": "Recent Photo",
+          "isMandatory": true,
+          "description": "Passport size photograph."
+        },
+        {
+          "id": "d3",
+          "docName": "Rent Agreement",
+          "isMandatory": true,
+          "description": "Trade license requires a commercial address proof."
+        }
       ]
     },
     {
@@ -424,9 +529,24 @@
       "deliveryDays": "14-21",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "d4", "docName": "NID of All Directors", "isMandatory": true, "description": "NID copies for all proposed directors." },
-        { "id": "d5", "docName": "Proposed Company Name", "isMandatory": true, "description": "Draft names for name clearance." },
-        { "id": "d6", "docName": "TIN Certificate", "isMandatory": true, "description": "TIN of all directors." }
+        {
+          "id": "d4",
+          "docName": "NID of All Directors",
+          "isMandatory": true,
+          "description": "NID copies for all proposed directors."
+        },
+        {
+          "id": "d5",
+          "docName": "Proposed Company Name",
+          "isMandatory": true,
+          "description": "Draft names for name clearance."
+        },
+        {
+          "id": "d6",
+          "docName": "TIN Certificate",
+          "isMandatory": true,
+          "description": "TIN of all directors."
+        }
       ]
     },
     {
@@ -441,8 +561,18 @@
       "deliveryDays": "5-7",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "v1", "docName": "Trade License Copy", "isMandatory": true, "description": "Updated trade license." },
-        { "id": "v2", "docName": "TIN Certificate", "isMandatory": true, "description": "Tax ID certificate." }
+        {
+          "id": "v1",
+          "docName": "Trade License Copy",
+          "isMandatory": true,
+          "description": "Updated trade license."
+        },
+        {
+          "id": "v2",
+          "docName": "TIN Certificate",
+          "isMandatory": true,
+          "description": "Tax ID certificate."
+        }
       ]
     },
     {
@@ -457,7 +587,12 @@
       "deliveryDays": "2-3",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "t1", "docName": "NID / Passport", "isMandatory": true, "description": "Identification document." }
+        {
+          "id": "t1",
+          "docName": "NID / Passport",
+          "isMandatory": true,
+          "description": "Identification document."
+        }
       ]
     },
     {
@@ -472,8 +607,18 @@
       "deliveryDays": "15-20",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "i1", "docName": "Trade License", "isMandatory": true, "description": "Valid trade license." },
-        { "id": "i2", "docName": "Membership Certificate", "isMandatory": true, "description": "Certificate from recognized chamber of commerce." }
+        {
+          "id": "i1",
+          "docName": "Trade License",
+          "isMandatory": true,
+          "description": "Valid trade license."
+        },
+        {
+          "id": "i2",
+          "docName": "Membership Certificate",
+          "isMandatory": true,
+          "description": "Certificate from recognized chamber of commerce."
+        }
       ]
     },
     {
@@ -488,11 +633,36 @@
       "deliveryDays": "10-15",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "f1", "docName": "Trade License", "isMandatory": true, "description": "Updated trade license of the business." },
-        { "id": "f2", "docName": "NID of Owner", "isMandatory": true, "description": "National ID card of the applicant." },
-        { "id": "f3", "docName": "Building Layout Plan", "isMandatory": true, "description": "Layout plan attested by an architect or authorized person." },
-        { "id": "f4", "docName": "Rent Agreement / Land Deed", "isMandatory": true, "description": "Proof of commercial space usage." },
-        { "id": "f5", "docName": "Treasury Chalan", "isMandatory": false, "description": "Copy of the payment chalan (if already paid)." }
+        {
+          "id": "f1",
+          "docName": "Trade License",
+          "isMandatory": true,
+          "description": "Updated trade license of the business."
+        },
+        {
+          "id": "f2",
+          "docName": "NID of Owner",
+          "isMandatory": true,
+          "description": "National ID card of the applicant."
+        },
+        {
+          "id": "f3",
+          "docName": "Building Layout Plan",
+          "isMandatory": true,
+          "description": "Layout plan attested by an architect or authorized person."
+        },
+        {
+          "id": "f4",
+          "docName": "Rent Agreement / Land Deed",
+          "isMandatory": true,
+          "description": "Proof of commercial space usage."
+        },
+        {
+          "id": "f5",
+          "docName": "Treasury Chalan",
+          "isMandatory": false,
+          "description": "Copy of the payment chalan (if already paid)."
+        }
       ]
     },
     {
@@ -507,8 +677,18 @@
       "deliveryDays": "20-30",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "e1", "docName": "Trade License", "isMandatory": true, "description": "Valid trade license." },
-        { "id": "e2", "docName": "Layout Plan", "isMandatory": true, "description": "Plan showing waste management details." }
+        {
+          "id": "e1",
+          "docName": "Trade License",
+          "isMandatory": true,
+          "description": "Valid trade license."
+        },
+        {
+          "id": "e2",
+          "docName": "Layout Plan",
+          "isMandatory": true,
+          "description": "Plan showing waste management details."
+        }
       ]
     },
     {
@@ -523,8 +703,18 @@
       "deliveryDays": "15-20",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "b1", "docName": "Incorporation Certificate", "isMandatory": true, "description": "Certificate of incorporation from RJSC." },
-        { "id": "b2", "docName": "Project Profile", "isMandatory": true, "description": "Detailed project description." }
+        {
+          "id": "b1",
+          "docName": "Incorporation Certificate",
+          "isMandatory": true,
+          "description": "Certificate of incorporation from RJSC."
+        },
+        {
+          "id": "b2",
+          "docName": "Project Profile",
+          "isMandatory": true,
+          "description": "Detailed project description."
+        }
       ]
     },
     {
@@ -539,7 +729,12 @@
       "deliveryDays": "Immediate",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "o1", "docName": "NID of Applicant", "isMandatory": true, "description": "National ID card." }
+        {
+          "id": "o1",
+          "docName": "NID of Applicant",
+          "isMandatory": true,
+          "description": "National ID card."
+        }
       ]
     },
     {
@@ -554,7 +749,12 @@
       "deliveryDays": "1-2",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "o2", "docName": "NID / Passport", "isMandatory": true, "description": "Identification for entry pass." }
+        {
+          "id": "o2",
+          "docName": "NID / Passport",
+          "isMandatory": true,
+          "description": "Identification for entry pass."
+        }
       ]
     },
     {
@@ -569,7 +769,12 @@
       "deliveryDays": "1-2",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "o3", "docName": "Company Letterhead", "isMandatory": true, "description": "Formal request on company letterhead." }
+        {
+          "id": "o3",
+          "docName": "Company Letterhead",
+          "isMandatory": true,
+          "description": "Formal request on company letterhead."
+        }
       ]
     },
     {
@@ -584,7 +789,12 @@
       "deliveryDays": "3-5",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "o4", "docName": "Company Registration", "isMandatory": true, "description": "Trade license or incorporation copy." }
+        {
+          "id": "o4",
+          "docName": "Company Registration",
+          "isMandatory": true,
+          "description": "Trade license or incorporation copy."
+        }
       ]
     },
     {
@@ -651,7 +861,12 @@
       "deliveryDays": "3-5",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "st1", "docName": "Logo File", "isMandatory": true, "description": "High-res logo for printing." }
+        {
+          "id": "st1",
+          "docName": "Logo File",
+          "isMandatory": true,
+          "description": "High-res logo for printing."
+        }
       ]
     },
     {
@@ -666,7 +881,12 @@
       "deliveryDays": "3-5",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "st2", "docName": "Company Details", "isMandatory": true, "description": "Address and contacts for letterhead." }
+        {
+          "id": "st2",
+          "docName": "Company Details",
+          "isMandatory": true,
+          "description": "Address and contacts for letterhead."
+        }
       ]
     },
     {
@@ -681,7 +901,12 @@
       "deliveryDays": "2-3",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "st3", "docName": "Seal Draft", "isMandatory": true, "description": "Text to be included in the seal." }
+        {
+          "id": "st3",
+          "docName": "Seal Draft",
+          "isMandatory": true,
+          "description": "Text to be included in the seal."
+        }
       ]
     },
     {
@@ -696,7 +921,12 @@
       "deliveryDays": "5-7",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "st4", "docName": "Design Preview", "isMandatory": false, "description": "Any existing design idea." }
+        {
+          "id": "st4",
+          "docName": "Design Preview",
+          "isMandatory": false,
+          "description": "Any existing design idea."
+        }
       ]
     },
     {
@@ -724,7 +954,12 @@
       "deliveryDays": "Ongoing",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "acc1", "docName": "Previous Month's Records", "isMandatory": true, "description": "Existing financial logs." }
+        {
+          "id": "acc1",
+          "docName": "Previous Month's Records",
+          "isMandatory": true,
+          "description": "Existing financial logs."
+        }
       ]
     },
     {
@@ -739,8 +974,18 @@
       "deliveryDays": "7-14",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "acc2", "docName": "Bank Statement (1 Year)", "isMandatory": true, "description": "Last 12 months bank statement." },
-        { "id": "acc3", "docName": "Company TIN", "isMandatory": true, "description": "Tax ID certificate." }
+        {
+          "id": "acc2",
+          "docName": "Bank Statement (1 Year)",
+          "isMandatory": true,
+          "description": "Last 12 months bank statement."
+        },
+        {
+          "id": "acc3",
+          "docName": "Company TIN",
+          "isMandatory": true,
+          "description": "Tax ID certificate."
+        }
       ]
     },
     {
@@ -755,8 +1000,18 @@
       "deliveryDays": "3-5",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "acc4", "docName": "Trade License", "isMandatory": true, "description": "Updated trade license." },
-        { "id": "acc5", "docName": "NID of Nominee", "isMandatory": true, "description": "Identification of account nominee." }
+        {
+          "id": "acc4",
+          "docName": "Trade License",
+          "isMandatory": true,
+          "description": "Updated trade license."
+        },
+        {
+          "id": "acc5",
+          "docName": "NID of Nominee",
+          "isMandatory": true,
+          "description": "Identification of account nominee."
+        }
       ]
     },
     {
@@ -771,7 +1026,12 @@
       "deliveryDays": "Ongoing",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "acc6", "docName": "Employee List", "isMandatory": true, "description": "List with salary details." }
+        {
+          "id": "acc6",
+          "docName": "Employee List",
+          "isMandatory": true,
+          "description": "List with salary details."
+        }
       ]
     },
     {
@@ -786,7 +1046,12 @@
       "deliveryDays": "5-7",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "acc7", "docName": "Transaction Logs", "isMandatory": true, "description": "Raw financial data for the period." }
+        {
+          "id": "acc7",
+          "docName": "Transaction Logs",
+          "isMandatory": true,
+          "description": "Raw financial data for the period."
+        }
       ]
     },
     {
@@ -801,7 +1066,12 @@
       "deliveryDays": "7-10",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "acc8", "docName": "Project Description", "isMandatory": true, "description": "Summary of business goals." }
+        {
+          "id": "acc8",
+          "docName": "Project Description",
+          "isMandatory": true,
+          "description": "Summary of business goals."
+        }
       ]
     },
     {
@@ -816,7 +1086,12 @@
       "deliveryDays": "1-2",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "it1", "docName": "Preferred Domain Names", "isMandatory": true, "description": "List of domains to check." }
+        {
+          "id": "it1",
+          "docName": "Preferred Domain Names",
+          "isMandatory": true,
+          "description": "List of domains to check."
+        }
       ]
     },
     {
@@ -831,7 +1106,12 @@
       "deliveryDays": "1-2",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "it2", "docName": "User List", "isMandatory": true, "description": "Names and preferred email IDs." }
+        {
+          "id": "it2",
+          "docName": "User List",
+          "isMandatory": true,
+          "description": "Names and preferred email IDs."
+        }
       ]
     },
     {
@@ -846,8 +1126,18 @@
       "deliveryDays": "10-14",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "it3", "docName": "Logo Assets", "isMandatory": true, "description": "High-quality logo." },
-        { "id": "it4", "docName": "Content Outline", "isMandatory": true, "description": "What goes in each page." }
+        {
+          "id": "it3",
+          "docName": "Logo Assets",
+          "isMandatory": true,
+          "description": "High-quality logo."
+        },
+        {
+          "id": "it4",
+          "docName": "Content Outline",
+          "isMandatory": true,
+          "description": "What goes in each page."
+        }
       ]
     },
     {
@@ -862,7 +1152,12 @@
       "deliveryDays": "5-7",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "it5", "docName": "Requirements Specification", "isMandatory": true, "description": "List of needed hardware." }
+        {
+          "id": "it5",
+          "docName": "Requirements Specification",
+          "isMandatory": true,
+          "description": "List of needed hardware."
+        }
       ]
     },
     {
@@ -890,7 +1185,12 @@
       "deliveryDays": "3-5",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "it6", "docName": "Premises Layout", "isMandatory": false, "description": "Plan to identify camera points." }
+        {
+          "id": "it6",
+          "docName": "Premises Layout",
+          "isMandatory": false,
+          "description": "Plan to identify camera points."
+        }
       ]
     },
     {
@@ -905,7 +1205,12 @@
       "deliveryDays": "1",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "hr1", "docName": "Company Registration Copy", "isMandatory": true, "description": "To verify company details." }
+        {
+          "id": "hr1",
+          "docName": "Company Registration Copy",
+          "isMandatory": true,
+          "description": "To verify company details."
+        }
       ]
     },
     {
@@ -920,7 +1225,12 @@
       "deliveryDays": "7-14",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "hr2", "docName": "Job Description", "isMandatory": true, "description": "Detailed JD for the role." }
+        {
+          "id": "hr2",
+          "docName": "Job Description",
+          "isMandatory": true,
+          "description": "Detailed JD for the role."
+        }
       ]
     },
     {
@@ -935,7 +1245,12 @@
       "deliveryDays": "5-7",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "hr3", "docName": "Current Policies (if any)", "isMandatory": false, "description": "Existing draft or rules." }
+        {
+          "id": "hr3",
+          "docName": "Current Policies (if any)",
+          "isMandatory": false,
+          "description": "Existing draft or rules."
+        }
       ]
     },
     {
@@ -950,7 +1265,12 @@
       "deliveryDays": "As scheduled",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "hr4", "docName": "Training Topic Ideas", "isMandatory": true, "description": "What you want your staff to learn." }
+        {
+          "id": "hr4",
+          "docName": "Training Topic Ideas",
+          "isMandatory": true,
+          "description": "What you want your staff to learn."
+        }
       ]
     },
     {
@@ -965,10 +1285,14 @@
       "deliveryDays": "3-5",
       "isActive": true,
       "requiredDocuments": [
-        { "id": "hr5", "docName": "Employee Records", "isMandatory": true, "description": "Names, IDs, and joining dates." }
+        {
+          "id": "hr5",
+          "docName": "Employee Records",
+          "isMandatory": true,
+          "description": "Names, IDs, and joining dates."
+        }
       ]
     }
-  ],
   ],
   "service-requests": [
     {
@@ -1044,7 +1368,7 @@
     {
       "id": "1",
       "name": "Digital Foundation",
-      "price": 499,
+      "price": 50000,
       "features": [
         "Professional Website Design",
         "Domain & Hosting (1 Year)",
@@ -1057,7 +1381,7 @@
     {
       "id": "2",
       "name": "Growth Accelerator",
-      "price": 1499,
+      "price": 150000,
       "features": [
         "E-Commerce / Custom Web Platform",
         "Digital Marketing (3 Months)",
@@ -1070,7 +1394,7 @@
     {
       "id": "3",
       "name": "A-to-Z Launchpad",
-      "price": 3499,
+      "price": 350000,
       "features": [
         "Full Business Formation Support",
         "Trade License & Legal Paperwork",
@@ -1180,6 +1504,20 @@
       "bankTranId": "260511184437EqWQl7CeU2lYGNx",
       "currency": "BDT",
       "id": "3mkNrMyzAg8"
+    },
+    {
+      "clientId": "guest",
+      "client": "Digital Foundation - Client",
+      "item": "Digital Foundation",
+      "planId": "1",
+      "amount": 52500,
+      "method": "DBBLMOBILEB-Dbbl Mobile Banking",
+      "status": "PAID",
+      "date": "2026-05-12",
+      "tranId": "LNX-570FF173-664",
+      "bankTranId": "260512163745UTTLzdZgPHk0cm0",
+      "currency": "BDT",
+      "id": "SQM1Tu7aybU"
     }
   ],
   "auth": {
@@ -1241,24 +1579,46 @@
           "title": "Digital Foundation",
           "description": "Professional Website, Domain (1 Year), Business Email, and Basic SEO.",
           "linkText": "Subscribe Now",
-          "linkUrl": "/client/subscriptions",
-          "color": "primary"
+          "linkUrl": "/client/payments",
+          "color": "primary",
+          "features": [
+            "Professional Website Design",
+            "Domain & Hosting (1 Year)",
+            "Business Email Setup",
+            "Basic SEO Optimization",
+            "3 Months Support"
+          ]
         },
         {
           "icon": "bi-graph-up-arrow",
           "title": "Growth Accelerator",
           "description": "E-Commerce Platform, Marketing (3 Months), Social Media Mgmt, and 24/7 Support.",
           "linkText": "Subscribe Now",
-          "linkUrl": "/client/subscriptions",
-          "color": "success"
+          "linkUrl": "/client/payments",
+          "color": "success",
+          "features": [
+            "E-Commerce / Custom Web Platform",
+            "Digital Marketing (3 Months)",
+            "Social Media Management",
+            "Logo & Brand Identity",
+            "Priority 24/7 Support"
+          ]
         },
         {
           "icon": "bi-rocket-takeoff",
           "title": "A-to-Z Launchpad",
           "description": "Business Formation, Trade License, Web & Mobile App, and Launch Manager.",
           "linkText": "Subscribe Now",
-          "linkUrl": "/client/subscriptions",
-          "color": "warning"
+          "linkUrl": "/client/payments",
+          "color": "warning",
+          "features": [
+            "Full Business Formation Support",
+            "Trade License & Legal Paperwork",
+            "Full Online Platform Readiness",
+            "Premium Web & Mobile App",
+            "1 Year Marketing Strategy",
+            "Dedicated Launch Manager"
+          ]
         }
       ],
       "ctaTitle": "Ready to start your journey?",

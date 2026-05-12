@@ -21,4 +21,8 @@ export class ServiceCatalogueService {
   getServiceById(id: string): Observable<Service> {
     return this.http.get<Service>(`${this.apiUrl}/services/${id}`);
   }
+
+  getPackages(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/subscriptions`);
+  }
 }

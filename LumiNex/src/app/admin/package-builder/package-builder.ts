@@ -3,116 +3,144 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 interface SubscriptionPackage {
-  id?: string;
+  id?: string | number;
   name: string;
   price: number;
   features: string[];
   recommended: boolean;
+  badge: string;
+  tagline: string;
+  accent: string;
+  accentLight: string;
+  icon: string;
+  currency: string;
+  period: string;
 }
 
 @Component({
   selector: 'app-package-builder',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatSnackBarModule
-  ],
+  imports: [CommonModule, FormsModule],
   template: `
-    <div class="package-builder-container p-4">
+    <div class="container-fluid py-4">
       <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold mb-0">Subscription Package Builder</h2>
-        <button mat-raised-button color="primary" (click)="addNewPackage()">
-          <mat-icon>add</mat-icon> Add New Package
+        <div>
+          <h2 class="fw-bold text-dark mb-0">Startup Package Builder</h2>
+          <p class="text-muted">Design and manage your high-value startup bundles.</p>
+        </div>
+        <button class="btn btn-primary px-4 py-2 rounded-pill fw-bold" (click)="addNewPackage()">
+          <i class="bi bi-plus-lg me-2"></i> Create New Package
         </button>
       </div>
 
       <div class="row g-4">
-        <div class="col-md-4" *ngFor="let pkg of packages; let i = index">
-          <mat-card class="package-card h-100" [class.recommended]="pkg.recommended">
-            <mat-card-header>
-              <mat-card-title>
-                <input matInput [(ngModel)]="pkg.name" placeholder="Package Name" class="pkg-title-input">
-              </mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-              <div class="price-input mb-3">
-                <mat-form-field appearance="outline" class="w-100">
-                  <mat-label>Price (BDT)</mat-label>
-                  <input matInput type="number" [(ngModel)]="pkg.price">
-                </mat-form-field>
+        <div class="col-xl-4 col-md-6" *ngFor="let pkg of packages; trackBy:trackById">
+          <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden" [style.border-top]="'5px solid ' + pkg.accent">
+            <div class="card-header bg-white border-0 pt-4 px-4 pb-0 d-flex justify-content-between align-items-start">
+               <div>
+                 <input [(ngModel)]="pkg.name" class="form-control form-control-lg border-0 bg-transparent fw-bold p-0 mb-1" placeholder="Package Name">
+                 <input [(ngModel)]="pkg.tagline" class="form-control form-control-sm border-0 bg-transparent text-muted p-0" placeholder="Tagline">
+               </div>
+               <div class="dropdown">
+                  <button class="btn btn-sm btn-light rounded-circle" type="button" data-bs-toggle="dropdown">
+                    <i class="bi bi-three-dots-vertical"></i>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3">
+                    <li><a class="dropdown-item text-danger d-flex align-items-center" (click)="deletePackage(pkg)">
+                      <i class="bi bi-trash me-2"></i> Delete Package
+                    </a></li>
+                  </ul>
+               </div>
+            </div>
+            
+            <div class="card-body px-4 py-4">
+              <div class="mb-4">
+                <label class="small fw-bold text-muted text-uppercase mb-2">Pricing Details</label>
+                <div class="d-flex align-items-center gap-2">
+                  <div class="input-group input-group-sm">
+                    <span class="input-group-text bg-light border-0">BDT</span>
+                    <input type="number" [(ngModel)]="pkg.price" class="form-control bg-light border-0 fw-bold">
+                  </div>
+                  <select [(ngModel)]="pkg.period" class="form-select form-select-sm bg-light border-0" style="width: auto;">
+                    <option value="/one-time">One-time</option>
+                    <option value="/month">Monthly</option>
+                    <option value="/year">Yearly</option>
+                  </select>
+                </div>
               </div>
 
-              <div class="features-list">
-                <label class="small fw-bold text-muted mb-2 d-block">Features</label>
-                <div *ngFor="let feature of pkg.features; let fi = index; trackBy:trackByIndex" class="feature-item d-flex align-items-center mb-2">
-                  <input matInput [(ngModel)]="pkg.features[fi]" placeholder="Feature description" class="feature-input">
-                  <button mat-icon-button color="warn" (click)="removeFeature(pkg, fi)">
-                    <mat-icon>remove_circle</mat-icon>
+              <div class="mb-4">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <label class="small fw-bold text-muted text-uppercase">Features</label>
+                  <button class="btn btn-sm btn-soft-primary p-1" (click)="addFeature(pkg)">
+                    <i class="bi bi-plus-circle-fill"></i>
                   </button>
                 </div>
-                <button mat-button color="primary" (click)="addFeature(pkg)">
-                  <mat-icon>add</mat-icon> Add Feature
-                </button>
+                <div class="space-y-2 max-h-60 overflow-auto">
+                  <div *ngFor="let f of pkg.features; let fi = index; trackBy:trackByIndex" class="d-flex align-items-center gap-2 mb-2">
+                    <i class="bi bi-check-circle-fill text-success small"></i>
+                    <input [(ngModel)]="pkg.features[fi]" class="form-control form-control-sm border-0 border-bottom rounded-0 px-1" placeholder="Enter feature...">
+                    <button class="btn btn-link text-danger p-0" (click)="removeFeature(pkg, fi)">
+                      <i class="bi bi-x"></i>
+                    </button>
+                  </div>
+                </div>
               </div>
 
-              <div class="recommended-toggle mt-3">
-                <label class="d-flex align-items-center">
-                  <input type="checkbox" [(ngModel)]="pkg.recommended" (change)="toggleRecommended(pkg)">
-                  <span class="ms-2">Mark as Recommended</span>
-                </label>
+              <div class="row g-2">
+                 <div class="col-6">
+                    <label class="small fw-bold text-muted d-block mb-1">Badge</label>
+                    <input [(ngModel)]="pkg.badge" class="form-control form-control-sm bg-light border-0" placeholder="e.g. POPULAR">
+                 </div>
+                 <div class="col-6">
+                    <label class="small fw-bold text-muted d-block mb-1">Icon Class</label>
+                    <input [(ngModel)]="pkg.icon" class="form-control form-control-sm bg-light border-0" placeholder="bi-laptop">
+                 </div>
+                 <div class="col-6">
+                    <label class="small fw-bold text-muted d-block mb-1">Accent Color</label>
+                    <input type="color" [(ngModel)]="pkg.accent" class="form-control form-control-color w-100 border-0 p-1 bg-light rounded-2 h-auto" (change)="pkg.accentLight = pkg.accent + '15'">
+                 </div>
+                 <div class="col-6 d-flex align-items-end">
+                    <div class="form-check form-switch mb-1">
+                      <input class="form-check-input" type="checkbox" [(ngModel)]="pkg.recommended" (change)="toggleRecommended(pkg)">
+                      <label class="small fw-bold text-muted">Featured</label>
+                    </div>
+                 </div>
               </div>
-            </mat-card-content>
-            <mat-card-actions class="d-flex justify-content-between p-3">
-              <button mat-button color="warn" (click)="deletePackage(pkg)">Delete</button>
-              <button mat-raised-button color="accent" (click)="savePackage(pkg)">Save</button>
-            </mat-card-actions>
-          </mat-card>
+            </div>
+
+            <div class="card-footer bg-white border-0 p-4 pt-0">
+              <button class="btn btn-primary w-100 rounded-pill py-2 fw-bold shadow-sm" (click)="savePackage(pkg)">
+                <i class="bi bi-save me-2"></i> Save Changes
+              </button>
+            </div>
+          </div>
         </div>
+      </div>
+
+      <!-- Empty State -->
+      <div class="text-center py-5" *ngIf="packages.length === 0">
+        <i class="bi bi-box-seam display-1 text-muted opacity-25"></i>
+        <h4 class="mt-3 text-muted">No packages designed yet.</h4>
+        <button class="btn btn-primary mt-3" (click)="addNewPackage()">Get Started</button>
       </div>
     </div>
   `,
   styles: [`
-    .package-card {
-      position: relative;
-      transition: transform 0.2s;
+    .btn-soft-primary {
+      background: rgba(13, 110, 253, 0.1);
+      color: #0d6efd;
     }
-    .package-card.recommended {
-      border: 2px solid var(--primary-color, #0d6efd);
+    .btn-soft-primary:hover {
+      background: rgba(13, 110, 253, 0.2);
     }
-    .pkg-title-input {
-      font-weight: bold;
-      font-size: 1.25rem;
-      border: none;
-      border-bottom: 1px dashed #ccc;
-      width: 100%;
+    .space-y-2 > :not([hidden]) ~ :not([hidden]) {
+      margin-top: 0.5rem;
     }
-    .pkg-title-input:focus {
-      outline: none;
-      border-bottom-color: var(--primary-color);
-    }
-    .feature-input {
-      border: none;
-      border-bottom: 1px solid #eee;
-      padding: 4px 8px;
-      font-size: 0.9rem;
-    }
-    .feature-input:focus {
-      outline: none;
-      border-bottom-color: var(--primary-color);
+    .max-h-60 {
+      max-height: 15rem;
     }
   `]
 })
@@ -120,7 +148,7 @@ export class PackageBuilderComponent implements OnInit {
   packages: SubscriptionPackage[] = [];
   private apiUrl = `${environment.apiUrl}/subscriptions`;
 
-  constructor(private http: HttpClient, private snackBar: MatSnackBar) {}
+  constructor(private http: HttpClient) {}
 
   ngOnInit() {
     this.loadPackages();
@@ -134,19 +162,25 @@ export class PackageBuilderComponent implements OnInit {
 
   addNewPackage() {
     const newPkg: SubscriptionPackage = {
-      name: 'New Package',
-      price: 0,
-      features: ['Feature 1'],
-      recommended: false
+      name: 'New Startup Package',
+      price: 100000,
+      features: ['Core Service 1', 'Support Period'],
+      recommended: false,
+      badge: 'NEW',
+      tagline: 'Start your journey with us.',
+      accent: '#3b82f6',
+      accentLight: '#eff6ff',
+      icon: 'bi-rocket-takeoff',
+      currency: 'BDT',
+      period: '/one-time'
     };
     this.http.post<SubscriptionPackage>(this.apiUrl, newPkg).subscribe(savedPkg => {
       this.packages.push(savedPkg);
-      this.snackBar.open('New package added', 'Close', { duration: 2000 });
     });
   }
 
   addFeature(pkg: SubscriptionPackage) {
-    pkg.features.push('');
+    pkg.features.push('New feature');
   }
 
   removeFeature(pkg: SubscriptionPackage, index: number) {
@@ -157,9 +191,12 @@ export class PackageBuilderComponent implements OnInit {
     return index;
   }
 
+  trackById(index: number, pkg: SubscriptionPackage): any {
+    return pkg.id || index;
+  }
+
   toggleRecommended(pkg: SubscriptionPackage) {
     if (pkg.recommended) {
-      // Ensure only one is recommended
       this.packages.forEach(p => {
         if (p !== pkg) p.recommended = false;
       });
@@ -169,16 +206,15 @@ export class PackageBuilderComponent implements OnInit {
   savePackage(pkg: SubscriptionPackage) {
     if (!pkg.id) return;
     this.http.put(`${this.apiUrl}/${pkg.id}`, pkg).subscribe(() => {
-      this.snackBar.open('Package saved successfully', 'Close', { duration: 2000 });
+      alert('Package "' + pkg.name + '" saved successfully!');
     });
   }
 
   deletePackage(pkg: SubscriptionPackage) {
     if (!pkg.id) return;
-    if (confirm('Are you sure you want to delete this package?')) {
+    if (confirm('Are you sure you want to delete "' + pkg.name + '"?')) {
       this.http.delete(`${this.apiUrl}/${pkg.id}`).subscribe(() => {
         this.packages = this.packages.filter(p => p.id !== pkg.id);
-        this.snackBar.open('Package deleted', 'Close', { duration: 2000 });
       });
     }
   }

@@ -96,24 +96,46 @@ export class HomeComponent implements OnInit {
           title: 'Digital Foundation',
           description: 'Professional Website, Domain (1 Year), Business Email, and Basic SEO.',
           linkText: 'Subscribe Now',
-          linkUrl: '/client/subscriptions',
-          color: 'primary'
+          linkUrl: '/client/payments',
+          color: 'primary',
+          features: [
+            "Professional Website Design",
+            "Domain & Hosting (1 Year)",
+            "Business Email Setup",
+            "Basic SEO Optimization",
+            "3 Months Support"
+          ]
         },
         {
           icon: 'bi-graph-up-arrow',
           title: 'Growth Accelerator',
           description: 'E-Commerce Platform, Marketing (3 Months), Social Media Mgmt, and 24/7 Support.',
           linkText: 'Subscribe Now',
-          linkUrl: '/client/subscriptions',
-          color: 'success'
+          linkUrl: '/client/payments',
+          color: 'success',
+          features: [
+            "E-Commerce / Custom Web Platform",
+            "Digital Marketing (3 Months)",
+            "Social Media Management",
+            "Logo & Brand Identity",
+            "Priority 24/7 Support"
+          ]
         },
         {
           icon: 'bi-rocket-takeoff',
           title: 'A-to-Z Launchpad',
           description: 'Business Formation, Trade License, Web & Mobile App, and Launch Manager.',
           linkText: 'Subscribe Now',
-          linkUrl: '/client/subscriptions',
-          color: 'warning'
+          linkUrl: '/client/payments',
+          color: 'warning',
+          features: [
+            "Full Business Formation Support",
+            "Trade License & Legal Paperwork",
+            "Full Online Platform Readiness",
+            "Premium Web & Mobile App",
+            "1 Year Marketing Strategy",
+            "Dedicated Launch Manager"
+          ]
         }
       ],
       ctaTitle: 'Ready to start your journey?',

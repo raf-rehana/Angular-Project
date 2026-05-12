@@ -7,21 +7,91 @@
   </div>
 
   <div class="row g-4 mb-4">
-    <div class="col-md-4">
+    <div class="col-md-4 col-xl-2">
       <div class="card border-0 shadow-sm rounded-4 bg-primary text-white h-100">
-        <div class="card-body p-4">
-          <h6 class="text-white-50 text-uppercase fw-bold mb-1">Total Requests</h6>
-          <h1 class="display-4 fw-bold mb-0">{{ requests.length }}</h1>
+        <div class="card-body p-3">
+          <h6 class="text-white-50 small text-uppercase fw-bold mb-1">Total Requests</h6>
+          <h2 class="fw-bold mb-0">{{ requests.length }}</h2>
         </div>
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4 col-xl-2">
       <div class="card border-0 shadow-sm rounded-4 bg-warning text-dark h-100">
-        <div class="card-body p-4">
-          <h6 class="text-dark-50 text-uppercase fw-bold mb-1 opacity-75">Pending Review</h6>
-          <h1 class="display-4 fw-bold mb-0">{{ pendingCount }}</h1>
+        <div class="card-body p-3">
+          <h6 class="text-dark-50 small text-uppercase fw-bold mb-1 opacity-75">Pending</h6>
+          <h2 class="fw-bold mb-0">{{ pendingCount }}</h2>
         </div>
       </div>
+    </div>
+    <div class="col-md-4 col-xl-2">
+      <div class="card border-0 shadow-sm rounded-4 bg-success text-white h-100">
+        <div class="card-body p-3">
+          <h6 class="text-white-50 small text-uppercase fw-bold mb-1">Clients</h6>
+          <h2 class="fw-bold mb-0">{{ clientCount }}</h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 col-xl-2">
+      <div class="card border-0 shadow-sm rounded-4 bg-info text-white h-100">
+        <div class="card-body p-3">
+          <h6 class="text-white-50 small text-uppercase fw-bold mb-1">Employees</h6>
+          <h2 class="fw-bold mb-0">{{ employeeCount }}</h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 col-xl-2">
+      <div class="card border-0 shadow-sm rounded-4 bg-indigo text-white h-100" style="background-color: #6366f1 !important;">
+        <div class="card-body p-3">
+          <h6 class="text-white-50 small text-uppercase fw-bold mb-1">Services</h6>
+          <h2 class="fw-bold mb-0">{{ serviceCount }}</h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 col-xl-2">
+      <div class="card border-0 shadow-sm rounded-4 bg-dark text-white h-100">
+        <div class="card-body p-3">
+          <h6 class="text-white-50 small text-uppercase fw-bold mb-1">Packages</h6>
+          <h2 class="fw-bold mb-0">{{ packageCount }}</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4 mb-5">
+    <div class="col-12">
+      <h5 class="fw-bold text-dark mb-3">Management Quick Links</h5>
+    </div>
+    <div class="col-md-3 col-6">
+      <a routerLink="/admin/service-management" class="text-decoration-none">
+        <div class="card border-0 shadow-sm rounded-4 h-100 text-center py-4 hover-shadow transition-all bg-white">
+          <i class="bi bi-gear-fill fs-2 text-primary mb-2"></i>
+          <p class="mb-0 fw-bold text-dark">Service Config</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-6">
+      <a routerLink="/admin/package-builder" class="text-decoration-none">
+        <div class="card border-0 shadow-sm rounded-4 h-100 text-center py-4 hover-shadow transition-all bg-white">
+          <i class="bi bi-box-seam-fill fs-2 text-success mb-2"></i>
+          <p class="mb-0 fw-bold text-dark">Package Builder</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-6">
+      <a routerLink="/admin/all-requests" class="text-decoration-none">
+        <div class="card border-0 shadow-sm rounded-4 h-100 text-center py-4 hover-shadow transition-all bg-white">
+          <i class="bi bi-files fs-2 text-info mb-2"></i>
+          <p class="mb-0 fw-bold text-dark">All Requests</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-6">
+      <a routerLink="/admin/site-content" class="text-decoration-none">
+        <div class="card border-0 shadow-sm rounded-4 h-100 text-center py-4 hover-shadow transition-all bg-white">
+          <i class="bi bi-pencil-square fs-2 text-warning mb-2"></i>
+          <p class="mb-0 fw-bold text-dark">Site Content</p>
+        </div>
+      </a>
     </div>
   </div>
 

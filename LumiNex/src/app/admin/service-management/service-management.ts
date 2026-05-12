@@ -17,50 +17,59 @@ import { Service } from '../../core/models/service';
           <p class="text-muted">Manage available services and their pricing.</p>
         </div>
         <div>
-          <button class="btn btn-primary" (click)="showAddForm = !showAddForm">
-            <i class="bi" [ngClass]="showAddForm ? 'bi-x-lg' : 'bi-plus-lg'"></i>
-            {{ showAddForm ? 'Cancel' : 'New Service' }}
+          <button class="btn btn-primary" (click)="showForm = !showForm">
+            <i class="bi" [ngClass]="showForm ? 'bi-x-lg' : 'bi-plus-lg'"></i>
+            {{ showForm ? 'Cancel' : 'New Service' }}
           </button>
         </div>
       </div>
 
-      <!-- Add Service Form -->
-      <div class="card border-0 shadow-sm rounded-4 mb-4" *ngIf="showAddForm">
+      <!-- Add/Edit Service Form -->
+      <div class="card border-0 shadow-sm rounded-4 mb-4" *ngIf="showForm">
         <div class="card-body p-4">
-          <h5 class="fw-bold mb-3">Add New Service</h5>
-          <form (ngSubmit)="addService()" #serviceForm="ngForm">
+          <h5 class="fw-bold mb-3">{{ isEditing ? 'Edit Service' : 'Add New Service' }}</h5>
+          <form (ngSubmit)="isEditing ? updateService() : addService()" #serviceForm="ngForm">
             <div class="row g-3">
               <div class="col-md-4">
-                <label class="form-label">Service Name</label>
-                <input type="text" class="form-control" name="name" [(ngModel)]="newService.name" required>
+                <label class="form-label small fw-bold">Service Name</label>
+                <input type="text" class="form-control" name="name" [(ngModel)]="activeService.name" required>
               </div>
               <div class="col-md-4">
-                <label class="form-label">Category</label>
-                <select class="form-select" name="categoryId" [(ngModel)]="newService.categoryId" required (change)="updateCategoryName()">
+                <label class="form-label small fw-bold">Category</label>
+                <select class="form-select" name="categoryId" [(ngModel)]="activeService.categoryId" required (change)="updateCategoryName()">
                   <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
                 </select>
               </div>
               <div class="col-md-4">
-                <label class="form-label">Price (BDT)</label>
-                <input type="number" class="form-control" name="price" [(ngModel)]="newService.price" required>
+                <label class="form-label small fw-bold">Price (BDT)</label>
+                <input type="number" class="form-control" name="price" [(ngModel)]="activeService.price" required>
               </div>
               <div class="col-md-4">
-                <label class="form-label">Pricing Type</label>
-                <select class="form-select" name="priceType" [(ngModel)]="newService.priceType">
+                <label class="form-label small fw-bold">Pricing Type</label>
+                <select class="form-select" name="priceType" [(ngModel)]="activeService.priceType">
                   <option value="FIXED">FIXED</option>
                   <option value="MONTHLY">MONTHLY</option>
                 </select>
               </div>
               <div class="col-md-4">
-                <label class="form-label">Delivery Days</label>
-                <input type="text" class="form-control" name="deliveryDays" [(ngModel)]="newService.deliveryDays" placeholder="e.g. 7">
+                <label class="form-label small fw-bold">Delivery Days</label>
+                <input type="text" class="form-control" name="deliveryDays" [(ngModel)]="activeService.deliveryDays" placeholder="e.g. 7">
+              </div>
+              <div class="col-md-4 d-flex align-items-end">
+                <div class="form-check form-switch mb-2">
+                  <input class="form-check-input" type="checkbox" name="isActive" [(ngModel)]="activeService.isActive">
+                  <label class="form-check-label fw-bold">Active Status</label>
+                </div>
               </div>
               <div class="col-12">
-                <label class="form-label">Description</label>
-                <textarea class="form-control" name="description" [(ngModel)]="newService.description" rows="2"></textarea>
+                <label class="form-label small fw-bold">Description</label>
+                <textarea class="form-control" name="description" [(ngModel)]="activeService.description" rows="2"></textarea>
               </div>
-              <div class="col-12 text-end">
-                <button type="submit" class="btn btn-primary px-4" [disabled]="!serviceForm.form.valid">Create Service</button>
+              <div class="col-12 text-end gap-2 d-flex justify-content-end">
+                <button type="button" class="btn btn-light px-4" (click)="cancelEdit()">Cancel</button>
+                <button type="submit" class="btn btn-primary px-4" [disabled]="!serviceForm.form.valid">
+                  {{ isEditing ? 'Update Service' : 'Create Service' }}
+                </button>
               </div>
             </div>
           </form>
@@ -89,9 +98,14 @@ import { Service } from '../../core/models/service';
                   <td class="py-3 text-muted">{{ s.categoryName }}</td>
                   <td class="py-3 fw-bold text-dark">BDT {{ s.price }} <span class="fw-normal text-muted small" *ngIf="s.priceType === 'MONTHLY'">/mo</span></td>
                   <td class="py-3">
-                    <span class="badge" [ngClass]="s.isActive ? 'bg-success' : 'bg-secondary'">{{ s.isActive ? 'Active' : 'Inactive' }}</span>
+                    <span class="badge rounded-pill" [ngClass]="s.isActive ? 'bg-success-soft text-success' : 'bg-secondary-soft text-secondary'">
+                      {{ s.isActive ? 'Active' : 'Inactive' }}
+                    </span>
                   </td>
                   <td class="pe-4 py-3 text-end">
+                    <button class="btn btn-sm btn-light text-primary me-2" (click)="editService(s)">
+                      <i class="bi bi-pencil"></i>
+                    </button>
                     <button class="btn btn-sm btn-light text-danger" (click)="deleteService(s.id)">
                       <i class="bi bi-trash"></i>
                     </button>
@@ -111,17 +125,10 @@ import { Service } from '../../core/models/service';
 export class ServiceManagementComponent implements OnInit {
   services: Service[] = [];
   categories: any[] = [];
-  showAddForm = false;
-  newService: any = {
-    name: '',
-    categoryId: '1',
-    categoryName: 'Web Development',
-    price: 0,
-    priceType: 'FIXED',
-    deliveryDays: '',
-    description: '',
-    isActive: true
-  };
+  
+  showForm = false;
+  isEditing = false;
+  activeService: any = this.getEmptyService();
 
   constructor(
     private adminService: AdminService,
@@ -129,44 +136,71 @@ export class ServiceManagementComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.loadServices();
-    this.catalogueService.getCategories().subscribe((data: any[]) => {
-      this.categories = data;
-    });
+    this.loadData();
   }
 
-  loadServices() {
-    this.catalogueService.getServices().subscribe((data: Service[]) => {
-      this.services = data;
-    });
+  loadData() {
+    this.catalogueService.getCategories().subscribe(cats => this.categories = cats);
+    this.catalogueService.getServices().subscribe(srvs => this.services = srvs);
+  }
+
+  getEmptyService() {
+    return {
+      name: '',
+      categoryId: '',
+      categoryName: '',
+      price: 0,
+      priceType: 'FIXED',
+      deliveryDays: '',
+      description: '',
+      isActive: true,
+      link: '/client/payments'
+    };
+  }
+
+  openAdd() {
+    this.activeService = this.getEmptyService();
+    this.isEditing = false;
+    this.showForm = true;
+  }
+
+  editService(service: Service) {
+    this.activeService = { ...service };
+    this.isEditing = true;
+    this.showForm = true;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  cancelEdit() {
+    this.showForm = false;
+    this.isEditing = false;
+    this.activeService = this.getEmptyService();
   }
 
   updateCategoryName() {
-    const cat = this.categories.find(c => c.id === this.newService.categoryId);
-    if (cat) this.newService.categoryName = cat.name;
+    const cat = this.categories.find(c => c.id === this.activeService.categoryId);
+    if (cat) this.activeService.categoryName = cat.name;
   }
 
   addService() {
-    this.adminService.addService(this.newService).subscribe(() => {
-      this.loadServices();
-      this.showAddForm = false;
-      this.newService = {
-        name: '',
-        categoryId: '1',
-        categoryName: 'Web Development',
-        price: 0,
-        priceType: 'FIXED',
-        deliveryDays: '',
-        description: '',
-        isActive: true
-      };
+    this.adminService.addService(this.activeService).subscribe(() => {
+      this.loadData();
+      this.cancelEdit();
+    });
+  }
+
+  updateService() {
+    if (!this.activeService.id) return;
+    this.adminService.updateService(this.activeService.id, this.activeService).subscribe(() => {
+      this.loadData();
+      this.cancelEdit();
     });
   }
 
   deleteService(id: string | number) {
-    if (confirm('Are you sure?')) {
+    if (confirm('Are you sure you want to delete this service?')) {
       this.adminService.deleteService(id).subscribe(() => {
-        this.loadServices();
+        this.loadData();
       });
     }
   }

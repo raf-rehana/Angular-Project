@@ -50,6 +50,7 @@ export interface ServiceCard {
   linkText: string;
   linkUrl: string;
   color: string;
+  features?: string[];
 }
 
 export interface SocialLink {
