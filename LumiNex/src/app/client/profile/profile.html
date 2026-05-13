@@ -102,10 +102,10 @@
           <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-dark text-white">
             <h6 class="fw-bold mb-3 small text-uppercase opacity-75">Current Plan</h6>
             <div class="d-flex align-items-center justify-content-between mb-4">
-              <div class="display-6 fw-bold">Growth</div>
-              <div class="badge bg-primary rounded-pill">Active</div>
+              <div class="display-6 fw-bold fs-4">{{ currentPlan ? currentPlan : 'No Active Plan' }}</div>
+              <div class="badge rounded-pill" [ngClass]="currentPlan ? 'bg-primary' : 'bg-secondary'">{{ currentPlan ? 'Active' : 'Free' }}</div>
             </div>
-            <button class="btn btn-light w-100 rounded-pill py-2 small fw-bold text-dark" routerLink="/client/plans">Upgrade Plan</button>
+            <button class="btn btn-light w-100 rounded-pill py-2 small fw-bold text-dark" routerLink="/client/plans">{{ currentPlan ? 'Upgrade Plan' : 'View Plans' }}</button>
           </div>
 
           <div class="card border-0 shadow-sm rounded-4 p-4">

@@ -10,6 +10,10 @@ import { ThemeSettingsComponent } from './theme-settings/theme-settings';
 import { SiteContentComponent } from './site-content/site-content.component';
 import { RevenueReportComponent } from './revenue-report/revenue-report.component';
 import { PackageBuilderComponent } from './package-builder/package-builder';
+import { AdminAuditLogsComponent } from './audit-logs/audit-logs';
+import { AdminKnowledgeBaseComponent } from './knowledge-base/knowledge-base';
+import { AdminAnalyticsComponent } from './analytics/analytics';
+import { AdminSettingsComponent } from './settings/settings';
 
 export const ADMIN_ROUTES: Routes = [
   { path: 'dashboard', component: AdminDashboard },
@@ -23,5 +27,10 @@ export const ADMIN_ROUTES: Routes = [
   { path: 'payments', component: AdminPaymentsComponent },
   { path: 'theme', component: ThemeSettingsComponent },
   { path: 'site-content', component: SiteContentComponent },
+  { path: 'audit-logs', component: AdminAuditLogsComponent },
+  { path: 'knowledge-base', component: AdminKnowledgeBaseComponent },
+  { path: 'analytics', component: AdminAnalyticsComponent },
+  { path: 'settings', component: AdminSettingsComponent },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
 ];
+

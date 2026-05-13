@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ServiceCatalogueService } from '../../core/services/service-catalogue';
 import { Service, ServiceCategory } from '../../core/models/service';
-import { RouterModule, ActivatedRoute } from '@angular/router';
+import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.services';
+import { RedirectService } from '../../core/services/redirect.service';
 
 @Component({
   selector: 'app-catalogue',
@@ -22,7 +23,9 @@ export class CatalogueComponent implements OnInit {
   constructor(
     private serviceCatalogue: ServiceCatalogueService,
     private route: ActivatedRoute,
-    public authService: AuthService
+    public authService: AuthService,
+    private router: Router,
+    private redirectService: RedirectService
   ) {}
 
   ngOnInit() {
@@ -115,5 +118,17 @@ export class CatalogueComponent implements OnInit {
       '#1C1917', // Dark Stone
     ];
     return palette[index % palette.length];
+  }
+
+  onServiceRequest(service: any) {
+    const targetUrl = '/client/request-form';
+    const queryParams = { serviceId: service.id };
+    if (this.authService.isLoggedIn()) {
+      this.router.navigate([targetUrl], { queryParams });
+    } else {
+      const fullUrl = this.router.createUrlTree([targetUrl], { queryParams }).toString();
+      this.redirectService.setReturnUrl(fullUrl);
+      this.router.navigate(['/login']);
+    }
   }
 }

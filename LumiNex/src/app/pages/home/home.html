@@ -209,9 +209,9 @@
                 <span class="text-slate-600 text-sm leading-tight font-medium">{{ feature }}</span>
               </li>
             </ul>
-            <a [routerLink]="service.linkUrl" [class]="'w-full py-4 rounded-xl font-bold uppercase tracking-widest text-sm transition-all duration-300 text-white shadow-sm hover:shadow-lg btn btn-' + service.color">
+            <button (click)="onServiceAction(service)" [class]="'w-full py-4 rounded-xl font-bold uppercase tracking-widest text-sm transition-all duration-300 text-white shadow-sm hover:shadow-lg btn btn-' + service.color">
               {{ service.linkText }}
-            </a>
+            </button>
             <a routerLink="/contact" class="w-full py-3 rounded-xl font-bold text-sm mt-3 transition-all flex items-center justify-center gap-2 no-underline"
                [ngClass]="{
                  'text-blue-600 bg-blue-50 hover:bg-blue-100': service.color === 'primary',
@@ -261,9 +261,9 @@
               
               <div class="pt-6 border-top border-slate-50 d-flex justify-content-between align-items-center mt-auto">
                 <span class="text-xs font-black text-slate-400 uppercase tracking-widest">{{ service.price.toLocaleString() }} BDT</span>
-                <a [routerLink]="['/client/request-form']" [queryParams]="{ serviceId: service.id }" class="text-primary-600 text-xs font-black uppercase tracking-widest text-decoration-none">
+                <button (click)="onServiceRequest(service)" class="text-primary-600 text-xs font-black uppercase tracking-widest text-decoration-none bg-transparent border-0 p-0">
                   Request <i class="bi bi-chevron-right ms-1"></i>
-                </a>
+                </button>
               </div>
             </div>
           </div>

@@ -106,6 +106,23 @@
       "role": "EMPLOYEE",
       "designation": "Service Specialist",
       "id": "10150"
+    },
+    {
+      "companyName": "NiJu Bank",
+      "businessType": "FINANCE",
+      "country": "Saudi Arabia",
+      "district": "",
+      "thana": "",
+      "village": "Al Burz",
+      "name": "Fahad Aziz",
+      "email": "fahad@gmail.com",
+      "countryCode": "+966",
+      "phone": "+966 536000000",
+      "password": "demo123",
+      "plan": "STARTER",
+      "address": "Al Burz, Saudi Arabia",
+      "role": "CLIENT",
+      "id": "XXJKrV52IR8"
     }
   ],
   "categories": [
@@ -1304,7 +1321,8 @@
       "status": "COMPLETED",
       "priority": "HIGH",
       "createdAt": "2026-05-01T10:00:00.000Z",
-      "progress": 65
+      "progress": 65,
+      "assignedTo": "10145"
     },
     {
       "id": "2",
@@ -1351,6 +1369,76 @@
       "progress": 0,
       "createdAt": "2026-05-09T09:15:32.082Z",
       "id": "jceFbCdS93I"
+    },
+    {
+      "userId": "10142",
+      "serviceId": "YgR6ewGkq1w",
+      "serviceName": "Android App",
+      "categoryName": "Web Development",
+      "status": "PENDING",
+      "priority": "NORMAL",
+      "clientNotes": "dgedhrthrh",
+      "progress": 0,
+      "createdAt": "2026-05-12T17:41:44.704Z",
+      "documents": [
+        {
+          "id": "doc-1778607704704-0",
+          "name": "App Feature List (SRS) - Screenshot 2026-05-09 222721.png",
+          "url": "assets/docs/App Feature List (SRS) - Screenshot 2026-05-09 222721.png",
+          "uploadedAt": "2026-05-12T17:41:44.704Z"
+        },
+        {
+          "id": "doc-1778607704704-1",
+          "name": "UI/UX Wireframes - Screenshot 2026-05-09 222721.png",
+          "url": "assets/docs/UI/UX Wireframes - Screenshot 2026-05-09 222721.png",
+          "uploadedAt": "2026-05-12T17:41:44.704Z"
+        },
+        {
+          "id": "doc-1778607704704-2",
+          "name": "Server Requirements - Screenshot 2026-05-09 222721.png",
+          "url": "assets/docs/Server Requirements - Screenshot 2026-05-09 222721.png",
+          "uploadedAt": "2026-05-12T17:41:44.704Z"
+        },
+        {
+          "id": "doc-1778607704704-3",
+          "name": "JSP MCQs -Final1.pdf",
+          "url": "assets/docs/JSP MCQs -Final1.pdf",
+          "uploadedAt": "2026-05-12T17:41:44.704Z"
+        },
+        {
+          "id": "doc-1778607704704-4",
+          "name": "Screenshot 2026-05-09 232951.png",
+          "url": "assets/docs/Screenshot 2026-05-09 232951.png",
+          "uploadedAt": "2026-05-12T17:41:44.704Z"
+        }
+      ],
+      "id": "Op-oKy-aBRo"
+    },
+    {
+      "userId": "XXJKrV52IR8",
+      "serviceId": "s113",
+      "serviceName": "Virtual Office Address",
+      "categoryName": "Office Space",
+      "status": "PENDING",
+      "priority": "NORMAL",
+      "clientNotes": "ferwfsddsgfed",
+      "progress": 0,
+      "createdAt": "2026-05-12T21:37:06.011Z",
+      "documents": [
+        {
+          "id": "doc-1778621826010-0",
+          "name": "NID of Applicant - Screenshot 2026-05-13 032507.png",
+          "url": "assets/docs/NID of Applicant - Screenshot 2026-05-13 032507.png",
+          "uploadedAt": "2026-05-12T21:37:06.010Z"
+        },
+        {
+          "id": "doc-1778621826011-1",
+          "name": "Screenshot 2026-05-09 222721.png",
+          "url": "assets/docs/Screenshot 2026-05-09 222721.png",
+          "uploadedAt": "2026-05-12T21:37:06.011Z"
+        }
+      ],
+      "id": "jiUV3wkCfJw"
     }
   ],
   "notifications": [
@@ -1518,6 +1606,48 @@
       "bankTranId": "260512163745UTTLzdZgPHk0cm0",
       "currency": "BDT",
       "id": "SQM1Tu7aybU"
+    },
+    {
+      "clientId": "10142",
+      "client": "Android App - Client",
+      "item": "Android App",
+      "planId": "YgR6ewGkq1w",
+      "amount": 1050,
+      "method": "VISA-Dutch Bangla",
+      "status": "PAID",
+      "date": "2026-05-12",
+      "tranId": "LNX-EAE35043-7D8",
+      "bankTranId": "260512235816cNht5jxlG6tsWDc",
+      "currency": "BDT",
+      "id": "AgIJff4qmWY"
+    },
+    {
+      "clientId": "10142",
+      "client": "Digital Foundation - Client",
+      "item": "Digital Foundation",
+      "planId": "1",
+      "amount": 52500,
+      "method": "VISA-Dutch Bangla",
+      "status": "PAID",
+      "date": "2026-05-12",
+      "tranId": "LNX-E97EA278-585",
+      "bankTranId": "26051300357AqoHggdYX5HILXZ",
+      "currency": "BDT",
+      "id": "xWS0TVxUKSA"
+    },
+    {
+      "clientId": "XXJKrV52IR8",
+      "client": "Digital Foundation - Client",
+      "item": "Digital Foundation",
+      "planId": "1",
+      "amount": 52500,
+      "method": "VISA-Dutch Bangla",
+      "status": "PAID",
+      "date": "2026-05-12",
+      "tranId": "LNX-44201479-827",
+      "bankTranId": "260513338252dSVcqjw6RRA89N",
+      "currency": "BDT",
+      "id": "aQ28n_AYlY0"
     }
   ],
   "auth": {
@@ -1655,6 +1785,77 @@
       ],
       "isActive": true,
       "updatedAt": "2026-05-11T10:51:42.822Z"
+    }
+  ],
+  "auditLogs": [
+    {
+      "id": "log001",
+      "timestamp": "2026-05-13T05:00:00.000Z",
+      "userId": "10141",
+      "userName": "Admin User",
+      "userRole": "ADMIN",
+      "action": "System Initialized",
+      "details": "Admin dashboard accessed for the first time."
+    },
+    {
+      "id": "log002",
+      "timestamp": "2026-05-13T05:10:00.000Z",
+      "userId": "10143",
+      "userName": "tanvir",
+      "userRole": "EMPLOYEE",
+      "action": "Task Updated",
+      "details": "Task #1 status changed to IN_PROGRESS"
+    },
+    {
+      "id": "log003",
+      "timestamp": "2026-05-13T05:20:00.000Z",
+      "userId": "10145",
+      "userName": "Emon",
+      "userRole": "EMPLOYEE",
+      "action": "Task Updated",
+      "details": "Task #2 status changed to COMPLETED"
+    }
+  ],
+  "knowledgeBase": [
+    {
+      "id": "kb001",
+      "title": "How to Handle a New Client Request",
+      "category": "Client Support",
+      "content": "When a new client submits a request:\n1. Review the request details in All Requests.\n2. Assign it to the appropriate employee based on their specialization.\n3. Set the priority level (LOW, NORMAL, HIGH, URGENT).\n4. Send an internal note to the client confirming the assignment.\n5. Follow up within 24 hours.",
+      "createdAt": "2026-05-10T09:00:00.000Z",
+      "updatedAt": "2026-05-10T09:00:00.000Z"
+    },
+    {
+      "id": "kb002",
+      "title": "Invoice Generation SOP",
+      "category": "Billing",
+      "content": "To generate an invoice for a completed payment:\n1. Navigate to Admin > Payments.\n2. Find the relevant payment record.\n3. Click 'Generate Invoice'.\n4. The PDF will be automatically created and downloaded.\n5. Share the invoice with the client via email.\n\nNote: Only PAID payments can have invoices generated.",
+      "createdAt": "2026-05-10T10:00:00.000Z",
+      "updatedAt": "2026-05-10T10:00:00.000Z"
+    },
+    {
+      "id": "kb003",
+      "title": "Employee Task Management Guide",
+      "category": "Technical",
+      "content": "Managing your assigned tasks:\n1. Go to Employee > My Tasks to see all your assignments.\n2. Click a task to open the Task Detail view.\n3. Use the Time Tracker to log your working hours accurately.\n4. Update the progress slider as you advance.\n5. Change status to REVIEW when done for admin approval.\n6. Add detailed employee notes for every action taken.\n\nBest Practice: Update progress daily to keep the admin informed.",
+      "createdAt": "2026-05-11T08:00:00.000Z",
+      "updatedAt": "2026-05-11T08:00:00.000Z"
+    },
+    {
+      "id": "kb004",
+      "title": "Trade License Registration Process",
+      "category": "Legal",
+      "content": "For clients requesting Trade License registration:\n1. Collect: NID copy, recent photo, and rent agreement from client.\n2. Visit the local City Corporation or Municipal office.\n3. Fill out the application form.\n4. Submit documents along with the required fees.\n5. Expected delivery: 7-10 working days.\n\nFee: BDT 5,000 (may vary by location and business type).",
+      "createdAt": "2026-05-11T09:00:00.000Z",
+      "updatedAt": "2026-05-11T09:00:00.000Z"
+    },
+    {
+      "id": "kb005",
+      "title": "Escalation Policy",
+      "category": "Client Support",
+      "content": "When to escalate a request to the Admin:\n- Client is unresponsive for more than 3 business days.\n- Technical issues are beyond your skill set.\n- A refund or payment dispute is raised.\n- The delivery deadline cannot be met.\n\nHow to escalate:\n1. Add a detailed note to the task explaining the situation.\n2. Change the task priority to URGENT.\n3. Notify the admin directly through the internal chat.",
+      "createdAt": "2026-05-12T08:00:00.000Z",
+      "updatedAt": "2026-05-12T08:00:00.000Z"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

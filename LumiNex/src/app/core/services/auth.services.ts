@@ -10,6 +10,12 @@ export class AuthService {
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 
+  checkEmail(email: string): Observable<boolean> {
+    return this.http.get<User[]>(`${this.apiUrl}/users?email=${email}`).pipe(
+      map(users => users && users.length > 0)
+    );
+  }
+
   constructor(private http: HttpClient, private router: Router) {
     const stored = localStorage.getItem('user');
     if (stored) this.currentUserSubject.next(JSON.parse(stored));
@@ -54,7 +60,7 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     this.currentUserSubject.next(null);
-    this.router.navigate(['/auth/login']);
+    this.router.navigate(['/login']);
   }
 
   getToken(): string | null {

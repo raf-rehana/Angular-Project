@@ -23,29 +23,38 @@ import { User } from '../../core/models/user';
         </div>
       </div>
 
-      <!-- Add Client Form -->
-      <div class="card border-0 shadow-sm rounded-4 mb-4" *ngIf="showAddForm">
-        <div class="card-body p-4">
-          <h5 class="fw-bold mb-3">Add New Client</h5>
-          <form (ngSubmit)="addClient()" #clientForm="ngForm">
-            <div class="row g-3">
-              <div class="col-md-4">
-                <label class="form-label">Full Name</label>
-                <input type="text" class="form-control" name="name" [(ngModel)]="newClient.name" required>
-              </div>
-              <div class="col-md-4">
-                <label class="form-label">Email</label>
-                <input type="email" class="form-control" name="email" [(ngModel)]="newClient.email" required>
-              </div>
-              <div class="col-md-4">
-                <label class="form-label">Password</label>
-                <input type="password" class="form-control" name="password" [(ngModel)]="newClient.password" required>
-              </div>
-              <div class="col-12 text-end">
-                <button type="submit" class="btn btn-primary px-4" [disabled]="!clientForm.form.valid">Save Client</button>
-              </div>
+      <!-- Add Client Modal -->
+      <div class="modal-backdrop fade show" *ngIf="showAddForm" (click)="showAddForm = false"></div>
+      <div class="modal fade show d-block" *ngIf="showAddForm" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content border-0 shadow-lg rounded-5 overflow-hidden">
+            <div class="modal-header border-0 bg-primary text-white p-4 d-flex justify-content-between align-items-center">
+              <h5 class="modal-title fw-bold">Add New Client</h5>
+              <button type="button" class="btn-close btn-close-white" (click)="showAddForm = false"></button>
             </div>
-          </form>
+            <div class="modal-body p-4 p-md-5">
+              <form (ngSubmit)="addClient()" #clientForm="ngForm">
+                <div class="row g-3">
+                  <div class="col-12">
+                    <label class="form-label small fw-bold text-muted">Full Name</label>
+                    <input type="text" class="form-control bg-light border-0 py-3 rounded-4" name="name" [(ngModel)]="newClient.name" placeholder="John Doe" required>
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label small fw-bold text-muted">Email</label>
+                    <input type="email" class="form-control bg-light border-0 py-3 rounded-4" name="email" [(ngModel)]="newClient.email" placeholder="john@luminex.com" required>
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label small fw-bold text-muted">Password</label>
+                    <input type="password" class="form-control bg-light border-0 py-3 rounded-4" name="password" [(ngModel)]="newClient.password" required>
+                  </div>
+                </div>
+                <div class="mt-4 pt-3 border-top d-flex justify-content-end gap-2">
+                  <button type="button" class="btn btn-light rounded-pill px-4 py-2 fw-bold" (click)="showAddForm = false">Cancel</button>
+                  <button type="submit" class="btn btn-primary rounded-pill px-4 py-2 fw-bold shadow-sm" [disabled]="!clientForm.form.valid">Save Client</button>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
 

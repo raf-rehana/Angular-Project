@@ -13,6 +13,8 @@ import { PdfGeneratorService } from '../../core/services/pdf-generator.service';
 })
 export class AdminPaymentsComponent implements OnInit {
   payments: any[] = [];
+  filteredPayments: any[] = [];
+  filterStatus: string = 'ALL';
 
   constructor(
     private paymentService: PaymentService,
@@ -27,8 +29,22 @@ export class AdminPaymentsComponent implements OnInit {
   loadPayments() {
     this.paymentService.getPayments().subscribe(data => {
       this.payments = data;
-      this.cdr.detectChanges();
+      this.applyFilter();
     });
+  }
+
+  setFilter(status: string) {
+    this.filterStatus = status;
+    this.applyFilter();
+  }
+
+  applyFilter() {
+    if (this.filterStatus === 'ALL') {
+      this.filteredPayments = [...this.payments];
+    } else {
+      this.filteredPayments = this.payments.filter(p => p.status === this.filterStatus);
+    }
+    this.cdr.detectChanges();
   }
 
  generateInvoice(payment: any): void {

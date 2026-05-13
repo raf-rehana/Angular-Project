@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RequestService } from '../../core/services/request.service';
 import { AuthService } from '../../core/services/auth.services';
 import { ServiceRequest } from '../../core/models/service-request';
+import { PaymentService } from '../../core/services/payment.service';
 import { StatusBadgeComponent } from '../../shared/components/status-badge/status-badge';
 import { RouterModule } from '@angular/router';
 
@@ -15,10 +16,12 @@ import { RouterModule } from '@angular/router';
 })
 export class Dashboard implements OnInit {
   requests: ServiceRequest[] = [];
+  activeSubscription: any = null;
   
   constructor(
     private requestService: RequestService,
-    public authService: AuthService
+    public authService: AuthService,
+    private paymentService: PaymentService
   ) {}
 
   ngOnInit() {
@@ -26,6 +29,16 @@ export class Dashboard implements OnInit {
     if (user) {
       this.requestService.getMyRequests(user.id).subscribe(data => {
         this.requests = data;
+      });
+      
+      this.paymentService.getPayments().subscribe(payments => {
+        const userPayments = payments
+          .filter(p => p.clientId === user.id && (p.status === 'PAID' || p.status === 'PENDING'))
+          .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+          
+        if (userPayments.length > 0) {
+          this.activeSubscription = userPayments[0];
+        }
       });
     }
   }

@@ -7,23 +7,27 @@ import { SidebarComponent } from './shared/components/sidebar/sidebar';
 import { FooterComponent } from './shared/components/footer/footer';
 import { LoadingBarComponent } from './shared/components/loading-bar/loading-bar';
 import { ChatWidgetComponent } from './shared/components/chat-widget/chat-widget';
+import { ToastComponent } from './shared/components/toast/toast';
 import { ThemeService } from './core/services/theme.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, NgIf, NavbarComponent, SidebarComponent, FooterComponent, LoadingBarComponent, ChatWidgetComponent],
+  imports: [RouterOutlet, CommonModule, NgIf, NavbarComponent, SidebarComponent, FooterComponent, LoadingBarComponent, ChatWidgetComponent, ToastComponent],
   template: `
     <div class="app-container min-vh-100 d-flex flex-column">
       <app-loading-bar></app-loading-bar>
       
-      <app-navbar></app-navbar>
+      <app-navbar *ngIf="!showSidebar"></app-navbar>
       
       <!-- Chat Widget -->
       <app-chat-widget></app-chat-widget>
+
+      <!-- Global Toast Notifications -->
+      <app-toast></app-toast>
       
       <!-- Offset for fixed-top navbar (Premium height is 80px) -->
-      <div style="margin-top: 80px;" class="flex-grow-1">
+      <div [style.marginTop.px]="showSidebar ? 0 : 80" class="flex-grow-1">
         <ng-container *ngIf="showSidebar; else simpleLayout">
           <div class="container-fluid p-0">
             <div class="row g-0">

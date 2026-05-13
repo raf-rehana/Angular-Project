@@ -108,7 +108,7 @@ export class RequestForm implements OnInit {
     }
     if (!this.authService.currentUser) {
       alert('Error: You must be logged in to submit a request.');
-      this.router.navigate(['/auth/login']);
+      this.router.navigate(['/login']);
       return;
     }
 

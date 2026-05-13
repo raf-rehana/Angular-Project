@@ -86,28 +86,48 @@
     <!-- Performance -->
     <div class="col-lg-5">
       <div class="card border-0 shadow-sm rounded-4 h-100 p-4">
-        <h5 class="fw-bold mb-4">Performance Metrics</h5>
+        <h5 class="fw-bold mb-4"><i class="bi bi-bar-chart-line me-2 text-primary"></i>Performance Metrics</h5>
+
         <div class="mb-4">
           <div class="d-flex justify-content-between mb-2">
-            <span class="small fw-bold text-muted">Tasks Completion Rate</span>
+            <span class="small fw-bold text-muted">Task Completion Rate</span>
             <span class="small fw-bold text-success">{{ completionRate }}%</span>
           </div>
-          <div class="progress" style="height: 8px;">
-            <div class="progress-bar bg-success" role="progressbar" [style.width.%]="completionRate"></div>
+          <div class="progress rounded-pill" style="height: 8px;">
+            <div class="progress-bar bg-success rounded-pill" [style.width.%]="completionRate"></div>
           </div>
         </div>
-        <div class="mb-4">
-          <div class="d-flex justify-content-between mb-2">
-            <span class="small fw-bold text-muted">Average Turnaround</span>
-            <span class="small fw-bold text-primary">3.2 Days</span>
+
+        <div class="row g-3 mb-4">
+          <div class="col-6">
+            <div class="text-center p-3 rounded-4" style="background: #f0f4ff;">
+              <div class="h3 fw-bold text-primary mb-0">{{ totalHoursLogged | number:'1.1-1' }}</div>
+              <div class="x-small text-muted">Hours Logged</div>
+            </div>
           </div>
-          <div class="progress" style="height: 8px;">
-            <div class="progress-bar bg-primary" role="progressbar" style="width: 75%"></div>
+          <div class="col-6">
+            <div class="text-center p-3 rounded-4" style="background: #f0fdf4;">
+              <div class="h3 fw-bold text-success mb-0">{{ avgResolutionDays }}</div>
+              <div class="x-small text-muted">Avg Days / Task</div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="text-center p-3 rounded-4" style="background: #fefce8;">
+              <div class="h3 fw-bold text-warning mb-0">{{ thisMonthCompleted }}</div>
+              <div class="x-small text-muted">This Month</div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="text-center p-3 rounded-4" style="background: #f8f9fa;">
+              <div class="h3 fw-bold text-secondary mb-0">{{ lastMonthCompleted }}</div>
+              <div class="x-small text-muted">Last Month</div>
+            </div>
           </div>
         </div>
+
         <div class="mt-auto bg-light rounded-4 p-3 border-start border-4 border-info">
-          <div class="small fw-bold text-dark mb-1">Announcement</div>
-          <p class="small text-muted mb-0">Team meeting scheduled for next Monday at 10:00 AM.</p>
+          <div class="small fw-bold text-dark mb-1">Tip</div>
+          <p class="small text-muted mb-0">Use the timer on task detail pages to accurately log your work hours.</p>
         </div>
       </div>
     </div>

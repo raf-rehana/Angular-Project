@@ -1,4 +1,4 @@
-<nav class="fixed top-0 left-0 right-0 z-[100] w-full transition-all duration-300 bg-slate-900 border-b border-slate-800 shadow-sm">
+<nav class="fixed top-0 left-0 right-0 z-[1050] w-full transition-all duration-300 bg-slate-900 border-b border-slate-800 shadow-sm">
   <div class="container mx-auto px-4 md:px-6">
     <div class="flex h-16 md:h-20 items-center justify-between">
       
@@ -20,13 +20,13 @@
           <a class="relative text-sm font-bold text-slate-300 hover:text-white transition-colors py-2 group no-underline" routerLink="/" routerLinkActive="text-primary-600" [routerLinkActiveOptions]="{exact: true}">
             Home
           </a>
-          <a class="relative text-sm font-bold text-slate-300 hover:text-white transition-colors py-2 group no-underline" [routerLink]="['/']" fragment="sector-01">
+          <a class="relative text-sm font-bold text-slate-300 hover:text-white transition-colors py-2 group no-underline" routerLink="/services" routerLinkActive="text-primary-600">
             Services
           </a>
-          <a class="relative text-sm font-bold text-slate-300 hover:text-white transition-colors py-2 group no-underline" [routerLink]="['/']" fragment="services">
+          <a class="relative text-sm font-bold text-slate-300 hover:text-white transition-colors py-2 group no-underline" routerLink="/packages" routerLinkActive="text-primary-600">
             Packages
           </a>
-          <a class="relative text-sm font-bold text-slate-300 hover:text-white transition-colors py-2 group no-underline" [routerLink]="['/']" fragment="about">
+          <a class="relative text-sm font-bold text-slate-300 hover:text-white transition-colors py-2 group no-underline" routerLink="/about" routerLinkActive="text-primary-600">
             About Us
           </a>
         </div>
@@ -58,8 +58,8 @@
 
         <ng-template #loginLink>
           <div class="flex items-center gap-2">
-            <a class="hidden sm:inline-flex px-5 py-2.5 text-sm font-bold text-slate-300 hover:text-white transition-colors no-underline" routerLink="/auth/login">Sign In</a>
-            <a class="inline-flex px-6 py-2.5 bg-primary-600 text-white text-sm font-bold rounded-full shadow-sm hover:bg-primary-500 hover:shadow-lg transition-all active:scale-95" routerLink="/auth/register">Get Started</a>
+            <a class="hidden sm:inline-flex px-5 py-2.5 text-sm font-bold text-slate-300 hover:text-white transition-colors no-underline" routerLink="/login">Sign In</a>
+            <a class="inline-flex px-6 py-2.5 bg-primary-600 text-white text-sm font-bold rounded-full shadow-sm hover:bg-primary-500 hover:shadow-lg transition-all active:scale-95" routerLink="/register">Get Started</a>
           </div>
         </ng-template>
 

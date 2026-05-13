@@ -5,7 +5,16 @@
       <p class="text-muted">Monitor and manage all client transactions.</p>
     </div>
     <div class="d-flex gap-2">
-      <button class="btn btn-outline-primary"><i class="bi bi-filter me-2"></i>Filter</button>
+      <div class="dropdown">
+        <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+          <i class="bi bi-filter me-2"></i>Filter: {{ filterStatus === 'ALL' ? 'All' : filterStatus | titlecase }}
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3">
+          <li><a class="dropdown-item" (click)="setFilter('ALL')">All Payments</a></li>
+          <li><a class="dropdown-item text-success" (click)="setFilter('PAID')">Paid Only</a></li>
+          <li><a class="dropdown-item text-warning" (click)="setFilter('PENDING')">Pending Only</a></li>
+        </ul>
+      </div>
       <button class="btn btn-primary"><i class="bi bi-plus-lg me-2"></i>Manual Record</button>
     </div>
   </div>
@@ -47,7 +56,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let p of payments">
+            <tr *ngFor="let p of filteredPayments">
               <td class="ps-4 py-3">
                 <div class="fw-bold text-dark">{{ p.client }}</div>
                 <div class="small text-muted">ID: {{ p.clientId }}</div>
@@ -68,6 +77,9 @@
                 </button>
               </td>
               <td class="pe-4 py-3 text-end text-muted">{{ p.date | date:'mediumDate' }}</td>
+            </tr>
+            <tr *ngIf="filteredPayments.length === 0">
+              <td colspan="7" class="text-center py-5 text-muted">No payments found for this filter.</td>
             </tr>
           </tbody>
         </table>

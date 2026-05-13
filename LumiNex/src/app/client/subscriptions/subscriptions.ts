@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { PaymentService } from '../../core/services/payment.service';
+import { AuthService } from '../../core/services/auth.services';
 
 @Component({
   selector: 'app-subscriptions',
@@ -43,7 +44,8 @@ import { PaymentService } from '../../core/services/payment.service';
               </li>
             </ul>
 
-            <button [disabled]="currentPlan === plan.name"
+            <button *ngIf="authService.hasRole('CLIENT')"
+                    [disabled]="currentPlan === plan.name"
                     (click)="currentPlan !== plan.name && subscribe(plan)" 
                     class="w-full py-4 rounded-xl font-bold uppercase tracking-widest text-sm transition-all duration-300 mt-auto"
                     [ngClass]="{
@@ -67,11 +69,16 @@ import { PaymentService } from '../../core/services/payment.service';
 })
 export class SubscriptionsComponent implements OnInit {
   plans: any[] = [];
-  currentPlan: string = 'Growth Accelerator';
+  currentPlan: string | null = null;
 
-  constructor(private paymentService: PaymentService, private router: Router) {}
+  constructor(
+    private paymentService: PaymentService, 
+    private router: Router,
+    public authService: AuthService
+  ) {}
 
   ngOnInit() {
+    this.loadUserSubscription();
     this.paymentService.getSubscriptions().subscribe({
       next: (data) => {
         // If API returns data, use it
@@ -102,6 +109,21 @@ export class SubscriptionsComponent implements OnInit {
             recommended: false
           }
         ];
+      }
+    });
+  }
+
+  loadUserSubscription() {
+    const user = this.authService.currentUser;
+    if (!user) return;
+    
+    this.paymentService.getPayments().subscribe(payments => {
+      const userPayments = payments
+        .filter(p => p.clientId === user.id && (p.status === 'PAID' || p.status === 'PENDING'))
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        
+      if (userPayments.length > 0) {
+        this.currentPlan = userPayments[0].item;
       }
     });
   }

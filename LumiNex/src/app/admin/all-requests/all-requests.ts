@@ -6,6 +6,7 @@ import { AdminService } from '../../core/services/admin.service';
 import { ServiceRequest } from '../../core/models/service-request';
 import { StatusBadgeComponent } from '../../shared/components/status-badge/status-badge';
 import { User } from '../../core/models/user';
+import { AuditLogService } from '../../core/services/audit-log.service';
 
 @Component({
   selector: 'app-all-requests',
@@ -62,7 +63,7 @@ import { User } from '../../core/models/user';
 
       <div class="row">
         <!-- Requests Table -->
-        <div [ngClass]="selectedRequest ? 'col-lg-8' : 'col-12'">
+        <div class="col-12">
           <div class="card border-0 shadow-sm rounded-4">
             <div class="card-body p-0">
               <div class="table-responsive">
@@ -107,67 +108,74 @@ import { User } from '../../core/models/user';
           </div>
         </div>
 
-        <!-- Management Panel -->
-        <div class="col-lg-4" *ngIf="selectedRequest">
-          <div class="card border-0 shadow-sm rounded-4 sticky-top" style="top: 20px;">
-            <div class="card-header bg-white border-bottom py-3 px-4 d-flex justify-content-between align-items-center">
-              <h5 class="fw-bold mb-0 text-primary">Manage Request</h5>
-              <button type="button" class="btn-close" (click)="selectedRequest = null"></button>
-            </div>
-            <div class="card-body p-4">
-              <div class="mb-4">
-                <label class="form-label small fw-bold text-muted text-uppercase">Status</label>
-                <select class="form-select" [(ngModel)]="selectedRequest.status" (change)="updateRequest()">
-                  <option value="PENDING">PENDING</option>
-                  <option value="ASSIGNED">ASSIGNED</option>
-                  <option value="IN_PROGRESS">IN_PROGRESS</option>
-                  <option value="REVIEW">REVIEW</option>
-                  <option value="COMPLETED">COMPLETED</option>
-                  <option value="REJECTED">REJECTED</option>
-                </select>
+        <!-- Management Panel Modal -->
+        <div class="modal-backdrop fade show" *ngIf="selectedRequest"></div>
+        <div class="modal fade show d-block" *ngIf="selectedRequest" tabindex="-1">
+          <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 shadow-lg rounded-5 overflow-hidden">
+              <div class="modal-header border-0 bg-primary text-white p-4 d-flex justify-content-between align-items-center">
+                <h5 class="fw-bold mb-0">Manage Request #REQ-{{ selectedRequest.id }}</h5>
+                <button type="button" class="btn-close btn-close-white" (click)="selectedRequest = null"></button>
               </div>
+              <div class="modal-body p-4 p-md-5">
+                <div class="row g-4">
+                  <div class="col-md-6">
+                    <label class="form-label small fw-bold text-muted text-uppercase">Status</label>
+                    <select class="form-select bg-light border-0 py-2 rounded-3" [(ngModel)]="selectedRequest.status" (change)="updateRequest()">
+                      <option value="PENDING">PENDING</option>
+                      <option value="ASSIGNED">ASSIGNED</option>
+                      <option value="IN_PROGRESS">IN_PROGRESS</option>
+                      <option value="REVIEW">REVIEW</option>
+                      <option value="COMPLETED">COMPLETED</option>
+                      <option value="REJECTED">REJECTED</option>
+                    </select>
+                  </div>
 
-              <div class="mb-4">
-                <label class="form-label small fw-bold text-muted text-uppercase">Priority</label>
-                <select class="form-select" [(ngModel)]="selectedRequest.priority" (change)="updateRequest()">
-                  <option value="LOW">LOW</option>
-                  <option value="NORMAL">NORMAL</option>
-                  <option value="HIGH">HIGH</option>
-                  <option value="URGENT">URGENT</option>
-                </select>
-              </div>
+                  <div class="col-md-6">
+                    <label class="form-label small fw-bold text-muted text-uppercase">Priority</label>
+                    <select class="form-select bg-light border-0 py-2 rounded-3" [(ngModel)]="selectedRequest.priority" (change)="updateRequest()">
+                      <option value="LOW">LOW</option>
+                      <option value="NORMAL">NORMAL</option>
+                      <option value="HIGH">HIGH</option>
+                      <option value="URGENT">URGENT</option>
+                    </select>
+                  </div>
 
-              <div class="mb-4">
-                <label class="form-label small fw-bold text-muted text-uppercase">Assign to Employee</label>
-                <select class="form-select" [(ngModel)]="selectedRequest.assignedTo" (change)="updateRequest()">
-                  <option [ngValue]="undefined">Unassigned</option>
-                  <option *ngFor="let s of employee" [value]="s.id">{{ s.name }}</option>
-                </select>
-              </div>
+                  <div class="col-12">
+                    <label class="form-label small fw-bold text-muted text-uppercase">Assign to Employee</label>
+                    <select class="form-select bg-light border-0 py-2 rounded-3" [(ngModel)]="selectedRequest.assignedTo" (change)="updateRequest()">
+                      <option [ngValue]="undefined">Unassigned</option>
+                      <option *ngFor="let s of employee" [value]="s.id">{{ s.name }}</option>
+                    </select>
+                  </div>
 
-              <div class="mb-4">
-                <label class="form-label small fw-bold text-muted text-uppercase">Internal Notes</label>
-                <textarea class="form-control" rows="3" [(ngModel)]="selectedRequest.employeeNotes" placeholder="Add notes for the team..."></textarea>
-              </div>
+                  <div class="col-12">
+                    <label class="form-label small fw-bold text-muted text-uppercase">Internal Notes</label>
+                    <textarea class="form-control bg-light border-0 py-3 rounded-4" rows="3" [(ngModel)]="selectedRequest.employeeNotes" placeholder="Add notes for the team..."></textarea>
+                  </div>
 
-              <!-- Client Documents -->
-              <div class="mb-4" *ngIf="selectedRequest.documents?.length">
-                <label class="form-label small fw-bold text-muted text-uppercase">Client Attachments</label>
-                <div class="list-group list-group-flush border rounded-3 overflow-hidden">
-                  <a *ngFor="let doc of selectedRequest.documents" [href]="doc.url" target="_blank" 
-                     class="list-group-item list-group-item-action py-2 d-flex align-items-center justify-content-between small">
-                    <div class="text-truncate me-2">
-                      <i class="bi bi-file-earmark-text text-primary me-2"></i>
-                      {{ doc.name }}
+                  <!-- Client Documents -->
+                  <div class="col-12" *ngIf="selectedRequest.documents?.length">
+                    <label class="form-label small fw-bold text-muted text-uppercase">Client Attachments</label>
+                    <div class="list-group list-group-flush border rounded-4 overflow-hidden">
+                      <a *ngFor="let doc of selectedRequest.documents" [href]="doc.url" target="_blank" 
+                         class="list-group-item list-group-item-action py-3 d-flex align-items-center justify-content-between">
+                        <div class="text-truncate me-2">
+                          <i class="bi bi-file-earmark-text text-primary me-2"></i>
+                          <span class="fw-bold">{{ doc.name }}</span>
+                        </div>
+                        <i class="bi bi-box-arrow-up-right text-muted"></i>
+                      </a>
                     </div>
-                    <i class="bi bi-eye"></i>
-                  </a>
+                  </div>
                 </div>
               </div>
-
-              <div class="d-grid gap-2">
-                <button class="btn btn-primary py-2" (click)="saveNotes()">Save & Update</button>
-                <button class="btn btn-outline-danger py-2" (click)="cancelRequest()">Cancel Request</button>
+              <div class="modal-footer border-0 p-4 pt-0 bg-light d-flex gap-2">
+                <button class="btn btn-outline-danger py-2 px-4 rounded-pill fw-bold" (click)="cancelRequest()">Reject Request</button>
+                <div class="ms-auto">
+                  <button class="btn btn-light py-2 px-4 rounded-pill fw-bold me-2" (click)="selectedRequest = null">Close</button>
+                  <button class="btn btn-primary py-2 px-4 rounded-pill fw-bold shadow-sm" (click)="saveNotes()">Save & Update</button>
+                </div>
               </div>
             </div>
           </div>
@@ -188,6 +196,7 @@ export class AllRequestsComponent implements OnInit {
   constructor(
     private requestService: RequestService,
     private adminService: AdminService,
+    private auditLogService: AuditLogService,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -220,11 +229,10 @@ export class AllRequestsComponent implements OnInit {
 
   updateRequest() {
     if (!this.selectedRequest) return;
-    
-    // First update status and notes
+
     this.requestService.updateStatus(this.selectedRequest.id, this.selectedRequest.status, this.selectedRequest.employeeNotes)
       .subscribe(() => {
-        // Then update assignment if changed
+        this.auditLogService.logAction('Request Updated', `Admin updated request #${this.selectedRequest!.id} to status: ${this.selectedRequest!.status}`);
         if (this.selectedRequest?.assignedTo) {
           this.requestService.assignToEmployee(this.selectedRequest.id, this.selectedRequest.assignedTo)
             .subscribe(() => this.loadData());
@@ -240,8 +248,9 @@ export class AllRequestsComponent implements OnInit {
   }
 
   cancelRequest() {
-    if (confirm('Are you sure you want to cancel this request?')) {
+    if (confirm('Are you sure you want to reject this request?')) {
       this.selectedRequest!.status = 'REJECTED';
+      this.auditLogService.logAction('Request Rejected', `Admin rejected request #${this.selectedRequest!.id}`);
       this.updateRequest();
     }
   }

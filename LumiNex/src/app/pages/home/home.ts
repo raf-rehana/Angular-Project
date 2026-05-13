@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { AuthService } from '../../core/services/auth.services';
 import { SiteContentService } from '../../core/services/site-content.service';
 import { SiteContent } from '../../core/models/site-content';
 import { ServiceCatalogueService } from '../../core/services/service-catalogue';
 import { ServiceCategory } from '../../core/models/service';
+import { RedirectService } from '../../core/services/redirect.service';
 
 @Component({
   selector: 'app-home',
@@ -21,12 +24,22 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private siteContentService: SiteContentService,
-    private catalogueService: ServiceCatalogueService
+    private catalogueService: ServiceCatalogueService,
+    private authService: AuthService,
+    private router: Router,
+    private redirectService: RedirectService
   ) {}
 
   ngOnInit() {
     this.loadSiteContent();
     this.loadHomeData();
+
+    // Listen for navigation ends to handle internal route changes
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.checkScroll();
+    });
   }
 
   loadHomeData() {
@@ -42,8 +55,28 @@ export class HomeComponent implements OnInit {
         }).filter(group => group.category);
         
         this.isLoading = false;
+        this.checkScroll();
       });
     });
+  }
+
+  checkScroll() {
+    const url = this.router.url;
+    let targetId = '';
+    
+    if (url.includes('/services')) targetId = 'sector-01';
+    else if (url.includes('/about')) targetId = 'about';
+
+    if (targetId) {
+      setTimeout(() => {
+        const element = document.getElementById(targetId);
+        if (element) {
+          const yOffset = -100; // Account for fixed header
+          const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+      }, 300);
+    }
   }
 
   loadSiteContent() {
@@ -199,5 +232,27 @@ export class HomeComponent implements OnInit {
       '#0891B2', // Cyan
     ];
     return palette[index % palette.length];
+  }
+
+  onServiceAction(service: any) {
+    const targetUrl = service.linkUrl;
+    if (this.authService.isLoggedIn()) {
+      this.router.navigate([targetUrl]);
+    } else {
+      this.redirectService.setReturnUrl(targetUrl);
+      this.router.navigate(['/login']);
+    }
+  }
+
+  onServiceRequest(service: any) {
+    const targetUrl = '/client/request-form';
+    const queryParams = { serviceId: service.id };
+    if (this.authService.isLoggedIn()) {
+      this.router.navigate([targetUrl], { queryParams });
+    } else {
+      const fullUrl = this.router.createUrlTree([targetUrl], { queryParams }).toString();
+      this.redirectService.setReturnUrl(fullUrl);
+      this.router.navigate(['/login']);
+    }
   }
 }

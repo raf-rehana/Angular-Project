@@ -17,6 +17,10 @@ export class RequestService {
     return this.http.get<ServiceRequest[]>(this.api);
   }
 
+  getAll(): Observable<ServiceRequest[]> {
+    return this.http.get<ServiceRequest[]>(this.api);
+  }
+
   getById(id: string | number): Observable<ServiceRequest> {
     return this.http.get<ServiceRequest>(`${this.api}/${id}`);
   }
@@ -25,8 +29,10 @@ export class RequestService {
     return this.http.post<ServiceRequest>(this.api, data);
   }
 
-  updateStatus(id: string | number, status: string, employeeNotes?: string): Observable<ServiceRequest> {
-    return this.http.patch<ServiceRequest>(`${this.api}/${id}`, { status, employeeNotes });
+  updateStatus(id: string | number, status: string, employeeNotes?: string, workedHours?: number): Observable<ServiceRequest> {
+    const payload: any = { status, employeeNotes };
+    if (workedHours !== undefined) payload.workedHours = workedHours;
+    return this.http.patch<ServiceRequest>(`${this.api}/${id}`, payload);
   }
 
   assignToEmployee(requestId: string | number, employeeId: string | number): Observable<ServiceRequest> {

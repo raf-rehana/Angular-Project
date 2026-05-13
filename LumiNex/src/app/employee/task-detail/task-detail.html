@@ -74,6 +74,30 @@
 
         <!-- Sidebar -->
         <div class="col-lg-4">
+          <!-- Time Tracking Card -->
+          <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+            <h6 class="fw-bold text-muted text-uppercase small mb-3">
+              <i class="bi bi-stopwatch me-2 text-primary"></i>Time Tracking
+            </h6>
+            <div class="text-center py-3">
+              <div class="display-5 fw-bold font-monospace text-dark mb-3">{{ formattedElapsed }}</div>
+              <div class="text-muted small mb-3">
+                Total logged: <strong>{{ (elapsedSeconds / 3600) | number:'1.2-2' }} hours</strong>
+              </div>
+              <div class="d-flex gap-2 justify-content-center">
+                <button class="btn btn-success rounded-pill px-4 py-2 fw-bold"
+                        *ngIf="!isTimerRunning" (click)="startTimer()">
+                  <i class="bi bi-play-fill me-1"></i> Start
+                </button>
+                <button class="btn btn-danger rounded-pill px-4 py-2 fw-bold"
+                        *ngIf="isTimerRunning" (click)="stopTimer()">
+                  <i class="bi bi-stop-fill me-1"></i> Stop & Save
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Progress Control Card -->
           <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
             <h6 class="fw-bold text-muted text-uppercase small mb-4">Progress Control</h6>
             <div class="mb-4">
@@ -95,16 +119,38 @@
             <button class="btn btn-primary w-100 rounded-pill py-2" (click)="updateTask()">Save Updates</button>
           </div>
 
-          <div class="card border-0 shadow-sm rounded-4 p-4">
-            <h6 class="fw-bold text-muted text-uppercase small mb-3">Client Details</h6>
-            <div class="d-flex align-items-center mb-2">
-              <i class="bi bi-person me-2 text-primary"></i>
-              <span class="small text-dark fw-bold">Client ID: {{ task.userId }}</span>
+          <!-- Customer 360 Card -->
+          <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+            <h6 class="fw-bold text-muted text-uppercase small mb-3">
+              <i class="bi bi-person-circle me-2 text-primary"></i>Customer 360°
+            </h6>
+            <div class="d-flex align-items-center mb-3">
+              <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center me-3" style="width:42px;height:42px;">
+                <i class="bi bi-person"></i>
+              </div>
+              <div>
+                <div class="fw-bold small">Client ID: {{ task.userId }}</div>
+                <div class="text-muted x-small">Joined: {{ task.createdAt | date:'shortDate' }}</div>
+              </div>
             </div>
-            <div class="d-flex align-items-center">
-              <i class="bi bi-calendar-event me-2 text-primary"></i>
-              <span class="small text-muted">Created: {{ task.createdAt | date:'shortDate' }}</span>
+            <hr class="my-2">
+            <div class="small mb-2 fw-bold text-muted">Active Subscriptions</div>
+            <div *ngIf="clientPayments.length > 0">
+              <div *ngFor="let p of clientPayments" class="d-flex justify-content-between align-items-center py-1">
+                <span class="small text-dark">{{ p.item }}</span>
+                <span class="badge" [ngClass]="p.status === 'PAID' ? 'bg-success' : 'bg-warning'">{{ p.status }}</span>
+              </div>
             </div>
+            <div *ngIf="clientPayments.length === 0" class="text-muted small">No payment history found.</div>
+            <hr class="my-2">
+            <div class="small mb-2 fw-bold text-muted">Other Requests</div>
+            <div *ngIf="clientRequests.length > 0">
+              <div *ngFor="let r of clientRequests | slice:0:3" class="d-flex justify-content-between py-1">
+                <span class="small text-truncate" style="max-width:150px">{{ r.serviceName }}</span>
+                <span class="badge bg-light text-dark border small">{{ r.status }}</span>
+              </div>
+            </div>
+            <div *ngIf="clientRequests.length === 0" class="text-muted small">No other requests found.</div>
           </div>
         </div>
       </div>

@@ -12,7 +12,7 @@ import { Subject } from 'rxjs';
   standalone: true,
   imports: [CommonModule, FormsModule, NgIf, NgFor],
   template: `
-    <div class="chat-widget" [class.minimized]="isMinimized">
+    <div class="chat-widget" [class.minimized]="isMinimized" *ngIf="currentUser?.role === 'CLIENT'">
       <!-- Chat Header -->
       <div class="chat-header" (click)="toggleMinimize()">
         <div class="chat-title">

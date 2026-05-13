@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, ActivatedRoute } from '@angular/router';
+import { RouterLink, ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from '../../core/services/auth.services';
+import { RedirectService } from '../../core/services/redirect.service';
 
 @Component({
   selector: 'app-packages',
@@ -10,7 +12,12 @@ import { RouterLink, ActivatedRoute } from '@angular/router';
   styleUrl: './packages.css'
 })
 export class PackagesComponent implements OnInit {
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private authService: AuthService,
+    private router: Router,
+    private redirectService: RedirectService
+  ) {}
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -103,6 +110,16 @@ export class PackagesComponent implements OnInit {
 
   scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  onSubscribe(pkg: any) {
+    const targetUrl = '/client/payments';
+    if (this.authService.isLoggedIn()) {
+      this.router.navigate([targetUrl]);
+    } else {
+      this.redirectService.setReturnUrl(targetUrl);
+      this.router.navigate(['/login']);
+    }
   }
 
   // Prices in BDT (Bangladeshi Taka)

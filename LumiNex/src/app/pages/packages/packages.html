@@ -86,10 +86,10 @@
 
             <!-- Action -->
             <div class="card-footer bg-white border-0 p-4">
-              <a routerLink="/client/payments" class="btn w-100 rounded-pill py-2 fw-bold text-white shadow-sm hover-shadow transition-all"
+              <button (click)="onSubscribe(pkg)" class="btn w-100 rounded-pill py-2 fw-bold text-white shadow-sm hover-shadow transition-all"
                  [style.background]="pkg.accent">
                 <i class="bi bi-rocket-takeoff me-2"></i>Subscribe Now
-              </a>
+              </button>
               <a routerLink="/contact" class="btn w-100 rounded-pill py-2 fw-bold mt-3 transition-all"
                  [style.color]="pkg.accent"
                  [style.backgroundColor]="pkg.accentLight"

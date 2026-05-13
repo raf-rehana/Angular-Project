@@ -24,55 +24,63 @@ import { Service } from '../../core/models/service';
         </div>
       </div>
 
-      <!-- Add/Edit Service Form -->
-      <div class="card border-0 shadow-sm rounded-4 mb-4" *ngIf="showForm">
-        <div class="card-body p-4">
-          <h5 class="fw-bold mb-3">{{ isEditing ? 'Edit Service' : 'Add New Service' }}</h5>
-          <form (ngSubmit)="isEditing ? updateService() : addService()" #serviceForm="ngForm">
-            <div class="row g-3">
-              <div class="col-md-4">
-                <label class="form-label small fw-bold">Service Name</label>
-                <input type="text" class="form-control" name="name" [(ngModel)]="activeService.name" required>
-              </div>
-              <div class="col-md-4">
-                <label class="form-label small fw-bold">Category</label>
-                <select class="form-select" name="categoryId" [(ngModel)]="activeService.categoryId" required (change)="updateCategoryName()">
-                  <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
-                </select>
-              </div>
-              <div class="col-md-4">
-                <label class="form-label small fw-bold">Price (BDT)</label>
-                <input type="number" class="form-control" name="price" [(ngModel)]="activeService.price" required>
-              </div>
-              <div class="col-md-4">
-                <label class="form-label small fw-bold">Pricing Type</label>
-                <select class="form-select" name="priceType" [(ngModel)]="activeService.priceType">
-                  <option value="FIXED">FIXED</option>
-                  <option value="MONTHLY">MONTHLY</option>
-                </select>
-              </div>
-              <div class="col-md-4">
-                <label class="form-label small fw-bold">Delivery Days</label>
-                <input type="text" class="form-control" name="deliveryDays" [(ngModel)]="activeService.deliveryDays" placeholder="e.g. 7">
-              </div>
-              <div class="col-md-4 d-flex align-items-end">
-                <div class="form-check form-switch mb-2">
-                  <input class="form-check-input" type="checkbox" name="isActive" [(ngModel)]="activeService.isActive">
-                  <label class="form-check-label fw-bold">Active Status</label>
-                </div>
-              </div>
-              <div class="col-12">
-                <label class="form-label small fw-bold">Description</label>
-                <textarea class="form-control" name="description" [(ngModel)]="activeService.description" rows="2"></textarea>
-              </div>
-              <div class="col-12 text-end gap-2 d-flex justify-content-end">
-                <button type="button" class="btn btn-light px-4" (click)="cancelEdit()">Cancel</button>
-                <button type="submit" class="btn btn-primary px-4" [disabled]="!serviceForm.form.valid">
-                  {{ isEditing ? 'Update Service' : 'Create Service' }}
-                </button>
-              </div>
+      <!-- Add/Edit Service Modal -->
+      <div class="modal-backdrop fade show" *ngIf="showForm" (click)="cancelEdit()"></div>
+      <div class="modal fade show d-block" *ngIf="showForm" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content border-0 shadow-lg rounded-5 overflow-hidden">
+            <div class="modal-header border-0 bg-primary text-white p-4 d-flex justify-content-between align-items-center">
+              <h5 class="modal-title fw-bold">{{ isEditing ? 'Edit Service' : 'Add New Service' }}</h5>
+              <button type="button" class="btn-close btn-close-white" (click)="cancelEdit()"></button>
             </div>
-          </form>
+            <div class="modal-body p-4 p-md-5">
+              <form (ngSubmit)="isEditing ? updateService() : addService()" #serviceForm="ngForm">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="form-label small fw-bold text-muted">Service Name</label>
+                    <input type="text" class="form-control bg-light border-0 py-2 rounded-3" name="name" [(ngModel)]="activeService.name" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label small fw-bold text-muted">Category</label>
+                    <select class="form-select bg-light border-0 py-2 rounded-3" name="categoryId" [(ngModel)]="activeService.categoryId" required (change)="updateCategoryName()">
+                      <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+                    </select>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label small fw-bold text-muted">Price (BDT)</label>
+                    <input type="number" class="form-control bg-light border-0 py-2 rounded-3" name="price" [(ngModel)]="activeService.price" required>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label small fw-bold text-muted">Pricing Type</label>
+                    <select class="form-select bg-light border-0 py-2 rounded-3" name="priceType" [(ngModel)]="activeService.priceType">
+                      <option value="FIXED">FIXED</option>
+                      <option value="MONTHLY">MONTHLY</option>
+                    </select>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label small fw-bold text-muted">Delivery Days</label>
+                    <input type="text" class="form-control bg-light border-0 py-2 rounded-3" name="deliveryDays" [(ngModel)]="activeService.deliveryDays" placeholder="e.g. 7">
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label small fw-bold text-muted">Description</label>
+                    <textarea class="form-control bg-light border-0 py-2 rounded-3" name="description" [(ngModel)]="activeService.description" rows="2"></textarea>
+                  </div>
+                  <div class="col-12 d-flex align-items-center mt-3">
+                    <div class="form-check form-switch fs-5">
+                      <input class="form-check-input" type="checkbox" name="isActive" [(ngModel)]="activeService.isActive">
+                      <label class="form-check-label ms-2 small fw-bold text-muted mt-1">Active Status</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="mt-4 pt-4 border-top d-flex justify-content-end gap-2">
+                  <button type="button" class="btn btn-light rounded-pill px-4 py-2 fw-bold" (click)="cancelEdit()">Cancel</button>
+                  <button type="submit" class="btn btn-primary rounded-pill px-5 py-2 fw-bold shadow-sm" [disabled]="!serviceForm.form.valid">
+                    {{ isEditing ? 'Update Service' : 'Create Service' }}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
 

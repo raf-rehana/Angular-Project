@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, ActivatedRoute } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
+import { EMPTY } from 'rxjs';
 import { AuthService } from '../../core/services/auth.services';
+import { RedirectService } from '../../core/services/redirect.service';
 
 @Component({
   selector: 'app-login',
@@ -15,16 +18,20 @@ export class LoginComponent {
   loading = false;
   error = '';
   showPassword = false;
+  returnUrl: string = '';
 
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute,
+    private redirectService: RedirectService
   ) {
     this.form = this.fb.group({
       email:    ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '';
   }
 
   get email()    { return this.form.get('email'); }
@@ -35,14 +42,31 @@ export class LoginComponent {
     this.loading = true;
     this.error = '';
 
-    this.auth.login(this.email?.value, this.password?.value).subscribe({
+    const email = this.email?.value;
+    const password = this.password?.value;
+
+    this.auth.checkEmail(email).pipe(
+      switchMap(exists => {
+        if (!exists) {
+          this.error = 'Email not found, create account first';
+          this.loading = false;
+          return EMPTY;
+        }
+        return this.auth.login(email, password);
+      })
+    ).subscribe({
       next: (res) => {
         const role = res.user.role;
-        let route = '/client';
-        if (role === 'ADMIN' || role === 'SUPER_ADMIN') route = '/admin';
-        else if (role === 'EMPLOYEE') route = '/employee';
+        const storedReturnUrl = this.redirectService.getReturnUrl();
+        const finalRoute = this.returnUrl || storedReturnUrl || '/client';
+        
+        let targetRoute = finalRoute;
+        if (!this.returnUrl && !storedReturnUrl) {
+          if (role === 'ADMIN' || role === 'SUPER_ADMIN') targetRoute = '/admin';
+          else if (role === 'EMPLOYEE') targetRoute = '/employee';
+        }
 
-        this.router.navigate([route]).then(success => {
+        this.router.navigateByUrl(targetRoute).then(success => {
           if (!success) {
             this.error = 'Navigation failed. Route not found.';
             this.loading = false;

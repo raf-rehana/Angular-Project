@@ -22,4 +22,6 @@ export interface ServiceRequest {
   completedAt?: string;
   progress?: number;
   documents?: Attachment[];
+  workedHours?: number;
+  timerStartedAt?: string;
 }

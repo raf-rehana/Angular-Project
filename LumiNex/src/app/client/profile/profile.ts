@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../core/services/auth.services';
+import { PaymentService } from '../../core/services/payment.service';
 import { LocationService, Country, LocationNode } from '../../core/services/location.service';
 import { User } from '../../core/models/user';
 
@@ -28,10 +29,12 @@ export class Profile implements OnInit {
   village: string = '';
   
   loading = false;
+  currentPlan: string | null = null;
 
   constructor(
     private authService: AuthService,
-    private locationService: LocationService
+    private locationService: LocationService,
+    private paymentService: PaymentService
   ) {}
 
   ngOnInit() {
@@ -41,6 +44,7 @@ export class Profile implements OnInit {
     // Initial setup
     if (this.user) {
       this.parseUserAddress();
+      this.loadUserSubscription();
     } else {
       this.selectedCountry = this.countries.find(c => c.name === 'Bangladesh') || this.countries[0];
     }
@@ -74,6 +78,19 @@ export class Profile implements OnInit {
         this.selectedCountry = this.countries.find(c => c.name === parts[parts.length - 1]) || this.selectedCountry;
       }
     }
+  }
+
+  loadUserSubscription() {
+    if (!this.user) return;
+    this.paymentService.getPayments().subscribe(payments => {
+      const userPayments = payments
+        .filter(p => p.clientId === this.user!.id && (p.status === 'PAID' || p.status === 'PENDING'))
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        
+      if (userPayments.length > 0) {
+        this.currentPlan = userPayments[0].item;
+      }
+    });
   }
 
   loadHierarchy() {
