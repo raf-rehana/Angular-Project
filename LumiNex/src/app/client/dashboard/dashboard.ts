@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RequestService } from '../../core/services/request.service';
-import { AuthService } from '../../core/services/auth.services';
+import { AuthService } from '../../core/services/auth.service';
 import { ServiceRequest } from '../../core/models/service-request';
 import { PaymentService } from '../../core/services/payment.service';
 import { StatusBadgeComponent } from '../../shared/components/status-badge/status-badge';
@@ -17,6 +17,9 @@ import { RouterModule } from '@angular/router';
 export class Dashboard implements OnInit {
   requests: ServiceRequest[] = [];
   activeSubscription: any = null;
+  activeProjects: number = 0;
+  amountSpent: number = 0;
+  upcomingDeliveries: number = 0;
   
   constructor(
     private requestService: RequestService,
@@ -29,6 +32,8 @@ export class Dashboard implements OnInit {
     if (user) {
       this.requestService.getMyRequests(user.id).subscribe(data => {
         this.requests = data;
+        this.activeProjects = this.requests.filter(r => r.status === 'IN_PROGRESS' || r.status === 'ASSIGNED').length;
+        this.upcomingDeliveries = this.requests.filter(r => r.status === 'REVIEW' || r.status === 'IN_PROGRESS').length;
       });
       
       this.paymentService.getPayments().subscribe(payments => {
@@ -39,6 +44,10 @@ export class Dashboard implements OnInit {
         if (userPayments.length > 0) {
           this.activeSubscription = userPayments[0];
         }
+        
+        this.amountSpent = userPayments
+          .filter(p => p.status === 'PAID' || p.status === 'PENDING')
+          .reduce((sum, p) => sum + (p.amount || 0), 0);
       });
     }
   }

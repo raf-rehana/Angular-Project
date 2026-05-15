@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { ModalService } from '../../core/services/modal.service';
 
 interface SubscriptionPackage {
   id?: string | number;
@@ -206,7 +207,7 @@ export class PackageBuilderComponent implements OnInit {
   isEditing = false;
   activePackage: SubscriptionPackage = this.getEmptyPackage();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private modalService: ModalService) {}
 
   ngOnInit() {
     this.loadPackages();
@@ -297,9 +298,10 @@ export class PackageBuilderComponent implements OnInit {
     }
   }
 
-  deletePackage(pkg: SubscriptionPackage) {
+  async deletePackage(pkg: SubscriptionPackage) {
     if (!pkg.id) return;
-    if (confirm('Are you sure you want to delete "' + pkg.name + '"?')) {
+    const confirmed = await this.modalService.confirm('Are you sure you want to delete "' + pkg.name + '"?');
+    if (confirmed) {
       this.http.delete(`${this.apiUrl}/${pkg.id}`).subscribe(() => {
         this.packages = this.packages.filter(p => p.id !== pkg.id);
       });

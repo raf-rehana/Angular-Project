@@ -4,7 +4,7 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { EMPTY } from 'rxjs';
-import { AuthService } from '../../core/services/auth.services';
+import { AuthService } from '../../core/services/auth.service';
 import { RedirectService } from '../../core/services/redirect.service';
 
 @Component({

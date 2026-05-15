@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, NgIf } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { AuthService } from '../../../core/services/auth.services';
+import { AuthService } from '../../../core/services/auth.service';
 import { ServiceCatalogueService } from '../../../core/services/service-catalogue';
 import { ServiceCategory } from '../../../core/models/service';
 

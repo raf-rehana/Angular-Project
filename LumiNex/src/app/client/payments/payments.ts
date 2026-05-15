@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { PaymentService, PaymentInitRequest } from '../../core/services/payment.service';
-import { AuthService } from '../../core/services/auth.services';
+import { AuthService } from '../../core/services/auth.service';
 import { PdfGeneratorService } from '../../core/services/pdf-generator.service';
+import { ToastService } from '../../core/services/toast.service';
 
 @Component({
   selector: 'app-payments',
@@ -68,7 +69,8 @@ export class Payments implements OnInit, OnDestroy {
     private paymentService: PaymentService,
     public authService: AuthService,
     private route: ActivatedRoute,
-    private pdfGeneratorService: PdfGeneratorService
+    private pdfGeneratorService: PdfGeneratorService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit() {
@@ -175,7 +177,7 @@ export class Payments implements OnInit, OnDestroy {
       },
       error: () => {
         this.loadingPayment = false;
-        alert('Failed to record cash payment. Please try again.');
+        this.toastService.error('Failed to record cash payment. Please try again.');
       }
     });
   }
@@ -208,12 +210,12 @@ export class Payments implements OnInit, OnDestroy {
           // Redirect to SSLCommerz gateway
           window.location.href = res.payment_url;
         } else {
-          alert('Could not initiate payment: ' + (res.message || 'Unknown error'));
+          this.toastService.error('Could not initiate payment: ' + (res.message || 'Unknown error'));
         }
       },
       error: () => {
         this.loadingPayment = false;
-        alert('Payment server error. Make sure the Node server is running on port 4000.\n\nRun: node server.js');
+        this.toastService.error('Payment server error. Make sure the Node server is running on port 4000.\n\nRun: node server.js');
       }
     });
   }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuditLogService, AuditLog } from '../../../core/services/audit-log.service';
+import { AuditLogService, AuditLog } from '../../core/services/audit-log.service';
 
 @Component({
   selector: 'app-admin-audit-logs',
@@ -58,7 +58,7 @@ export class AdminAuditLogsComponent implements OnInit {
   constructor(private auditLogService: AuditLogService) {}
 
   ngOnInit() {
-    this.auditLogService.getLogs().subscribe(data => {
+    this.auditLogService.getLogs().subscribe((data: AuditLog[]) => {
       this.logs = data;
     });
   }

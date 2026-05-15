@@ -39,4 +39,8 @@ export class AdminService {
   updateService(id: string | number, service: any): Observable<any> {
     return this.http.patch<any>(`${this.apiUrl}/services/${id}`, service);
   }
+
+  getService(id: string | number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/services/${id}`);
+  }
 }

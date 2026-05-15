@@ -35,7 +35,7 @@
       <!-- Right Content -->
       <div class="flex items-center gap-4">
         <div class="hidden md:flex items-center" *ngIf="authService.isLoggedIn()">
-          <app-notification-bell></app-notification-bell>
+          <app-notification-bell iconClass="text-violet-300"></app-notification-bell>
         </div>
 
         <div class="relative" *ngIf="authService.currentUser$ | async as user; else loginLink">

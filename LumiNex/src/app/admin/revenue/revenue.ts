@@ -11,15 +11,7 @@ import { PaymentService, Payment } from '../../core/services/payment.service';
   styleUrl: './revenue.css',
 })
 export class Revenue implements OnInit {
-  months = [
-    { name: 'Jan', val: 65 },
-    { name: 'Feb', val: 59 },
-    { name: 'Mar', val: 80 },
-    { name: 'Apr', val: 81 },
-    { name: 'May', val: 56 },
-    { name: 'Jun', val: 55 },
-    { name: 'Jul', val: 40 }
-  ];
+  months: { name: string, val: number }[] = [];
 
   transactions: Payment[] = [];
 
@@ -62,6 +54,30 @@ export class Revenue implements OnInit {
       const pending = data.filter(p => p.status === 'PENDING');
       const pendingTotal = pending.reduce((sum, p) => sum + p.amount, 0);
       this.projectedRevenue = this.totalRevenue + pendingTotal * 0.2;
+
+      // Calculate monthly data
+      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const monthlyTotals = new Array(12).fill(0);
+      
+      paid.forEach(p => {
+        const date = new Date(p.date);
+        monthlyTotals[date.getMonth()] += p.amount;
+      });
+
+      const currentMonth = new Date().getMonth();
+      const last6Months = [];
+      for (let i = 5; i >= 0; i--) {
+        let m = currentMonth - i;
+        if (m < 0) m += 12;
+        last6Months.push(m);
+      }
+
+      const maxRev = Math.max(...last6Months.map(m => monthlyTotals[m]), 1);
+
+      this.months = last6Months.map(m => ({
+        name: monthNames[m],
+        val: (monthlyTotals[m] / maxRev) * 100
+      }));
 
       this.cdr.detectChanges();
     });

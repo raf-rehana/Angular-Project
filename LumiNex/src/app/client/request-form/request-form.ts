@@ -4,8 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ServiceCatalogueService } from '../../core/services/service-catalogue';
 import { RequestService } from '../../core/services/request.service';
-import { AuthService } from '../../core/services/auth.services';
+import { AuthService } from '../../core/services/auth.service';
 import { Service } from '../../core/models/service';
+import { ToastService } from '../../core/services/toast.service';
 
 @Component({
   selector: 'app-request-form',
@@ -29,6 +30,7 @@ export class RequestForm implements OnInit {
     private catalogueService: ServiceCatalogueService,
     private requestService: RequestService,
     private authService: AuthService,
+    private toastService: ToastService,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -103,11 +105,11 @@ export class RequestForm implements OnInit {
   submit() {
     console.log('Submit triggered');
     if (!this.selectedService) {
-      alert('Error: No service selected.');
+      this.toastService.error('Error: No service selected.');
       return;
     }
     if (!this.authService.currentUser) {
-      alert('Error: You must be logged in to submit a request.');
+      this.toastService.error('Error: You must be logged in to submit a request.');
       this.router.navigate(['/login']);
       return;
     }
@@ -118,7 +120,7 @@ export class RequestForm implements OnInit {
         .filter(d => d.isMandatory && !this.isDocumentUploaded(d.docName));
       
       if (missing.length > 0) {
-        alert('Please upload all required documents: ' + missing.map(m => m.docName).join(', '));
+        this.toastService.warning('Please upload all required documents: ' + missing.map(m => m.docName).join(', '));
         return;
       }
     }
@@ -166,7 +168,7 @@ export class RequestForm implements OnInit {
       error: (err) => {
         console.error('Submission failed:', err);
         this.loading = false;
-        alert('Failed to submit request. Error: ' + (err.message || 'Unknown error'));
+        this.toastService.error('Failed to submit request. Error: ' + (err.message || 'Unknown error'));
       }
     });
   }

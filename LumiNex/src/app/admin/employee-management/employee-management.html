@@ -71,6 +71,7 @@
               <th class="ps-4 py-3 border-0">Name</th>
               <th class="py-3 border-0">Email</th>
               <th class="py-3 border-0">Designation</th>
+              <th class="py-3 border-0">Workload</th>
               <th class="pe-4 py-3 border-0 text-end">Action</th>
             </tr>
           </thead>
@@ -89,6 +90,12 @@
               <td class="py-3">
                 <span class="badge bg-primary-soft text-primary px-3 py-2 rounded-pill">
                   {{ s.designation || 'Specialist' }}
+                </span>
+              </td>
+              <td class="py-3">
+                <span class="badge rounded-pill px-3 py-2" 
+                      [ngClass]="(workloads[s.id] || 0) > 5 ? 'bg-danger-soft text-danger' : (workloads[s.id] || 0) > 2 ? 'bg-warning-soft text-warning' : 'bg-success-soft text-success'">
+                  {{ workloads[s.id] || 0 }} Active Tasks
                 </span>
               </td>
               <td class="pe-4 py-3 text-end">
@@ -137,6 +144,12 @@
             <div class="col-12" *ngIf="selectedEmployee.address">
               <label class="small fw-bold text-muted text-uppercase mb-1">Office Address</label>
               <div class="p-3 bg-light rounded-3 small">{{ selectedEmployee.address }}</div>
+            </div>
+            <div class="col-12">
+              <label class="small fw-bold text-muted text-uppercase mb-1">Current Workload</label>
+              <div class="p-3 bg-light rounded-3 fw-bold" [class.text-danger]="(workloads[selectedEmployee.id] || 0) > 0">
+                {{ workloads[selectedEmployee.id] || 0 }} Tasks currently in progress
+              </div>
             </div>
           </div>
         </div>

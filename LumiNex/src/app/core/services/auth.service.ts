@@ -76,7 +76,10 @@ export class AuthService {
   }
 
   hasRole(role: string): boolean {
-    return this.currentUser?.role === role;
+    if (!this.currentUser) return false;
+    // SUPER_ADMIN has access to everything
+    if (this.currentUser.role === 'SUPER_ADMIN') return true;
+    return this.currentUser.role === role;
   }
 
   updateProfile(user: User): Observable<User> {

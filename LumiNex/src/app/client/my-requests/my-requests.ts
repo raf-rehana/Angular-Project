@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { RequestService } from '../../core/services/request.service';
-import { AuthService } from '../../core/services/auth.services';
+import { AuthService } from '../../core/services/auth.service';
 import { ServiceRequest } from '../../core/models/service-request';
 import { StatusBadgeComponent } from '../../shared/components/status-badge/status-badge';
 import { RequestTimelineComponent } from '../../shared/components/request-timeline/request-timeline';

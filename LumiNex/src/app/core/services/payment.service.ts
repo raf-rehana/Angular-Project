@@ -10,7 +10,7 @@ export interface Payment {
   item: string;
   amount: number;
   method: string;
-  status: 'PAID' | 'PENDING' | 'FAILED';
+  status: 'PAID' | 'PENDING' | 'FAILED' | 'REFUNDED';
   date: string;
   tranId?: string;
 }
@@ -59,5 +59,13 @@ export class PaymentService {
 
   getSubscriptions(): Observable<any[]> {
     return this.http.get<any[]>(`${environment.apiUrl}/subscriptions`);
+  }
+
+  updatePayment(id: string | number, payment: Partial<Payment>): Observable<Payment> {
+    return this.http.patch<Payment>(`${this.dbUrl}/${id}`, payment);
+  }
+
+  deletePayment(id: string | number): Observable<void> {
+    return this.http.delete<void>(`${this.dbUrl}/${id}`);
   }
 }

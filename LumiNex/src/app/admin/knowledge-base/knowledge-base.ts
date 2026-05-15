@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { KnowledgeBaseService, KnowledgeArticle } from '../../../core/services/knowledge-base.service';
+import { KnowledgeBaseService, KnowledgeArticle } from '../../core/services/knowledge-base.service';
+import { ModalService } from '../../core/services/modal.service';
 
 @Component({
   selector: 'app-admin-knowledge-base',
@@ -91,7 +92,7 @@ export class AdminKnowledgeBaseComponent implements OnInit {
   isEditing = false;
   activeArticle: Partial<KnowledgeArticle> = {};
 
-  constructor(private kbService: KnowledgeBaseService) {}
+  constructor(private kbService: KnowledgeBaseService, private modalService: ModalService) {}
 
   ngOnInit() {
     this.loadArticles();
@@ -131,8 +132,9 @@ export class AdminKnowledgeBaseComponent implements OnInit {
     }
   }
 
-  deleteArticle(article: KnowledgeArticle) {
-    if (confirm('Delete this article?')) {
+  async deleteArticle(article: KnowledgeArticle) {
+    const confirmed = await this.modalService.confirm('Delete this article?');
+    if (confirmed) {
       this.kbService.deleteArticle(article.id!).subscribe(() => this.loadArticles());
     }
   }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { AuthService } from '../../core/services/auth.services';
+import { AuthService } from '../../core/services/auth.service';
 import { SiteContentService } from '../../core/services/site-content.service';
 import { SiteContent } from '../../core/models/site-content';
 import { ServiceCatalogueService } from '../../core/services/service-catalogue';

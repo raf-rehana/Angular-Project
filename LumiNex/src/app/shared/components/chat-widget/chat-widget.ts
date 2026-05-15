@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule, NgIf, NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from '../../../core/services/auth.services';
+import { AuthService } from '../../../core/services/auth.service';
 import { ChatService, ChatMessage, ChatUser } from '../../../core/services/chat.service';
 import { User } from '../../../core/models/user';
 import { takeUntil } from 'rxjs/operators';

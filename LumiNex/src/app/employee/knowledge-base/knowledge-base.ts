@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { KnowledgeBaseService, KnowledgeArticle } from '../../../core/services/knowledge-base.service';
+import { KnowledgeBaseService, KnowledgeArticle } from '../../core/services/knowledge-base.service';
 
 @Component({
   selector: 'app-employee-knowledge-base',
@@ -72,7 +72,7 @@ export class EmployeeKnowledgeBaseComponent implements OnInit {
   constructor(private kbService: KnowledgeBaseService) {}
 
   ngOnInit() {
-    this.kbService.getArticles().subscribe(data => {
+    this.kbService.getArticles().subscribe((data: KnowledgeArticle[]) => {
       this.articles = data;
       this.filteredArticles = data;
     });

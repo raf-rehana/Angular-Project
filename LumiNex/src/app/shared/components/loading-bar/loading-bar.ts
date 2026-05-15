@@ -7,30 +7,25 @@ import { LoadingService } from '../../../core/services/loading.service';
   standalone: true,
   imports: [CommonModule, NgIf],
   template: `
-    <div class="loading-bar-container" *ngIf="loadingService.isLoading$ | async">
-      <div class="loading-bar shadow-sm"></div>
+    <div class="loading-overlay" *ngIf="loadingService.isLoading$ | async">
+      <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+        <span class="visually-hidden">Loading...</span>
+      </div>
     </div>
   `,
   styles: [`
-    .loading-bar-container {
+    .loading-overlay {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 4px;
-      z-index: 9999;
-      background: rgba(255, 255, 255, 0.1);
-    }
-    .loading-bar {
-      height: 100%;
-      background: linear-gradient(90deg, #4f46e5, #818cf8, #4f46e5);
-      background-size: 200% 100%;
-      animation: loading 1.5s infinite linear;
-    }
-    @keyframes loading {
-      0% { width: 0; background-position: 100% 0; }
-      50% { width: 70%; }
-      100% { width: 100%; background-position: 0 0; }
+      width: 100vw;
+      height: 100vh;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(2px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1050;
     }
   `]
 })

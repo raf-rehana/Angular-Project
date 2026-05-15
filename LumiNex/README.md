@@ -70,4 +70,4 @@ npm start
 
 ---
 
-Built with ❤️ by the LumiNex Team.
+Built with ❤️ by Rafiaah.

@@ -30,4 +30,12 @@ export class NotificationService {
       })
     );
   }
+
+  create(notification: Partial<Notification>): Observable<Notification> {
+    return this.http.post<Notification>(this.api, {
+      ...notification,
+      isRead: false,
+      createdAt: new Date().toISOString()
+    });
+  }
 }

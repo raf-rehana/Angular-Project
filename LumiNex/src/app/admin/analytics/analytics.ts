@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PaymentService } from '../../../core/services/payment.service';
-import { AdminService } from '../../../core/services/admin.service';
-import { RequestService } from '../../../core/services/request.service';
+import { PaymentService } from '../../core/services/payment.service';
+import { AdminService } from '../../core/services/admin.service';
+import { RequestService } from '../../core/services/request.service';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -148,19 +148,19 @@ export class AdminAnalyticsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.paymentService.getPayments().subscribe(data => {
+    this.paymentService.getPayments().subscribe((data: any[]) => {
       this.payments = data;
       this.computeMetrics();
     });
-    this.requestService.getAllRequests().subscribe(data => {
+    this.requestService.getAllRequests().subscribe((data: any[]) => {
       this.requests = data;
       this.computeRequestMetrics();
     });
-    this.adminService.getUsers('CLIENT').subscribe(data => {
+    this.adminService.getUsers('CLIENT').subscribe((data: any[]) => {
       this.clientCount = data.length;
       this.activeClients = data.length;
     });
-    this.adminService.getUsers('EMPLOYEE').subscribe(data => {
+    this.adminService.getUsers('EMPLOYEE').subscribe((data: any[]) => {
       this.employeeCount = data.length;
     });
   }

@@ -7,6 +7,9 @@ import { ServiceRequest } from '../../core/models/service-request';
 import { StatusBadgeComponent } from '../../shared/components/status-badge/status-badge';
 import { User } from '../../core/models/user';
 import { AuditLogService } from '../../core/services/audit-log.service';
+import { ModalService } from '../../core/services/modal.service';
+import { PaymentService } from '../../core/services/payment.service';
+import { NotificationService } from '../../core/services/notification.service';
 
 @Component({
   selector: 'app-all-requests',
@@ -141,6 +144,12 @@ import { AuditLogService } from '../../core/services/audit-log.service';
                     </select>
                   </div>
 
+                  <div class="col-12" *ngIf="selectedRequest.status === 'IN_PROGRESS'">
+                    <button class="btn btn-outline-warning w-100 py-2 rounded-3 fw-bold" (click)="generateAdvanceInvoice(selectedRequest)">
+                      <i class="bi bi-receipt me-2"></i>Generate 50% Advance Invoice
+                    </button>
+                  </div>
+
                   <div class="col-12">
                     <label class="form-label small fw-bold text-muted text-uppercase">Assign to Employee</label>
                     <select class="form-select bg-light border-0 py-2 rounded-3" [(ngModel)]="selectedRequest.assignedTo" (change)="updateRequest()">
@@ -197,7 +206,10 @@ export class AllRequestsComponent implements OnInit {
     private requestService: RequestService,
     private adminService: AdminService,
     private auditLogService: AuditLogService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private modalService: ModalService,
+    private paymentService: PaymentService,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit() {
@@ -233,13 +245,75 @@ export class AllRequestsComponent implements OnInit {
     this.requestService.updateStatus(this.selectedRequest.id, this.selectedRequest.status, this.selectedRequest.employeeNotes)
       .subscribe(() => {
         this.auditLogService.logAction('Request Updated', `Admin updated request #${this.selectedRequest!.id} to status: ${this.selectedRequest!.status}`);
+        
+        // --- STEP 7 & 8 AUTOMATION ---
+        if (this.selectedRequest?.status === 'COMPLETED') {
+          this.handleCompletionAutomation(this.selectedRequest);
+        }
+
         if (this.selectedRequest?.assignedTo) {
           this.requestService.assignToEmployee(this.selectedRequest.id, this.selectedRequest.assignedTo)
-            .subscribe(() => this.loadData());
+            .subscribe(() => {
+              // Notify Employee
+              this.notificationService.create({
+                userId: Number(this.selectedRequest!.assignedTo),
+                title: 'New Task Assigned',
+                message: `You have been assigned: ${this.selectedRequest!.serviceName}`,
+                type: 'TASK_ASSIGNED'
+              }).subscribe();
+              this.loadData();
+            });
         } else {
           this.loadData();
         }
       });
+  }
+
+  private handleCompletionAutomation(req: ServiceRequest) {
+    this.adminService.getService(req.serviceId).subscribe(service => {
+      // 1. Create Pending Payment
+      this.paymentService.addPayment({
+        clientId: req.userId.toString(),
+        client: 'Client Name', // Mocking as name isn't readily available here without more lookups
+        item: req.serviceName,
+        amount: service.price,
+        method: 'WAITING',
+        status: 'PENDING',
+        date: new Date().toISOString()
+      }).subscribe();
+
+      // 2. Send Notification to Client
+      this.notificationService.create({
+        userId: Number(req.userId),
+        title: 'Payment Due',
+        message: `Your request for "${req.serviceName}" has been completed. Please proceed to payment.`,
+        type: 'PAYMENT_DUE'
+      }).subscribe();
+    });
+  }
+
+  generateAdvanceInvoice(req: ServiceRequest) {
+    this.adminService.getService(req.serviceId).subscribe(service => {
+      this.paymentService.addPayment({
+        clientId: req.userId.toString(),
+        client: 'Client Name', 
+        item: `${req.serviceName} (50% Advance)`,
+        amount: service.price / 2,
+        method: 'WAITING',
+        status: 'PENDING',
+        date: new Date().toISOString()
+      }).subscribe(() => {
+        this.notificationService.create({
+          userId: Number(req.userId),
+          title: 'Advance Payment Due',
+          message: `A 50% advance payment is required to proceed with "${req.serviceName}".`,
+          type: 'PAYMENT_DUE'
+        }).subscribe();
+        this.modalService.alert('Advance invoice generated successfully.');
+        this.selectedRequest = null;
+        this.loadData();
+      });
+    });
   }
 
   saveNotes() {
@@ -247,8 +321,9 @@ export class AllRequestsComponent implements OnInit {
     this.selectedRequest = null;
   }
 
-  cancelRequest() {
-    if (confirm('Are you sure you want to reject this request?')) {
+  async cancelRequest() {
+    const confirmed = await this.modalService.confirm('Are you sure you want to reject this request?');
+    if (confirmed) {
       this.selectedRequest!.status = 'REJECTED';
       this.auditLogService.logAction('Request Rejected', `Admin rejected request #${this.selectedRequest!.id}`);
       this.updateRequest();

@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { PaymentService } from '../../core/services/payment.service';
+import { PaymentService, Payment } from '../../core/services/payment.service';
 import { PdfGeneratorService } from '../../core/services/pdf-generator.service';
 
 @Component({
@@ -12,9 +12,19 @@ import { PdfGeneratorService } from '../../core/services/pdf-generator.service';
   styleUrl: './payments.css',
 })
 export class AdminPaymentsComponent implements OnInit {
-  payments: any[] = [];
-  filteredPayments: any[] = [];
+  payments: Payment[] = [];
+  filteredPayments: Payment[] = [];
   filterStatus: string = 'ALL';
+  showManualRecordModal = false;
+  newRecord: Partial<Payment> = {
+    client: '',
+    clientId: '',
+    item: '',
+    amount: 0,
+    method: 'Manual/Cash',
+    status: 'PAID',
+    date: new Date().toISOString()
+  };
 
   constructor(
     private paymentService: PaymentService,
@@ -47,6 +57,26 @@ export class AdminPaymentsComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
+  openManualRecordModal() {
+    this.newRecord = {
+      client: '',
+      clientId: 'MANUAL',
+      item: '',
+      amount: 0,
+      method: 'Manual/Cash',
+      status: 'PAID',
+      date: new Date().toISOString()
+    };
+    this.showManualRecordModal = true;
+  }
+
+  saveManualRecord() {
+    this.paymentService.addPayment(this.newRecord).subscribe(() => {
+      this.loadPayments();
+      this.showManualRecordModal = false;
+    });
+  }
+
  generateInvoice(payment: any): void {
   const invoiceDetails = {
     id: payment.id,
@@ -69,4 +99,12 @@ export class AdminPaymentsComponent implements OnInit {
 
   this.pdfGeneratorService.generateInvoicePdf(invoiceDetails);
 }
+
+  processRefund(payment: any) {
+    if (confirm('Are you sure you want to process a refund for this payment?')) {
+      this.paymentService.updatePayment(payment.id, { status: 'REFUNDED' }).subscribe(() => {
+        this.loadPayments();
+      });
+    }
+  }
 }

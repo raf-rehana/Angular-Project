@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastService } from '../../core/services/toast.service';
 
 @Component({
   selector: 'app-plans',
@@ -24,13 +25,13 @@ export class PlansComponent {
 
   loading = false;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private toastService: ToastService) {}
 
   submitConfig() {
     this.loading = true;
     setTimeout(() => {
       this.loading = false;
-      alert('Project Configuration Saved! Our team will contact you with a custom quote.');
+      this.toastService.success('Project Configuration Saved! Our team will contact you with a custom quote.');
       this.router.navigate(['/client/dashboard']);
     }, 1500);
   }

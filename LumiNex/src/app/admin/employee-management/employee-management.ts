@@ -2,7 +2,9 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdminService } from '../../core/services/admin.service';
+import { RequestService } from '../../core/services/request.service';
 import { User } from '../../core/models/user';
+import { ModalService } from '../../core/services/modal.service';
 
 @Component({
   selector: 'app-employee-management',
@@ -22,10 +24,13 @@ export class EmployeeManagementComponent implements OnInit {
     role: 'EMPLOYEE',
     designation: 'Full Stack Developer'
   };
+  workloads: { [key: string]: number } = {};
 
   constructor(
     private adminService: AdminService,
-    private cdr: ChangeDetectorRef
+    private requestService: RequestService,
+    private cdr: ChangeDetectorRef,
+    private modalService: ModalService
   ) {}
 
   ngOnInit() {
@@ -35,6 +40,20 @@ export class EmployeeManagementComponent implements OnInit {
   loadEmployee() {
     this.adminService.getUsers('EMPLOYEE').subscribe(data => {
       this.employee = data;
+      this.calculateWorkloads();
+      this.cdr.detectChanges();
+    });
+  }
+
+  calculateWorkloads() {
+    this.requestService.getAllRequests().subscribe(requests => {
+      this.workloads = {};
+      requests.forEach(req => {
+        if (req.assignedTo && req.status !== 'COMPLETED' && req.status !== 'REJECTED') {
+          const empId = req.assignedTo.toString();
+          this.workloads[empId] = (this.workloads[empId] || 0) + 1;
+        }
+      });
       this.cdr.detectChanges();
     });
   }
@@ -51,8 +70,9 @@ export class EmployeeManagementComponent implements OnInit {
     });
   }
 
-  deleteEmployee(id: string) {
-    if (confirm('Delete this employee member?')) {
+  async deleteEmployee(id: string) {
+    const confirmed = await this.modalService.confirm('Delete this employee member?');
+    if (confirmed) {
       this.adminService.deleteUser(id).subscribe(() => this.loadEmployee());
     }
   }

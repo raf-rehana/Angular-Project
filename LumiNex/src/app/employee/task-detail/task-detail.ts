@@ -7,6 +7,7 @@ import { PaymentService } from '../../core/services/payment.service';
 import { ServiceRequest } from '../../core/models/service-request';
 import { StatusBadgeComponent } from '../../shared/components/status-badge/status-badge';
 import { AuditLogService } from '../../core/services/audit-log.service';
+import { ToastService } from '../../core/services/toast.service';
 
 @Component({
   selector: 'app-task-detail',
@@ -31,6 +32,7 @@ export class TaskDetail implements OnInit, OnDestroy {
     private requestService: RequestService,
     private paymentService: PaymentService,
     private auditLogService: AuditLogService,
+    private toastService: ToastService,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -97,7 +99,7 @@ export class TaskDetail implements OnInit, OnDestroy {
     const hours = parseFloat((this.elapsedSeconds / 3600).toFixed(2));
     this.requestService.updateStatus(this.task.id, this.task.status, this.task.employeeNotes, hours).subscribe(() => {
       this.auditLogService.logAction('Task Updated', `Task #${this.task!.id} status changed to ${this.task!.status}`);
-      alert('Task updated successfully!');
+      this.toastService.success('Task updated successfully!');
     });
   }
 }

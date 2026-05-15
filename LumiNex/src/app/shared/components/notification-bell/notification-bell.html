@@ -1,6 +1,6 @@
 <div class="dropdown">
   <button class="btn btn-link nav-link position-relative dropdown-toggle" type="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-    <i class="bi bi-bell fs-5"></i>
+    <i class="bi bi-bell fs-5" [ngClass]="iconClass"></i>
     <span *ngIf="unreadCount > 0" class="position-absolute top-25 start-75 translate-middle badge rounded-pill bg-danger">
       {{ unreadCount }}
     </span>

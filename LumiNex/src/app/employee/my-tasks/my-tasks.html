@@ -56,9 +56,13 @@
               </td>
             </tr>
             <tr *ngIf="filteredTasks.length === 0">
-              <td colspan="5" class="text-center py-5 text-muted">
-                <i class="bi bi-journal-x display-4 opacity-25 mb-3 d-block"></i>
-                No tasks found matching the criteria.
+              <td colspan="5" class="text-center py-5">
+                <div class="py-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" class="bi bi-ui-checks text-primary opacity-25 mb-4" viewBox="0 0 16 16">
+                    <path d="M7 2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1zM2 1a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2zm0 8a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2H2zm.854-3.646a.5.5 0 0 1-.708 0l-1-1a.5.5 0 1 1 .708-.708l.646.647 1.646-1.647a.5.5 0 1 1 .708.708l-2 2zm0 8a.5.5 0 0 1-.708 0l-1-1a.5.5 0 0 1 .708-.708l.646.647 1.646-1.647a.5.5 0 0 1 .708.708l-2 2zM7 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1z"/>
+                  </svg>
+                  <p class="text-muted fw-medium mb-0">No tasks found matching the criteria.</p>
+                </div>
               </td>
             </tr>
           </tbody>

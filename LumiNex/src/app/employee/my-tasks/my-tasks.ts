@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RequestService } from '../../core/services/request.service';
-import { AuthService } from '../../core/services/auth.services';
+import { AuthService } from '../../core/services/auth.service';
 import { ServiceRequest } from '../../core/models/service-request';
 import { RouterModule } from '@angular/router';
 import { StatusBadgeComponent } from '../../shared/components/status-badge/status-badge';
@@ -31,7 +31,7 @@ export class MyTasksComponent implements OnInit {
     const user = this.authService.currentUser;
     if (user) {
       this.requestService.getAllRequests().subscribe(data => {
-        this.tasks = data.filter(t => t.assignedTo === user.id || t.assignedTo === undefined);
+        this.tasks = data.filter(t => t.assignedTo === user.id);
         this.filteredTasks = [...this.tasks];
         this.cdr.detectChanges();
       });

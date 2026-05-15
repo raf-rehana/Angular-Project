@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { AuthService } from '../../core/services/auth.services';
+import { AuthService } from '../../core/services/auth.service';
 import { PaymentService } from '../../core/services/payment.service';
 import { LocationService, Country, LocationNode } from '../../core/services/location.service';
 import { User } from '../../core/models/user';
+import { ToastService } from '../../core/services/toast.service';
 
 @Component({
   selector: 'app-profile',
@@ -34,7 +35,8 @@ export class Profile implements OnInit {
   constructor(
     private authService: AuthService,
     private locationService: LocationService,
-    private paymentService: PaymentService
+    private paymentService: PaymentService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit() {
@@ -140,11 +142,11 @@ export class Profile implements OnInit {
     this.authService.updateProfile(this.user).subscribe({
       next: () => {
         this.loading = false;
-        alert('Profile updated successfully!');
+        this.toastService.success('Profile updated successfully!');
       },
       error: () => {
         this.loading = false;
-        alert('Error updating profile.');
+        this.toastService.error('Error updating profile.');
       }
     });
   }

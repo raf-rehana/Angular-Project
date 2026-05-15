@@ -11,6 +11,16 @@
       "phone": "+880 01605142112"
     },
     {
+      "id": "10151",
+      "name": "Super Admin",
+      "email": "superadmin@luminex.com",
+      "role": "SUPER_ADMIN",
+      "password": "demo123",
+      "companyName": "LumiNex Global",
+      "address": "Headquarters",
+      "phone": "+880 0000000000"
+    },
+    {
       "name": "Badrul",
       "email": "badrul@gmail.com",
       "password": "demo123",
@@ -82,14 +92,6 @@
       "password": "demo123",
       "role": "CLIENT",
       "id": "10148"
-    },
-    {
-      "name": "Staff",
-      "email": "staff@luminex.com",
-      "password": "demo123",
-      "role": "EMPLOYEE",
-      "designation": "AI Developer",
-      "id": "10149"
     },
     {
       "name": "Mahbub Sheikh",
@@ -515,22 +517,34 @@
       "isActive": true,
       "requiredDocuments": [
         {
-          "id": "d1",
-          "docName": "NID Copy",
+          "id": "tl1",
+          "docName": "National ID Card (both sides)",
           "isMandatory": true,
-          "description": "National ID card of the business owner."
+          "description": "Clear scans of front and back of NID."
         },
         {
-          "id": "d2",
-          "docName": "Recent Photo",
+          "id": "tl2",
+          "docName": "Passport size photo (2 copies)",
           "isMandatory": true,
-          "description": "Passport size photograph."
+          "description": "Recent laboratory print photos."
         },
         {
-          "id": "d3",
-          "docName": "Rent Agreement",
+          "id": "tl3",
+          "docName": "Utility bill (business address)",
           "isMandatory": true,
-          "description": "Trade license requires a commercial address proof."
+          "description": "Electricity or gas bill of the commercial space."
+        },
+        {
+          "id": "tl4",
+          "docName": "Rent agreement",
+          "isMandatory": true,
+          "description": "Notarized rent agreement if space is rented."
+        },
+        {
+          "id": "tl5",
+          "docName": "Bank solvency certificate",
+          "isMandatory": true,
+          "description": "Certificate from a scheduled bank."
         }
       ]
     },
@@ -547,22 +561,34 @@
       "isActive": true,
       "requiredDocuments": [
         {
-          "id": "d4",
-          "docName": "NID of All Directors",
+          "id": "ci1",
+          "docName": "Memorandum & Articles of Association draft",
+          "isMandatory": true,
+          "description": "Draft copy of MoA and AoA."
+        },
+        {
+          "id": "ci2",
+          "docName": "NID of all directors",
           "isMandatory": true,
           "description": "NID copies for all proposed directors."
         },
         {
-          "id": "d5",
-          "docName": "Proposed Company Name",
+          "id": "ci3",
+          "docName": "Proposed company name (3 options)",
           "isMandatory": true,
-          "description": "Draft names for name clearance."
+          "description": "Three names in order of preference for clearance."
         },
         {
-          "id": "d6",
-          "docName": "TIN Certificate",
+          "id": "ci4",
+          "docName": "Director photos",
           "isMandatory": true,
-          "description": "TIN of all directors."
+          "description": "Passport size photos of all directors."
+        },
+        {
+          "id": "ci5",
+          "docName": "Registered office address proof",
+          "isMandatory": true,
+          "description": "Utility bill or rent agreement of the office."
         }
       ]
     },
@@ -579,16 +605,34 @@
       "isActive": true,
       "requiredDocuments": [
         {
-          "id": "v1",
-          "docName": "Trade License Copy",
+          "id": "vr1",
+          "docName": "Trade License copy",
           "isMandatory": true,
-          "description": "Updated trade license."
+          "description": "Valid and updated trade license."
         },
         {
-          "id": "v2",
-          "docName": "TIN Certificate",
+          "id": "vr2",
+          "docName": "TIN certificate",
           "isMandatory": true,
-          "description": "Tax ID certificate."
+          "description": "Tax Identification Number certificate."
+        },
+        {
+          "id": "vr3",
+          "docName": "Bank account details",
+          "isMandatory": true,
+          "description": "Bank statement or check leaf copy."
+        },
+        {
+          "id": "vr4",
+          "docName": "Business premises photos",
+          "isMandatory": true,
+          "description": "Inside and outside photos of the business office."
+        },
+        {
+          "id": "vr5",
+          "docName": "National ID of proprietor",
+          "isMandatory": true,
+          "description": "NID copy of the main owner."
         }
       ]
     },
@@ -1018,16 +1062,34 @@
       "isActive": true,
       "requiredDocuments": [
         {
-          "id": "acc4",
+          "id": "ba1",
           "docName": "Trade License",
           "isMandatory": true,
-          "description": "Updated trade license."
+          "description": "Valid and updated trade license."
         },
         {
-          "id": "acc5",
-          "docName": "NID of Nominee",
+          "id": "ba2",
+          "docName": "Company Incorporation certificate",
           "isMandatory": true,
-          "description": "Identification of account nominee."
+          "description": "RJSC registration certificate."
+        },
+        {
+          "id": "ba3",
+          "docName": "NID of all signatories",
+          "isMandatory": true,
+          "description": "Identity of persons authorized to operate the account."
+        },
+        {
+          "id": "ba4",
+          "docName": "Board resolution letter",
+          "isMandatory": true,
+          "description": "Letter from board authorizing account opening."
+        },
+        {
+          "id": "ba5",
+          "docName": "Company seal impression",
+          "isMandatory": true,
+          "description": "Official company stamp on the form."
         }
       ]
     },
@@ -1858,5 +1920,6 @@
       "updatedAt": "2026-05-12T08:00:00.000Z"
     }
   ],
+  "notifications": [],
   "$schema": "./node_modules/json-server/schema.json"
 }

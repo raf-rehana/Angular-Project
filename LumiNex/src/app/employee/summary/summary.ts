@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RequestService } from '../../core/services/request.service';
-import { AuthService } from '../../core/services/auth.services';
+import { AuthService } from '../../core/services/auth.service';
 import { ServiceRequest } from '../../core/models/service-request';
 import { RouterModule } from '@angular/router';
 

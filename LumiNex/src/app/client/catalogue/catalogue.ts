@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ServiceCatalogueService } from '../../core/services/service-catalogue';
 import { Service, ServiceCategory } from '../../core/models/service';
 import { RouterModule, ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '../../core/services/auth.services';
+import { AuthService } from '../../core/services/auth.service';
 import { RedirectService } from '../../core/services/redirect.service';
 
 @Component({

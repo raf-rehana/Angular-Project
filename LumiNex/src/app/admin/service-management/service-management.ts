@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { AdminService } from '../../core/services/admin.service';
 import { ServiceCatalogueService } from '../../core/services/service-catalogue';
 import { Service } from '../../core/models/service';
+import { ModalService } from '../../core/services/modal.service';
 
 @Component({
   selector: 'app-service-management',
@@ -140,7 +141,8 @@ export class ServiceManagementComponent implements OnInit {
 
   constructor(
     private adminService: AdminService,
-    private catalogueService: ServiceCatalogueService
+    private catalogueService: ServiceCatalogueService,
+    private modalService: ModalService
   ) {}
 
   ngOnInit() {
@@ -205,8 +207,9 @@ export class ServiceManagementComponent implements OnInit {
     });
   }
 
-  deleteService(id: string | number) {
-    if (confirm('Are you sure you want to delete this service?')) {
+  async deleteService(id: string | number) {
+    const confirmed = await this.modalService.confirm('Are you sure you want to delete this service?');
+    if (confirmed) {
       this.adminService.deleteService(id).subscribe(() => {
         this.loadData();
       });

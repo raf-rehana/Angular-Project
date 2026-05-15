@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdminService } from '../../core/services/admin.service';
 import { User } from '../../core/models/user';
+import { ModalService } from '../../core/services/modal.service';
 
 @Component({
   selector: 'app-client-management',
@@ -168,7 +169,7 @@ export class ClientManagementComponent implements OnInit {
     role: 'CLIENT'
   };
 
-  constructor(private adminService: AdminService) {}
+  constructor(private adminService: AdminService, private modalService: ModalService) {}
 
   ngOnInit() {
     this.loadClients();
@@ -198,8 +199,9 @@ export class ClientManagementComponent implements OnInit {
     });
   }
 
-  deleteClient(id: string) {
-    if (confirm('Are you sure you want to delete this user?')) {
+  async deleteClient(id: string) {
+    const confirmed = await this.modalService.confirm('Are you sure you want to delete this user?');
+    if (confirmed) {
       this.adminService.deleteUser(id).subscribe(() => {
         this.loadClients();
       });

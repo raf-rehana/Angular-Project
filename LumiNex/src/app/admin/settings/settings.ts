@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ToastService } from '../../core/services/toast.service';
+import { ModalService } from '../../core/services/modal.service';
 
 @Component({
   selector: 'app-admin-settings',
@@ -99,6 +101,8 @@ import { FormsModule } from '@angular/forms';
   `
 })
 export class AdminSettingsComponent {
+  constructor(private toastService: ToastService, private modalService: ModalService) {}
+
   settings = {
     platformName: 'LumiNex',
     supportEmail: 'support@luminex.io',
@@ -124,16 +128,17 @@ export class AdminSettingsComponent {
   ];
 
   saveSettings() {
-    alert('Settings saved successfully!');
+    this.toastService.success('Settings saved successfully!');
   }
 
-  clearCache() {
-    if (confirm('Are you sure you want to clear the system cache?')) {
-      alert('Cache cleared!');
+  async clearCache() {
+    const confirmed = await this.modalService.confirm('Are you sure you want to clear the system cache?');
+    if (confirmed) {
+      this.toastService.success('Cache cleared!');
     }
   }
 
   exportData() {
-    alert('Data export initiated. You will receive an email with the download link.');
+    this.toastService.success('Data export initiated. You will receive an email with the download link.');
   }
 }
