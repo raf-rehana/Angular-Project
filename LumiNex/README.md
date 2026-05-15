@@ -1,59 +1,73 @@
-# LumiNex
+# LumiNex SaaS Platform
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.9.
+LumiNex is a comprehensive, premium SaaS platform designed to automate financial workflows and service management for startups and small businesses. It provides an end-to-end journey from service discovery to automated billing and task fulfillment.
 
-## Development server
+## 🚀 Key Features
 
-To start a local development server, run:
+- **Service Catalogue**: A diverse range of startup services (Trade License, Company Incorporation, VAT, etc.) with automated document checklists.
+- **Role-Based Access Control (RBAC)**: Distinct portals for Super Admin, Admin, Employee, and Client.
+- **Automated Billing**: Real-time invoice generation (including 50% advance billing) and payment tracking.
+- **Payment Integration**: Support for SSLCommerz (Sandbox/Live), Mobile Wallets (bKash, Nagad), and Manual Payments.
+- **Task Management**: Seamless workflow from client request to employee assignment and fulfillment.
+- **Audit Logs**: Comprehensive system-wide tracking of administrative and financial actions.
+- **Live Chat**: Real-time support widget integrated with a Node.js/Socket.io backend.
+- **Responsive Design**: Modern, glass-morphism UI built with Angular and Vanilla CSS.
 
+## 🛠️ Technology Stack
+
+- **Frontend**: Angular (Standalone Components), RxJS, Bootstrap 5.
+- **Backend (API)**: Node.js (Express), Socket.io.
+- **Database**: JSON Server (Mock database for rapid development).
+- **Styling**: Vanilla CSS with custom design tokens.
+
+## 🏁 Getting Started
+
+### 1. Prerequisites
+- [Node.js](https://nodejs.org/) (v18 or higher)
+- [Angular CLI](https://angular.dev/tools/cli)
+
+### 2. Installation
 ```bash
-ng serve
+# Clone the repository
+git clone <your-repo-url>
+
+# Install dependencies
+npm install
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### 3. Running the Project
+The project requires three services to run concurrently:
 
 ```bash
-ng generate component component-name
+# Terminal 1: Run the JSON Server (Mock DB)
+npm run server
+
+# Terminal 2: Run the Node.js Backend (Payments & Chat)
+npm run backend
+
+# Terminal 3: Run the Angular Frontend
+npm start
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## 🔐 Credentials (Demo)
 
-```bash
-ng generate --help
-```
+| Role | Email | Password |
+|------|-------|----------|
+| Super Admin | `superadmin@luminex.com` | `demo123` |
+| Admin | `admin@luminex.com` | `demo123` |
+| Employee | `employee@luminex.com` | `demo123` |
+| Client | `client@luminex.com` | `demo123` |
 
-## Building
+## 📁 Project Structure
 
-To build the project run:
+- `src/app/core`: Singleton services, guards, and models.
+- `src/app/shared`: Reusable components (Navbar, Sidebar, Modals, Chat).
+- `src/app/admin`: Administrative dashboard and management modules.
+- `src/app/client`: Client portal for service requests and billing.
+- `src/app/employee`: Task fulfillment and status tracking.
+- `server.js`: Node.js/Express backend for payments and sockets.
+- `db.json`: JSON database schema.
 
-```bash
-ng build
-```
+---
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Built with ❤️ by the LumiNex Team.
