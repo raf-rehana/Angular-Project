@@ -5,8 +5,9 @@ import { environment } from '../../../environments/environment';
 
 export interface Payment {
   id?: string | number;
-  clientId: string;
+  clientId: string | number;
   client: string;
+  email?: string;
   item: string;
   amount: number;
   method: string;
@@ -20,7 +21,7 @@ export interface PaymentInitRequest {
   currency?: string;
   planId?: string | number;
   planName?: string;
-  clientId: string;
+  clientId: string | number;
   clientName?: string;
   clientEmail?: string;
   clientPhone?: string;

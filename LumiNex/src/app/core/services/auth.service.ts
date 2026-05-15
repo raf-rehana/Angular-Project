@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, tap, map } from 'rxjs';
+import { BehaviorSubject, Observable, tap, map, switchMap } from 'rxjs';
 import { User } from '../models/user';
 
 @Injectable({ providedIn: 'root' })
@@ -41,9 +41,17 @@ export class AuthService {
   }
 
   register(data: any): Observable<any> {
-    // For mock server, we create a new user
-    const newUser = { ...data, role: 'CLIENT' };
-    return this.http.post<User>(`${this.apiUrl}/users`, newUser).pipe(
+    return this.getAllUsers().pipe(
+      switchMap(users => {
+        const numericIds = users
+          .map(u => typeof u.id === 'number' ? u.id : parseInt(u.id))
+          .filter(id => !isNaN(id));
+        const maxId = numericIds.length > 0 ? Math.max(...numericIds) : 10000;
+        const nextId = maxId + 1;
+
+        const newUser = { ...data, role: 'CLIENT', id: nextId };
+        return this.http.post<User>(`${this.apiUrl}/users`, newUser);
+      }),
       map(user => {
         const token = 'mock-jwt-token-' + user.id;
         return { user, token };
@@ -80,6 +88,22 @@ export class AuthService {
     // SUPER_ADMIN has access to everything
     if (this.currentUser.role === 'SUPER_ADMIN') return true;
     return this.currentUser.role === role;
+  }
+
+  get isSuperAdmin(): boolean {
+    return this.currentUser?.role === 'SUPER_ADMIN';
+  }
+
+  get isAdmin(): boolean {
+    return this.currentUser?.role === 'ADMIN';
+  }
+
+  get isEmployee(): boolean {
+    return this.currentUser?.role === 'EMPLOYEE';
+  }
+
+  get isClient(): boolean {
+    return this.currentUser?.role === 'CLIENT';
   }
 
   updateProfile(user: User): Observable<User> {

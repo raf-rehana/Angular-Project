@@ -17,14 +17,31 @@ export class AdminService {
   }
 
   addUser(user: Partial<User>): Observable<User> {
-    return this.http.post<User>(`${this.apiUrl}/users`, user);
+    return new Observable<User>(subscriber => {
+      this.getUsers().subscribe(users => {
+        const numericIds = users
+          .map(u => typeof u.id === 'number' ? u.id : parseInt(u.id))
+          .filter(id => !isNaN(id));
+        const maxId = numericIds.length > 0 ? Math.max(...numericIds) : 10000;
+        const nextId = maxId + 1;
+        
+        const userWithId = { ...user, id: nextId };
+        this.http.post<User>(`${this.apiUrl}/users`, userWithId).subscribe({
+          next: (res) => {
+            subscriber.next(res);
+            subscriber.complete();
+          },
+          error: (err) => subscriber.error(err)
+        });
+      });
+    });
   }
 
-  updateUser(id: string, user: Partial<User>): Observable<User> {
+  updateUser(id: string | number, user: Partial<User>): Observable<User> {
     return this.http.patch<User>(`${this.apiUrl}/users/${id}`, user);
   }
 
-  deleteUser(id: string): Observable<void> {
+  deleteUser(id: string | number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/users/${id}`);
   }
 

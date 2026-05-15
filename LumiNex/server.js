@@ -307,6 +307,7 @@ app.post('/api/payment/success', async (req, res) => {
     value_a: clientId,
     value_b: planId,
     value_c: planName,
+    cus_email,
   } = req.body;
 
   console.log(`[SUCCESS] tran_id=${tran_id} val_id=${val_id} status=${status}`);
@@ -332,6 +333,7 @@ app.post('/api/payment/success', async (req, res) => {
     await axios.post(`${DB_URL}/payments`, {
       clientId,
       client:   planName ? `${planName} - Client` : 'LumiNex Client',
+      email:    cus_email,
       item:     planName || 'Subscription Plan',
       planId,
       amount:   parseFloat(amount),
@@ -367,7 +369,7 @@ app.post('/api/payment/cancel', (req, res) => {
 // ── POST /api/payment/ipn ─────────────────────────────────────────────────────
 // Instant Payment Notification - SSLCommerz hits this even if user loses connection
 app.post('/api/payment/ipn', async (req, res) => {
-  const { tran_id, val_id, status, amount, value_a: clientId, value_c: planName, card_type } = req.body;
+  const { tran_id, val_id, status, amount, value_a: clientId, value_c: planName, card_type, cus_email } = req.body;
   console.log(`[IPN] tran_id=${tran_id} status=${status}`);
 
   if (status === 'VALID' || status === 'VALIDATED') {
@@ -378,6 +380,7 @@ app.post('/api/payment/ipn', async (req, res) => {
         await axios.post(`${DB_URL}/payments`, {
           clientId,
           client:   planName || 'LumiNex Client',
+          email:    cus_email,
           item:     planName || 'Subscription Plan',
           amount:   parseFloat(amount),
           method:   card_type || 'ONLINE',

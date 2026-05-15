@@ -16,7 +16,7 @@ import { NotificationService } from '../../core/services/notification.service';
   standalone: true,
   imports: [CommonModule, StatusBadgeComponent, FormsModule],
   template: `
-    <div class="container-fluid py-4">
+    <div class="container-fluid py-4 px-4 px-lg-5">
       <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
           <h2 class="fw-bold text-dark mb-0">All Requests</h2>
@@ -84,7 +84,7 @@ import { NotificationService } from '../../core/services/notification.service';
                     <tr *ngFor="let req of filteredRequests" [class.table-primary]="selectedRequest?.id === req.id">
                       <td class="ps-4 py-3">
                         <div class="fw-bold text-dark">#REQ-{{ req.id }}</div>
-                        <div class="small text-muted">User ID: {{ req.userId }}</div>
+                        <div class="mt-1"><span class="badge bg-light text-primary border rounded-pill small px-2">ID: {{ req.userId }}</span></div>
                       </td>
                       <td class="py-3">
                         <div class="fw-medium text-dark">{{ req.serviceName }}</div>
@@ -274,7 +274,8 @@ export class AllRequestsComponent implements OnInit {
       // 1. Create Pending Payment
       this.paymentService.addPayment({
         clientId: req.userId.toString(),
-        client: 'Client Name', // Mocking as name isn't readily available here without more lookups
+        client: 'Client Name', 
+        email: req.clientEmail,
         item: req.serviceName,
         amount: service.price,
         method: 'WAITING',
@@ -297,6 +298,7 @@ export class AllRequestsComponent implements OnInit {
       this.paymentService.addPayment({
         clientId: req.userId.toString(),
         client: 'Client Name', 
+        email: req.clientEmail,
         item: `${req.serviceName} (50% Advance)`,
         amount: service.price / 2,
         method: 'WAITING',

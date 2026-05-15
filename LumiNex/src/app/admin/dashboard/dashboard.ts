@@ -6,6 +6,7 @@ import { ServiceCatalogueService } from '../../core/services/service-catalogue';
 import { ServiceRequest } from '../../core/models/service-request';
 import { StatusBadgeComponent } from '../../shared/components/status-badge/status-badge';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -24,7 +25,8 @@ export class AdminDashboard implements OnInit {
   constructor(
     private requestService: RequestService,
     private adminService: AdminService,
-    private catalogueService: ServiceCatalogueService
+    private catalogueService: ServiceCatalogueService,
+    public authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -54,7 +56,7 @@ export class AdminDashboard implements OnInit {
   }
 
   get recentRequests() {
-    return this.requests.slice(0, 5);
+    return [...this.requests].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).slice(0, 5);
   }
 
   get pendingCount() {

@@ -27,7 +27,7 @@
             <tr *ngFor="let t of filteredTasks" class="border-bottom">
               <td class="ps-4 py-3">
                 <div class="fw-bold text-dark">{{ t.serviceName }}</div>
-                <div class="small text-muted">ID: #REQ-{{ t.id }} | Category: {{ t.categoryName }}</div>
+                <div class="small text-muted">ID: #REQ-{{ t.id }} | User ID: {{ t.userId }} | Category: {{ t.categoryName }}</div>
               </td>
               <td class="py-3">
                 <span class="badge" [ngClass]="{

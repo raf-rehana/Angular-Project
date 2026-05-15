@@ -70,7 +70,7 @@ export class EmployeeManagementComponent implements OnInit {
     });
   }
 
-  async deleteEmployee(id: string) {
+  async deleteEmployee(id: string | number) {
     const confirmed = await this.modalService.confirm('Delete this employee member?');
     if (confirmed) {
       this.adminService.deleteUser(id).subscribe(() => this.loadEmployee());

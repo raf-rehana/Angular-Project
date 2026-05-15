@@ -15,7 +15,7 @@ export interface ChatMessage {
 }
 
 export interface ChatUser {
-  id: string;
+  id: string | number;
   name: string;
   role: 'client' | 'employee' | 'admin';
   online: boolean;

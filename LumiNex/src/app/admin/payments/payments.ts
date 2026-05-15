@@ -18,6 +18,7 @@ export class AdminPaymentsComponent implements OnInit {
   showManualRecordModal = false;
   newRecord: Partial<Payment> = {
     client: '',
+    email: '',
     clientId: '',
     item: '',
     amount: 0,
@@ -60,6 +61,7 @@ export class AdminPaymentsComponent implements OnInit {
   openManualRecordModal() {
     this.newRecord = {
       client: '',
+      email: '',
       clientId: 'MANUAL',
       item: '',
       amount: 0,

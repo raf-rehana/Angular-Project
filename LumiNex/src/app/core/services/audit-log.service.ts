@@ -4,9 +4,9 @@ import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 
 export interface AuditLog {
-  id?: string;
+  id?: string | number;
   timestamp: string;
-  userId: string;
+  userId: string | number;
   userName: string;
   userRole: string;
   action: string;

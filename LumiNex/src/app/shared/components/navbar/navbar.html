@@ -29,13 +29,16 @@
           <a class="relative text-sm font-bold text-slate-300 hover:text-white transition-colors py-2 group no-underline" routerLink="/about" routerLinkActive="text-primary-600">
             About Us
           </a>
+          <a class="relative text-sm font-bold text-slate-300 hover:text-white transition-colors py-2 group no-underline" routerLink="/contact" routerLinkActive="text-primary-600">
+            Contact
+          </a>
         </div>
       </div>
 
       <!-- Right Content -->
       <div class="flex items-center gap-4">
         <div class="hidden md:flex items-center" *ngIf="authService.isLoggedIn()">
-          <app-notification-bell iconClass="text-violet-300"></app-notification-bell>
+          <app-notification-bell iconClass="text-white"></app-notification-bell>
         </div>
 
         <div class="relative" *ngIf="authService.currentUser$ | async as user; else loginLink">

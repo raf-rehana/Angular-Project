@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home';
 import { ContactComponent } from './pages/contact/contact';
 import { PackagesComponent } from './pages/packages/packages';
+import { CatalogueComponent } from './client/catalogue/catalogue';
 import { AuthGuard } from './core/guards/auth.guard';
 import { RoleGuard } from './core/guards/role.guard';
 
@@ -11,6 +12,7 @@ export const routes: Routes = [
   { path: 'about', component: HomeComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'packages', component: PackagesComponent },
+  { path: 'catalogue', component: CatalogueComponent },
   { path: '', loadChildren: () => import('./auth/auth.routes').then(m => m.AUTH_ROUTES) },
   { 
     path: 'client', 

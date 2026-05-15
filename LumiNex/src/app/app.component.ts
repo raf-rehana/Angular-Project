@@ -41,7 +41,14 @@ import { NotificationBellComponent } from './shared/components/notification-bell
               <div class="col overflow-hidden d-flex flex-column min-vh-100">
                 <!-- Dashboard Top Header -->
                 <div class="bg-white border-bottom px-4 py-2 d-flex justify-content-end align-items-center shadow-sm" style="height: 60px;">
-                  <div class="d-flex align-items-center gap-3">
+                  <div class="d-flex align-items-center gap-4">
+                    <a routerLink="/contact" class="text-decoration-none text-violet-500 fw-bold small transition-all opacity-75 hover-opacity-100">
+                      <i class="bi bi-envelope me-1"></i> Contact
+                    </a>
+                    <a routerLink="/catalogue" class="text-decoration-none text-violet-500 fw-bold small transition-all opacity-75 hover-opacity-100">
+                      <i class="bi bi-grid me-1"></i> Services
+                    </a>
+                    <div class="vr mx-2 text-slate-300"></div>
                     <app-notification-bell></app-notification-bell>
                     <div class="dropdown">
                       <button class="btn btn-light rounded-pill dropdown-toggle d-flex align-items-center gap-2 border-0" type="button" data-bs-toggle="dropdown" *ngIf="authService.currentUser$ | async as user">

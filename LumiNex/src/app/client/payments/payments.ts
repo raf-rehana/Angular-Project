@@ -162,6 +162,7 @@ export class Payments implements OnInit, OnDestroy {
     this.paymentService.addPayment({
       clientId: user?.id || 'guest',
       client:   user?.name || 'Client',
+      email:    user?.email || '',
       item:     this.selectedPlanName,
       amount:   this.total,
       method:   'CASH',
@@ -224,6 +225,7 @@ export class Payments implements OnInit, OnDestroy {
     const invoiceDetails = {
       id: payment.id,
       clientName: payment.client,
+      clientEmail: payment.email || this.authService.currentUser?.email || '',
       service: payment.item,
       amount: payment.amount,
       date: payment.date
@@ -240,6 +242,7 @@ export class Payments implements OnInit, OnDestroy {
       const mockPayment = {
         id: this.tranId || 'INV-' + Date.now(),
         client: this.authService.currentUser?.name || 'Client',
+        email: this.authService.currentUser?.email || '',
         item: this.selectedPlanName || 'Service Payment',
         amount: this.total || this.paidAmount,
         date: new Date().toISOString().split('T')[0]

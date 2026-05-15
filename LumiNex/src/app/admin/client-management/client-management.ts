@@ -199,7 +199,7 @@ export class ClientManagementComponent implements OnInit {
     });
   }
 
-  async deleteClient(id: string) {
+  async deleteClient(id: string | number) {
     const confirmed = await this.modalService.confirm('Are you sure you want to delete this user?');
     if (confirmed) {
       this.adminService.deleteUser(id).subscribe(() => {

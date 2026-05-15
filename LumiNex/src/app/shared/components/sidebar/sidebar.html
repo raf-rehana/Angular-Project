@@ -18,7 +18,7 @@
 
       <ul class="nav nav-pills flex-column mb-auto px-2">
         <!-- Client Links -->
-        <ng-container *ngIf="authService.hasRole('CLIENT')">
+        <ng-container *ngIf="authService.hasRole('CLIENT') && (isClientContext || isCatalogueContext || isGenericContext)">
           <li class="nav-item mb-1">
             <a routerLink="/client/dashboard" class="nav-link text-slate-900" routerLinkActive="active bg-primary text-white" data-bs-dismiss="offcanvas">
               <i class="bi bi-speedometer2 me-2"></i> Dashboard
@@ -27,7 +27,7 @@
           
           <div class="px-3 py-2 text-uppercase text-muted fw-bold x-small opacity-50 mt-3">Projects</div>
           <li class="nav-item mb-1">
-            <a routerLink="/client/catalogue" class="nav-link text-slate-900" routerLinkActive="active bg-primary text-white" data-bs-dismiss="offcanvas">
+            <a routerLink="/catalogue" class="nav-link text-slate-900" routerLinkActive="active bg-primary text-white" data-bs-dismiss="offcanvas">
               <i class="bi bi-plus-circle-dotted me-2"></i> Initialize New Project
             </a>
           </li>
@@ -36,24 +36,21 @@
               <i class="bi bi-folder2-open me-2"></i> Active Projects
             </a>
           </li>
-          <li class="nav-item mb-1">
-            <a routerLink="/client/plans" class="nav-link text-slate-900" routerLinkActive="active bg-primary text-white" data-bs-dismiss="offcanvas">
-              <i class="bi bi-diagram-3 me-2"></i> Growth Plans
-            </a>
-          </li>
 
-          <!-- Category Sector Links -->
-          <div class="px-3 py-2 text-uppercase text-muted fw-bold x-small opacity-50 mt-3">Service Sectors</div>
-          <li class="nav-item mb-1" *ngFor="let cat of categories">
-            <a [routerLink]="['/client/catalogue']" [queryParams]="{ categoryId: cat.id }" 
-               class="nav-link text-slate-900 d-flex align-items-center" 
-               routerLinkActive="active bg-primary text-white"
-               [routerLinkActiveOptions]="{ exact: false }"
-               data-bs-dismiss="offcanvas">
-              <div class="category-bullet me-2" [style.background-color]="cat.color"></div>
-              <span class="text-truncate">{{ cat.name }}</span>
-            </a>
-          </li>
+          <!-- Category Sector Links - Hidden in Client Dashboard to reduce clutter -->
+          <ng-container *ngIf="showSectors">
+            <div class="px-3 py-2 text-uppercase text-muted fw-bold x-small opacity-50 mt-3">Service Sectors</div>
+            <li class="nav-item mb-1" *ngFor="let cat of categories">
+              <a [routerLink]="['/catalogue']" [queryParams]="{ categoryId: cat.id }" 
+                 class="nav-link text-slate-900 d-flex align-items-center" 
+                 routerLinkActive="active bg-primary text-white"
+                 [routerLinkActiveOptions]="{ exact: false }"
+                 data-bs-dismiss="offcanvas">
+                <div class="category-bullet me-2" [style.background-color]="cat.color"></div>
+                <span class="text-truncate">{{ cat.name }}</span>
+              </a>
+            </li>
+          </ng-container>
 
           <div class="px-3 py-2 text-uppercase text-muted fw-bold x-small opacity-50 mt-3">Billing & Assets</div>
           <li class="nav-item mb-1">
@@ -85,11 +82,11 @@
           </li>
         </ng-container>
 
-        <!-- Admin Links -->
-        <ng-container *ngIf="authService.hasRole('ADMIN')">
+        <!-- Admin/SuperAdmin Operational Links -->
+        <ng-container *ngIf="(authService.hasRole('ADMIN') || authService.hasRole('SUPER_ADMIN')) && isAdminContext">
           <li class="nav-item mb-1">
             <a routerLink="/admin/dashboard" class="nav-link text-slate-900" routerLinkActive="active bg-primary text-white" data-bs-dismiss="offcanvas">
-              <i class="bi bi-speedometer2 me-2"></i> Admin Dashboard
+              <i class="bi bi-speedometer2 me-2"></i> {{ authService.isSuperAdmin ? 'Super Admin' : 'Admin' }} Dashboard
             </a>
           </li>
           <li class="nav-item mb-1">
@@ -108,43 +105,8 @@
             </a>
           </li>
           <li class="nav-item mb-1">
-            <a routerLink="/admin/service-management" class="nav-link text-slate-900" routerLinkActive="active bg-primary text-white" data-bs-dismiss="offcanvas">
-              <i class="bi bi-gear me-2"></i> Service Config
-            </a>
-          </li>
-          <li class="nav-item mb-1">
-            <a routerLink="/admin/package-builder" class="nav-link text-slate-900" routerLinkActive="active bg-primary text-white" data-bs-dismiss="offcanvas">
-              <i class="bi bi-box-seam me-2"></i> Package Builder
-            </a>
-          </li>
-          <li class="nav-item mb-1">
-            <a routerLink="/admin/revenue" class="nav-link text-slate-900" routerLinkActive="active bg-primary text-white" data-bs-dismiss="offcanvas">
-              <i class="bi bi-graph-up-arrow me-2"></i> Revenue
-            </a>
-          </li>
-          <li class="nav-item mb-1">
-            <a routerLink="/admin/analytics" class="nav-link text-slate-900" routerLinkActive="active bg-primary text-white" data-bs-dismiss="offcanvas">
-              <i class="bi bi-bar-chart-line me-2"></i> SaaS Analytics
-            </a>
-          </li>
-          <li class="nav-item mb-1">
             <a routerLink="/admin/payments" class="nav-link text-slate-900" routerLinkActive="active bg-primary text-white" data-bs-dismiss="offcanvas">
               <i class="bi bi-credit-card-2-front me-2"></i> Payments
-            </a>
-          </li>
-          <li class="nav-item mb-1">
-            <a routerLink="/admin/theme" class="nav-link text-slate-900" routerLinkActive="active bg-primary text-white" data-bs-dismiss="offcanvas">
-              <i class="bi bi-palette me-2"></i> Theme Customizer
-            </a>
-          </li>
-          <li class="nav-item mb-1">
-            <a routerLink="/admin/site-content" class="nav-link text-slate-900" routerLinkActive="active bg-primary text-white" data-bs-dismiss="offcanvas">
-              <i class="bi bi-pencil-square me-2"></i> Website Content
-            </a>
-          </li>
-          <li class="nav-item mb-1">
-            <a routerLink="/admin/settings" class="nav-link text-slate-900" routerLinkActive="active bg-primary text-white" data-bs-dismiss="offcanvas">
-              <i class="bi bi-sliders me-2"></i> System Settings
             </a>
           </li>
           <li class="nav-item mb-1">
@@ -152,11 +114,52 @@
               <i class="bi bi-book me-2"></i> Knowledge Base
             </a>
           </li>
-          <li class="nav-item mb-1">
-            <a routerLink="/admin/audit-logs" class="nav-link text-slate-900" routerLinkActive="active bg-primary text-white" data-bs-dismiss="offcanvas">
-              <i class="bi bi-shield-lock me-2"></i> Audit Logs
-            </a>
-          </li>
+
+          <!-- Management/Strategic Links (Super Admin Only) -->
+          <ng-container *ngIf="authService.isSuperAdmin">
+            <div class="px-3 py-2 text-uppercase text-muted fw-bold x-small opacity-50 mt-3">System Management</div>
+            <li class="nav-item mb-1">
+              <a routerLink="/admin/revenue" class="nav-link text-slate-900" routerLinkActive="active bg-primary text-white" data-bs-dismiss="offcanvas">
+                <i class="bi bi-graph-up-arrow me-2"></i> Revenue
+              </a>
+            </li>
+            <li class="nav-item mb-1">
+              <a routerLink="/admin/analytics" class="nav-link text-slate-900" routerLinkActive="active bg-primary text-white" data-bs-dismiss="offcanvas">
+                <i class="bi bi-bar-chart-line me-2"></i> SaaS Analytics
+              </a>
+            </li>
+            <li class="nav-item mb-1">
+              <a routerLink="/admin/service-management" class="nav-link text-slate-900" routerLinkActive="active bg-primary text-white" data-bs-dismiss="offcanvas">
+                <i class="bi bi-gear me-2"></i> Service Config
+              </a>
+            </li>
+            <li class="nav-item mb-1">
+              <a routerLink="/admin/package-builder" class="nav-link text-slate-900" routerLinkActive="active bg-primary text-white" data-bs-dismiss="offcanvas">
+                <i class="bi bi-box-seam me-2"></i> Package Builder
+              </a>
+            </li>
+            <li class="nav-item mb-1">
+              <a routerLink="/admin/theme" class="nav-link text-slate-900" routerLinkActive="active bg-primary text-white" data-bs-dismiss="offcanvas">
+                <i class="bi bi-palette me-2"></i> Theme Customizer
+              </a>
+            </li>
+            <li class="nav-item mb-1">
+              <a routerLink="/admin/site-content" class="nav-link text-slate-900" routerLinkActive="active bg-primary text-white" data-bs-dismiss="offcanvas">
+                <i class="bi bi-pencil-square me-2"></i> Website Content
+              </a>
+            </li>
+            <li class="nav-item mb-1">
+              <a routerLink="/admin/audit-logs" class="nav-link text-slate-900" routerLinkActive="active bg-primary text-white" data-bs-dismiss="offcanvas">
+                <i class="bi bi-shield-lock me-2"></i> Audit Logs
+              </a>
+            </li>
+            <li class="nav-item mb-1">
+              <a routerLink="/admin/settings" class="nav-link text-slate-900" routerLinkActive="active bg-primary text-white" data-bs-dismiss="offcanvas">
+                <i class="bi bi-sliders me-2"></i> System Settings
+              </a>
+            </li>
+          </ng-container>
+
           <li class="nav-item mb-1">
             <a routerLink="/client/profile" class="nav-link text-slate-900" routerLinkActive="active bg-primary text-white" data-bs-dismiss="offcanvas">
               <i class="bi bi-person-circle me-2"></i> My Profile
@@ -165,7 +168,7 @@
         </ng-container>
 
         <!-- Employee Links -->
-        <ng-container *ngIf="authService.hasRole('EMPLOYEE')">
+        <ng-container *ngIf="authService.hasRole('EMPLOYEE') && isEmployeeContext">
           <li class="nav-item mb-1">
             <a routerLink="/employee/summary" class="nav-link text-slate-900" routerLinkActive="active bg-primary text-white" data-bs-dismiss="offcanvas">
               <i class="bi bi-bar-chart me-2"></i> Summary
@@ -188,6 +191,16 @@
           </li>
         </ng-container>
       </ul>
+    <div class="mt-auto p-3 border-top border-light" *ngIf="authService.currentUser?.role === 'SUPER_ADMIN'">
+      <div class="small fw-bold text-muted text-uppercase mb-2 opacity-50 px-2">Role Context</div>
+      <div class="d-grid gap-2">
+        <button class="btn btn-sm text-start" [class.btn-primary]="isAdminContext" [class.btn-light]="!isAdminContext" routerLink="/admin/dashboard">
+          <i class="bi bi-shield-lock me-2"></i> Admin Mode
+        </button>
+        <button class="btn btn-sm text-start" [class.btn-primary]="isClientContext" [class.btn-light]="!isClientContext" routerLink="/client/dashboard">
+          <i class="bi bi-person me-2"></i> Client Mode
+        </button>
+      </div>
     </div>
   </div>
 </div>

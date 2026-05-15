@@ -244,7 +244,7 @@
               <h2 class="text-4xl lg:text-5xl font-black text-slate-900 mb-6 tracking-tighter">{{ group.category.name }}</h2>
               <p class="text-slate-500 text-lg">Specialized enterprise solutions for your startup's {{ group.category.name.toLowerCase() }} needs, ensuring compliance and efficiency.</p>
             </div>
-            <a [routerLink]="['/client/catalogue']" [queryParams]="{ categoryId: group.category.id }" 
+            <a [routerLink]="['/catalogue']" [queryParams]="{ categoryId: group.category.id }" 
                class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-black text-xs uppercase tracking-widest text-white whitespace-nowrap shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
                [style.background-color]="getCategoryButtonColor(i)">
               View All {{ group.category.name }} <i class="bi bi-arrow-right"></i>

@@ -47,7 +47,7 @@ export class RequestForm implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/client/catalogue']);
+    this.router.navigate(['/catalogue']);
   }
 
   onFileSelected(event: any) {
@@ -139,6 +139,7 @@ export class RequestForm implements OnInit {
 
     const requestData = {
       userId: this.authService.currentUser.id,
+      clientEmail: this.authService.currentUser.email,
       serviceId: this.selectedService.id,
       serviceName: this.selectedService.name,
       categoryName: this.selectedService.categoryName,

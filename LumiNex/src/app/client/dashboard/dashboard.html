@@ -5,7 +5,7 @@
       <div class="welcome-banner p-5 rounded-5 shadow-premium text-white position-relative overflow-hidden mb-4">
         <div class="position-relative z-10">
           <h1 class="display-5 fw-black mb-2">Welcome back, {{ authService.currentUser?.name }}! 👋</h1>
-          <p class="lead opacity-75 mb-0">Your LumiNex startup dashboard is up to date.</p>
+          <p class="lead opacity-75 mb-0">Your LumiNex startup dashboard is up to date. <span class="fw-bold">(User ID: {{ authService.currentUser?.id }})</span></p>
         </div>
         <!-- Decorative circles -->
         <div class="circle-decoration decoration-1"></div>
@@ -84,7 +84,7 @@
                       <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" class="bi bi-inbox text-primary opacity-25 mb-4" viewBox="0 0 16 16">
                         <path d="M4.98 4a.5.5 0 0 0-.39.188L1.54 8H6a.5.5 0 0 1 .5.5 1.5 1.5 0 1 0 3 0A.5.5 0 0 1 10 8h4.46l-3.05-3.812A.5.5 0 0 0 11.02 4H4.98zm-1.17-.437A1.5 1.5 0 0 1 4.98 3h6.04a1.5 1.5 0 0 1 1.17.563l3.7 4.625A.5.5 0 0 1 16 8.5V13a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V8.5a.5.5 0 0 1 .19-.312l3.7-4.625zM1 8.5V13a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8.5h-4.1a2.5 2.5 0 0 1-4.9 0H1z"/>
                       </svg>
-                      <p class="text-muted fw-medium mb-0">No requests found. <a routerLink="/client/catalogue" class="text-primary fw-bold text-decoration-none">Start a new project</a></p>
+                      <p class="text-muted fw-medium mb-0">No requests found. <a routerLink="/catalogue" class="text-primary fw-bold text-decoration-none">Start a new project</a></p>
                     </div>
                   </td>
                 </tr>

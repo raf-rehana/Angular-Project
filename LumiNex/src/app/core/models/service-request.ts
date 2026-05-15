@@ -12,6 +12,7 @@ export interface ServiceRequest {
   serviceId: string | number;
   serviceName: string;
   categoryName: string;
+  clientEmail?: string;
   assignedTo?: string | number;
   status: 'PENDING' | 'ASSIGNED' | 'IN_PROGRESS' | 'REVIEW' | 'COMPLETED' | 'REJECTED';
   priority: 'LOW' | 'NORMAL' | 'HIGH' | 'URGENT';

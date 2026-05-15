@@ -1,4 +1,4 @@
-<div class="container-fluid py-5 ps-0 pe-4 min-vh-100 bg-catalogue">
+<div class="container-fluid py-5 px-4 px-lg-5 min-vh-100 bg-catalogue">
   <!-- Header Section - Hidden when filtered by category for a cleaner look -->
   <div class="row mb-5 align-items-center animate-fade-in" *ngIf="!activeCategoryId">
     <div class="col-lg-7">
@@ -86,7 +86,7 @@
             
             <div class="pt-6 border-top border-light d-flex justify-content-between align-items-center mt-auto">
               <span class="text-xs font-black text-slate-400 uppercase tracking-widest">{{ service.price.toLocaleString() }} BDT</span>
-              <button *ngIf="authService.hasRole('CLIENT')" (click)="onServiceRequest(service)" class="text-primary-600 text-xs font-black uppercase tracking-widest text-decoration-none bg-transparent border-0 p-0">
+              <button *ngIf="!authService.hasRole('ADMIN') && !authService.hasRole('EMPLOYEE')" (click)="onServiceRequest(service)" class="text-primary-600 text-xs font-black uppercase tracking-widest text-decoration-none bg-transparent border-0 p-0">
                 Request <i class="bi bi-chevron-right ms-1"></i>
               </button>
             </div>
