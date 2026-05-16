@@ -18,7 +18,22 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) {
     const stored = localStorage.getItem('user');
-    if (stored) this.currentUserSubject.next(JSON.parse(stored));
+    if (stored) {
+      const user = JSON.parse(stored);
+      this.currentUserSubject.next(user);
+      
+      // Verification: Fetch fresh data from backend to sync with db.json
+      this.http.get<User>(`${this.apiUrl}/users/${user.id}`).subscribe({
+        next: (freshUser) => {
+          localStorage.setItem('user', JSON.stringify(freshUser));
+          this.currentUserSubject.next(freshUser);
+        },
+        error: () => {
+          // If user was deleted from db.json but exists in localStorage, clear it
+          this.logout();
+        }
+      });
+    }
   }
 
   login(email: string, password: string): Observable<any> {

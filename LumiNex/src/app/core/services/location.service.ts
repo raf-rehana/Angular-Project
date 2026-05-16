@@ -50,8 +50,10 @@ export class LocationService {
       map(data => {
         if (!data) return [];
         
-        if (countryName === 'Bangladesh') {
-          // Convert JSON structure to LocationNode hierarchy
+        // If Bangladesh or any other country (fallback to BD for demo as requested)
+        const countryToUse = (countryName === 'United States') ? 'United States' : 'Bangladesh';
+
+        if (countryToUse === 'Bangladesh') {
           return data.Bangladesh.map((div: any) => ({
             name: div.name,
             children: div.districts.map((dis: any) => ({
@@ -61,8 +63,7 @@ export class LocationService {
           }));
         }
         
-        // Mock data for others if needed
-        if (countryName === 'United States') {
+        if (countryToUse === 'United States') {
           return [
             { name: 'California', children: [{ name: 'Los Angeles' }, { name: 'San Francisco' }] },
             { name: 'New York', children: [{ name: 'New York City' }] }
@@ -75,9 +76,12 @@ export class LocationService {
   }
 
   getFlattenedHierarchy(countryName: string): Observable<LocationNode[]> {
+    // Determine if we are using the fallback (Bangladesh) logic
+    const isBangladeshOrFallback = countryName !== 'United States';
+
     return this.getHierarchy(countryName).pipe(
       map(hierarchy => {
-        if (countryName === 'Bangladesh') {
+        if (isBangladeshOrFallback) {
           // Flatten Divisions into Districts
           const allDistricts: LocationNode[] = [];
           hierarchy.forEach(division => {
@@ -85,10 +89,8 @@ export class LocationService {
               allDistricts.push(...division.children);
             }
           });
-          // Sort districts alphabetically
           return allDistricts.sort((a, b) => a.name.localeCompare(b.name));
         }
-        // For others, the first level is already what we want (e.g. US States)
         return hierarchy;
       })
     );

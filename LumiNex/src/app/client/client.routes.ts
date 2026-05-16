@@ -8,6 +8,7 @@ import { RequestDetail } from './request-detail/request-detail';
 import { Payments } from './payments/payments';
 import { Profile } from './profile/profile';
 import { PlansComponent } from './plans/plans';
+import { NotificationsComponent } from './notifications/notifications';
 
 export const CLIENT_ROUTES: Routes = [
   { path: 'dashboard', component: Dashboard },
@@ -19,5 +20,6 @@ export const CLIENT_ROUTES: Routes = [
   { path: 'payments', component: Payments },
   { path: 'plans', component: PlansComponent },
   { path: 'profile', component: Profile },
+  { path: 'notifications', component: NotificationsComponent },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
 ];

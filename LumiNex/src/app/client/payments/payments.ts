@@ -43,7 +43,10 @@ export class Payments implements OnInit, OnDestroy {
   initialPlanId: string | null = null;
 
   // Payment history
-  paymentHistory: any[] = [];
+  allPayments: any[] = [];
+  pendingPayments: any[] = [];
+  paidPayments: any[] = [];
+  selectedPendingItem: any | null = null;
   showHistory = false;
 
   get vat()   { return this.selectedPlanPrice * 0.05; }
@@ -94,7 +97,7 @@ export class Payments implements OnInit, OnDestroy {
       }
     });
     this.loadPlans();
-    this.loadHistory();
+    this.loadPayments();
   }
 
   loadPlans() {
@@ -123,18 +126,34 @@ export class Payments implements OnInit, OnDestroy {
     });
   }
 
-  loadHistory() {
+  loadPayments() {
     const user = this.authService.currentUser;
     if (!user) return;
     this.paymentService.getPayments().subscribe({
       next: (data: any[]) => {
-        this.paymentHistory = data
-          .filter(p => p.clientId === user.id)
-          .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-          .slice(0, 5);
+        this.allPayments = data.filter(p => String(p.clientId) === String(user.id));
+        this.pendingPayments = this.allPayments.filter(p => p.status === 'PENDING');
+        this.paidPayments = this.allPayments
+          .filter(p => p.status === 'PAID')
+          .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        
+        // If there are pending payments and none selected, maybe auto-select first one
+        // but let's keep it manual for better UX.
       },
       error: () => {}
     });
+  }
+
+  selectPendingPayment(payment: any) {
+    this.selectedPendingItem = payment;
+    this.selectedPlanId = payment.id; // Use payment ID as plan ID for initiation
+    this.selectedPlanName = payment.item;
+    this.selectedPlanPrice = payment.amount;
+    
+    // Scroll to payment methods
+    setTimeout(() => {
+      document.querySelector('.method-tabs')?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
   }
 
   onPlanChange(id: string) {
@@ -174,7 +193,7 @@ export class Payments implements OnInit, OnDestroy {
         this.paymentStatus = 'success';
         this.tranId = 'CASH-' + Date.now();
         this.triggerAutoInvoice();
-        this.loadHistory();
+        this.loadPayments();
       },
       error: () => {
         this.loadingPayment = false;
@@ -195,7 +214,7 @@ export class Payments implements OnInit, OnDestroy {
     const payload: PaymentInitRequest = {
       amount:       this.total,
       currency:     'BDT',
-      planId:       this.selectedPlanId,
+      planId:       this.selectedPendingItem?.id || this.selectedPlanId,
       planName:     this.selectedPlanName,
       clientId:     user?.id || 'guest',
       clientName:   user?.name || 'LumiNex Client',
@@ -224,6 +243,8 @@ export class Payments implements OnInit, OnDestroy {
   generateInvoice(payment: any): void {
     const invoiceDetails = {
       id: payment.id,
+      orderId: payment.id, // Explicitly labeled for clarify
+      clientId: payment.clientId || this.authService.currentUser?.id || 'N/A',
       clientName: payment.client,
       clientEmail: payment.email || this.authService.currentUser?.email || '',
       service: payment.item,
@@ -241,6 +262,7 @@ export class Payments implements OnInit, OnDestroy {
     setTimeout(() => {
       const mockPayment = {
         id: this.tranId || 'INV-' + Date.now(),
+        clientId: this.authService.currentUser?.id || 'N/A',
         client: this.authService.currentUser?.name || 'Client',
         email: this.authService.currentUser?.email || '',
         item: this.selectedPlanName || 'Service Payment',

@@ -30,6 +30,7 @@ export class Profile implements OnInit {
   village: string = '';
   
   loading = false;
+  isEditMode = false;
   currentPlan: string | null = null;
 
   constructor(
@@ -180,6 +181,7 @@ export class Profile implements OnInit {
     this.authService.updateProfile(this.user).subscribe({
       next: () => {
         this.loading = false;
+        this.isEditMode = false;
         this.toastService.success('Profile updated successfully!');
       },
       error: () => {
@@ -187,5 +189,14 @@ export class Profile implements OnInit {
         this.toastService.error('Error updating profile.');
       }
     });
+  }
+
+  toggleEdit() {
+    this.isEditMode = !this.isEditMode;
+    if (!this.isEditMode) {
+      // Reset user copy to original if cancelling
+      this.user = this.authService.currentUser ? { ...this.authService.currentUser } : null;
+      this.parseUserAddress();
+    }
   }
 }

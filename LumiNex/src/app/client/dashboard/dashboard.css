@@ -104,6 +104,18 @@
   box-shadow: 0 15px 30px rgba(13, 110, 253, 0.4);
 }
 
-.fw-black { font-weight: 900; }
-.tracking-widest { letter-spacing: 0.15em; }
-.x-small { font-size: 0.65rem; }
+.stat-number {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.font-professional {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.fw-black { font-weight: 700; }
+.fw-bold  { font-weight: 700; }
+.fw-semibold { font-weight: 600; }
+.tracking-widest { letter-spacing: 0.1em; }
+.x-small { font-size: 0.7rem; }

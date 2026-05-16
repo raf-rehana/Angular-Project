@@ -14,4 +14,5 @@ export interface User {
   address?: string;
   district?: string;
   policeStation?: string;
+  country?: string;
 }

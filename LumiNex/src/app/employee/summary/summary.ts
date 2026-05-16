@@ -4,6 +4,7 @@ import { RequestService } from '../../core/services/request.service';
 import { AuthService } from '../../core/services/auth.service';
 import { ServiceRequest } from '../../core/models/service-request';
 import { RouterModule } from '@angular/router';
+import { interval, Subscription, startWith, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-summary',
@@ -24,6 +25,7 @@ export class SummaryComponent implements OnInit {
   avgResolutionDays = 0;
   thisMonthCompleted = 0;
   lastMonthCompleted = 0;
+  private pollSubscription?: Subscription;
 
   constructor(
     private requestService: RequestService,
@@ -38,7 +40,10 @@ export class SummaryComponent implements OnInit {
   loadData() {
     const user = this.authService.currentUser;
     if (user) {
-      this.requestService.getAllRequests().subscribe(data => {
+      this.pollSubscription = interval(10000).pipe(
+        startWith(0),
+        switchMap(() => this.requestService.getAllRequests())
+      ).subscribe(data => {
         this.myTasks = data.filter(t => t.assignedTo === user.id || t.assignedTo === undefined);
 
         this.activeCount = this.myTasks.filter(t => t.status === 'IN_PROGRESS' || t.status === 'ASSIGNED').length;
@@ -77,5 +82,9 @@ export class SummaryComponent implements OnInit {
         this.cdr.detectChanges();
       });
     }
+  }
+
+  ngOnDestroy() {
+    this.pollSubscription?.unsubscribe();
   }
 }

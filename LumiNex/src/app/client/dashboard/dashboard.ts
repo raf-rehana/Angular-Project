@@ -6,6 +6,7 @@ import { ServiceRequest } from '../../core/models/service-request';
 import { PaymentService } from '../../core/services/payment.service';
 import { StatusBadgeComponent } from '../../shared/components/status-badge/status-badge';
 import { RouterModule } from '@angular/router';
+import { interval, Subscription, startWith, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,6 +21,8 @@ export class Dashboard implements OnInit {
   activeProjects: number = 0;
   amountSpent: number = 0;
   upcomingDeliveries: number = 0;
+  avgProgress: number = 0;
+  private pollSubscription?: Subscription;
   
   constructor(
     private requestService: RequestService,
@@ -30,26 +33,47 @@ export class Dashboard implements OnInit {
   ngOnInit() {
     const user = this.authService.currentUser;
     if (user) {
-      this.requestService.getMyRequests(user.id).subscribe(data => {
+      // Poll requests and payments every 10 seconds
+      this.pollSubscription = interval(10000).pipe(
+        startWith(0),
+        switchMap(() => this.requestService.getMyRequests(user.id))
+      ).subscribe(data => {
         this.requests = data;
-        this.activeProjects = this.requests.filter(r => r.status === 'IN_PROGRESS' || r.status === 'ASSIGNED').length;
+        const active = this.requests.filter(r => r.status === 'IN_PROGRESS' || r.status === 'ASSIGNED');
+        this.activeProjects = active.length;
         this.upcomingDeliveries = this.requests.filter(r => r.status === 'REVIEW' || r.status === 'IN_PROGRESS').length;
-      });
-      
-      this.paymentService.getPayments().subscribe(payments => {
-        const userPayments = payments
-          .filter(p => p.clientId === user.id && (p.status === 'PAID' || p.status === 'PENDING'))
-          .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-          
-        if (userPayments.length > 0) {
-          this.activeSubscription = userPayments[0];
-        }
         
-        this.amountSpent = userPayments
-          .filter(p => p.status === 'PAID' || p.status === 'PENDING')
-          .reduce((sum, p) => sum + (p.amount || 0), 0);
+        if (active.length > 0) {
+          const totalProgress = active.reduce((sum, r) => sum + (r.progress || 0), 0);
+          this.avgProgress = Math.round(totalProgress / active.length);
+        } else {
+          this.avgProgress = 0;
+        }
+      });
+
+      // Also refresh payments periodically
+      this.paymentService.getPayments().subscribe(payments => {
+        this.updatePaymentStats(payments, user.id);
       });
     }
+  }
+
+  private updatePaymentStats(payments: any[], userId: string | number) {
+    const userPayments = payments
+      .filter(p => String(p.clientId) === String(userId) && (p.status === 'PAID' || p.status === 'PENDING'))
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      
+    if (userPayments.length > 0) {
+      this.activeSubscription = userPayments[0];
+    }
+    
+    this.amountSpent = userPayments
+      .filter(p => p.status === 'PAID' || p.status === 'PENDING')
+      .reduce((sum, p) => sum + (p.amount || 0), 0);
+  }
+
+  ngOnDestroy() {
+    this.pollSubscription?.unsubscribe();
   }
 
   get recentRequests() {

@@ -4,8 +4,8 @@
     <div class="col-12">
       <div class="welcome-banner p-5 rounded-5 shadow-premium text-white position-relative overflow-hidden mb-4">
         <div class="position-relative z-10">
-          <h1 class="display-5 fw-black mb-2">Welcome back, {{ authService.currentUser?.name }}! 👋</h1>
-          <p class="lead opacity-75 mb-0">Your LumiNex startup dashboard is up to date. <span class="fw-bold">(User ID: {{ authService.currentUser?.id }})</span></p>
+          <h1 class="fs-1 fw-bold mb-2">Welcome back, {{ authService.currentUser?.name }}! 👋</h1>
+          <p class="lead opacity-75 mb-0 font-professional">Your LumiNex startup dashboard is up to date. <span class="fw-semibold">(User ID: {{ authService.currentUser?.id }})</span></p>
         </div>
         <!-- Decorative circles -->
         <div class="circle-decoration decoration-1"></div>
@@ -19,8 +19,8 @@
       <div class="row g-4 h-100">
         <div class="col-md-4">
           <div class="card border-0 shadow-premium-sm rounded-5 stats-card-gradient text-white h-100 p-5">
-            <h6 class="text-white text-opacity-75 text-uppercase fw-black small mb-2 tracking-widest">Active Projects</h6>
-            <h1 class="display-3 fw-black mb-0">{{ activeProjects }}</h1>
+            <h6 class="text-white text-opacity-75 text-uppercase fw-bold small mb-2 tracking-widest">Active Projects</h6>
+            <h1 class="stat-number fw-bold mb-0">{{ activeProjects }}</h1>
             <div class="mt-4">
               <a routerLink="/client/my-requests" class="btn btn-sm btn-glass rounded-pill fw-bold">Manage <i class="bi bi-arrow-right ms-1"></i></a>
             </div>
@@ -31,8 +31,8 @@
             <div class="position-absolute top-0 end-0 p-4 opacity-10">
               <i class="bi bi-wallet2 display-1 text-primary"></i>
             </div>
-            <h6 class="text-muted text-uppercase fw-black small mb-2 tracking-widest">Amount Spent</h6>
-            <h1 class="display-4 fw-black text-dark mb-0">৳{{ amountSpent | number }}</h1>
+            <h6 class="text-muted text-uppercase fw-bold small mb-2 tracking-widest">Amount Spent</h6>
+            <h1 class="stat-number fw-bold text-dark mb-0">৳{{ amountSpent | number }}</h1>
           </div>
         </div>
         <div class="col-md-4">
@@ -40,8 +40,8 @@
             <div class="position-absolute top-0 end-0 p-4 opacity-10">
               <i class="bi bi-calendar-check display-1 text-dark"></i>
             </div>
-            <h6 class="text-muted text-uppercase fw-black small mb-2 tracking-widest">Upcoming Deliveries</h6>
-            <h1 class="display-4 fw-black text-dark mb-0">{{ upcomingDeliveries }}</h1>
+            <h6 class="text-muted text-uppercase fw-bold small mb-2 tracking-widest">Upcoming Deliveries</h6>
+            <h1 class="stat-number fw-bold text-dark mb-0">{{ upcomingDeliveries }}</h1>
           </div>
         </div>
       </div>
@@ -50,7 +50,7 @@
     <div class="col-lg-12 mt-4">
       <div class="card border-0 shadow-premium-sm rounded-5 h-100">
         <div class="card-header bg-white border-0 pt-5 pb-0 px-5 d-flex justify-content-between align-items-center">
-          <h4 class="fw-black text-dark mb-0">Recent Activity</h4>
+          <h4 class="fw-bold text-dark mb-0">Recent Activity</h4>
           <a routerLink="/client/my-requests" class="btn btn-sm btn-light rounded-pill px-4 py-2 fw-bold">View History</a>
         </div>
         <div class="card-body p-5">
@@ -59,8 +59,8 @@
               <thead>
                 <tr class="text-muted small text-uppercase tracking-widest">
                   <th class="border-0 ps-0">Service Details</th>
-                  <th class="border-0">Requested Date</th>
-                  <th class="border-0">Current Status</th>
+                  <th class="border-0 text-center">Progress</th>
+                  <th class="border-0 text-center">Status</th>
                   <th class="border-0 text-end pe-0">Action</th>
                 </tr>
               </thead>
@@ -70,8 +70,15 @@
                     <div class="fw-bold text-dark fs-6">{{ req.serviceName }}</div>
                     <div class="x-small text-primary fw-black text-uppercase">{{ req.categoryName }}</div>
                   </td>
-                  <td class="text-muted small">{{ req.createdAt | date:'mediumDate' }}</td>
-                  <td><app-status-badge [status]="req.status"></app-status-badge></td>
+                  <td style="min-width: 150px;">
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="progress-premium flex-grow-1" style="height: 6px;">
+                        <div class="progress-bar-premium bg-primary" role="progressbar" [style.width.%]="req.progress || 0"></div>
+                      </div>
+                      <span class="x-small fw-bold text-muted">{{ req.progress || 0 }}%</span>
+                    </div>
+                  </td>
+                  <td class="text-center"><app-status-badge [status]="req.status"></app-status-badge></td>
                   <td class="text-end pe-0">
                     <button class="btn btn-icon-round" [routerLink]="['/client/request-detail', req.id]">
                       <i class="bi bi-chevron-right"></i>
@@ -100,33 +107,33 @@
   <div class="row g-4" *ngIf="activeSubscription; else noSubscription">
     <div class="col-lg-7">
       <div class="card border-0 shadow-premium-sm rounded-5 p-5 h-100">
-        <h4 class="fw-black text-dark mb-5">Performance Analytics</h4>
+        <h4 class="fw-bold text-dark mb-5">Performance Analytics</h4>
         <div class="d-flex flex-column gap-5">
           <div class="analytics-item">
             <div class="d-flex justify-content-between mb-3">
               <span class="small fw-black text-muted text-uppercase tracking-widest">Infrastructure Utilization</span>
-              <span class="badge bg-primary-soft text-primary rounded-pill">85% Optimal</span>
+              <span class="badge bg-primary-soft text-primary rounded-pill">{{ activeProjects > 0 ? 'Optimal' : 'Idle' }}</span>
             </div>
             <div class="progress-premium" style="height: 10px;">
-              <div class="progress-bar-premium bg-primary" role="progressbar" style="width: 85%"></div>
+              <div class="progress-bar-premium bg-primary" role="progressbar" [style.width.%]="activeProjects * 20 > 100 ? 100 : activeProjects * 20"></div>
             </div>
           </div>
           <div class="analytics-item">
             <div class="d-flex justify-content-between mb-3">
-              <span class="small fw-black text-muted text-uppercase tracking-widest">Budget Allocation</span>
-              <span class="small fw-bold text-dark">1,32,000 / 2,20,000 <span class="text-primary opacity-50">BDT</span> Spent</span>
+              <span class="small fw-black text-muted text-uppercase tracking-widest">Budget Utilization</span>
+              <span class="small fw-bold text-dark">৳{{ amountSpent | number }} <span class="text-primary opacity-50">Spent</span></span>
             </div>
             <div class="progress-premium" style="height: 10px;">
-              <div class="progress-bar-premium bg-success" role="progressbar" style="width: 60%"></div>
+              <div class="progress-bar-premium bg-success" role="progressbar" [style.width.%]="amountSpent / 250000 * 100 > 100 ? 100 : amountSpent / 250000 * 100"></div>
             </div>
           </div>
           <div class="analytics-item">
             <div class="d-flex justify-content-between mb-3">
-              <span class="small fw-black text-muted text-uppercase tracking-widest">Team Response Rate</span>
-              <span class="small fw-bold text-dark">Avg 2.4 Hours</span>
+              <span class="small fw-black text-muted text-uppercase tracking-widest">Project Progress (Avg)</span>
+              <span class="small fw-bold text-dark">{{ requests.length > 0 ? avgProgress + '%' : 'No Active Tasks' }}</span>
             </div>
             <div class="progress-premium" style="height: 10px;">
-              <div class="progress-bar-premium bg-warning" role="progressbar" style="width: 45%"></div>
+              <div class="progress-bar-premium bg-warning" role="progressbar" [style.width.%]="avgProgress"></div>
             </div>
           </div>
         </div>

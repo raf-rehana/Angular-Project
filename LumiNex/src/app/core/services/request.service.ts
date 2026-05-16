@@ -29,9 +29,10 @@ export class RequestService {
     return this.http.post<ServiceRequest>(this.api, data);
   }
 
-  updateStatus(id: string | number, status: string, employeeNotes?: string, workedHours?: number): Observable<ServiceRequest> {
+  updateStatus(id: string | number, status: string, employeeNotes?: string, workedHours?: number, progress?: number): Observable<ServiceRequest> {
     const payload: any = { status, employeeNotes };
     if (workedHours !== undefined) payload.workedHours = workedHours;
+    if (progress !== undefined) payload.progress = progress;
     return this.http.patch<ServiceRequest>(`${this.api}/${id}`, payload);
   }
 

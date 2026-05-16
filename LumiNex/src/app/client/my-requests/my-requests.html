@@ -60,7 +60,16 @@
           <div>
             <span class="badge bg-light text-primary border border-primary px-2 py-1 rounded mb-2">#REQ-{{ selectedRequest.id }}</span>
             <h5 class="fw-bold mb-0">{{ selectedRequest.serviceName }}</h5>
-            <div class="small text-muted">{{ selectedRequest.categoryName }}</div>
+            <div class="small text-muted mb-2">{{ selectedRequest.categoryName }}</div>
+            <div class="mb-3" *ngIf="selectedRequest.status !== 'PENDING'">
+              <div class="d-flex justify-content-between mb-1">
+                <span class="x-small fw-bold text-muted text-uppercase">Working Progress</span>
+                <span class="x-small fw-bold text-primary">{{ selectedRequest.progress || 0 }}%</span>
+              </div>
+              <div class="progress" style="height: 6px;">
+                <div class="progress-bar bg-primary" role="progressbar" [style.width.%]="selectedRequest.progress || 0"></div>
+              </div>
+            </div>
           </div>
           <button type="button" class="btn-close" (click)="selectedRequest = null"></button>
         </div>
@@ -91,8 +100,8 @@
           </div>
           
           <div class="d-grid gap-2">
-            <button class="btn btn-outline-danger" *ngIf="selectedRequest.status === 'PENDING'">Cancel Request</button>
-            <button class="btn btn-primary" *ngIf="selectedRequest.status === 'REVIEW'">View Deliverables</button>
+            <button class="btn btn-outline-danger" *ngIf="selectedRequest.status === 'PENDING'" (click)="cancelRequest()">Cancel Request</button>
+            <button class="btn btn-primary" *ngIf="selectedRequest.status === 'REVIEW' || selectedRequest.status === 'COMPLETED'" (click)="viewDeliverables()">View Deliverables</button>
           </div>
         </div>
       </div>

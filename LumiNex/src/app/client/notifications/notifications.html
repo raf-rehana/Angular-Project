@@ -1,0 +1,114 @@
+<div class="notifications-page container-fluid py-5 px-lg-5">
+
+  <!-- Page Header -->
+  <div class="row mb-5">
+    <div class="col-12">
+      <div class="notif-banner p-5 rounded-5 shadow-premium text-white position-relative overflow-hidden">
+        <div class="position-relative z-10 d-flex align-items-center justify-content-between flex-wrap gap-3">
+          <div>
+            <h1 class="display-6 fw-black mb-1">
+              <i class="bi bi-bell me-3"></i>Notifications
+            </h1>
+            <p class="mb-0 opacity-75">
+              You have <strong>{{ unreadCount }}</strong> unread notification{{ unreadCount !== 1 ? 's' : '' }}
+            </p>
+          </div>
+          <button
+            class="btn btn-glass rounded-pill px-4 py-2 fw-bold"
+            (click)="markAllRead()"
+            [disabled]="unreadCount === 0"
+            id="mark-all-read-btn">
+            <i class="bi bi-check2-all me-2"></i>Mark All as Read
+          </button>
+        </div>
+        <div class="circle-decoration decoration-1"></div>
+        <div class="circle-decoration decoration-2"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter Tabs -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="d-flex gap-2">
+        <button
+          class="btn rounded-pill px-4 py-2 fw-bold"
+          [class.btn-primary-tab]="filter === 'all'"
+          [class.btn-outline-tab]="filter !== 'all'"
+          (click)="filter = 'all'"
+          id="filter-all-btn">
+          All <span class="badge rounded-pill ms-2" [class.bg-primary]="filter === 'all'" [class.bg-secondary]="filter !== 'all'">{{ notifications.length }}</span>
+        </button>
+        <button
+          class="btn rounded-pill px-4 py-2 fw-bold"
+          [class.btn-primary-tab]="filter === 'unread'"
+          [class.btn-outline-tab]="filter !== 'unread'"
+          (click)="filter = 'unread'"
+          id="filter-unread-btn">
+          Unread <span class="badge rounded-pill ms-2" [class.bg-primary]="filter === 'unread'" [class.bg-danger]="filter !== 'unread'">{{ unreadCount }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="row">
+    <div class="col-12 text-center py-5">
+      <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="text-muted mt-3 fw-medium">Loading notifications...</p>
+    </div>
+  </div>
+
+  <!-- Notifications List -->
+  <div *ngIf="!isLoading" class="row g-3">
+
+    <!-- Empty State -->
+    <div *ngIf="filteredNotifications.length === 0" class="col-12">
+      <div class="card border-0 shadow-premium-sm rounded-5 p-5 text-center bg-white">
+        <div class="py-5">
+          <i class="bi bi-bell-slash display-1 text-primary opacity-25 mb-4 d-block"></i>
+          <h4 class="fw-black text-dark mb-2">No notifications yet</h4>
+          <p class="text-muted mb-4">
+            {{ filter === 'unread' ? 'All caught up! No unread notifications.' : 'You have no notifications at the moment.' }}
+          </p>
+          <a routerLink="/client/dashboard" class="btn btn-primary-premium rounded-pill px-5 py-2 fw-bold">
+            <i class="bi bi-house me-2"></i>Back to Dashboard
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notification Cards -->
+    <div *ngFor="let notif of filteredNotifications" class="col-12">
+      <div
+        class="notif-card card border-0 rounded-4 px-4 py-3 d-flex flex-row align-items-start gap-4 cursor-pointer"
+        [class.unread]="!notif.isRead"
+        (click)="markRead(notif)"
+        [id]="'notif-' + notif.id">
+
+        <!-- Icon -->
+        <div class="notif-icon-wrap flex-shrink-0 rounded-3 d-flex align-items-center justify-content-center" [ngClass]="getTypeColor(notif.type)">
+          <i class="bi fs-4" [ngClass]="getTypeIcon(notif.type)"></i>
+        </div>
+
+        <!-- Content -->
+        <div class="flex-grow-1 min-w-0">
+          <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-1">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+              <span class="fw-black text-dark">{{ notif.title }}</span>
+              <span class="badge rounded-pill type-badge small">{{ getTypeLabel(notif.type) }}</span>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+              <span *ngIf="!notif.isRead" class="unread-dot"></span>
+              <span class="text-muted small fw-medium text-nowrap">{{ notif.createdAt | date:'MMM d, y · h:mm a' }}</span>
+            </div>
+          </div>
+          <p class="text-muted mb-0 small">{{ notif.message }}</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
