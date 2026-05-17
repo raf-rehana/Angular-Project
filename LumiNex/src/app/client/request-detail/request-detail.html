@@ -3,9 +3,6 @@
     <div class="col-lg-9">
       <!-- Header -->
       <div class="d-flex align-items-center mb-4">
-        <button class="btn btn-light rounded-circle me-3" (click)="goBack()">
-          <i class="bi bi-arrow-left"></i>
-        </button>
         <div class="flex-grow-1">
           <div class="d-flex align-items-center gap-3 mb-1">
             <h2 class="fw-bold text-dark mb-0">Request Details</h2>
@@ -88,16 +85,39 @@
         <!-- Sidebar -->
         <div class="col-lg-4">
           <!-- Payment Card -->
-          <div class="card border-0 shadow-sm rounded-4 p-4 mb-4" *ngIf="request.status !== 'COMPLETED'">
+          <!-- Payment Card -->
+          <div class="card border-0 shadow-sm rounded-4 p-4 mb-4" *ngIf="request.status === 'PENDING'">
             <h6 class="fw-bold text-muted text-uppercase small mb-3">Service Fee</h6>
             <div class="d-flex align-items-baseline mb-4">
               <h3 class="fw-bold text-dark mb-0">{{ getServicePrice() }} <span class="fs-6 opacity-50">BDT</span></h3>
               <span class="ms-2 text-muted small">One-time fee</span>
             </div>
-            <button class="btn btn-primary w-100 rounded-pill py-3 fw-bold shadow-sm" (click)="pay()">
+            
+            <!-- Standard Pay Now button if NO payment exists yet -->
+            <button class="btn btn-primary w-100 rounded-pill py-3 fw-bold shadow-sm" (click)="pay()" *ngIf="!getPaymentForRequest()">
               Pay Online Now
             </button>
-            <p class="x-small text-muted text-center mt-3 mb-0">Secure payment powered by SSLCommerz</p>
+            
+            <!-- If payment is pending approval -->
+            <div class="alert alert-warning border-0 rounded-3 mb-0 text-center small" *ngIf="getPaymentForRequest()?.status === 'PENDING'">
+              <i class="bi bi-clock-history me-1"></i> Payment Awaiting Verification
+            </div>
+
+            <!-- If payment is PAID -->
+            <div class="alert alert-success border-0 rounded-3 mb-0 text-center small" *ngIf="getPaymentForRequest()?.status === 'PAID'">
+              <i class="bi bi-check-circle-fill me-1"></i> Payment Verified
+            </div>
+            
+            <p class="x-small text-muted text-center mt-3 mb-0" *ngIf="!getPaymentForRequest()">Secure payment powered by SSLCommerz</p>
+          </div>
+
+          <!-- Paid Card -->
+          <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-success-soft text-success border border-success-subtle" *ngIf="request.status !== 'PENDING' && request.status !== 'COMPLETED' && request.status !== 'REJECTED'">
+            <h6 class="fw-bold text-uppercase small mb-3"><i class="bi bi-shield-check me-1"></i> Payment Verified</h6>
+            <div class="d-flex align-items-baseline mb-3">
+              <h3 class="fw-bold mb-0">BDT {{ getServicePrice() }}</h3>
+            </div>
+            <p class="small mb-0 opacity-75">Your project is fully funded. Our team has initiated the service!</p>
           </div>
           <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 text-center bg-primary text-white">
             <div class="mb-3"><i class="bi bi-question-circle fs-1 opacity-50"></i></div>

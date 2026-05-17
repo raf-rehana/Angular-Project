@@ -78,6 +78,9 @@
               </td>
               <td class="py-3 text-center">
                 <div class="d-flex gap-2 justify-content-center">
+                  <button *ngIf="p.status === 'PENDING'" class="btn btn-sm btn-success" (click)="approvePayment(p)" title="Approve Payment">
+                    <i class="bi bi-check-lg"></i>
+                  </button>
                   <button class="btn btn-sm btn-outline-secondary" (click)="generateInvoice(p)">
                     <i class="bi bi-file-earmark-pdf"></i>
                   </button>

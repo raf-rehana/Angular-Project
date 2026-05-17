@@ -142,12 +142,31 @@
                         <i class="bi bi-geo-alt-fill"></i>
                       </div>
                       <div class="flex-grow-1">
-                        <label class="x-small text-muted text-uppercase fw-bold tracking-widest mb-1 d-block">Mailing Address</label>
-                        <div class="fs-5 fw-bold text-dark mb-1">{{ user.address || 'No address provided' }}</div>
-                        <div class="small text-muted d-flex align-items-center">
-                          <span *ngIf="user.policeStation">{{ user.policeStation }} <span class="mx-2">•</span></span>
-                          <span *ngIf="user.district">{{ user.district }} <span class="mx-2">•</span></span>
-                          {{ user.country || 'Bangladesh' }}
+                        <label class="x-small text-muted text-uppercase fw-bold tracking-widest mb-2 d-block">Mailing Address</label>
+                        <div class="row g-3">
+                          <div class="col-sm-12 mb-1">
+                            <div class="fs-5 fw-bold text-dark">{{ user.village || user.address || 'No address provided' }}</div>
+                          </div>
+                          
+                          <div class="col-sm-6 col-md-3" *ngIf="user.thana || user.policeStation">
+                            <label class="x-small text-muted text-uppercase fw-bold tracking-widest mb-0 d-block">Thana / Area</label>
+                            <div class="fw-bold text-dark small">{{ user.thana || user.policeStation }}</div>
+                          </div>
+                          
+                          <div class="col-sm-6 col-md-3" *ngIf="user.district">
+                            <label class="x-small text-muted text-uppercase fw-bold tracking-widest mb-0 d-block">District</label>
+                            <div class="fw-bold text-dark small">{{ user.district }}</div>
+                          </div>
+                          
+                          <div class="col-sm-6 col-md-3" *ngIf="user.division">
+                            <label class="x-small text-muted text-uppercase fw-bold tracking-widest mb-0 d-block">Division</label>
+                            <div class="fw-bold text-dark small">{{ user.division }}</div>
+                          </div>
+                          
+                          <div class="col-sm-6 col-md-3" *ngIf="user.country">
+                            <label class="x-small text-muted text-uppercase fw-bold tracking-widest mb-0 d-block">Country</label>
+                            <div class="fw-bold text-dark small">{{ user.country }}</div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -203,11 +222,19 @@
                     </select>
                   </div>
                   
-                  <ng-container *ngIf="districts.length > 0">
+                  <ng-container *ngIf="divisions.length > 0">
                     <div class="col-md-6">
-                      <label class="form-label small fw-bold text-muted text-uppercase tracking-widest">District / State</label>
+                      <label class="form-label small fw-bold text-muted text-uppercase tracking-widest">Division / State</label>
+                      <select class="form-select bg-light border-0 py-3 rounded-4" [(ngModel)]="selectedDivision" name="division" (change)="onDivisionChange()">
+                        <option value="">Select Division / State</option>
+                        <option *ngFor="let div of divisions" [value]="div.name">{{ div.name }}</option>
+                      </select>
+                    </div>
+                    
+                    <div class="col-md-6" *ngIf="districts.length > 0">
+                      <label class="form-label small fw-bold text-muted text-uppercase tracking-widest">District / City</label>
                       <select class="form-select bg-light border-0 py-3 rounded-4" [(ngModel)]="selectedDistrict" name="district" (change)="onDistrictChange()">
-                        <option value="">Select District / State</option>
+                        <option value="">Select District / City</option>
                         <option *ngFor="let dis of districts" [value]="dis.name">{{ dis.name }}</option>
                       </select>
                     </div>
@@ -268,6 +295,9 @@
                 <i class="bi bi-shield-lock me-2"></i> Admin Panel
               </a>
               <a routerLink="/employee/summary" class="btn btn-light w-100 rounded-pill py-3 small fw-bold text-dark border-0" *ngIf="user.role === 'EMPLOYEE'">
+                <i class="bi bi-speedometer2 me-2"></i> Dashboard
+              </a>
+              <a routerLink="/employee/my-tasks" class="btn btn-light w-100 rounded-pill py-3 small fw-bold text-dark border-0" *ngIf="user.role === 'EMPLOYEE'">
                 <i class="bi bi-list-task me-2"></i> My Tasks
               </a>
             </div>

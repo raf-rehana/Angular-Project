@@ -14,12 +14,15 @@ export interface Payment {
   status: 'PAID' | 'PENDING' | 'FAILED' | 'REFUNDED';
   date: string;
   tranId?: string;
+  requestId?: string | number;
 }
 
 export interface PaymentInitRequest {
   amount: number;
   currency?: string;
   planId?: string | number;
+  paymentId?: string | number;
+  requestId?: string | number;
   planName?: string;
   clientId: string | number;
   clientName?: string;

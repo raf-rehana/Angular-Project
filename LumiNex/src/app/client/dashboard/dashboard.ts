@@ -18,6 +18,7 @@ import { interval, Subscription, startWith, switchMap } from 'rxjs';
 export class Dashboard implements OnInit {
   requests: ServiceRequest[] = [];
   activeSubscription: any = null;
+  pendingInvoice: any = null;
   activeProjects: number = 0;
   amountSpent: number = 0;
   upcomingDeliveries: number = 0;
@@ -33,8 +34,8 @@ export class Dashboard implements OnInit {
   ngOnInit() {
     const user = this.authService.currentUser;
     if (user) {
-      // Poll requests and payments every 10 seconds
-      this.pollSubscription = interval(10000).pipe(
+      // Poll requests and payments every 5 seconds for more responsive dashboard
+      this.pollSubscription = interval(5000).pipe(
         startWith(0),
         switchMap(() => this.requestService.getMyRequests(user.id))
       ).subscribe(data => {
@@ -49,27 +50,34 @@ export class Dashboard implements OnInit {
         } else {
           this.avgProgress = 0;
         }
-      });
 
-      // Also refresh payments periodically
-      this.paymentService.getPayments().subscribe(payments => {
-        this.updatePaymentStats(payments, user.id);
+        // Also refresh payments on each poll
+        this.paymentService.getPayments().subscribe(payments => {
+          this.updatePaymentStats(payments, user.id);
+        });
       });
     }
   }
 
   private updatePaymentStats(payments: any[], userId: string | number) {
-    const userPayments = payments
-      .filter(p => String(p.clientId) === String(userId) && (p.status === 'PAID' || p.status === 'PENDING'))
+    const userPayments = payments.filter(p => String(p.clientId) === String(userId));
+    
+    // Latest PAID payment is the active subscription
+    const paidPayments = userPayments
+      .filter(p => p.status === 'PAID')
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
       
-    if (userPayments.length > 0) {
-      this.activeSubscription = userPayments[0];
-    }
+    this.activeSubscription = paidPayments.length > 0 ? paidPayments[0] : null;
     
-    this.amountSpent = userPayments
-      .filter(p => p.status === 'PAID' || p.status === 'PENDING')
-      .reduce((sum, p) => sum + (p.amount || 0), 0);
+    // Amount spent should only include PAID
+    this.amountSpent = paidPayments.reduce((sum, p) => sum + (p.amount || 0), 0);
+
+    // Track any PENDING invoice for the "Pending Action" widget (excluding CASH payments already submitted for approval)
+    const pendingPayments = userPayments
+      .filter(p => p.status === 'PENDING' && p.method !== 'CASH')
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      
+    this.pendingInvoice = pendingPayments.length > 0 ? pendingPayments[0] : null;
   }
 
   ngOnDestroy() {

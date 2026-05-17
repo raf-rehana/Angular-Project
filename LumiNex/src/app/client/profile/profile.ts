@@ -20,9 +20,11 @@ export class Profile implements OnInit {
   countries: Country[] = [];
   selectedCountry: Country | null = null;
   
+  divisions: LocationNode[] = [];
   districts: LocationNode[] = [];
   thanas: LocationNode[] = [];
   
+  selectedDivision: string = '';
   selectedDistrict: string = '';
   selectedThana: string = '';
   
@@ -66,6 +68,9 @@ export class Profile implements OnInit {
       }
     }
 
+    if (this.user.division) {
+      this.selectedDivision = this.user.division;
+    }
     if (this.user.district) {
       this.selectedDistrict = this.user.district;
     }
@@ -97,22 +102,36 @@ export class Profile implements OnInit {
   }
 
   loadHierarchy() {
-    this.locationService.getFlattenedHierarchy(this.selectedCountry?.name || '').subscribe(data => {
-      this.districts = data;
+    this.locationService.getHierarchy(this.selectedCountry?.name || '').subscribe(data => {
+      this.divisions = data;
       // Re-trigger cascade if we have initial values
-      if (this.selectedDistrict) this.onDistrictChange();
+      if (this.selectedDivision) this.onDivisionChange();
     });
   }
 
   onCountryChange() {
+    this.selectedDivision = '';
     this.selectedDistrict = '';
     this.selectedThana = '';
     this.loadHierarchy();
   }
 
+  onDivisionChange() {
+    const division = this.divisions.find(d => d.name === this.selectedDivision);
+    this.districts = division ? (division.children || []) : [];
+    if (this.selectedDistrict && !this.districts.find(d => d.name === this.selectedDistrict)) {
+      this.selectedDistrict = '';
+    }
+    if (this.selectedDistrict) this.onDistrictChange();
+    else this.thanas = [];
+  }
+
   onDistrictChange() {
     const district = this.districts.find(d => d.name === this.selectedDistrict);
     this.thanas = district ? (district.children || []) : [];
+    if (this.selectedThana && !this.thanas.find(t => t.name === this.selectedThana)) {
+      this.selectedThana = '';
+    }
   }
 
   onFileSelected(event: any) {
@@ -174,6 +193,7 @@ export class Profile implements OnInit {
     ].filter(p => !!p);
     
     this.user.address = parts.join(', ');
+    this.user.division = this.selectedDivision;
     this.user.district = this.selectedDistrict;
     this.user.policeStation = this.selectedThana;
     this.user.phone = `${this.selectedCountry?.code} ${this.phoneNumber}`;

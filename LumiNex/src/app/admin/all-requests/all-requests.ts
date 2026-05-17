@@ -27,7 +27,7 @@ import { NotificationService } from '../../core/services/notification.service';
             <i class="bi" [ngClass]="showFilters ? 'bi-x-lg' : 'bi-filter'"></i>
             {{ showFilters ? 'Hide Filters' : 'Filter' }}
           </button>
-          <button class="btn btn-primary"><i class="bi bi-download me-2"></i>Export</button>
+          <button class="btn btn-primary" (click)="exportRequests()"><i class="bi bi-download me-2"></i>Export</button>
         </div>
       </div>
 
@@ -233,6 +233,41 @@ export class AllRequestsComponent implements OnInit {
       this.employee = data;
       this.cdr.detectChanges();
     });
+  }
+
+  exportRequests() {
+    if (this.requests.length === 0) return;
+    
+    // Define headers
+    const headers = ['Request ID', 'Client ID', 'Service Name', 'Category', 'Status', 'Priority', 'Created Date'];
+    
+    // Map requests to rows
+    const rows = this.filteredRequests.map(req => [
+      `REQ-${req.id}`,
+      req.userId,
+      req.serviceName,
+      req.categoryName,
+      req.status,
+      req.priority,
+      req.createdAt ? new Date(req.createdAt).toLocaleDateString() : 'N/A'
+    ]);
+    
+    // Construct CSV content
+    const csvContent = [
+      headers.join(','),
+      ...rows.map(row => row.map(val => `"${String(val).replace(/"/g, '""')}"`).join(','))
+    ].join('\r\n');
+    
+    // Create download link
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `LumiNex_Requests_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 
   manageRequest(req: ServiceRequest) {

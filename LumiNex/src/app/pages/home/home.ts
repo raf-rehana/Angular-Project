@@ -31,20 +31,6 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Auto-redirect if already logged in
-    if (this.authService.isLoggedIn()) {
-      const user = this.authService.currentUser;
-      if (user) {
-        if (user.role === 'CLIENT') {
-          this.router.navigate(['/client/dashboard']);
-        } else if (user.role === 'EMPLOYEE') {
-          this.router.navigate(['/employee/summary']);
-        } else if (user.role === 'ADMIN' || user.role === 'SUPER_ADMIN') {
-          this.router.navigate(['/admin/dashboard']);
-        }
-      }
-    }
-
     this.loadSiteContent();
     this.loadHomeData();
 

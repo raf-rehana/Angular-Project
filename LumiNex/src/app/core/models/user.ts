@@ -15,4 +15,7 @@ export interface User {
   district?: string;
   policeStation?: string;
   country?: string;
+  division?: string;
+  village?: string;
+  thana?: string;
 }

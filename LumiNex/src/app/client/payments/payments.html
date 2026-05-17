@@ -28,7 +28,7 @@
   </div>
 
   <!-- ── Page Header ── -->
-  <div class="page-header mb-4">
+  <div class="page-header mb-4 d-flex align-items-center gap-3">
     <div>
       <h2 class="fw-bold text-dark mb-1">Billing & Invoices</h2>
       <p class="text-muted mb-0">Manage your service payments and download invoices.</p>
@@ -59,7 +59,12 @@
                 <tr *ngFor="let p of pendingPayments" [class.table-active]="selectedPendingItem?.id === p.id">
                   <td class="ps-4 py-3 small text-muted">#{{ p.id }}</td>
                   <td class="py-3 small fw-bold">{{ p.item }}</td>
-                  <td class="py-3 small fw-bold text-dark">BDT {{ p.amount | number:'1.2-2' }}</td>
+                  <td class="py-3 small fw-bold text-dark">
+                    BDT {{ p.amount | number:'1.2-2' }}
+                    <div class="x-small text-muted mt-1" *ngIf="p.requestId">
+                      Order: <a [routerLink]="['/client/request-detail', p.requestId]" class="text-violet-500 fw-bold">#{{ p.requestId }}</a>
+                    </div>
+                  </td>
                   <td class="pe-4 py-3 text-end">
                     <button class="btn btn-sm btn-primary rounded-pill px-3" (click)="selectPendingPayment(p)">
                       Pay Now
@@ -97,7 +102,12 @@
                 <tr *ngFor="let p of paidPayments">
                   <td class="ps-4 py-3 small text-muted">{{ p.date | date:'shortDate' }}</td>
                   <td class="py-3 small fw-bold text-truncate" style="max-width: 150px;">{{ p.item }}</td>
-                  <td class="py-3 small fw-bold text-dark">BDT {{ p.amount | number:'1.2-2' }}</td>
+                  <td class="py-3 small fw-bold text-dark">
+                    BDT {{ p.amount | number:'1.2-2' }}
+                    <div class="x-small text-muted mt-1" *ngIf="p.requestId">
+                      Order: <a [routerLink]="['/client/request-detail', p.requestId]" class="text-violet-500 fw-bold">#{{ p.requestId }}</a>
+                    </div>
+                  </td>
                   <td class="pe-4 py-3 text-end">
                     <button class="btn btn-sm btn-outline-primary border-0" (click)="generateInvoice(p)">
                       <i class="bi bi-file-earmark-pdf fs-5"></i>
@@ -121,12 +131,12 @@
   <div class="row g-4 align-items-start">
 
     <!-- LEFT: Payment Method Selection -->
-    <div class="col-lg-8">
+    <div class="col-lg-8 order-2">
       <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5">
 
         <!-- Step label -->
         <div class="step-label mb-4">
-          <span class="step-num">1</span>
+          <span class="step-num">2</span>
           <span class="step-text">Select Payment Method</span>
         </div>
 
@@ -281,13 +291,13 @@
     </div>
 
     <!-- RIGHT: Order Summary -->
-    <div class="col-lg-4">
+    <div class="col-lg-4 order-1 mb-4 mb-lg-0" *ngIf="selectedPlanId || selectedPendingItem">
       <div class="card border-0 shadow-sm rounded-4 overflow-hidden sticky-top" style="top: 80px;">
 
         <!-- Header -->
         <div class="summary-header p-4">
           <div class="step-label mb-0">
-            <span class="step-num">2</span>
+            <span class="step-num">1</span>
             <span class="step-text text-white">Order Summary</span>
           </div>
         </div>
@@ -298,6 +308,7 @@
           <div *ngIf="!selectedPendingItem">
             <label class="form-label small fw-bold text-muted text-uppercase mb-2">Select Subscription Plan</label>
             <select class="form-select rounded-3 mb-4" [(ngModel)]="selectedPlanId" (ngModelChange)="onPlanChange($event)">
+              <option value="" disabled selected>-- Select a Plan --</option>
               <option *ngFor="let p of plans" [value]="p.id">{{ p.name }} — BDT {{ p.price | number }}</option>
             </select>
           </div>

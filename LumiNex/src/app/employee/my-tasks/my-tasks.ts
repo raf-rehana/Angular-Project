@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RequestService } from '../../core/services/request.service';
 import { AuthService } from '../../core/services/auth.service';
 import { ServiceRequest } from '../../core/models/service-request';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { StatusBadgeComponent } from '../../shared/components/status-badge/status-badge';
 
 @Component({
@@ -18,6 +18,7 @@ export class MyTasksComponent implements OnInit {
   filteredTasks: ServiceRequest[] = [];
 
   constructor(
+    private router: Router,
     private requestService: RequestService,
     private authService: AuthService,
     private cdr: ChangeDetectorRef
@@ -45,5 +46,9 @@ export class MyTasksComponent implements OnInit {
       this.filteredTasks = this.tasks.filter(t => t.status === status);
     }
     this.cdr.detectChanges();
+  }
+
+  goBack() {
+    this.router.navigate(['/employee/summary']);
   }
 }

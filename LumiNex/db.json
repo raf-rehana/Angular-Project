@@ -176,6 +176,14 @@
       "district": "",
       "policeStation": "",
       "phone": "+880 017810000"
+    },
+    {
+      "name": "Rafiaah",
+      "email": "rafiaah@gmail.com",
+      "password": "demo123",
+      "role": "EMPLOYEE",
+      "designation": "Python Developer",
+      "id": "6mNf2DdEk58"
     }
   ],
   "categories": [
@@ -1446,8 +1454,9 @@
       "status": "COMPLETED",
       "priority": "HIGH",
       "createdAt": "2026-05-01T10:00:00.000Z",
-      "progress": 65,
-      "assignedTo": "10145"
+      "progress": 100,
+      "assignedTo": "10145",
+      "workedHours": 0
     },
     {
       "id": "2",
@@ -1505,7 +1514,7 @@
       "serviceId": "YgR6ewGkq1w",
       "serviceName": "Android App",
       "categoryName": "Web Development",
-      "status": "PENDING",
+      "status": "ASSIGNED",
       "priority": "NORMAL",
       "clientNotes": "dgedhrthrh",
       "progress": 0,
@@ -1551,7 +1560,7 @@
       "serviceId": "s113",
       "serviceName": "Virtual Office Address",
       "categoryName": "Office Space",
-      "status": "PENDING",
+      "status": "ASSIGNED",
       "priority": "NORMAL",
       "clientNotes": "ferwfsddsgfed",
       "progress": 0,
@@ -1570,17 +1579,18 @@
           "uploadedAt": "2026-05-12T21:37:06.011Z"
         }
       ],
-      "id": "jiUV3wkCfJw"
+      "id": "jiUV3wkCfJw",
+      "assignedTo": "10149"
     },
     {
       "userId": "10142",
       "serviceId": "s125",
       "serviceName": "Receipt Book / Invoice Pad",
       "categoryName": "Office Stationery & Supplies",
-      "status": "PENDING",
+      "status": "IN_PROGRESS",
       "priority": "NORMAL",
       "clientNotes": "Book Store",
-      "progress": 0,
+      "progress": 40,
       "createdAt": "2026-05-15T18:17:00.973Z",
       "documents": [
         {
@@ -1596,7 +1606,8 @@
           "uploadedAt": "2026-05-15T18:17:00.973Z"
         }
       ],
-      "id": "xvOl2D3Lbfg"
+      "id": "xvOl2D3Lbfg",
+      "workedHours": 0
     },
     {
       "userId": "10144",
@@ -1631,6 +1642,70 @@
       ],
       "id": "ekgMTs2jikQ",
       "assignedTo": "10149",
+      "workedHours": 0
+    },
+    {
+      "userId": "10142",
+      "clientEmail": "badrul@gmail.com",
+      "serviceId": "s121",
+      "serviceName": "Business Card Design & Print (500)",
+      "categoryName": "Office Stationery & Supplies",
+      "status": "ASSIGNED",
+      "priority": "NORMAL",
+      "clientNotes": "Logo Design",
+      "progress": 0,
+      "createdAt": "2026-05-16T22:44:00.547Z",
+      "documents": [
+        {
+          "id": "doc-1778971440547-0",
+          "name": "Logo File - LumiNex_Invoice_L4xhnI_A_mY (1).pdf",
+          "url": "assets/docs/Logo File - LumiNex_Invoice_L4xhnI_A_mY (1).pdf",
+          "uploadedAt": "2026-05-16T22:44:00.547Z"
+        },
+        {
+          "id": "doc-1778971440547-1",
+          "name": "LumiNex_Invoice_L4xhnI_A_mY (1).pdf",
+          "url": "assets/docs/LumiNex_Invoice_L4xhnI_A_mY (1).pdf",
+          "uploadedAt": "2026-05-16T22:44:00.547Z"
+        },
+        {
+          "id": "doc-1778971440547-2",
+          "name": "badrul.jpeg",
+          "url": "assets/docs/badrul.jpeg",
+          "uploadedAt": "2026-05-16T22:44:00.547Z"
+        }
+      ],
+      "id": "qOpP7vRHz6c",
+      "assignedTo": "10146"
+    },
+    {
+      "userId": "10142",
+      "clientEmail": "badrul@gmail.com",
+      "serviceId": "s138",
+      "serviceName": "Employment Contract Templates",
+      "categoryName": "HR & Recruitment",
+      "status": "ASSIGNED",
+      "priority": "NORMAL",
+      "clientNotes": "Employee Contract",
+      "progress": 10,
+      "createdAt": "2026-05-16T23:16:04.437Z",
+      "documents": [
+        {
+          "id": "doc-1778973364437-0",
+          "name": "Company Registration Copy - LumiNex_Invoice_LNX-08B9AF32-4ED.pdf",
+          "url": "assets/docs/Company Registration Copy - LumiNex_Invoice_LNX-08B9AF32-4ED.pdf",
+          "uploadedAt": "2026-05-16T23:16:04.437Z"
+        },
+        {
+          "id": "doc-1778973364437-1",
+          "name": "LumiNex_Invoice_L4xhnI_A_mY (2).pdf",
+          "url": "assets/docs/LumiNex_Invoice_L4xhnI_A_mY (2).pdf",
+          "uploadedAt": "2026-05-16T23:16:04.437Z"
+        }
+      ],
+      "id": "EyIRAhqnyj8",
+      "assignedTo": "10145",
+      "employeeNotes": "urgent",
       "workedHours": 0
     }
   ],
@@ -1679,6 +1754,78 @@
       "isRead": false,
       "createdAt": "2026-05-16T09:56:34.870Z",
       "id": "Co9ht1y75_Q"
+    },
+    {
+      "userId": 10145,
+      "title": "New Task Assigned",
+      "message": "You have been assigned: Employment Contract Templates",
+      "type": "TASK_ASSIGNED",
+      "isRead": false,
+      "createdAt": "2026-05-16T23:44:12.256Z",
+      "id": "u03TxfI-jl8"
+    },
+    {
+      "userId": 10146,
+      "title": "New Task Assigned",
+      "message": "You have been assigned: Business Card Design & Print (500)",
+      "type": "TASK_ASSIGNED",
+      "isRead": false,
+      "createdAt": "2026-05-16T23:44:42.342Z",
+      "id": "yMifmEA7J6I"
+    },
+    {
+      "userId": 10154,
+      "title": "New Task Assigned",
+      "message": "You have been assigned: Android App",
+      "type": "TASK_ASSIGNED",
+      "isRead": false,
+      "createdAt": "2026-05-16T23:45:56.020Z",
+      "id": "j_lSLfbwXNg"
+    },
+    {
+      "userId": 10149,
+      "title": "New Task Assigned",
+      "message": "You have been assigned: Virtual Office Address",
+      "type": "TASK_ASSIGNED",
+      "isRead": false,
+      "createdAt": "2026-05-16T23:46:09.978Z",
+      "id": "8JgJWTZ8rRI"
+    },
+    {
+      "userId": 10149,
+      "title": "New Task Assigned",
+      "message": "You have been assigned: Virtual Office Address",
+      "type": "TASK_ASSIGNED",
+      "isRead": false,
+      "createdAt": "2026-05-16T23:46:11.665Z",
+      "id": "MxDbafa7Z4U"
+    },
+    {
+      "userId": 10142,
+      "title": "Work Progress Update",
+      "message": "Your request \"Custom E-Commerce Store\" has been updated to Completed (100% complete).",
+      "type": "STATUS_UPDATE",
+      "isRead": false,
+      "createdAt": "2026-05-16T23:56:32.820Z",
+      "id": "lgwE9sHRNvY"
+    },
+    {
+      "userId": 10142,
+      "title": "Work Progress Update",
+      "message": "Your request \"Receipt Book / Invoice Pad\" has been updated to In Progress (40% complete).",
+      "type": "STATUS_UPDATE",
+      "isRead": false,
+      "createdAt": "2026-05-16T23:57:29.254Z",
+      "id": "tMr4AzMtWQA"
+    },
+    {
+      "userId": 10142,
+      "title": "Work Progress Update",
+      "message": "Your request \"Employment Contract Templates\" has been updated to Assigned (10% complete).",
+      "type": "STATUS_UPDATE",
+      "isRead": false,
+      "createdAt": "2026-05-16T23:57:56.850Z",
+      "id": "ipc5UMiMyrs"
     }
   ],
   "subscriptions": [
@@ -1719,6 +1866,61 @@
         "Premium Web & Mobile App",
         "1 Year Marketing Strategy",
         "Dedicated Launch Manager"
+      ],
+      "recommended": false
+    },
+    {
+      "id": "4",
+      "name": "E-Commerce Pro",
+      "price": 99000,
+      "features": [
+        "Full E-Commerce Platform",
+        "Payment Gateway Integration",
+        "Mobile App (Android)"
+      ],
+      "recommended": false
+    },
+    {
+      "id": "5",
+      "name": "Digital Marketing Boost",
+      "price": 29000,
+      "features": [
+        "Facebook & Instagram Ads",
+        "Google Ads Campaign",
+        "SEO Optimization"
+      ],
+      "recommended": false
+    },
+    {
+      "id": "6",
+      "name": "Business Registration Pack",
+      "price": 39000,
+      "features": [
+        "Business Name Registration",
+        "Trade License",
+        "TIN Certificate"
+      ],
+      "recommended": false
+    },
+    {
+      "id": "7",
+      "name": "Complete Brand Kit",
+      "price": 24000,
+      "features": [
+        "Custom Logo Design",
+        "Brand Color Palette",
+        "Business Card Design"
+      ],
+      "recommended": false
+    },
+    {
+      "id": "8",
+      "name": "Custom Enterprise App",
+      "price": 499000,
+      "features": [
+        "Custom Web + Mobile App",
+        "AI-Powered Features",
+        "Enterprise-Grade Security"
       ],
       "recommended": false
     }
@@ -1897,10 +2099,13 @@
       "client": "Client Name",
       "item": "Social Media Management",
       "amount": 300,
-      "method": "WAITING",
-      "status": "PENDING",
-      "date": "2026-05-16T09:35:56.144Z",
-      "id": "4rWVqWLQiPM"
+      "method": "BKASH-BKash",
+      "status": "PAID",
+      "date": "2026-05-16",
+      "id": "4rWVqWLQiPM",
+      "tranId": "LNX-03DC1CCE-816",
+      "bankTranId": "26051752000INA5Dk1mnwnQCOc",
+      "currency": "BDT"
     },
     {
       "clientId": "10144",
@@ -1929,6 +2134,34 @@
       "bankTranId": "260516161819gmXtMUOiywHoqdd",
       "currency": "BDT",
       "id": "f8-4hcFFoqk"
+    },
+    {
+      "clientId": "10142",
+      "client": "Social Media Management - Client",
+      "item": "Social Media Management",
+      "planId": "4rWVqWLQiPM",
+      "amount": 315,
+      "method": "VISA-Dutch Bangla",
+      "status": "PAID",
+      "date": "2026-05-16",
+      "tranId": "LNX-08B9AF32-4ED",
+      "bankTranId": "260517448056qQ85cvhidCMqKZ",
+      "currency": "BDT",
+      "id": "qmbkRJwohiw"
+    },
+    {
+      "clientId": "10142",
+      "client": "Employment Contract Templates - Client",
+      "item": "Employment Contract Templates",
+      "planId": "s138",
+      "amount": 2100,
+      "method": "BKASH-BKash",
+      "status": "PAID",
+      "date": "2026-05-16",
+      "tranId": "LNX-280CB0D8-DEF",
+      "bankTranId": "26051751631My1h1bEVLmA6vfS",
+      "currency": "BDT",
+      "id": "sRpBUtJGTEA"
     }
   ],
   "auth": {
@@ -2320,6 +2553,96 @@
       "action": "Task Updated",
       "details": "Task #ekgMTs2jikQ status changed to ASSIGNED",
       "id": "D31NQSDMMbw"
+    },
+    {
+      "timestamp": "2026-05-16T23:44:05.929Z",
+      "userId": "10141",
+      "userName": "Admin User",
+      "userRole": "ADMIN",
+      "action": "Request Updated",
+      "details": "Admin updated request #EyIRAhqnyj8 to status: ASSIGNED",
+      "id": "2Abd-AFUeNs"
+    },
+    {
+      "timestamp": "2026-05-16T23:44:12.240Z",
+      "userId": "10141",
+      "userName": "Admin User",
+      "userRole": "ADMIN",
+      "action": "Request Updated",
+      "details": "Admin updated request #EyIRAhqnyj8 to status: ASSIGNED",
+      "id": "GUMCw0uBE0I"
+    },
+    {
+      "timestamp": "2026-05-16T23:44:38.114Z",
+      "userId": "10141",
+      "userName": "Admin User",
+      "userRole": "ADMIN",
+      "action": "Request Updated",
+      "details": "Admin updated request #qOpP7vRHz6c to status: ASSIGNED",
+      "id": "L8CA01bqLn0"
+    },
+    {
+      "timestamp": "2026-05-16T23:44:42.328Z",
+      "userId": "10141",
+      "userName": "Admin User",
+      "userRole": "ADMIN",
+      "action": "Request Updated",
+      "details": "Admin updated request #qOpP7vRHz6c to status: ASSIGNED",
+      "id": "6vQrm8Swp9I"
+    },
+    {
+      "timestamp": "2026-05-16T23:45:56.005Z",
+      "userId": "10141",
+      "userName": "Admin User",
+      "userRole": "ADMIN",
+      "action": "Request Updated",
+      "details": "Admin updated request #Op-oKy-aBRo to status: ASSIGNED",
+      "id": "MB47dJnKumQ"
+    },
+    {
+      "timestamp": "2026-05-16T23:46:09.963Z",
+      "userId": "10141",
+      "userName": "Admin User",
+      "userRole": "ADMIN",
+      "action": "Request Updated",
+      "details": "Admin updated request #jiUV3wkCfJw to status: PENDING",
+      "id": "Bl8AzsM0CPA"
+    },
+    {
+      "timestamp": "2026-05-16T23:46:11.651Z",
+      "userId": "10141",
+      "userName": "Admin User",
+      "userRole": "ADMIN",
+      "action": "Request Updated",
+      "details": "Admin updated request #jiUV3wkCfJw to status: ASSIGNED",
+      "id": "CVT3hEcT-Vo"
+    },
+    {
+      "timestamp": "2026-05-16T23:56:32.820Z",
+      "userId": "10145",
+      "userName": "Emon",
+      "userRole": "EMPLOYEE",
+      "action": "Task Updated",
+      "details": "Task #1 status changed to COMPLETED (100% complete)",
+      "id": "anOgOX6evm8"
+    },
+    {
+      "timestamp": "2026-05-16T23:57:29.253Z",
+      "userId": "10145",
+      "userName": "Emon",
+      "userRole": "EMPLOYEE",
+      "action": "Task Updated",
+      "details": "Task #xvOl2D3Lbfg status changed to IN_PROGRESS (40% complete)",
+      "id": "s7fncdnImzk"
+    },
+    {
+      "timestamp": "2026-05-16T23:57:56.850Z",
+      "userId": "10145",
+      "userName": "Emon",
+      "userRole": "EMPLOYEE",
+      "action": "Task Updated",
+      "details": "Task #EyIRAhqnyj8 status changed to ASSIGNED (10% complete)",
+      "id": "mEwJXtdWqBY"
     }
   ],
   "knowledgeBase": [

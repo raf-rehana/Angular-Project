@@ -47,7 +47,7 @@ export class RequestForm implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/catalogue']);
+    this.router.navigate(['/client/dashboard']);
   }
 
   onFileSelected(event: any) {
@@ -162,6 +162,7 @@ export class RequestForm implements OnInit {
           queryParams: {
             serviceId: this.selectedService?.id,
             serviceName: this.selectedService?.name,
+            requestId: res.id, // The ID of the newly created request
             amount: this.selectedService?.price
           }
         });

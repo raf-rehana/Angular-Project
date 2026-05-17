@@ -35,4 +35,8 @@ export class PlansComponent {
       this.router.navigate(['/client/dashboard']);
     }, 1500);
   }
+
+  goBack() {
+    this.router.navigate(['/client/dashboard']);
+  }
 }

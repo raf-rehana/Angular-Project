@@ -113,7 +113,10 @@ export class TaskDetail implements OnInit, OnDestroy {
   }
 
   goBack() {
-    this.router.navigate(['/employee/my-tasks']);
+    window.history.back();
+    setTimeout(() => {
+      window.location.reload();
+    }, 100);
   }
 
   updateTask() {

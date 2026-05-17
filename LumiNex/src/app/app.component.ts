@@ -93,9 +93,19 @@ export class AppComponent {
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
       const url = event.urlAfterRedirects || event.url;
-      const isDashboardPath = url.includes('/client') || url.includes('/admin') || url.includes('/employee');
-      const isPublicFlow = url.includes('/client/subscriptions') || url.includes('/client/payments') || url.includes('/client/plans');
-      this.showSidebar = isDashboardPath && !isPublicFlow;
+      const isLoggedIn = this.authService.isLoggedIn();
+      
+      // Paths that should display the sidebar
+      const isDashboardPath = url.includes('/client') || 
+                              url.includes('/admin') || 
+                              url.includes('/employee');
+      
+      const isGlobalComponent = url.includes('/catalogue') || 
+                                url.includes('/contact') || 
+                                url.includes('/packages');
+      
+      // Show sidebar for core dashboard paths, OR if user is logged in and visiting global components
+      this.showSidebar = isDashboardPath || (isGlobalComponent && isLoggedIn);
     });
   }
 

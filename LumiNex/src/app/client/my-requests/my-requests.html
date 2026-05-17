@@ -1,8 +1,10 @@
 <div class="container-fluid py-4">
   <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-    <div>
-      <h2 class="fw-bold text-dark mb-0">My Requests</h2>
-      <p class="text-muted">Track and manage your service requests</p>
+    <div class="d-flex align-items-center gap-3">
+      <div>
+        <h2 class="fw-bold text-dark mb-0">My Requests</h2>
+        <p class="text-muted mb-0">Track and manage your service requests</p>
+      </div>
     </div>
   </div>
 
@@ -100,8 +102,28 @@
           </div>
           
           <div class="d-grid gap-2">
-            <button class="btn btn-outline-danger" *ngIf="selectedRequest.status === 'PENDING'" (click)="cancelRequest()">Cancel Request</button>
-            <button class="btn btn-primary" *ngIf="selectedRequest.status === 'REVIEW' || selectedRequest.status === 'COMPLETED'" (click)="viewDeliverables()">View Deliverables</button>
+            <!-- Show Pay Now if request is PENDING and no payment record exists -->
+            <button class="btn btn-primary-premium shadow-sm py-2 fw-bold" *ngIf="selectedRequest.status === 'PENDING' && !getPaymentForRequest(selectedRequest.id)" (click)="pay(selectedRequest)">
+              <i class="bi bi-credit-card me-2"></i> Pay Now to Start
+            </button>
+            
+            <!-- Show Payment Pending Approval if a cash/manual payment is recorded -->
+            <div class="alert alert-warning border-0 rounded-3 text-center mb-2 small" *ngIf="selectedRequest.status === 'PENDING' && getPaymentForRequest(selectedRequest.id)?.status === 'PENDING'">
+              <i class="bi bi-clock-history me-1"></i> Payment Awaiting Verification
+            </div>
+
+            <!-- Show Payment Verified if paid -->
+            <div class="alert alert-success border-0 rounded-3 text-center mb-2 small" *ngIf="getPaymentForRequest(selectedRequest.id)?.status === 'PAID'">
+              <i class="bi bi-check-circle-fill me-1"></i> Payment Verified
+            </div>
+
+            <button class="btn btn-outline-primary py-2 fw-bold" (click)="viewDeliverables()">
+              <i class="bi bi-eye me-2"></i> View Full Details
+            </button>
+            <hr class="my-2 opacity-0">
+            <button class="btn btn-sm btn-link text-danger text-decoration-none" *ngIf="selectedRequest.status === 'PENDING' && !getPaymentForRequest(selectedRequest.id)" (click)="cancelRequest()">
+              Cancel Request
+            </button>
           </div>
         </div>
       </div>

@@ -1,16 +1,17 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { PaymentService, PaymentInitRequest } from '../../core/services/payment.service';
 import { AuthService } from '../../core/services/auth.service';
 import { PdfGeneratorService } from '../../core/services/pdf-generator.service';
 import { ToastService } from '../../core/services/toast.service';
+import { ServiceCatalogueService } from '../../core/services/service-catalogue';
 
 @Component({
   selector: 'app-payments',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './payments.html',
   styleUrl: './payments.css'
 })
@@ -41,6 +42,7 @@ export class Payments implements OnInit, OnDestroy {
   selectedPlanName = '';
   selectedPlanPrice = 0;
   initialPlanId: string | null = null;
+  requestId: string | null = null; // Captured from query params
 
   // Payment history
   allPayments: any[] = [];
@@ -69,11 +71,13 @@ export class Payments implements OnInit, OnDestroy {
   ];
 
   constructor(
+    private router: Router,
     private paymentService: PaymentService,
     public authService: AuthService,
     private route: ActivatedRoute,
     private pdfGeneratorService: PdfGeneratorService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private catalogueService: ServiceCatalogueService
   ) {}
 
   ngOnInit() {
@@ -89,11 +93,27 @@ export class Payments implements OnInit, OnDestroy {
       if (params['serviceId']) {
         this.selectedPlanId = params['serviceId'];
         this.selectedPlanName = params['serviceName'];
-        this.selectedPlanPrice = Number(params['amount']) || 0;
+        const amt = Number(params['amount']) || 0;
+        if (amt > 0) {
+          this.selectedPlanPrice = amt;
+        } else {
+          this.catalogueService.getServiceById(params['serviceId'].toString()).subscribe({
+            next: (service) => {
+              this.selectedPlanPrice = service.price || 0;
+            },
+            error: () => {
+              this.selectedPlanPrice = 0;
+            }
+          });
+        }
+      }
+      if (params['requestId']) {
+        this.requestId = params['requestId'];
       }
 
       if (this.paymentStatus === 'success' && !this.invoiceGenerated) {
         this.triggerAutoInvoice();
+        this.loadPayments(); // Instantly refresh payment history after success
       }
     });
     this.loadPlans();
@@ -105,11 +125,11 @@ export class Payments implements OnInit, OnDestroy {
       next: data => {
         this.plans = data.map(p => ({ id: p.id, name: p.name, price: p.price }));
         if (this.plans.length > 0) {
-          if (this.selectedPlanId) return; // Already set via query params
-          const match = this.initialPlanId
-            ? this.plans.find(p => p.id === this.initialPlanId) || this.plans[0]
-            : this.plans[0];
-          this.selectPlan(match);
+          if (this.selectedPlanId) return; // Already set via query params or user action
+          if (this.initialPlanId) {
+            const match = this.plans.find(p => p.id === this.initialPlanId);
+            if (match) this.selectPlan(match);
+          }
         }
       },
       error: () => {
@@ -118,10 +138,10 @@ export class Payments implements OnInit, OnDestroy {
           { id: '2', name: 'Growth Accelerator',  price: 1499 },
           { id: '3', name: 'A-to-Z Launchpad',    price: 3499 },
         ];
-        const match = this.initialPlanId
-          ? this.plans.find(p => p.id === this.initialPlanId) || this.plans[0]
-          : this.plans[0];
-        this.selectPlan(match);
+        if (this.initialPlanId) {
+          const match = this.plans.find(p => p.id === this.initialPlanId);
+          if (match) this.selectPlan(match);
+        }
       }
     });
   }
@@ -149,6 +169,7 @@ export class Payments implements OnInit, OnDestroy {
     this.selectedPlanId = payment.id; // Use payment ID as plan ID for initiation
     this.selectedPlanName = payment.item;
     this.selectedPlanPrice = payment.amount;
+    this.requestId = payment.requestId || null; // Link back to original request if possible
     
     // Scroll to payment methods
     setTimeout(() => {
@@ -187,6 +208,7 @@ export class Payments implements OnInit, OnDestroy {
       method:   'CASH',
       status:   'PENDING',
       date:     new Date().toISOString().split('T')[0],
+      requestId: this.requestId || undefined,
     }).subscribe({
       next: () => {
         this.loadingPayment = false;
@@ -214,7 +236,9 @@ export class Payments implements OnInit, OnDestroy {
     const payload: PaymentInitRequest = {
       amount:       this.total,
       currency:     'BDT',
-      planId:       this.selectedPendingItem?.id || this.selectedPlanId,
+      planId:       this.selectedPlanId,
+      paymentId:    this.selectedPendingItem?.id, // Explicit payment ID for reconciliation
+      requestId:    this.requestId || undefined,
       planName:     this.selectedPlanName,
       clientId:     user?.id || 'guest',
       clientName:   user?.name || 'LumiNex Client',
@@ -241,6 +265,7 @@ export class Payments implements OnInit, OnDestroy {
   }
 
   generateInvoice(payment: any): void {
+    console.log('[ClientPayments] Generating invoice for payment:', payment);
     const invoiceDetails = {
       id: payment.id,
       orderId: payment.id, // Explicitly labeled for clarify
@@ -278,6 +303,10 @@ export class Payments implements OnInit, OnDestroy {
     if (this.methodCategory === 'BANK') return this.banks.find(b => b.id === this.selectedBank)?.label || 'Card / Bank';
     if (this.methodCategory === 'CASH') return 'Cash Deposit';
     return 'SSLCommerz Gateway';
+  }
+
+  goBack() {
+    this.router.navigate(['/client/dashboard']);
   }
 
   ngOnDestroy() {

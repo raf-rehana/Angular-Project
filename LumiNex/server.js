@@ -199,30 +199,23 @@ app.get('/api/chat/online-employees', (req, res) => {
 // ── POST /api/payment/init ───────────────────────────────────────────────────
 // Angular calls this → we call SSLCommerz → return GatewayPageURL
 app.post('/api/payment/init', async (req, res) => {
-  const {
-    amount,
-    currency = 'BDT',
-    planId,
-    planName,
-    clientId,
-    clientName,
-    clientEmail,
-    clientPhone,
-    paymentMethod // 'ONLINE' | 'MOBILE_WALLET' | 'BANK'
+  const { 
+    amount, currency, planId, paymentId, requestId, planName, 
+    clientId, clientName, clientEmail, clientPhone, paymentMethod 
   } = req.body;
 
   if (!amount || !clientId) {
     return res.status(400).json({ status: 'FAILED', message: 'amount and clientId are required' });
   }
 
-  const tran_id = 'LNX-' + uuidv4().slice(0, 12).toUpperCase();
+  const tran_id = `LNX-${uuidv4().split('-')[0].toUpperCase()}-${Math.floor(100 + Math.random() * 900)}`;
 
   // Build SSLCommerz payload
   const payload = new URLSearchParams({
     store_id:    STORE_ID,
     store_passwd: STORE_PASSWORD,
     total_amount: String(amount),
-    currency,
+    currency: currency || 'BDT',
     tran_id,
 
     // Redirect URLs (SSLCommerz POSTs here)
@@ -255,9 +248,9 @@ app.post('/api/payment/init', async (req, res) => {
 
     // Metadata — we read these back in success callback
     value_a: String(clientId),
-    value_b: String(planId || ''),
+    value_b: String(requestId || ''),
     value_c: String(planName || ''),
-    value_d: String(amount),
+    value_d: String(paymentId || ''),
   });
 
   // If user chose a specific channel (e.g. bKash), request that method
@@ -301,16 +294,17 @@ app.post('/api/payment/init', async (req, res) => {
 
 // ── POST /api/payment/success ─────────────────────────────────────────────────
 app.post('/api/payment/success', async (req, res) => {
-  const {
-    tran_id, val_id, amount, card_type, currency,
-    bank_tran_id, status,
-    value_a: clientId,
-    value_b: planId,
-    value_c: planName,
+  const { 
+    tran_id, val_id, bank_tran_id, amount, currency,
+    card_type, status,
+    value_a: clientId, 
+    value_b: requestId, 
+    value_c: planName, 
+    value_d: paymentId,
     cus_email,
   } = req.body;
 
-  console.log(`[SUCCESS] tran_id=${tran_id} val_id=${val_id} status=${status}`);
+  console.log(`[SUCCESS] tran_id=${tran_id} requestId=${requestId}`);
 
   // Validate with SSLCommerz to prevent fraud
   try {
@@ -330,23 +324,55 @@ app.post('/api/payment/success', async (req, res) => {
 
   // Persist to json-server
   try {
-    await axios.post(`${DB_URL}/payments`, {
-      clientId,
-      client:   planName ? `${planName} - Client` : 'LumiNex Client',
-      email:    cus_email,
-      item:     planName || 'Subscription Plan',
-      planId,
-      amount:   parseFloat(amount),
-      method:   card_type || 'ONLINE',
-      status:   'PAID',
-      date:     new Date().toISOString().split('T')[0],
-      tranId:   tran_id,
-      bankTranId: bank_tran_id,
-      currency,
-    });
-    console.log(`[DB] Payment saved: ${tran_id}`);
+    let existingPayment = null;
+    if (paymentId) {
+      // Check if we are paying for an existing PENDING invoice
+      const checkRes = await axios.get(`${DB_URL}/payments/${paymentId}`).catch(() => null);
+      if (checkRes && checkRes.data && checkRes.data.id) {
+        existingPayment = checkRes.data;
+      }
+    }
+
+    if (existingPayment) {
+      // Update existing pending invoice to PAID
+      await axios.patch(`${DB_URL}/payments/${paymentId}`, {
+        status:   'PAID',
+        method:   card_type || 'ONLINE',
+        tranId:   tran_id,
+        bankTranId: bank_tran_id,
+        currency,
+        date:     new Date().toISOString().split('T')[0],
+        requestId: requestId || existingPayment.requestId // Preserve link
+      });
+      console.log(`[DB] Payment updated to PAID: ${paymentId}`);
+    } else {
+      // Create a brand new standalone payment
+      await axios.post(`${DB_URL}/payments`, {
+        clientId,
+        client:   planName ? `${planName} - Client` : 'LumiNex Client',
+        email:    cus_email,
+        item:     planName || 'Subscription Plan',
+        amount:   parseFloat(amount),
+        method:   card_type || 'ONLINE',
+        status:   'PAID',
+        date:     new Date().toISOString().split('T')[0],
+        tranId:   tran_id,
+        bankTranId: bank_tran_id,
+        currency,
+        requestId: requestId || undefined
+      });
+      console.log(`[DB] New payment saved: ${tran_id}`);
+    }
+
+    // NEW: Update linked Service Request status if requestId exists
+    if (requestId) {
+      await axios.patch(`${DB_URL}/service-requests/${requestId}`, {
+        status: 'ASSIGNED' // Request is now paid and ready for assignment
+      }).catch(err => console.error(`[DB] Failed to update request ${requestId}:`, err.message));
+      console.log(`[DB] Linked Request updated to ASSIGNED: ${requestId}`);
+    }
   } catch (e) {
-    console.error('[DB] Failed to save payment:', e.message);
+    console.error('[DB] Failed to save/update payment:', e.message);
   }
 
   res.redirect(`${FRONTEND_URL}/client/payments?status=success&tran_id=${tran_id}&amount=${amount}`);
@@ -369,26 +395,54 @@ app.post('/api/payment/cancel', (req, res) => {
 // ── POST /api/payment/ipn ─────────────────────────────────────────────────────
 // Instant Payment Notification - SSLCommerz hits this even if user loses connection
 app.post('/api/payment/ipn', async (req, res) => {
-  const { tran_id, val_id, status, amount, value_a: clientId, value_c: planName, card_type, cus_email } = req.body;
+  const { tran_id, val_id, status, amount, value_a: clientId, value_b: requestId, value_c: planName, value_d: paymentId, card_type, cus_email } = req.body;
   console.log(`[IPN] tran_id=${tran_id} status=${status}`);
 
   if (status === 'VALID' || status === 'VALIDATED') {
     try {
       // Avoid duplicate entries
-      const existing = await axios.get(`${DB_URL}/payments?tranId=${tran_id}`);
-      if (existing.data.length === 0) {
-        await axios.post(`${DB_URL}/payments`, {
-          clientId,
-          client:   planName || 'LumiNex Client',
-          email:    cus_email,
-          item:     planName || 'Subscription Plan',
-          amount:   parseFloat(amount),
-          method:   card_type || 'ONLINE',
-          status:   'PAID',
-          date:     new Date().toISOString().split('T')[0],
-          tranId:   tran_id,
-        });
-        console.log(`[IPN] Payment saved via IPN: ${tran_id}`);
+      const existingTx = await axios.get(`${DB_URL}/payments?tranId=${tran_id}`);
+      if (existingTx.data.length === 0) {
+        let existingInvoice = null;
+        if (paymentId) {
+          const checkRes = await axios.get(`${DB_URL}/payments/${paymentId}`).catch(() => null);
+          if (checkRes && checkRes.data && checkRes.data.id) {
+            existingInvoice = checkRes.data;
+          }
+        }
+
+        if (existingInvoice) {
+          await axios.patch(`${DB_URL}/payments/${paymentId}`, {
+            status:   'PAID',
+            method:   card_type || 'ONLINE',
+            tranId:   tran_id,
+            date:     new Date().toISOString().split('T')[0],
+            requestId: requestId || existingInvoice.requestId
+          });
+          console.log(`[IPN] Existing invoice updated to PAID via IPN: ${paymentId}`);
+        } else {
+          await axios.post(`${DB_URL}/payments`, {
+            clientId,
+            client:   planName || 'LumiNex Client',
+            email:    cus_email,
+            item:     planName || 'Subscription Plan',
+            amount:   parseFloat(amount),
+            method:   card_type || 'ONLINE',
+            status:   'PAID',
+            date:     new Date().toISOString().split('T')[0],
+            tranId:   tran_id,
+            requestId: requestId || undefined
+          });
+          console.log(`[IPN] Payment saved via IPN: ${tran_id}`);
+        }
+
+        // NEW: Update linked Service Request status if requestId exists
+        if (requestId) {
+          await axios.patch(`${DB_URL}/service-requests/${requestId}`, {
+            status: 'ASSIGNED'
+          }).catch(err => console.error(`[IPN] Failed to update request ${requestId}:`, err.message));
+          console.log(`[IPN] Linked Request updated to ASSIGNED via IPN: ${requestId}`);
+        }
       } else {
         console.log(`[IPN] Duplicate skipped: ${tran_id}`);
       }

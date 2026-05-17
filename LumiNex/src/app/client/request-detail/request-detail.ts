@@ -5,8 +5,9 @@ import { RequestService } from '../../core/services/request.service';
 import { ServiceRequest } from '../../core/models/service-request';
 import { StatusBadgeComponent } from '../../shared/components/status-badge/status-badge';
 import { RequestTimelineComponent } from '../../shared/components/request-timeline/request-timeline';
-
 import { ServiceCatalogueService } from '../../core/services/service-catalogue';
+import { PaymentService, Payment } from '../../core/services/payment.service';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-request-detail',
@@ -18,13 +19,16 @@ import { ServiceCatalogueService } from '../../core/services/service-catalogue';
 export class RequestDetail implements OnInit {
   request: ServiceRequest | null = null;
   servicePrice: number = 0;
+  payments: Payment[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private requestService: RequestService,
     private catalogueService: ServiceCatalogueService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private paymentService: PaymentService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -36,6 +40,14 @@ export class RequestDetail implements OnInit {
           this.loadServiceDetails(data.serviceId);
           this.cdr.detectChanges();
         });
+
+        const user = this.authService.currentUser;
+        if (user) {
+          this.paymentService.getPayments().subscribe(payments => {
+            this.payments = payments.filter(p => String(p.clientId) === String(user.id));
+            this.cdr.detectChanges();
+          });
+        }
       }
     });
   }
@@ -51,6 +63,11 @@ export class RequestDetail implements OnInit {
     return this.servicePrice.toLocaleString();
   }
 
+  getPaymentForRequest(): Payment | undefined {
+    if (!this.request) return undefined;
+    return this.payments.find(p => p.requestId && String(p.requestId) === String(this.request?.id));
+  }
+
   pay() {
     if (!this.request) return;
     this.router.navigate(['/client/payments'], {
@@ -64,6 +81,9 @@ export class RequestDetail implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/client/my-requests']);
+    window.history.back();
+    setTimeout(() => {
+      window.location.reload();
+    }, 100);
   }
 }

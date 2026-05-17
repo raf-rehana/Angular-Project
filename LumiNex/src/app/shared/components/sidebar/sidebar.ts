@@ -38,15 +38,11 @@ export class SidebarComponent {
   }
 
   private updateVisibility() {
-    this.showSectors = !this.router.url.startsWith('/client');
-    console.log('Sidebar - URL:', this.router.url, 'ShowSectors:', this.showSectors);
+    this.showSectors = true; // Always show sectors as per user request for sidebar items
   }
   
   get isClientContext(): boolean {
-    const isClient = this.router.url.startsWith('/client');
-    console.log('Sidebar - Current URL:', this.router.url);
-    console.log('Sidebar - isClientContext:', isClient);
-    return isClient;
+    return this.router.url.startsWith('/client');
   }
 
   get isCatalogueContext(): boolean {

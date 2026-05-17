@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PaymentService, Payment } from '../../core/services/payment.service';
 import { PdfGeneratorService } from '../../core/services/pdf-generator.service';
+import { RequestService } from '../../core/services/request.service';
+import { NotificationService } from '../../core/services/notification.service';
 
 @Component({
   selector: 'app-admin-payments',
@@ -30,7 +32,9 @@ export class AdminPaymentsComponent implements OnInit {
   constructor(
     private paymentService: PaymentService,
     private cdr: ChangeDetectorRef,
-    private pdfGeneratorService: PdfGeneratorService
+    private pdfGeneratorService: PdfGeneratorService,
+    private requestService: RequestService,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit() {
@@ -79,33 +83,64 @@ export class AdminPaymentsComponent implements OnInit {
     });
   }
 
- generateInvoice(payment: any): void {
-  const invoiceDetails = {
-    id: payment.id,
-    clientName: payment.client,
-    clientEmail: payment.email || '',
-    
-    // Convert single item into items array (Stripe-style compatible)
-    items: [
-      {
-        description: payment.item,
-        qty: 1,
-        price: payment.amount,
-      },
-    ],
+  generateInvoice(payment: any): void {
+    console.log('[AdminPayments] Generating invoice for payment record:', payment);
+    const invoiceDetails = {
+      id: payment.id,
+      orderId: payment.id,
+      clientId: payment.clientId || 'N/A',
+      clientName: payment.client,
+      clientEmail: payment.email || '',
+      service: payment.item,
+      amount: payment.amount,
+      date: payment.date,
+      items: [
+        {
+          description: payment.item,
+          qty: 1,
+          price: payment.amount,
+        },
+      ],
+      discount: payment.discount || 0,
+    };
 
-    // optional extras
-    discount: payment.discount || 0,
-    date: payment.date,
-  };
+    this.pdfGeneratorService.generateInvoicePdf(invoiceDetails);
+  }
 
-  this.pdfGeneratorService.generateInvoicePdf(invoiceDetails);
-}
+
 
   processRefund(payment: any) {
     if (confirm('Are you sure you want to process a refund for this payment?')) {
       this.paymentService.updatePayment(payment.id, { status: 'REFUNDED' }).subscribe(() => {
         this.loadPayments();
+      });
+    }
+  }
+
+  approvePayment(payment: any) {
+    if (confirm(`Are you sure you want to approve the cash payment of BDT ${payment.amount} for ${payment.client}?`)) {
+      this.paymentService.updatePayment(payment.id, { status: 'PAID' }).subscribe(() => {
+        // If there's a linked service request, update its status to ASSIGNED
+        if (payment.requestId) {
+          this.requestService.updateStatus(payment.requestId, 'ASSIGNED').subscribe({
+            next: () => {
+              // Notify client
+              this.notificationService.create({
+                userId: Number(payment.clientId),
+                title: 'Payment Received',
+                message: `We've approved your payment for "${payment.item}". Work is now assigned.`,
+                type: 'STATUS_UPDATE'
+              }).subscribe();
+              this.loadPayments();
+            },
+            error: (err) => {
+              console.error('Failed to update request status:', err);
+              this.loadPayments();
+            }
+          });
+        } else {
+          this.loadPayments();
+        }
       });
     }
   }

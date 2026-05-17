@@ -31,3 +31,23 @@
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
+
+.sidebar-home-link {
+  transition: all 0.2s ease-in-out;
+  font-weight: 500;
+  cursor: pointer !important;
+}
+
+.sidebar-home-link:hover {
+  background-color: rgba(139, 92, 246, 0.15) !important; /* Soft violet background */
+  color: #6d28d9 !important; /* Darker violet text */
+  transform: translateX(3px);
+}
+
+.sidebar-home-link i {
+  transition: transform 0.2s ease;
+}
+
+.sidebar-home-link:hover i {
+  transform: scale(1.1);
+}

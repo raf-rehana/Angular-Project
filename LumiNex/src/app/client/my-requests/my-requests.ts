@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { RequestService } from '../../core/services/request.service';
@@ -9,6 +9,7 @@ import { RequestTimelineComponent } from '../../shared/components/request-timeli
 import { interval, Subscription } from 'rxjs';
 import { ModalService } from '../../core/services/modal.service';
 import { ToastService } from '../../core/services/toast.service';
+import { PaymentService, Payment } from '../../core/services/payment.service';
 
 @Component({
   selector: 'app-my-requests',
@@ -17,9 +18,10 @@ import { ToastService } from '../../core/services/toast.service';
   templateUrl: './my-requests.html',
   styleUrls: ['./my-requests.css']
 })
-export class MyRequestsComponent implements OnInit {
+export class MyRequestsComponent implements OnInit, OnDestroy {
   requests: ServiceRequest[] = [];
   selectedRequest: ServiceRequest | null = null;
+  payments: Payment[] = [];
   private pollSubscription?: Subscription;
 
   constructor(
@@ -27,7 +29,8 @@ export class MyRequestsComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private modalService: ModalService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private paymentService: PaymentService
   ) {}
 
   ngOnInit() {
@@ -53,7 +56,14 @@ export class MyRequestsComponent implements OnInit {
           if (updated) this.selectedRequest = updated;
         }
       });
+      this.paymentService.getPayments().subscribe(payments => {
+        this.payments = payments.filter(p => String(p.clientId) === String(user.id));
+      });
     }
+  }
+
+  getPaymentForRequest(reqId: string | number): Payment | undefined {
+    return this.payments.find(p => p.requestId && String(p.requestId) === String(reqId));
   }
 
   viewDetails(req: ServiceRequest) {
@@ -76,5 +86,20 @@ export class MyRequestsComponent implements OnInit {
   viewDeliverables() {
     if (!this.selectedRequest) return;
     this.router.navigate(['/client/request-detail', this.selectedRequest.id]);
+  }
+
+  pay(req: ServiceRequest) {
+    this.router.navigate(['/client/payments'], {
+      queryParams: {
+        serviceId: req.serviceId,
+        serviceName: req.serviceName,
+        requestId: req.id,
+        amount: 0 // Will be loaded dynamically by payments component
+      }
+    });
+  }
+
+  goBack() {
+    this.router.navigate(['/client/dashboard']);
   }
 }
