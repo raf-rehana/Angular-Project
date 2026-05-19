@@ -51,12 +51,16 @@
               {{ request.clientNotes || 'No notes provided.' }}
             </div>
 
-            <div *ngIf="request.employeeNotes">
-              <h6 class="fw-bold text-muted text-uppercase small mb-3">Team Response</h6>
-              <div class="p-4 bg-primary-soft text-primary rounded-4">
-                {{ request.employeeNotes }}
+            <!-- Project Documentation Scope (From Admin) -->
+            <div class="mt-4" *ngIf="request.projectDocumentation">
+              <h6 class="fw-bold text-primary text-uppercase small mb-3"><i class="bi bi-file-earmark-text-fill me-1"></i>Project Documentation & Scope</h6>
+              <div class="p-4 rounded-4 text-dark border border-primary-subtle" style="background-color: #f8fafc; border-left: 5px solid #6366f1 !important; line-height: 1.6;">
+                <div class="fw-semibold text-slate-800 mb-2">Detailed scope & guidelines from Administrator:</div>
+                <div style="white-space: pre-line;">{{ request.projectDocumentation }}</div>
               </div>
             </div>
+
+
 
             <!-- Uploaded Documents -->
             <div class="mt-5" *ngIf="request.documents?.length">
@@ -85,7 +89,6 @@
         <!-- Sidebar -->
         <div class="col-lg-4">
           <!-- Payment Card -->
-          <!-- Payment Card -->
           <div class="card border-0 shadow-sm rounded-4 p-4 mb-4" *ngIf="request.status === 'PENDING'">
             <h6 class="fw-bold text-muted text-uppercase small mb-3">Service Fee</h6>
             <div class="d-flex align-items-baseline mb-4">
@@ -111,8 +114,38 @@
             <p class="x-small text-muted text-center mt-3 mb-0" *ngIf="!getPaymentForRequest()">Secure payment powered by SSLCommerz</p>
           </div>
 
+          <!-- 20% Advance Payment Card -->
+          <div class="card border-0 shadow-sm rounded-4 p-4 mb-4" *ngIf="request.status === 'AWAITING_ADVANCE'">
+            <h6 class="fw-bold text-muted text-uppercase small mb-3">20% Advance Payment</h6>
+            <div class="d-flex align-items-baseline mb-4">
+              <h3 class="fw-bold text-dark mb-0">BDT {{ (servicePrice * 0.20).toLocaleString() }}</h3>
+              <span class="ms-2 text-muted small">20% of BDT {{ getServicePrice() }}</span>
+            </div>
+            
+            <!-- Pay 20% Advance button if PENDING or if no payment exists yet -->
+            <button class="btn btn-warning w-100 rounded-pill py-3 fw-bold shadow-sm text-dark animate-pulse" (click)="payAdvance()" *ngIf="!getPaymentForRequest() || getPaymentForRequest()?.status === 'PENDING'">
+              Pay 20% Advance Now
+            </button>
+            
+            <!-- If payment is pending approval -->
+            <div class="alert alert-warning border-0 rounded-3 mb-0 text-center small mt-3" *ngIf="getPaymentForRequest()?.status === 'PENDING'">
+              <i class="bi bi-clock-history me-1"></i> Payment Awaiting Verification
+            </div>
+            
+            <p class="x-small text-muted text-center mt-3 mb-0" *ngIf="!getPaymentForRequest() || getPaymentForRequest()?.status === 'PENDING'">Secure payment powered by SSLCommerz</p>
+          </div>
+
+          <!-- Advance Paid Card -->
+          <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-success-soft text-success border border-success-subtle" *ngIf="request.status === 'ADVANCE_PAID'">
+            <h6 class="fw-bold text-uppercase small mb-3"><i class="bi bi-shield-check me-1"></i> 20% Advance Verified</h6>
+            <div class="d-flex align-items-baseline mb-3">
+              <h3 class="fw-bold mb-0">BDT {{ (servicePrice * 0.20).toLocaleString() }}</h3>
+            </div>
+            <p class="small mb-0 opacity-75">Your advance payment is fully verified. We are assigning the best specialist to your project!</p>
+          </div>
+
           <!-- Paid Card -->
-          <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-success-soft text-success border border-success-subtle" *ngIf="request.status !== 'PENDING' && request.status !== 'COMPLETED' && request.status !== 'REJECTED'">
+          <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-success-soft text-success border border-success-subtle" *ngIf="request.status !== 'PENDING' && request.status !== 'AWAITING_ADVANCE' && request.status !== 'ADVANCE_PAID' && request.status !== 'COMPLETED' && request.status !== 'REJECTED'">
             <h6 class="fw-bold text-uppercase small mb-3"><i class="bi bi-shield-check me-1"></i> Payment Verified</h6>
             <div class="d-flex align-items-baseline mb-3">
               <h3 class="fw-bold mb-0">BDT {{ getServicePrice() }}</h3>
@@ -123,7 +156,7 @@
             <div class="mb-3"><i class="bi bi-question-circle fs-1 opacity-50"></i></div>
             <h5 class="fw-bold mb-2">Need Help?</h5>
             <p class="small opacity-75 mb-4">Contact your assigned manager for any questions regarding this request.</p>
-            <button class="btn btn-white w-100 rounded-pill fw-bold">Chat with Support</button>
+            <button class="btn btn-white w-100 rounded-pill fw-bold" (click)="openChat()">Chat with Support</button>
           </div>
 
           <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">

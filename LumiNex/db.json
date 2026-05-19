@@ -1563,7 +1563,7 @@
       "status": "ASSIGNED",
       "priority": "NORMAL",
       "clientNotes": "ferwfsddsgfed",
-      "progress": 0,
+      "progress": 50,
       "createdAt": "2026-05-12T21:37:06.011Z",
       "documents": [
         {
@@ -1580,7 +1580,9 @@
         }
       ],
       "id": "jiUV3wkCfJw",
-      "assignedTo": "10149"
+      "assignedTo": "10149",
+      "employeeNotes": "test note from powershell",
+      "workedHours": 0
     },
     {
       "userId": "10142",
@@ -1684,10 +1686,10 @@
       "serviceId": "s138",
       "serviceName": "Employment Contract Templates",
       "categoryName": "HR & Recruitment",
-      "status": "ASSIGNED",
+      "status": "IN_PROGRESS",
       "priority": "NORMAL",
       "clientNotes": "Employee Contract",
-      "progress": 10,
+      "progress": 50,
       "createdAt": "2026-05-16T23:16:04.437Z",
       "documents": [
         {
@@ -1705,8 +1707,196 @@
       ],
       "id": "EyIRAhqnyj8",
       "assignedTo": "10145",
-      "employeeNotes": "urgent",
+      "employeeNotes": "Working on layout setup...",
       "workedHours": 0
+    },
+    {
+      "userId": "10144",
+      "clientEmail": "sajin@gmail.com",
+      "serviceId": "s131",
+      "serviceName": "Business Plan Financial Model",
+      "categoryName": "Finance & Accounting",
+      "status": "IN_PROGRESS",
+      "priority": "HIGH",
+      "clientNotes": "Business Plan Financial Model",
+      "progress": 25,
+      "createdAt": "2026-05-17T04:13:13.801Z",
+      "documents": [
+        {
+          "id": "doc-1778991193800-0",
+          "name": "Project Description - LumiNex_Invoice_LNX-03DC1CCE-816.pdf",
+          "url": "assets/docs/Project Description - LumiNex_Invoice_LNX-03DC1CCE-816.pdf",
+          "uploadedAt": "2026-05-17T04:13:13.800Z"
+        },
+        {
+          "id": "doc-1778991193801-1",
+          "name": "LumiNex_Invoice_LNX-03DC1CCE-816.pdf",
+          "url": "assets/docs/LumiNex_Invoice_LNX-03DC1CCE-816.pdf",
+          "uploadedAt": "2026-05-17T04:13:13.801Z"
+        }
+      ],
+      "id": "Kv-AcewsPMQ",
+      "workedHours": 0,
+      "employeeNotes": "updated few things"
+    },
+    {
+      "userId": "10144",
+      "clientEmail": "sajin@gmail.com",
+      "serviceId": "s138",
+      "serviceName": "Employment Contract Templates",
+      "categoryName": "HR & Recruitment",
+      "status": "IN_PROGRESS",
+      "priority": "NORMAL",
+      "clientNotes": "fsfsgsdg",
+      "progress": 50,
+      "createdAt": "2026-05-17T04:47:47.621Z",
+      "documents": [
+        {
+          "id": "doc-1778993267621-0",
+          "name": "Company Registration Copy - LumiNex_Invoice_LNX-3514A070-273.pdf",
+          "url": "assets/docs/Company Registration Copy - LumiNex_Invoice_LNX-3514A070-273.pdf",
+          "uploadedAt": "2026-05-17T04:47:47.621Z"
+        },
+        {
+          "id": "doc-1778993267621-1",
+          "name": "LumiNex_Invoice_LNX-3514A070-273.pdf",
+          "url": "assets/docs/LumiNex_Invoice_LNX-3514A070-273.pdf",
+          "uploadedAt": "2026-05-17T04:47:47.621Z"
+        },
+        {
+          "id": "doc-1778993267621-2",
+          "name": "WhatsApp Image 2026-05-16 at 02.54.22 (1).jpeg",
+          "url": "assets/docs/WhatsApp Image 2026-05-16 at 02.54.22 (1).jpeg",
+          "uploadedAt": "2026-05-17T04:47:47.621Z"
+        }
+      ],
+      "id": "vIPqiXXUe30",
+      "assignedTo": "10157",
+      "workedHours": 0
+    },
+    {
+      "userId": "10152",
+      "clientEmail": "fahad@gmail.com",
+      "serviceId": "s139",
+      "serviceName": "Job Posting & Shortlisting",
+      "categoryName": "HR & Recruitment",
+      "status": "ASSIGNED",
+      "priority": "HIGH",
+      "clientNotes": "Job Posting & Shortlisting",
+      "progress": 0,
+      "createdAt": "2026-05-17T08:33:15.959Z",
+      "documents": [
+        {
+          "id": "doc-1779006795958-0",
+          "name": "Job Description - LumiNex_Invoice_LNX-3514A070-273.pdf",
+          "url": "assets/docs/Job Description - LumiNex_Invoice_LNX-3514A070-273.pdf",
+          "uploadedAt": "2026-05-17T08:33:15.958Z"
+        },
+        {
+          "id": "doc-1779006795959-1",
+          "name": "LumiNex_Invoice_LNX-3514A070-273.pdf",
+          "url": "assets/docs/LumiNex_Invoice_LNX-3514A070-273.pdf",
+          "uploadedAt": "2026-05-17T08:33:15.959Z"
+        },
+        {
+          "id": "doc-1779006795959-2",
+          "name": "WhatsApp Image 2026-05-16 at 02.54.23.jpeg",
+          "url": "assets/docs/WhatsApp Image 2026-05-16 at 02.54.23.jpeg",
+          "uploadedAt": "2026-05-17T08:33:15.959Z"
+        }
+      ],
+      "id": "99H3q0ZMN9g"
+    },
+    {
+      "userId": "10152",
+      "clientEmail": "fahad@gmail.com",
+      "serviceId": "PROPOSAL",
+      "serviceName": "E2E Test Proposal",
+      "categoryName": "Web Application",
+      "status": "AWAITING_ADVANCE",
+      "priority": "NORMAL",
+      "clientNotes": "Timeline: 1-3 Months\nBudget Range: BDT 50,000 - BDT 100,000\nTarget Customer/Audience: General Users\nExisting Branding? No\nDescription: This is a comprehensive end-to-end test project proposal.",
+      "createdAt": "2026-05-17T12:02:09.397Z",
+      "progress": 0,
+      "id": "0WX9lM40Qgo"
+    },
+    {
+      "userId": "10152",
+      "clientEmail": "fahad@gmail.com",
+      "serviceId": "PROPOSAL",
+      "serviceName": "Hospital Management System",
+      "categoryName": "Web Application",
+      "status": "ASSIGNED",
+      "priority": "HIGH",
+      "clientNotes": "Timeline: 1-3 Months\nBudget Range: BDT 100,000 - BDT 500,000\nTarget Customer/Audience: High Society for five Star Hotel\nExisting Branding? No\nDescription: Make a High Sequrity Web App for five star hotel management, make it fully dynamic.",
+      "createdAt": "2026-05-17T12:08:14.121Z",
+      "progress": 0,
+      "id": "5e-nPWUUW88",
+      "assignedTo": "10145",
+      "employeeNotes": "Contact with client as needed"
+    },
+    {
+      "userId": "10142",
+      "clientEmail": "badrul@gmail.com",
+      "serviceId": "s119",
+      "serviceName": "Basic Stationery Pack",
+      "categoryName": "Office Stationery & Supplies",
+      "status": "ASSIGNED",
+      "priority": "NORMAL",
+      "clientNotes": "Please deliver 10 packs of high quality office stationery.",
+      "progress": 0,
+      "createdAt": "2026-05-17T18:14:20.722Z",
+      "documents": [],
+      "id": "t08Nb8QIqwI",
+      "assignedTo": "10145"
+    },
+    {
+      "userId": "10152",
+      "clientEmail": "fahad@gmail.com",
+      "serviceId": "s143",
+      "serviceName": "Social Media Graphics Pack",
+      "categoryName": "Graphic Design",
+      "status": "ASSIGNED",
+      "priority": "NORMAL",
+      "clientNotes": "Social Media Graphics Pack",
+      "progress": 0,
+      "createdAt": "2026-05-19T06:49:35.515Z",
+      "documents": [
+        {
+          "id": "doc-1779173375515-0",
+          "name": "Brand Assets - LumiNex_Invoice_LNX-3514A070-273.pdf",
+          "url": "assets/docs/Brand Assets - LumiNex_Invoice_LNX-3514A070-273.pdf",
+          "uploadedAt": "2026-05-19T06:49:35.515Z"
+        },
+        {
+          "id": "doc-1779173375515-1",
+          "name": "LumiNex_Invoice_LNX-C77FFF5D-865.pdf",
+          "url": "assets/docs/LumiNex_Invoice_LNX-C77FFF5D-865.pdf",
+          "uploadedAt": "2026-05-19T06:49:35.515Z"
+        },
+        {
+          "id": "doc-1779173375515-2",
+          "name": "fahad.jpeg",
+          "url": "assets/docs/fahad.jpeg",
+          "uploadedAt": "2026-05-19T06:49:35.515Z"
+        }
+      ],
+      "id": "rBy2Gyo_PFY"
+    },
+    {
+      "userId": "10142",
+      "clientEmail": "badrul@gmail.com",
+      "serviceId": "PROPOSAL",
+      "serviceName": "Mobile Banking App",
+      "categoryName": "Mobile App (iOS/Android)",
+      "status": "AWAITING_ADVANCE",
+      "priority": "NORMAL",
+      "clientNotes": "Timeline: 1-3 Months\nBudget Range: BDT 50,000 - BDT 100,000\nTarget Customer/Audience: Smartphone Users\nExisting Branding? No\nDescription: A premium mobile wallet application. Key Features: Payments, Transactions, Profiles",
+      "createdAt": "2026-05-19T08:00:45.677Z",
+      "progress": 0,
+      "id": "JiM0Wexq_RA",
+      "totalAmount": 150000,
+      "projectDocumentation": "Deliverables:\n1. Mobile designs.\n2. Backend auth APIs.\n3. Dynamic dashboards."
     }
   ],
   "notifications": [
@@ -1826,6 +2016,222 @@
       "isRead": false,
       "createdAt": "2026-05-16T23:57:56.850Z",
       "id": "ipc5UMiMyrs"
+    },
+    {
+      "userId": 10157,
+      "title": "New Task Assigned",
+      "message": "You have been assigned: Employment Contract Templates",
+      "type": "TASK_ASSIGNED",
+      "isRead": false,
+      "createdAt": "2026-05-17T08:39:34.842Z",
+      "id": "_9hT8z7AKE0"
+    },
+    {
+      "userId": 10144,
+      "title": "Work Progress Update",
+      "message": "Your request \"Employment Contract Templates\" has been updated to Assigned (5% complete).",
+      "type": "STATUS_UPDATE",
+      "isRead": false,
+      "createdAt": "2026-05-17T08:40:41.070Z",
+      "id": "uiX1ixmu5jI"
+    },
+    {
+      "userId": 10144,
+      "title": "Work Progress Update",
+      "message": "Your request \"Business Plan Financial Model\" has been updated to Assigned (10% complete).",
+      "type": "STATUS_UPDATE",
+      "isRead": false,
+      "createdAt": "2026-05-17T09:07:38.789Z",
+      "id": "1VoGJdY-VuQ"
+    },
+    {
+      "userId": 10144,
+      "title": "Work Progress Update",
+      "message": "Your request \"Business Plan Financial Model\" has been updated to Assigned (40% complete).",
+      "type": "STATUS_UPDATE",
+      "isRead": false,
+      "createdAt": "2026-05-17T09:08:13.880Z",
+      "id": "YMF3AsKBaBY"
+    },
+    {
+      "userId": 10144,
+      "title": "Work Progress Update",
+      "message": "Your request \"Business Plan Financial Model\" has been updated to Assigned (40% complete).",
+      "type": "STATUS_UPDATE",
+      "isRead": false,
+      "createdAt": "2026-05-17T09:08:17.810Z",
+      "id": "NT1mFct6E6M"
+    },
+    {
+      "userId": 10144,
+      "title": "Work Progress Update",
+      "message": "Your request \"Business Plan Financial Model\" has been updated to Assigned (40% complete).",
+      "type": "STATUS_UPDATE",
+      "isRead": false,
+      "createdAt": "2026-05-17T09:09:17.076Z",
+      "id": "rMkDRzJ-0tA"
+    },
+    {
+      "userId": 10144,
+      "title": "Work Progress Update",
+      "message": "Your request \"Business Plan Financial Model\" has been updated to In Progress (40% complete).",
+      "type": "STATUS_UPDATE",
+      "isRead": false,
+      "createdAt": "2026-05-17T09:10:05.710Z",
+      "id": "munCf9Mthno"
+    },
+    {
+      "userId": 10144,
+      "title": "Work Progress Update",
+      "message": "Your request \"Business Plan Financial Model\" has been updated to In Progress (40% complete).",
+      "type": "STATUS_UPDATE",
+      "isRead": false,
+      "createdAt": "2026-05-17T09:12:41.830Z",
+      "id": "LVg0uukPJPo"
+    },
+    {
+      "userId": 10144,
+      "title": "Work Progress Update",
+      "message": "Your request \"Business Plan Financial Model\" has been updated to In Progress (40% complete).",
+      "type": "STATUS_UPDATE",
+      "isRead": false,
+      "createdAt": "2026-05-17T09:12:50.577Z",
+      "id": "mC1cYfUKj3s"
+    },
+    {
+      "userId": 10144,
+      "title": "Work Progress Update",
+      "message": "Your request \"Business Plan Financial Model\" has been updated to In Progress (25% complete).",
+      "type": "STATUS_UPDATE",
+      "isRead": false,
+      "createdAt": "2026-05-17T09:16:25.748Z",
+      "id": "5eVf1BhZ4Nc"
+    },
+    {
+      "userId": 10142,
+      "title": "Work Progress Update",
+      "message": "Your request \"Employment Contract Templates\" has been updated to Assigned (10% complete).",
+      "type": "STATUS_UPDATE",
+      "isRead": false,
+      "createdAt": "2026-05-17T09:21:46.499Z",
+      "id": "STY0gICNS_8"
+    },
+    {
+      "userId": 10142,
+      "title": "Work Progress Update",
+      "message": "Your request \"Employment Contract Templates\" has been updated to Assigned (10% complete).",
+      "type": "STATUS_UPDATE",
+      "isRead": false,
+      "createdAt": "2026-05-17T09:22:01.752Z",
+      "id": "84DyKFGm4g4"
+    },
+    {
+      "userId": 10142,
+      "title": "Work Progress Update",
+      "message": "Your request \"Employment Contract Templates\" has been updated to In Progress (50% complete).",
+      "type": "STATUS_UPDATE",
+      "isRead": false,
+      "createdAt": "2026-05-17T09:22:34.549Z",
+      "id": "_urP1iW7zV4"
+    },
+    {
+      "userId": 10144,
+      "title": "Work Progress Update",
+      "message": "Your request \"Employment Contract Templates\" has been updated to In Progress (50% complete).",
+      "type": "STATUS_UPDATE",
+      "isRead": false,
+      "createdAt": "2026-05-17T09:45:51.384Z",
+      "id": "JPhY5JgUfNg"
+    },
+    {
+      "userId": 10152,
+      "title": "Work Progress Update",
+      "message": "Your request \"Virtual Office Address\" has been updated to Assigned (50% complete).",
+      "type": "STATUS_UPDATE",
+      "isRead": true,
+      "createdAt": "2026-05-17T10:13:31.974Z",
+      "id": "ipSUy939K6s"
+    },
+    {
+      "userId": 10152,
+      "title": "Project Proposal Approved!",
+      "message": "Congratulations! Your project proposal \"E2E Test Proposal\" has been accepted. It is now active and ready for assignment/invoice setup.",
+      "type": "STATUS_UPDATE",
+      "isRead": true,
+      "createdAt": "2026-05-17T12:03:39.754Z",
+      "id": "MMvW57bJc9g"
+    },
+    {
+      "userId": 10145,
+      "title": "New Task Assigned",
+      "message": "You have been assigned: Hospital Management System",
+      "type": "TASK_ASSIGNED",
+      "isRead": false,
+      "createdAt": "2026-05-17T12:09:26.366Z",
+      "id": "3dn_vBWN5ks"
+    },
+    {
+      "userId": 10142,
+      "title": "20% Advance Payment Required",
+      "message": "An advance payment of 20% (BDT 500) is required to start your project \"Basic Stationery Pack\".",
+      "type": "PAYMENT_DUE",
+      "isRead": false,
+      "createdAt": "2026-05-17T18:17:06.814Z",
+      "id": "nAySSrZJDW8"
+    },
+    {
+      "id": "1779043646432",
+      "userId": 10142,
+      "title": "Advance Payment Approved",
+      "message": "We have approved your 20% advance payment. Awaiting employee assignment by Admin.",
+      "type": "STATUS_UPDATE",
+      "isRead": false,
+      "createdAt": "2026-05-17T18:47:26.432Z"
+    },
+    {
+      "id": "1779043646433",
+      "userId": 10151,
+      "title": "20% Advance Paid",
+      "message": "Client paid the 20% advance for request Basic Stationery Pack. You can now assign employees.",
+      "type": "INFO",
+      "isRead": false,
+      "createdAt": "2026-05-17T18:47:26.432Z"
+    },
+    {
+      "id": "1779043676768",
+      "userId": 10145,
+      "title": "New Task Assigned",
+      "message": "You have been assigned: Basic Stationery Pack",
+      "type": "TASK_ASSIGNED",
+      "isRead": false,
+      "createdAt": "2026-05-17T18:47:56.768Z"
+    },
+    {
+      "userId": 10151,
+      "title": "New Project Proposal",
+      "message": "A new custom project proposal \"Mobile Banking App\" has been submitted by Badrul.",
+      "type": "INFO",
+      "isRead": false,
+      "createdAt": "2026-05-19T08:00:45.699Z",
+      "id": "PiPpZKmEb3M"
+    },
+    {
+      "userId": 10141,
+      "title": "New Project Proposal",
+      "message": "A new custom project proposal \"Mobile Banking App\" has been submitted by Badrul.",
+      "type": "INFO",
+      "isRead": false,
+      "createdAt": "2026-05-19T08:00:45.700Z",
+      "id": "EXSllZ1xnGw"
+    },
+    {
+      "userId": 10142,
+      "title": "20% Advance Payment Required",
+      "message": "An advance payment of 20% (BDT 30000) is required to start your project \"Mobile Banking App\".",
+      "type": "PAYMENT_DUE",
+      "isRead": false,
+      "createdAt": "2026-05-19T08:04:49.016Z",
+      "id": "KJ7pBQVjc14"
     }
   ],
   "subscriptions": [
@@ -2162,6 +2568,108 @@
       "bankTranId": "26051751631My1h1bEVLmA6vfS",
       "currency": "BDT",
       "id": "sRpBUtJGTEA"
+    },
+    {
+      "clientId": "10144",
+      "client": "Business Plan Financial Model - Client",
+      "item": "Business Plan Financial Model",
+      "amount": 12600,
+      "method": "VISA-Dutch Bangla",
+      "status": "PAID",
+      "date": "2026-05-17",
+      "tranId": "LNX-3514A070-273",
+      "bankTranId": "260517101409kb03nU6FUoMDibO",
+      "currency": "BDT",
+      "requestId": "Kv-AcewsPMQ",
+      "id": "7vfX4ruCygg"
+    },
+    {
+      "clientId": "10152",
+      "client": "Job Posting & Shortlisting - Client",
+      "item": "Job Posting & Shortlisting",
+      "amount": 8400,
+      "method": "VISA-Dutch Bangla",
+      "status": "PAID",
+      "date": "2026-05-17",
+      "tranId": "LNX-C77FFF5D-865",
+      "bankTranId": "260517143552cZF5FixeCGpkTSf",
+      "currency": "BDT",
+      "requestId": "99H3q0ZMN9g",
+      "id": "NpWlY_lGil0"
+    },
+    {
+      "clientId": "10142",
+      "client": "Client Name",
+      "email": "badrul@gmail.com",
+      "item": "Basic Stationery Pack (20% Advance)",
+      "amount": 500,
+      "method": "CASH",
+      "status": "PAID",
+      "date": "2026-05-17",
+      "requestId": "t08Nb8QIqwI",
+      "id": "Q6gWDq4EIUo"
+    },
+    {
+      "clientId": "10142",
+      "client": "Badrul",
+      "email": "badrul@gmail.com",
+      "item": "Basic Stationery Pack (20% Advance)",
+      "amount": 525,
+      "method": "CASH",
+      "status": "PENDING",
+      "date": "2026-05-17",
+      "requestId": "t08Nb8QIqwI",
+      "id": "66N2RMrzhXY"
+    },
+    {
+      "clientId": "10142",
+      "client": "Badrul",
+      "email": "badrul@gmail.com",
+      "item": "Basic Stationery Pack (20% Advance)",
+      "amount": 551.25,
+      "method": "CASH",
+      "status": "PENDING",
+      "date": "2026-05-17",
+      "requestId": "t08Nb8QIqwI",
+      "id": "50E8vz_nz7o"
+    },
+    {
+      "clientId": "10142",
+      "client": "Badrul",
+      "email": "badrul@gmail.com",
+      "item": "Basic Stationery Pack (20% Advance)",
+      "amount": 551.25,
+      "method": "CASH",
+      "status": "PENDING",
+      "date": "2026-05-17",
+      "requestId": "t08Nb8QIqwI",
+      "id": "DHGHRq8oZF0"
+    },
+    {
+      "clientId": "10152",
+      "client": "Social Media Graphics Pack - Client",
+      "item": "Social Media Graphics Pack",
+      "amount": 3675,
+      "method": "VISA-Dutch Bangla",
+      "status": "PAID",
+      "date": "2026-05-19",
+      "tranId": "LNX-927C0A80-632",
+      "bankTranId": "2605191250216LBUrWpy2sGc3FU",
+      "currency": "BDT",
+      "requestId": "rBy2Gyo_PFY",
+      "id": "mNlwd9_9XsU"
+    },
+    {
+      "clientId": "10142",
+      "client": "Client Name",
+      "email": "badrul@gmail.com",
+      "item": "Mobile Banking App (20% Advance)",
+      "amount": 30000,
+      "method": "WAITING",
+      "status": "PENDING",
+      "date": "2026-05-19",
+      "requestId": "JiM0Wexq_RA",
+      "id": "8MTScQsfdFQ"
     }
   ],
   "auth": {
@@ -2643,6 +3151,213 @@
       "action": "Task Updated",
       "details": "Task #EyIRAhqnyj8 status changed to ASSIGNED (10% complete)",
       "id": "mEwJXtdWqBY"
+    },
+    {
+      "timestamp": "2026-05-17T08:39:29.226Z",
+      "userId": "10141",
+      "userName": "Admin User",
+      "userRole": "ADMIN",
+      "action": "Request Updated",
+      "details": "Admin updated request #vIPqiXXUe30 to status: ASSIGNED",
+      "id": "eGhRz4SxP8w"
+    },
+    {
+      "timestamp": "2026-05-17T08:39:34.813Z",
+      "userId": "10141",
+      "userName": "Admin User",
+      "userRole": "ADMIN",
+      "action": "Request Updated",
+      "details": "Admin updated request #vIPqiXXUe30 to status: ASSIGNED",
+      "id": "XA_7fNgmM8U"
+    },
+    {
+      "timestamp": "2026-05-17T08:40:41.069Z",
+      "userId": "10157",
+      "userName": "Tanvir Hossain",
+      "userRole": "EMPLOYEE",
+      "action": "Task Updated",
+      "details": "Task #vIPqiXXUe30 status changed to ASSIGNED (5% complete)",
+      "id": "qvWP7wNq7q4"
+    },
+    {
+      "timestamp": "2026-05-17T09:07:38.788Z",
+      "userId": "10157",
+      "userName": "Tanvir Hossain",
+      "userRole": "EMPLOYEE",
+      "action": "Task Updated",
+      "details": "Task #Kv-AcewsPMQ status changed to ASSIGNED (10% complete)",
+      "id": "e01Zxrel0GQ"
+    },
+    {
+      "timestamp": "2026-05-17T09:08:13.879Z",
+      "userId": "10157",
+      "userName": "Tanvir Hossain",
+      "userRole": "EMPLOYEE",
+      "action": "Task Updated",
+      "details": "Task #Kv-AcewsPMQ status changed to ASSIGNED (40% complete)",
+      "id": "nic821So5nY"
+    },
+    {
+      "timestamp": "2026-05-17T09:08:17.809Z",
+      "userId": "10157",
+      "userName": "Tanvir Hossain",
+      "userRole": "EMPLOYEE",
+      "action": "Task Updated",
+      "details": "Task #Kv-AcewsPMQ status changed to ASSIGNED (40% complete)",
+      "id": "kXhXoEtNBeA"
+    },
+    {
+      "timestamp": "2026-05-17T09:09:17.075Z",
+      "userId": "10157",
+      "userName": "Tanvir Hossain",
+      "userRole": "EMPLOYEE",
+      "action": "Task Updated",
+      "details": "Task #Kv-AcewsPMQ status changed to ASSIGNED (40% complete)",
+      "id": "H12rgnD4QH0"
+    },
+    {
+      "timestamp": "2026-05-17T09:10:05.710Z",
+      "userId": "10157",
+      "userName": "Tanvir Hossain",
+      "userRole": "EMPLOYEE",
+      "action": "Task Updated",
+      "details": "Task #Kv-AcewsPMQ status changed to IN_PROGRESS (40% complete)",
+      "id": "gQAs2c8QAmM"
+    },
+    {
+      "timestamp": "2026-05-17T09:12:41.828Z",
+      "userId": "10157",
+      "userName": "Tanvir Hossain",
+      "userRole": "EMPLOYEE",
+      "action": "Task Updated",
+      "details": "Task #Kv-AcewsPMQ status changed to IN_PROGRESS (40% complete)",
+      "id": "_p4C1FX4nAI"
+    },
+    {
+      "timestamp": "2026-05-17T09:12:50.576Z",
+      "userId": "10157",
+      "userName": "Tanvir Hossain",
+      "userRole": "EMPLOYEE",
+      "action": "Task Updated",
+      "details": "Task #Kv-AcewsPMQ status changed to IN_PROGRESS (40% complete)",
+      "id": "2oIDi64DgsA"
+    },
+    {
+      "timestamp": "2026-05-17T09:16:25.747Z",
+      "userId": "10157",
+      "userName": "Tanvir Hossain",
+      "userRole": "EMPLOYEE",
+      "action": "Task Updated",
+      "details": "Task #Kv-AcewsPMQ status changed to IN_PROGRESS (25% complete)",
+      "id": "NUfPVYvwvlI"
+    },
+    {
+      "timestamp": "2026-05-17T09:21:46.497Z",
+      "userId": "10145",
+      "userName": "Emon",
+      "userRole": "EMPLOYEE",
+      "action": "Task Updated",
+      "details": "Task #EyIRAhqnyj8 status changed to ASSIGNED (10% complete)",
+      "id": "yX5_zvJBMFU"
+    },
+    {
+      "timestamp": "2026-05-17T09:22:01.750Z",
+      "userId": "10145",
+      "userName": "Emon",
+      "userRole": "EMPLOYEE",
+      "action": "Task Updated",
+      "details": "Task #EyIRAhqnyj8 status changed to ASSIGNED (10% complete)",
+      "id": "XIhrZ4WC4ts"
+    },
+    {
+      "timestamp": "2026-05-17T09:22:34.547Z",
+      "userId": "10145",
+      "userName": "Emon",
+      "userRole": "EMPLOYEE",
+      "action": "Task Updated",
+      "details": "Task #EyIRAhqnyj8 status changed to IN_PROGRESS (50% complete)",
+      "id": "mnM4FSGTxjg"
+    },
+    {
+      "timestamp": "2026-05-17T09:45:51.383Z",
+      "userId": "10157",
+      "userName": "Tanvir Hossain",
+      "userRole": "EMPLOYEE",
+      "action": "Task Updated",
+      "details": "Task #vIPqiXXUe30 status changed to IN_PROGRESS (50% complete)",
+      "id": "HucHoazDBwU"
+    },
+    {
+      "timestamp": "2026-05-17T10:13:31.972Z",
+      "userId": "10145",
+      "userName": "Emon",
+      "userRole": "EMPLOYEE",
+      "action": "Task Updated",
+      "details": "Task #jiUV3wkCfJw status changed to ASSIGNED (50% complete)",
+      "id": "mfM0aB_n64U"
+    },
+    {
+      "timestamp": "2026-05-17T12:03:39.753Z",
+      "userId": "10151",
+      "userName": "Super Admin",
+      "userRole": "SUPER_ADMIN",
+      "action": "Proposal Accepted",
+      "details": "Admin accepted project proposal #0WX9lM40Qgo (\"E2E Test Proposal\")",
+      "id": "m2Pir4-Fq_0"
+    },
+    {
+      "timestamp": "2026-05-17T12:09:18.673Z",
+      "userId": "10141",
+      "userName": "Admin User",
+      "userRole": "ADMIN",
+      "action": "Request Updated",
+      "details": "Admin updated request #5e-nPWUUW88 to status: ASSIGNED (Priority: NORMAL)",
+      "id": "22mLVxZ4pLI"
+    },
+    {
+      "timestamp": "2026-05-17T12:09:21.771Z",
+      "userId": "10141",
+      "userName": "Admin User",
+      "userRole": "ADMIN",
+      "action": "Request Updated",
+      "details": "Admin updated request #5e-nPWUUW88 to status: ASSIGNED (Priority: HIGH)",
+      "id": "gdPQpQJM5uo"
+    },
+    {
+      "timestamp": "2026-05-17T12:09:26.337Z",
+      "userId": "10141",
+      "userName": "Admin User",
+      "userRole": "ADMIN",
+      "action": "Request Updated",
+      "details": "Admin updated request #5e-nPWUUW88 to status: ASSIGNED (Priority: HIGH)",
+      "id": "IfFI_v4Gjec"
+    },
+    {
+      "timestamp": "2026-05-17T18:17:06.812Z",
+      "userId": "10151",
+      "userName": "Super Admin",
+      "userRole": "SUPER_ADMIN",
+      "action": "Advance Requested",
+      "details": "Admin requested 20% advance payment for request #t08Nb8QIqwI (BDT 500)",
+      "id": "AxLlp7qnVC8"
+    },
+    {
+      "timestamp": "2026-05-19T04:37:55.386Z",
+      "userId": "10151",
+      "userName": "Super Admin",
+      "userRole": "SUPER_ADMIN",
+      "action": "Request Updated",
+      "details": "Admin updated request #0WX9lM40Qgo to status: AWAITING_ADVANCE (Priority: NORMAL)",
+      "id": "OdwJduOpwIM"
+    },
+    {
+      "timestamp": "2026-05-19T08:04:49.014Z",
+      "userId": "10141",
+      "userName": "Admin User",
+      "userRole": "ADMIN",
+      "action": "Advance Requested",
+      "details": "Admin requested 20% advance payment for request #JiM0Wexq_RA (BDT 30000)",
+      "id": "3aqQ3CMbQUU"
     }
   ],
   "knowledgeBase": [

@@ -96,24 +96,24 @@
             <div class="p-3 bg-light rounded-3 text-dark small border">{{ selectedRequest.clientNotes }}</div>
           </div>
           
-          <div class="mb-4" *ngIf="selectedRequest.employeeNotes">
-            <div class="small fw-bold text-primary mb-1">Update from Team</div>
-            <div class="p-3 rounded-3 text-dark small border" style="background-color: #eef2ff; border-color: #c7d2fe !important;">{{ selectedRequest.employeeNotes }}</div>
-          </div>
-          
           <div class="d-grid gap-2">
             <!-- Show Pay Now if request is PENDING and no payment record exists -->
             <button class="btn btn-primary-premium shadow-sm py-2 fw-bold" *ngIf="selectedRequest.status === 'PENDING' && !getPaymentForRequest(selectedRequest.id)" (click)="pay(selectedRequest)">
               <i class="bi bi-credit-card me-2"></i> Pay Now to Start
             </button>
+
+            <!-- Show Pay 20% Advance if status is AWAITING_ADVANCE -->
+            <button class="btn btn-warning shadow-sm py-2 fw-bold text-dark animate-pulse" *ngIf="selectedRequest.status === 'AWAITING_ADVANCE' && getPaymentForRequest(selectedRequest.id)?.status === 'PENDING'" (click)="payAdvance(selectedRequest)">
+              <i class="bi bi-wallet2 me-2"></i> Pay 20% Advance
+            </button>
             
             <!-- Show Payment Pending Approval if a cash/manual payment is recorded -->
-            <div class="alert alert-warning border-0 rounded-3 text-center mb-2 small" *ngIf="selectedRequest.status === 'PENDING' && getPaymentForRequest(selectedRequest.id)?.status === 'PENDING'">
+            <div class="alert alert-warning border-0 rounded-3 text-center mb-2 small" *ngIf="(selectedRequest.status === 'PENDING' || selectedRequest.status === 'AWAITING_ADVANCE') && getPaymentForRequest(selectedRequest.id)?.status === 'PENDING'">
               <i class="bi bi-clock-history me-1"></i> Payment Awaiting Verification
             </div>
 
             <!-- Show Payment Verified if paid -->
-            <div class="alert alert-success border-0 rounded-3 text-center mb-2 small" *ngIf="getPaymentForRequest(selectedRequest.id)?.status === 'PAID'">
+            <div class="alert alert-success border-0 rounded-3 text-center mb-2 small" *ngIf="selectedRequest.status === 'ADVANCE_PAID' || getPaymentForRequest(selectedRequest.id)?.status === 'PAID'">
               <i class="bi bi-check-circle-fill me-1"></i> Payment Verified
             </div>
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { RequestService } from '../../core/services/request.service';
@@ -30,7 +30,8 @@ export class MyRequestsComponent implements OnInit, OnDestroy {
     private router: Router,
     private modalService: ModalService,
     private toastService: ToastService,
-    private paymentService: PaymentService
+    private paymentService: PaymentService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -49,15 +50,19 @@ export class MyRequestsComponent implements OnInit, OnDestroy {
     const user = this.authService.currentUser;
     if (user) {
       this.requestService.getMyRequests(user.id).subscribe(data => {
-        this.requests = data;
+        this.requests = data.filter(r => r.status !== 'PROPOSAL_PENDING');
+        this.cdr.markForCheck();
+        console.log(data);
         // Keep selected request updated if it exists
         if (this.selectedRequest) {
           const updated = this.requests.find(r => r.id === this.selectedRequest?.id);
           if (updated) this.selectedRequest = updated;
+          this.cdr.markForCheck();
         }
       });
       this.paymentService.getPayments().subscribe(payments => {
         this.payments = payments.filter(p => String(p.clientId) === String(user.id));
+        this.cdr.markForCheck();
       });
     }
   }
@@ -68,6 +73,7 @@ export class MyRequestsComponent implements OnInit, OnDestroy {
 
   viewDetails(req: ServiceRequest) {
     this.selectedRequest = req;
+    this.cdr.markForCheck();
   }
 
   async cancelRequest() {
@@ -95,6 +101,18 @@ export class MyRequestsComponent implements OnInit, OnDestroy {
         serviceName: req.serviceName,
         requestId: req.id,
         amount: 0 // Will be loaded dynamically by payments component
+      }
+    });
+  }
+
+  payAdvance(req: ServiceRequest) {
+    const p = this.getPaymentForRequest(req.id);
+    this.router.navigate(['/client/payments'], {
+      queryParams: {
+        serviceId: req.serviceId,
+        serviceName: req.serviceName,
+        requestId: req.id,
+        amount: p ? p.amount : 0
       }
     });
   }

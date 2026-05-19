@@ -76,6 +76,19 @@ io.on('connection', (socket) => {
     
     // Notify available employees
     io.emit('client-joined', { clientId, clientName });
+
+    // Send a professional welcome message from support assistant on connect
+    setTimeout(() => {
+      const welcomeMsg = {
+        id: uuidv4(),
+        employeeId: 'support-bot',
+        employeeName: 'LumiNex Support',
+        message: `Hello ${clientName}! How can we help you today with your request?`,
+        timestamp: new Date().toISOString(),
+        type: 'employee'
+      };
+      socket.emit('new-message', welcomeMsg);
+    }, 1000);
   });
 
   // Handle employee authentication
@@ -113,7 +126,23 @@ io.on('connection', (socket) => {
         io.to('employees').emit('new-message', messageData);
       }
       
+      // Echo the message back to the client immediately so they see it in their chat feed
+      socket.emit('new-message', messageData);
+      
       console.log(`Client message from ${socket.clientName}: ${message}`);
+
+      // Dynamic automatic premium support agent bot reply after a short delay (1.5 seconds)
+      setTimeout(() => {
+        const botResponse = {
+          id: uuidv4(),
+          employeeId: 'support-bot',
+          employeeName: 'LumiNex Assistant',
+          message: `Thanks for the update, ${socket.clientName}! I have successfully logged this inquiry and alerted the specialist assigned to your request. We'll get back to you with updates shortly!`,
+          timestamp: new Date().toISOString(),
+          type: 'employee'
+        };
+        socket.emit('new-message', botResponse);
+      }, 1500);
     }
   });
 
@@ -133,6 +162,9 @@ io.on('connection', (socket) => {
       if (clientId && connectedClients.has(clientId)) {
         io.to(`client-${clientId}`).emit('new-message', messageData);
       }
+      
+      // Echo back to employee
+      socket.emit('new-message', messageData);
       
       console.log(`Employee message from ${socket.employeeName}: ${message}`);
     }
@@ -367,9 +399,9 @@ app.post('/api/payment/success', async (req, res) => {
     // NEW: Update linked Service Request status if requestId exists
     if (requestId) {
       await axios.patch(`${DB_URL}/service-requests/${requestId}`, {
-        status: 'ASSIGNED' // Request is now paid and ready for assignment
+        status: 'ADVANCE_PAID' // Request is now paid and ready for assignment
       }).catch(err => console.error(`[DB] Failed to update request ${requestId}:`, err.message));
-      console.log(`[DB] Linked Request updated to ASSIGNED: ${requestId}`);
+      console.log(`[DB] Linked Request updated to ADVANCE_PAID: ${requestId}`);
     }
   } catch (e) {
     console.error('[DB] Failed to save/update payment:', e.message);

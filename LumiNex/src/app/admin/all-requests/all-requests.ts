@@ -10,6 +10,7 @@ import { AuditLogService } from '../../core/services/audit-log.service';
 import { ModalService } from '../../core/services/modal.service';
 import { PaymentService } from '../../core/services/payment.service';
 import { NotificationService } from '../../core/services/notification.service';
+import { ToastService } from '../../core/services/toast.service';
 
 @Component({
   selector: 'app-all-requests',
@@ -39,7 +40,10 @@ import { NotificationService } from '../../core/services/notification.service';
               <label class="form-label small fw-bold text-muted text-uppercase">Status Filter</label>
               <select class="form-select bg-light border-0 py-2 rounded-3" [(ngModel)]="filterStatus">
                 <option value="">All Statuses</option>
+                <option value="PROPOSAL_PENDING">PENDING PROPOSALS</option>
                 <option value="PENDING">PENDING</option>
+                <option value="AWAITING_ADVANCE">AWAITING ADVANCE</option>
+                <option value="ADVANCE_PAID">ADVANCE PAID</option>
                 <option value="ASSIGNED">ASSIGNED</option>
                 <option value="IN_PROGRESS">IN_PROGRESS</option>
                 <option value="REVIEW">REVIEW</option>
@@ -125,7 +129,10 @@ import { NotificationService } from '../../core/services/notification.service';
                   <div class="col-md-6">
                     <label class="form-label small fw-bold text-muted text-uppercase">Status</label>
                     <select class="form-select bg-light border-0 py-2 rounded-3" [(ngModel)]="selectedRequest.status" (change)="updateRequest()">
+                      <option value="PROPOSAL_PENDING" *ngIf="selectedRequest.status === 'PROPOSAL_PENDING'">PROPOSAL_PENDING</option>
                       <option value="PENDING">PENDING</option>
+                      <option value="AWAITING_ADVANCE">AWAITING_ADVANCE</option>
+                      <option value="ADVANCE_PAID">ADVANCE_PAID</option>
                       <option value="ASSIGNED">ASSIGNED</option>
                       <option value="IN_PROGRESS">IN_PROGRESS</option>
                       <option value="REVIEW">REVIEW</option>
@@ -144,19 +151,52 @@ import { NotificationService } from '../../core/services/notification.service';
                     </select>
                   </div>
 
-                  <div class="col-12" *ngIf="selectedRequest.status === 'IN_PROGRESS'">
-                    <button class="btn btn-outline-warning w-100 py-2 rounded-3 fw-bold" (click)="generateAdvanceInvoice(selectedRequest)">
-                      <i class="bi bi-receipt me-2"></i>Generate 50% Advance Invoice
-                    </button>
+                  <div class="col-12" *ngIf="selectedRequest.status === 'PROPOSAL_PENDING' || selectedRequest.status === 'PENDING'">
+                    <div class="card border-0 rounded-4 p-4 shadow-sm" style="background-color: #f8fafc; border: 1px solid #e2e8f0 !important;">
+                      <h6 class="fw-bold text-primary mb-3"><i class="bi bi-gear-fill me-2"></i>Project Proposal Setup & Documentation</h6>
+                      <div class="row g-3">
+                        <div class="col-md-12">
+                          <label class="form-label small fw-bold text-muted text-uppercase mb-2">Fixed Total Budget (BDT)</label>
+                          <input type="number" class="form-control border-0 py-2 rounded-3 bg-white shadow-sm" 
+                                 [(ngModel)]="selectedRequest.totalAmount" 
+                                 placeholder="Enter manually negotiated fixed price...">
+                        </div>
+                        <div class="col-12 mt-3">
+                          <label class="form-label small fw-bold text-muted text-uppercase mb-2">Project Documentation scope</label>
+                          <textarea class="form-control border-0 py-3 rounded-4 bg-white shadow-sm" rows="4" 
+                                    [(ngModel)]="selectedRequest.projectDocumentation" 
+                                    placeholder="Provide detailed guidelines, timeline scope, or deliverables..."></textarea>
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
-                  <div class="col-12">
-                    <label class="form-label small fw-bold text-muted text-uppercase">Assign to Employee</label>
-                    <select class="form-select bg-light border-0 py-2 rounded-3" [(ngModel)]="selectedRequest.assignedTo" (change)="updateRequest()">
-                      <option [ngValue]="undefined">Unassigned</option>
-                      <option *ngFor="let s of employee" [value]="s.id">{{ s.name }}</option>
-                    </select>
+                  <div class="col-12" *ngIf="selectedRequest.status === 'PENDING' || selectedRequest.status === 'PROPOSAL_PENDING'">
+                    <div class="alert alert-info border-0 rounded-3 mb-3 d-flex align-items-center justify-content-between p-3" style="background-color: #e0f2fe; color: #075985;">
+                      <div>
+                        <strong class="d-block mb-1 text-dark"><i class="bi bi-wallet2 me-2"></i>20% Advance Payment Pending</strong>
+                        <span class="small text-muted">Generate a 20% advance payment request for the client before starting assignment.</span>
+                      </div>
+                      <button class="btn btn-info fw-bold text-white rounded-pill px-4 py-2" (click)="requestAdvancePayment(selectedRequest)">
+                        Request 20% Advance
+                      </button>
+                    </div>
                   </div>
+
+                  <div class="col-12" *ngIf="selectedRequest.status === 'PROPOSAL_PENDING' || selectedRequest.status === 'PENDING' || selectedRequest.status === 'AWAITING_ADVANCE'; else assignmentUnlocked">
+                    <div class="alert alert-secondary border-0 rounded-3 p-3 small text-center mb-0" style="background-color: #f3f4f6; color: #4b5563;">
+                      <i class="bi bi-lock-fill me-2 text-muted"></i>Employee assignment is locked until the 20% advance is paid.
+                    </div>
+                  </div>
+                  <ng-template #assignmentUnlocked>
+                    <div class="col-12">
+                      <label class="form-label small fw-bold text-muted text-uppercase">Assign to Employee</label>
+                      <select class="form-select bg-light border-0 py-2 rounded-3" [(ngModel)]="selectedRequest.assignedTo" (change)="updateRequest()">
+                        <option [ngValue]="undefined">Unassigned</option>
+                        <option *ngFor="let s of employee" [value]="s.id">{{ s.name }}</option>
+                      </select>
+                    </div>
+                  </ng-template>
 
                   <div class="col-12">
                     <label class="form-label small fw-bold text-muted text-uppercase">Internal Notes</label>
@@ -209,7 +249,8 @@ export class AllRequestsComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private modalService: ModalService,
     private paymentService: PaymentService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit() {
@@ -277,9 +318,22 @@ export class AllRequestsComponent implements OnInit {
   updateRequest() {
     if (!this.selectedRequest) return;
 
-    this.requestService.updateStatus(this.selectedRequest.id, this.selectedRequest.status, this.selectedRequest.employeeNotes)
+    // Automate status transition if employee is newly assigned on an ADVANCE_PAID request
+    if (this.selectedRequest.assignedTo && this.selectedRequest.status === 'ADVANCE_PAID') {
+      this.selectedRequest.status = 'ASSIGNED';
+    }
+
+    const payload: Partial<ServiceRequest> = {
+      status: this.selectedRequest.status,
+      employeeNotes: this.selectedRequest.employeeNotes,
+      priority: this.selectedRequest.priority,
+      totalAmount: this.selectedRequest.totalAmount,
+      projectDocumentation: this.selectedRequest.projectDocumentation
+    };
+
+    this.requestService.updateRequest(this.selectedRequest.id, payload)
       .subscribe(() => {
-        this.auditLogService.logAction('Request Updated', `Admin updated request #${this.selectedRequest!.id} to status: ${this.selectedRequest!.status}`);
+        this.auditLogService.logAction('Request Updated', `Admin updated request #${this.selectedRequest!.id} to status: ${this.selectedRequest!.status} (Priority: ${this.selectedRequest!.priority})`);
         
         // --- STEP 7 & 8 AUTOMATION ---
         if (this.selectedRequest?.status === 'COMPLETED') {
@@ -358,12 +412,124 @@ export class AllRequestsComponent implements OnInit {
     this.selectedRequest = null;
   }
 
+  acceptProposal(req: ServiceRequest) {
+    this.requestService.updateStatus(req.id, 'PENDING').subscribe({
+      next: () => {
+        this.auditLogService.logAction('Proposal Accepted', `Admin accepted project proposal #${req.id} ("${req.serviceName}")`);
+        this.toastService.success('Project Proposal accepted successfully!');
+        
+        this.notificationService.create({
+          userId: Number(req.userId),
+          title: `Project Proposal Approved!`,
+          message: `Congratulations! Your project proposal "${req.serviceName}" has been accepted. It is now active and ready for assignment/invoice setup.`,
+          type: 'STATUS_UPDATE'
+        }).subscribe();
+
+        this.loadData();
+        this.selectedRequest = null;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        this.toastService.error('Failed to accept proposal.');
+        console.error(err);
+      }
+    });
+  }
+
+  requestAdvancePayment(req: ServiceRequest) {
+    if (req.serviceId === 'PROPOSAL' && (!req.totalAmount || req.totalAmount <= 0)) {
+      this.toastService.error('Please specify a positive Fixed Total Budget for this custom project proposal first.');
+      return;
+    }
+
+    this.adminService.getService(req.serviceId).subscribe({
+      next: (service) => {
+        const totalAmt = req.totalAmount || (service ? service.price : 0);
+        if (totalAmt <= 0) {
+          this.toastService.error('Could not determine project budget. Please set a Fixed Total Budget manually.');
+          return;
+        }
+
+        const amount = totalAmt * 0.20;
+        
+        this.paymentService.addPayment({
+          clientId: req.userId.toString(),
+          client: 'Client Name',
+          email: req.clientEmail || '',
+          item: `${req.serviceName} (20% Advance)`,
+          amount: amount,
+          method: 'WAITING',
+          status: 'PENDING',
+          date: new Date().toISOString().split('T')[0],
+          requestId: req.id
+        }).subscribe(() => {
+          this.requestService.updateRequest(req.id, {
+            status: 'AWAITING_ADVANCE',
+            totalAmount: req.totalAmount,
+            projectDocumentation: req.projectDocumentation
+          }).subscribe(() => {
+            this.auditLogService.logAction('Advance Requested', `Admin requested 20% advance payment for request #${req.id} (BDT ${amount})`);
+            this.toastService.success('20% Advance payment requested successfully!');
+            
+            this.notificationService.create({
+              userId: Number(req.userId),
+              title: '20% Advance Payment Required',
+              message: `An advance payment of 20% (BDT ${amount}) is required to start your project "${req.serviceName}".`,
+              type: 'PAYMENT_DUE'
+            }).subscribe();
+
+            this.loadData();
+            this.selectedRequest = null;
+            this.cdr.detectChanges();
+          });
+        });
+      },
+      error: (err) => {
+        const totalAmt = req.totalAmount || 25000;
+        const amount = totalAmt * 0.20;
+
+        this.paymentService.addPayment({
+          clientId: req.userId.toString(),
+          client: 'Client Name',
+          email: req.clientEmail || '',
+          item: `${req.serviceName} (20% Advance)`,
+          amount: amount,
+          method: 'WAITING',
+          status: 'PENDING',
+          date: new Date().toISOString().split('T')[0],
+          requestId: req.id
+        }).subscribe(() => {
+          this.requestService.updateRequest(req.id, {
+            status: 'AWAITING_ADVANCE',
+            totalAmount: req.totalAmount,
+            projectDocumentation: req.projectDocumentation
+          }).subscribe(() => {
+            this.auditLogService.logAction('Advance Requested', `Admin requested 20% advance payment for request #${req.id} (BDT ${amount})`);
+            this.toastService.success('20% Advance payment requested successfully!');
+            
+            this.notificationService.create({
+              userId: Number(req.userId),
+              title: '20% Advance Payment Required',
+              message: `An advance payment of 20% (BDT ${amount}) is required to start your project "${req.serviceName}".`,
+              type: 'PAYMENT_DUE'
+            }).subscribe();
+
+            this.loadData();
+            this.selectedRequest = null;
+            this.cdr.detectChanges();
+          });
+        });
+      }
+    });
+  }
+
   async cancelRequest() {
     const confirmed = await this.modalService.confirm('Are you sure you want to reject this request?');
     if (confirmed) {
       this.selectedRequest!.status = 'REJECTED';
       this.auditLogService.logAction('Request Rejected', `Admin rejected request #${this.selectedRequest!.id}`);
       this.updateRequest();
+      this.selectedRequest = null;
     }
   }
 }

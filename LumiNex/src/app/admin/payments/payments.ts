@@ -122,15 +122,24 @@ export class AdminPaymentsComponent implements OnInit {
       this.paymentService.updatePayment(payment.id, { status: 'PAID' }).subscribe(() => {
         // If there's a linked service request, update its status to ASSIGNED
         if (payment.requestId) {
-          this.requestService.updateStatus(payment.requestId, 'ASSIGNED').subscribe({
+          this.requestService.updateStatus(payment.requestId, 'ADVANCE_PAID').subscribe({
             next: () => {
               // Notify client
               this.notificationService.create({
                 userId: Number(payment.clientId),
-                title: 'Payment Received',
-                message: `We've approved your payment for "${payment.item}". Work is now assigned.`,
+                title: 'Advance Payment Approved',
+                message: `We've approved your 20% advance payment for "${payment.item}". Awaiting employee assignment by Admin.`,
                 type: 'STATUS_UPDATE'
               }).subscribe();
+
+              // Notify Admin
+              this.notificationService.create({
+                userId: 10151,
+                title: '20% Advance Paid',
+                message: `Client paid the 20% advance for request "${payment.item}". You can now assign employees.`,
+                type: 'INFO'
+              }).subscribe();
+
               this.loadPayments();
             },
             error: (err) => {

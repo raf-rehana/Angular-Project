@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { RequestService } from '../../core/services/request.service';
@@ -8,6 +8,8 @@ import { RequestTimelineComponent } from '../../shared/components/request-timeli
 import { ServiceCatalogueService } from '../../core/services/service-catalogue';
 import { PaymentService, Payment } from '../../core/services/payment.service';
 import { AuthService } from '../../core/services/auth.service';
+import { ChatService } from '../../core/services/chat.service';
+import { interval, Subscription, startWith, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-request-detail',
@@ -16,10 +18,11 @@ import { AuthService } from '../../core/services/auth.service';
   templateUrl: './request-detail.html',
   styleUrl: './request-detail.css',
 })
-export class RequestDetail implements OnInit {
+export class RequestDetail implements OnInit, OnDestroy {
   request: ServiceRequest | null = null;
   servicePrice: number = 0;
   payments: Payment[] = [];
+  private pollSubscription?: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -28,14 +31,23 @@ export class RequestDetail implements OnInit {
     private catalogueService: ServiceCatalogueService,
     private cdr: ChangeDetectorRef,
     private paymentService: PaymentService,
-    private authService: AuthService
+    private authService: AuthService,
+    private chatService: ChatService
   ) {}
+
+  openChat() {
+    this.chatService.toggleChat(true);
+  }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       const id = params['id'];
       if (id) {
-        this.requestService.getById(id).subscribe(data => {
+        // Poll for request details every 5 seconds to keep progress updated in real-time
+        this.pollSubscription = interval(5000).pipe(
+          startWith(0),
+          switchMap(() => this.requestService.getById(id))
+        ).subscribe(data => {
           this.request = data;
           this.loadServiceDetails(data.serviceId);
           this.cdr.detectChanges();
@@ -52,10 +64,26 @@ export class RequestDetail implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    this.pollSubscription?.unsubscribe();
+  }
+
   loadServiceDetails(serviceId: string | number) {
-    this.catalogueService.getServiceById(serviceId.toString()).subscribe(service => {
-      this.servicePrice = service.price;
+    if (this.request && this.request.totalAmount !== undefined && this.request.totalAmount !== null) {
+      this.servicePrice = this.request.totalAmount;
       this.cdr.detectChanges();
+      return;
+    }
+
+    this.catalogueService.getServiceById(serviceId.toString()).subscribe({
+      next: (service) => {
+        this.servicePrice = service ? service.price : 0;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.servicePrice = 0;
+        this.cdr.detectChanges();
+      }
     });
   }
 
@@ -76,6 +104,19 @@ export class RequestDetail implements OnInit {
         serviceName: this.request.serviceName,
         requestId: this.request.id,
         amount: this.servicePrice
+      }
+    });
+  }
+
+  payAdvance() {
+    if (!this.request) return;
+    const p = this.getPaymentForRequest();
+    this.router.navigate(['/client/payments'], {
+      queryParams: {
+        serviceId: this.request.serviceId,
+        serviceName: this.request.serviceName,
+        requestId: this.request.id,
+        amount: p ? p.amount : (this.servicePrice * 0.20)
       }
     });
   }

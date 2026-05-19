@@ -15,7 +15,9 @@ export class RequestTimelineComponent {
   get timelineSteps() {
     const statuses = ['PENDING', 'ASSIGNED', 'IN_PROGRESS', 'REVIEW', 'COMPLETED'];
     let currentIdx = statuses.indexOf(this.request?.status || 'PENDING');
-    if (this.request?.status === 'REJECTED') {
+    if (this.request?.status === 'AWAITING_ADVANCE' || this.request?.status === 'ADVANCE_PAID') {
+      currentIdx = 0;
+    } else if (this.request?.status === 'REJECTED') {
       currentIdx = -1; // Special case for rejected
     }
     

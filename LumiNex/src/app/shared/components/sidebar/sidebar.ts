@@ -42,7 +42,11 @@ export class SidebarComponent {
   }
   
   get isClientContext(): boolean {
-    return this.router.url.startsWith('/client');
+    const url = this.router.url;
+    if (url.includes('/client/profile')) {
+      return this.authService.hasRole('CLIENT');
+    }
+    return url.startsWith('/client');
   }
 
   get isCatalogueContext(): boolean {
@@ -50,11 +54,19 @@ export class SidebarComponent {
   }
 
   get isAdminContext(): boolean {
-    return this.router.url.startsWith('/admin');
+    const url = this.router.url;
+    if (url.includes('/client/profile')) {
+      return this.authService.hasRole('ADMIN') || this.authService.hasRole('SUPER_ADMIN');
+    }
+    return url.startsWith('/admin');
   }
 
   get isEmployeeContext(): boolean {
-    return this.router.url.startsWith('/employee');
+    const url = this.router.url;
+    if (url.includes('/client/profile')) {
+      return this.authService.hasRole('EMPLOYEE');
+    }
+    return url.startsWith('/employee');
   }
 
   get isGenericContext(): boolean {

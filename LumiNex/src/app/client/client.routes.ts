@@ -9,11 +9,13 @@ import { Payments } from './payments/payments';
 import { Profile } from './profile/profile';
 import { PlansComponent } from './plans/plans';
 import { NotificationsComponent } from './notifications/notifications';
+import { RequestedProjectsComponent } from './requested-projects/requested-projects';
 
 export const CLIENT_ROUTES: Routes = [
   { path: 'dashboard', component: Dashboard },
   { path: 'catalogue', component: CatalogueComponent },
   { path: 'my-requests', component: MyRequestsComponent },
+  { path: 'requested-projects', component: RequestedProjectsComponent },
   { path: 'request-form', component: RequestForm },
   { path: 'request-detail/:id', component: RequestDetail },
   { path: 'subscriptions', component: SubscriptionsComponent },

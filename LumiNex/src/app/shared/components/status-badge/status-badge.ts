@@ -13,7 +13,10 @@ export class StatusBadgeComponent {
 
   get badgeClass(): string {
     switch (this.status?.toUpperCase()) {
+      case 'PROPOSAL_PENDING': return 'bg-light text-primary border border-primary';
       case 'PENDING': return 'bg-warning text-dark';
+      case 'AWAITING_ADVANCE': return 'bg-light text-warning border border-warning';
+      case 'ADVANCE_PAID': return 'bg-success text-white';
       case 'ASSIGNED': return 'bg-info text-dark';
       case 'IN_PROGRESS': return 'bg-primary';
       case 'REVIEW': return 'bg-secondary';

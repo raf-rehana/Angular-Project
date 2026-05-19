@@ -14,7 +14,7 @@ export interface ServiceRequest {
   categoryName: string;
   clientEmail?: string;
   assignedTo?: string | number;
-  status: 'PENDING' | 'ASSIGNED' | 'IN_PROGRESS' | 'REVIEW' | 'COMPLETED' | 'REJECTED';
+  status: 'PROPOSAL_PENDING' | 'PENDING' | 'AWAITING_ADVANCE' | 'ADVANCE_PAID' | 'ASSIGNED' | 'IN_PROGRESS' | 'REVIEW' | 'COMPLETED' | 'REJECTED';
   priority: 'LOW' | 'NORMAL' | 'HIGH' | 'URGENT';
   clientNotes?: string;
   employeeNotes?: string;
@@ -25,4 +25,6 @@ export interface ServiceRequest {
   documents?: Attachment[];
   workedHours?: number;
   timerStartedAt?: string;
+  totalAmount?: number;
+  projectDocumentation?: string;
 }

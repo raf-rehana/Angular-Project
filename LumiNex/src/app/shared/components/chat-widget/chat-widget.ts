@@ -12,23 +12,23 @@ import { Subject } from 'rxjs';
   standalone: true,
   imports: [CommonModule, FormsModule, NgIf, NgFor],
   template: `
-    <div class="chat-widget" [class.minimized]="isMinimized" *ngIf="currentUser?.role === 'CLIENT'">
+    <div class="chat-widget" *ngIf="isOpen && currentUser?.role === 'CLIENT'">
       <!-- Chat Header -->
-      <div class="chat-header" (click)="toggleMinimize()">
+      <div class="chat-header">
         <div class="chat-title">
-          <i class="bi bi-chat-dots-fill"></i>
-          <span>Live Support</span>
+          <i class="bi bi-chat-left-text-fill"></i>
+          <span>Support Chat</span>
           <div class="online-indicator" *ngIf="isOnline"></div>
         </div>
         <div class="chat-actions">
-          <button class="btn btn-sm btn-link" (click)="toggleMinimize()">
-            <i class="bi bi-chevron-{{ isMinimized ? 'right' : 'down' }}"></i>
+          <button class="btn btn-sm btn-link py-0 px-1 text-white border-0" (click)="closeChat()" title="Close Chat">
+            <i class="bi bi-x-lg" style="font-size: 1.1rem; vertical-align: middle;"></i>
           </button>
         </div>
       </div>
 
       <!-- Chat Body -->
-      <div class="chat-body" *ngIf="!isMinimized">
+      <div class="chat-body">
         <!-- Messages Container -->
         <div class="messages-container" #messagesContainer>
           <div class="message" *ngFor="let message of messages" [class.client-message]="message.type === 'client'" [class.employee-message]="message.type === 'employee'">
@@ -58,7 +58,7 @@ import { Subject } from 'rxjs';
               (focus)="isTyping = false"
               #messageInput
             >
-            <button class="btn btn-primary" (click)="sendMessage()" [disabled]="!newMessage.trim()">
+            <button class="btn btn-primary d-flex align-items-center justify-content-center" (click)="sendMessage()" [disabled]="!newMessage.trim()">
               <i class="bi bi-send-fill"></i>
             </button>
           </div>
@@ -233,19 +233,20 @@ import { Subject } from 'rxjs';
   ]
 })
 export class ChatWidgetComponent implements OnInit, OnDestroy {
-    @HostListener('document:keydown.escape')
+  @HostListener('document:keydown.escape')
   onEscapeKey() {
-    this.isMinimized = true;
+    this.closeChat();
   }
 
   messages: ChatMessage[] = [];
   newMessage: string = '';
-  isMinimized: boolean = true;
+  isMinimized: boolean = false;
+  isOpen: boolean = false;
   isOnline: boolean = false;
   isTyping: boolean = false;
   typingUser: string = '';
-    typingTimeout: any;
-    currentUser: User | null = null;
+  typingTimeout: any;
+  currentUser: User | null = null;
   
   private destroy$ = new Subject<void>();
 
@@ -254,8 +255,8 @@ export class ChatWidgetComponent implements OnInit, OnDestroy {
     private chatService: ChatService
   ) {}
 
-    ngOnInit(): void {
-        // Get current user from auth service
+  ngOnInit(): void {
+    // Get current user from auth service
     this.authService.getCurrentUser()
       .pipe(takeUntil(this.destroy$))
       .subscribe((user: User | null) => {
@@ -285,6 +286,21 @@ export class ChatWidgetComponent implements OnInit, OnDestroy {
       .subscribe((user: ChatUser | null) => {
         this.isOnline = !!user;
       });
+
+    // Listen for open/close state of the chat window
+    this.chatService.chatOpen$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((open: boolean) => {
+        this.isOpen = open;
+        if (open) {
+          this.isMinimized = false;
+          setTimeout(() => {
+            this.scrollToBottom();
+            const input = document.querySelector('.input-group input') as HTMLInputElement;
+            if (input) input.focus();
+          }, 100);
+        }
+      });
   }
 
   ngOnDestroy(): void {
@@ -293,6 +309,10 @@ export class ChatWidgetComponent implements OnInit, OnDestroy {
     if (this.typingTimeout) {
       clearTimeout(this.typingTimeout);
     }
+  }
+
+  closeChat(): void {
+    this.chatService.toggleChat(false);
   }
 
   toggleMinimize(): void {

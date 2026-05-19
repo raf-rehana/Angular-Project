@@ -58,7 +58,12 @@
             ],
             "scripts": [
               "bootstrap/dist/js/bootstrap.bundle.min.js"
-            ]
+            ],
+            "optimization": {
+              "fonts": {
+                "inline": false
+              }
+            }
           },
           "configurations": {
             "production": {

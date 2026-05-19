@@ -30,11 +30,17 @@ export class ChatService {
   private onlineClientsSubject = new BehaviorSubject<ChatUser[]>([]);
   private onlineEmployeesSubject = new BehaviorSubject<ChatUser[]>([]);
   private currentUserSubject = new BehaviorSubject<ChatUser | null>(null);
+  private chatOpenSubject = new BehaviorSubject<boolean>(false);
   
   messages$ = this.messagesSubject.asObservable();
   onlineClients$ = this.onlineClientsSubject.asObservable();
   onlineEmployees$ = this.onlineEmployeesSubject.asObservable();
   currentUser$ = this.currentUserSubject.asObservable();
+  chatOpen$ = this.chatOpenSubject.asObservable();
+
+  toggleChat(open: boolean): void {
+    this.chatOpenSubject.next(open);
+  }
 
   constructor(private http: HttpClient) {
     // Initialize Socket.io client

@@ -85,6 +85,7 @@ export class TaskDetail implements OnInit, OnDestroy {
   }
 
   stopTimer() {
+    if (!this.isTimerRunning) return;
     this.isTimerRunning = false;
     if (this.timerInterval) {
       clearInterval(this.timerInterval);
@@ -113,14 +114,20 @@ export class TaskDetail implements OnInit, OnDestroy {
   }
 
   goBack() {
-    window.history.back();
-    setTimeout(() => {
-      window.location.reload();
-    }, 100);
+    this.router.navigate(['/employee/my-tasks']);
   }
 
   updateTask() {
     if (!this.task) return;
+    
+    // Stop the timer first to prevent ngOnDestroy from triggering a duplicate save
+    if (this.isTimerRunning) {
+      this.isTimerRunning = false;
+      if (this.timerInterval) {
+        clearInterval(this.timerInterval);
+      }
+    }
+
     const hours = parseFloat((this.elapsedSeconds / 3600).toFixed(2));
     const task = this.task;
     this.requestService.updateStatus(task.id, task.status, task.employeeNotes, hours, task.progress).subscribe(() => {
