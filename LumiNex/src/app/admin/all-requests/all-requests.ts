@@ -153,19 +153,37 @@ import { ToastService } from '../../core/services/toast.service';
 
                   <div class="col-12" *ngIf="selectedRequest.status === 'PROPOSAL_PENDING' || selectedRequest.status === 'PENDING'">
                     <div class="card border-0 rounded-4 p-4 shadow-sm" style="background-color: #f8fafc; border: 1px solid #e2e8f0 !important;">
-                      <h6 class="fw-bold text-primary mb-3"><i class="bi bi-gear-fill me-2"></i>Project Proposal Setup & Documentation</h6>
+                      <h6 class="fw-bold text-primary mb-3"><i class="bi bi-gear-fill me-2"></i>Project Setup, Budget & Scope Documentation</h6>
                       <div class="row g-3">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                           <label class="form-label small fw-bold text-muted text-uppercase mb-2">Fixed Total Budget (BDT)</label>
                           <input type="number" class="form-control border-0 py-2 rounded-3 bg-white shadow-sm" 
                                  [(ngModel)]="selectedRequest.totalAmount" 
-                                 placeholder="Enter manually negotiated fixed price...">
+                                 placeholder="Enter fixed price...">
                         </div>
-                        <div class="col-12 mt-3">
-                          <label class="form-label small fw-bold text-muted text-uppercase mb-2">Project Documentation scope</label>
+                        <div class="col-md-6">
+                          <label class="form-label small fw-bold text-muted text-uppercase mb-2">Custom Advance Deposit (BDT)</label>
+                          <input type="number" class="form-control border-0 py-2 rounded-3 bg-white shadow-sm" 
+                                 [(ngModel)]="selectedRequest.advanceAmount" 
+                                 placeholder="Leave empty to default to 20%...">
+                        </div>
+                        <div class="col-12">
+                          <label class="form-label small fw-bold text-muted text-uppercase mb-2">Project Structure & Phases</label>
+                          <textarea class="form-control border-0 py-3 rounded-4 bg-white shadow-sm" rows="3" 
+                                    [(ngModel)]="selectedRequest.projectStructure" 
+                                    placeholder="Define modules, architecture phases, or milestones..."></textarea>
+                        </div>
+                        <div class="col-12">
+                          <label class="form-label small fw-bold text-muted text-uppercase mb-2">What is Needed / Resources (From Client)</label>
+                          <textarea class="form-control border-0 py-3 rounded-4 bg-white shadow-sm" rows="3" 
+                                    [(ngModel)]="selectedRequest.requirementsNeeded" 
+                                    placeholder="List required assets, graphic files, credentials, or integrations..."></textarea>
+                        </div>
+                        <div class="col-12">
+                          <label class="form-label small fw-bold text-muted text-uppercase mb-2">Detailed Scope & Guidelines</label>
                           <textarea class="form-control border-0 py-3 rounded-4 bg-white shadow-sm" rows="4" 
                                     [(ngModel)]="selectedRequest.projectDocumentation" 
-                                    placeholder="Provide detailed guidelines, timeline scope, or deliverables..."></textarea>
+                                    placeholder="Provide detailed specifications, guidelines, or timeline scope..."></textarea>
                         </div>
                       </div>
                     </div>
@@ -328,7 +346,10 @@ export class AllRequestsComponent implements OnInit {
       employeeNotes: this.selectedRequest.employeeNotes,
       priority: this.selectedRequest.priority,
       totalAmount: this.selectedRequest.totalAmount,
-      projectDocumentation: this.selectedRequest.projectDocumentation
+      advanceAmount: this.selectedRequest.advanceAmount,
+      projectDocumentation: this.selectedRequest.projectDocumentation,
+      projectStructure: this.selectedRequest.projectStructure,
+      requirementsNeeded: this.selectedRequest.requirementsNeeded
     };
 
     this.requestService.updateRequest(this.selectedRequest.id, payload)
@@ -450,13 +471,13 @@ export class AllRequestsComponent implements OnInit {
           return;
         }
 
-        const amount = totalAmt * 0.20;
+        const amount = req.advanceAmount || (totalAmt * 0.20);
         
         this.paymentService.addPayment({
           clientId: req.userId.toString(),
           client: 'Client Name',
           email: req.clientEmail || '',
-          item: `${req.serviceName} (20% Advance)`,
+          item: `${req.serviceName} (Advance Deposit)`,
           amount: amount,
           method: 'WAITING',
           status: 'PENDING',
@@ -466,15 +487,18 @@ export class AllRequestsComponent implements OnInit {
           this.requestService.updateRequest(req.id, {
             status: 'AWAITING_ADVANCE',
             totalAmount: req.totalAmount,
-            projectDocumentation: req.projectDocumentation
+            advanceAmount: req.advanceAmount,
+            projectDocumentation: req.projectDocumentation,
+            projectStructure: req.projectStructure,
+            requirementsNeeded: req.requirementsNeeded
           }).subscribe(() => {
-            this.auditLogService.logAction('Advance Requested', `Admin requested 20% advance payment for request #${req.id} (BDT ${amount})`);
-            this.toastService.success('20% Advance payment requested successfully!');
+            this.auditLogService.logAction('Advance Requested', `Admin requested advance payment for request #${req.id} (BDT ${amount})`);
+            this.toastService.success('Advance payment requested successfully!');
             
             this.notificationService.create({
               userId: Number(req.userId),
-              title: '20% Advance Payment Required',
-              message: `An advance payment of 20% (BDT ${amount}) is required to start your project "${req.serviceName}".`,
+              title: 'Advance Payment Required',
+              message: `An advance payment of BDT ${amount} is required to start your project "${req.serviceName}".`,
               type: 'PAYMENT_DUE'
             }).subscribe();
 
@@ -486,13 +510,13 @@ export class AllRequestsComponent implements OnInit {
       },
       error: (err) => {
         const totalAmt = req.totalAmount || 25000;
-        const amount = totalAmt * 0.20;
+        const amount = req.advanceAmount || (totalAmt * 0.20);
 
         this.paymentService.addPayment({
           clientId: req.userId.toString(),
           client: 'Client Name',
           email: req.clientEmail || '',
-          item: `${req.serviceName} (20% Advance)`,
+          item: `${req.serviceName} (Advance Deposit)`,
           amount: amount,
           method: 'WAITING',
           status: 'PENDING',
@@ -502,15 +526,18 @@ export class AllRequestsComponent implements OnInit {
           this.requestService.updateRequest(req.id, {
             status: 'AWAITING_ADVANCE',
             totalAmount: req.totalAmount,
-            projectDocumentation: req.projectDocumentation
+            advanceAmount: req.advanceAmount,
+            projectDocumentation: req.projectDocumentation,
+            projectStructure: req.projectStructure,
+            requirementsNeeded: req.requirementsNeeded
           }).subscribe(() => {
-            this.auditLogService.logAction('Advance Requested', `Admin requested 20% advance payment for request #${req.id} (BDT ${amount})`);
-            this.toastService.success('20% Advance payment requested successfully!');
+            this.auditLogService.logAction('Advance Requested', `Admin requested advance payment for request #${req.id} (BDT ${amount})`);
+            this.toastService.success('Advance payment requested successfully!');
             
             this.notificationService.create({
               userId: Number(req.userId),
-              title: '20% Advance Payment Required',
-              message: `An advance payment of 20% (BDT ${amount}) is required to start your project "${req.serviceName}".`,
+              title: 'Advance Payment Required',
+              message: `An advance payment of BDT ${amount} is required to start your project "${req.serviceName}".`,
               type: 'PAYMENT_DUE'
             }).subscribe();
 
@@ -522,6 +549,7 @@ export class AllRequestsComponent implements OnInit {
       }
     });
   }
+
 
   async cancelRequest() {
     const confirmed = await this.modalService.confirm('Are you sure you want to reject this request?');

@@ -111,15 +111,17 @@ export class RequestDetail implements OnInit, OnDestroy {
   payAdvance() {
     if (!this.request) return;
     const p = this.getPaymentForRequest();
+    const customAdvance = this.request.advanceAmount || (this.servicePrice * 0.20);
     this.router.navigate(['/client/payments'], {
       queryParams: {
         serviceId: this.request.serviceId,
         serviceName: this.request.serviceName,
         requestId: this.request.id,
-        amount: p ? p.amount : (this.servicePrice * 0.20)
+        amount: p ? p.amount : customAdvance
       }
     });
   }
+
 
   goBack() {
     window.history.back();

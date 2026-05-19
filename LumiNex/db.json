@@ -1514,10 +1514,15 @@
       "serviceId": "YgR6ewGkq1w",
       "serviceName": "Android App",
       "categoryName": "Web Development",
-      "status": "ASSIGNED",
+      "status": "AWAITING_ADVANCE",
       "priority": "NORMAL",
       "clientNotes": "dgedhrthrh",
       "progress": 0,
+      "totalAmount": 50000,
+      "advanceAmount": 12000,
+      "projectStructure": "Phase 1: Wireframing & UI Design (3 days)\nPhase 2: Core Frontend/Backend Dev (7 days)\nPhase 3: Final Testing & Deployment (4 days)",
+      "requirementsNeeded": "- High-res SVG Logo\n- Production database connection string\n- Google Play developer account details",
+      "projectDocumentation": "Fully featured custom Android App with integrated payment gateway, modern material design theme, and real-time tracking dashboard.",
       "createdAt": "2026-05-12T17:41:44.704Z",
       "documents": [
         {
@@ -2232,6 +2237,42 @@
       "isRead": false,
       "createdAt": "2026-05-19T08:04:49.016Z",
       "id": "KJ7pBQVjc14"
+    },
+    {
+      "userId": 10154,
+      "title": "New Task Assigned",
+      "message": "You have been assigned: Android App",
+      "type": "TASK_ASSIGNED",
+      "isRead": false,
+      "createdAt": "2026-05-19T09:28:59.398Z",
+      "id": "4pmp7nI8-zI"
+    },
+    {
+      "userId": 10154,
+      "title": "New Task Assigned",
+      "message": "You have been assigned: Android App",
+      "type": "TASK_ASSIGNED",
+      "isRead": false,
+      "createdAt": "2026-05-19T09:29:03.009Z",
+      "id": "7LIOtxukR38"
+    },
+    {
+      "userId": 10154,
+      "title": "New Task Assigned",
+      "message": "You have been assigned: Android App",
+      "type": "TASK_ASSIGNED",
+      "isRead": false,
+      "createdAt": "2026-05-19T09:30:22.373Z",
+      "id": "QxvsuODwal0"
+    },
+    {
+      "userId": 10154,
+      "title": "New Task Assigned",
+      "message": "You have been assigned: Android App",
+      "type": "TASK_ASSIGNED",
+      "isRead": false,
+      "createdAt": "2026-05-19T09:30:26.720Z",
+      "id": "kGmulYstWgo"
     }
   ],
   "subscriptions": [
@@ -3358,6 +3399,42 @@
       "action": "Advance Requested",
       "details": "Admin requested 20% advance payment for request #JiM0Wexq_RA (BDT 30000)",
       "id": "3aqQ3CMbQUU"
+    },
+    {
+      "timestamp": "2026-05-19T09:28:59.355Z",
+      "userId": "10141",
+      "userName": "Admin User",
+      "userRole": "ADMIN",
+      "action": "Request Updated",
+      "details": "Admin updated request #Op-oKy-aBRo to status: IN_PROGRESS (Priority: NORMAL)",
+      "id": "1MDXYKnXTBY"
+    },
+    {
+      "timestamp": "2026-05-19T09:29:02.986Z",
+      "userId": "10141",
+      "userName": "Admin User",
+      "userRole": "ADMIN",
+      "action": "Request Updated",
+      "details": "Admin updated request #Op-oKy-aBRo to status: REVIEW (Priority: NORMAL)",
+      "id": "u5faMu7NBu8"
+    },
+    {
+      "timestamp": "2026-05-19T09:30:22.343Z",
+      "userId": "10141",
+      "userName": "Admin User",
+      "userRole": "ADMIN",
+      "action": "Request Updated",
+      "details": "Admin updated request #Op-oKy-aBRo to status: IN_PROGRESS (Priority: NORMAL)",
+      "id": "NvLIzn_rq7U"
+    },
+    {
+      "timestamp": "2026-05-19T09:30:26.678Z",
+      "userId": "10141",
+      "userName": "Admin User",
+      "userRole": "ADMIN",
+      "action": "Request Updated",
+      "details": "Admin updated request #Op-oKy-aBRo to status: ASSIGNED (Priority: NORMAL)",
+      "id": "600bxZKiBfk"
     }
   ],
   "knowledgeBase": [

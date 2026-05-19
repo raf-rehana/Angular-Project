@@ -27,4 +27,7 @@ export interface ServiceRequest {
   timerStartedAt?: string;
   totalAmount?: number;
   projectDocumentation?: string;
+  projectStructure?: string;
+  requirementsNeeded?: string;
+  advanceAmount?: number;
 }

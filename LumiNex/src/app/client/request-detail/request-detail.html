@@ -51,14 +51,71 @@
               {{ request.clientNotes || 'No notes provided.' }}
             </div>
 
-            <!-- Project Documentation Scope (From Admin) -->
-            <div class="mt-4" *ngIf="request.projectDocumentation">
-              <h6 class="fw-bold text-primary text-uppercase small mb-3"><i class="bi bi-file-earmark-text-fill me-1"></i>Project Documentation & Scope</h6>
-              <div class="p-4 rounded-4 text-dark border border-primary-subtle" style="background-color: #f8fafc; border-left: 5px solid #6366f1 !important; line-height: 1.6;">
-                <div class="fw-semibold text-slate-800 mb-2">Detailed scope & guidelines from Administrator:</div>
-                <div style="white-space: pre-line;">{{ request.projectDocumentation }}</div>
+            <!-- Project Specifications Charter (From Admin) -->
+            <div class="mt-5" *ngIf="request.totalAmount || request.projectDocumentation || request.projectStructure || request.requirementsNeeded">
+              <div class="card border-0 rounded-4 overflow-hidden shadow-sm border border-slate-100" style="border: 1px solid #e2e8f0 !important;">
+                <div class="p-4 text-white d-flex align-items-center justify-content-between" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);">
+                  <div>
+                    <h5 class="fw-bold mb-1"><i class="bi bi-shield-lock-fill me-2"></i>Project Charter & Agreement</h5>
+                    <p class="x-small mb-0 opacity-75">Official guidelines and technical requirements set by administrator</p>
+                  </div>
+                  <span class="badge bg-white text-primary fw-bold px-3 py-2 rounded-pill shadow-sm">Verified Scope</span>
+                </div>
+                
+                <div class="p-4 bg-white">
+                  <!-- Payment Milestone Schedule -->
+                  <div class="mb-4 pb-4 border-bottom">
+                    <h6 class="fw-bold text-dark mb-3"><i class="bi bi-calendar-check-fill text-primary me-2"></i>Payment Milestone Schedule</h6>
+                    <div class="row g-3">
+                      <div class="col-md-6">
+                        <div class="p-3 rounded-4 bg-light d-flex flex-column h-100">
+                          <div class="small fw-bold text-muted text-uppercase mb-1">Phase 1: Initial Deposit</div>
+                          <h4 class="fw-extrabold text-indigo mb-2" style="color: #6366f1;">BDT {{ (request.advanceAmount || (servicePrice * 0.20)).toLocaleString() }}</h4>
+                          <div class="mt-auto">
+                            <span class="badge rounded-pill bg-success px-3 py-1 fw-bold text-white" *ngIf="request.status !== 'PENDING' && request.status !== 'AWAITING_ADVANCE'">
+                              <i class="bi bi-check-circle-fill me-1"></i> Paid & Verified
+                            </span>
+                            <span class="badge rounded-pill bg-warning px-3 py-1 fw-bold text-dark" *ngIf="request.status === 'PENDING' || request.status === 'AWAITING_ADVANCE'">
+                              <i class="bi bi-clock-history me-1"></i> Awaiting Payment
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="p-3 rounded-4 bg-light d-flex flex-column h-100">
+                          <div class="small fw-bold text-muted text-uppercase mb-1">Phase 2: Remaining Balance</div>
+                          <h4 class="fw-extrabold text-slate mb-2" style="color: #475569;">BDT {{ (servicePrice - (request.advanceAmount || (servicePrice * 0.20))).toLocaleString() }}</h4>
+                          <div class="mt-auto">
+                            <span class="badge rounded-pill bg-secondary px-3 py-1 fw-bold text-white">
+                              <i class="bi bi-lock-fill me-1"></i> Due on Completion
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Project Structure & Phases -->
+                  <div class="mb-4 pb-4 border-bottom" *ngIf="request.projectStructure">
+                    <h6 class="fw-bold text-dark mb-3"><i class="bi bi-diagram-3-fill text-primary me-2"></i>Project Development Structure</h6>
+                    <div class="p-3 rounded-4 bg-light border-start border-primary border-3" style="white-space: pre-line; line-height: 1.6; color: #334155; border-left: 4px solid #6366f1 !important;">{{ request.projectStructure }}</div>
+                  </div>
+
+                  <!-- Actionable Deliverables / What is Needed -->
+                  <div class="mb-4 pb-4 border-bottom" *ngIf="request.requirementsNeeded">
+                    <h6 class="fw-bold text-dark mb-3"><i class="bi bi-exclamation-triangle-fill text-warning me-2"></i>What we need from you (Client Deliverables)</h6>
+                    <div class="p-3 rounded-4 bg-warning-subtle text-dark border-start border-warning border-3" style="white-space: pre-line; line-height: 1.6; border-left: 4px solid #ffc107 !important; background-color: #fffbeb;">{{ request.requirementsNeeded }}</div>
+                  </div>
+
+                  <!-- Detailed Technical Scope -->
+                  <div *ngIf="request.projectDocumentation">
+                    <h6 class="fw-bold text-dark mb-3"><i class="bi bi-file-earmark-text-fill text-primary me-2"></i>Detailed Scope & Guidelines</h6>
+                    <div class="p-3 rounded-4 bg-light" style="white-space: pre-line; line-height: 1.6; color: #475569;">{{ request.projectDocumentation }}</div>
+                  </div>
+                </div>
               </div>
             </div>
+
 
 
 
@@ -114,17 +171,18 @@
             <p class="x-small text-muted text-center mt-3 mb-0" *ngIf="!getPaymentForRequest()">Secure payment powered by SSLCommerz</p>
           </div>
 
-          <!-- 20% Advance Payment Card -->
+          <!-- Customized Advance Payment Card -->
           <div class="card border-0 shadow-sm rounded-4 p-4 mb-4" *ngIf="request.status === 'AWAITING_ADVANCE'">
-            <h6 class="fw-bold text-muted text-uppercase small mb-3">20% Advance Payment</h6>
+            <h6 class="fw-bold text-muted text-uppercase small mb-3">Advance Payment Deposit</h6>
             <div class="d-flex align-items-baseline mb-4">
-              <h3 class="fw-bold text-dark mb-0">BDT {{ (servicePrice * 0.20).toLocaleString() }}</h3>
-              <span class="ms-2 text-muted small">20% of BDT {{ getServicePrice() }}</span>
+              <h3 class="fw-bold text-dark mb-0">BDT {{ (request.advanceAmount || (servicePrice * 0.20)).toLocaleString() }}</h3>
+              <span class="ms-2 text-muted small" *ngIf="!request.advanceAmount">20% of BDT {{ getServicePrice() }}</span>
+              <span class="ms-2 text-muted small" *ngIf="request.advanceAmount">Customized Deposit</span>
             </div>
             
-            <!-- Pay 20% Advance button if PENDING or if no payment exists yet -->
+            <!-- Pay Advance button if PENDING or if no payment exists yet -->
             <button class="btn btn-warning w-100 rounded-pill py-3 fw-bold shadow-sm text-dark animate-pulse" (click)="payAdvance()" *ngIf="!getPaymentForRequest() || getPaymentForRequest()?.status === 'PENDING'">
-              Pay 20% Advance Now
+              Pay Advance Now
             </button>
             
             <!-- If payment is pending approval -->
@@ -134,15 +192,16 @@
             
             <p class="x-small text-muted text-center mt-3 mb-0" *ngIf="!getPaymentForRequest() || getPaymentForRequest()?.status === 'PENDING'">Secure payment powered by SSLCommerz</p>
           </div>
-
+ 
           <!-- Advance Paid Card -->
           <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-success-soft text-success border border-success-subtle" *ngIf="request.status === 'ADVANCE_PAID'">
-            <h6 class="fw-bold text-uppercase small mb-3"><i class="bi bi-shield-check me-1"></i> 20% Advance Verified</h6>
+            <h6 class="fw-bold text-uppercase small mb-3"><i class="bi bi-shield-check me-1"></i> Advance Verified</h6>
             <div class="d-flex align-items-baseline mb-3">
-              <h3 class="fw-bold mb-0">BDT {{ (servicePrice * 0.20).toLocaleString() }}</h3>
+              <h3 class="fw-bold mb-0">BDT {{ (request.advanceAmount || (servicePrice * 0.20)).toLocaleString() }}</h3>
             </div>
             <p class="small mb-0 opacity-75">Your advance payment is fully verified. We are assigning the best specialist to your project!</p>
           </div>
+
 
           <!-- Paid Card -->
           <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-success-soft text-success border border-success-subtle" *ngIf="request.status !== 'PENDING' && request.status !== 'AWAITING_ADVANCE' && request.status !== 'ADVANCE_PAID' && request.status !== 'COMPLETED' && request.status !== 'REJECTED'">
