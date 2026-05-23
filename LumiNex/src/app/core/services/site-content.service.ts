@@ -3,12 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { SiteContent } from '../models/site-content';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SiteContentService {
-  private apiUrl = 'http://localhost:3000/site-content';
+  private apiUrl = `${environment.apiUrl}/site-content`;
 
   constructor(private http: HttpClient) {}
 

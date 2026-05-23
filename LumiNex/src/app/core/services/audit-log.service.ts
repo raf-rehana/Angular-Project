@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
+import { environment } from '../../../environments/environment';
 
 export interface AuditLog {
   id?: string | number;
@@ -17,7 +18,7 @@ export interface AuditLog {
   providedIn: 'root'
 })
 export class AuditLogService {
-  private apiUrl = 'http://localhost:3000/auditLogs';
+  private apiUrl = `${environment.apiUrl}/auditLogs`;
 
   constructor(
     private http: HttpClient,
