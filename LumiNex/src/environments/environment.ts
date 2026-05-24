@@ -1,5 +1,5 @@
 export const environment = {
-  production: false,
-  apiUrl: 'http://localhost:4000/api', // Consolidated to Express backend
-  backendUrl: 'http://localhost:4000/api' // Consolidated to Express backend
+  production: true,
+  apiUrl: 'https://angular-project-2o3k.onrender.com/api',
+  backendUrl: 'https://angular-project-2o3k.onrender.com'
 };

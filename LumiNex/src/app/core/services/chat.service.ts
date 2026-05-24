@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { io, Socket } from 'socket.io-client';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export interface ChatMessage {
   id: string;
@@ -44,7 +45,7 @@ export class ChatService {
 
   constructor(private http: HttpClient) {
     // Initialize Socket.io client
-    this.socket = io('http://localhost:4000', {
+    this.socket = io(environment.backendUrl, {
       withCredentials: true
     });
 
@@ -148,13 +149,13 @@ export class ChatService {
   }
 
   private updateOnlineClients(): void {
-    this.http.get<ChatUser[]>('http://localhost:4000/api/chat/online-clients').subscribe(clients => {
+    this.http.get<ChatUser[]>(`${environment.apiUrl}/chat/online-clients`).subscribe(clients => {
       this.onlineClientsSubject.next(clients);
     });
   }
 
   private updateOnlineEmployees(): void {
-    this.http.get<ChatUser[]>('http://localhost:4000/api/chat/online-employees').subscribe(employees => {
+    this.http.get<ChatUser[]>(`${environment.apiUrl}/chat/online-employees`).subscribe(employees => {
       this.onlineEmployeesSubject.next(employees);
     });
   }
