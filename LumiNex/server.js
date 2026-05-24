@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
@@ -130,12 +132,31 @@ const ThemeSettings = sequelize.define('ThemeSettings', {
 const SiteContent = sequelize.define('SiteContent', {
   id: { type: DataTypes.STRING, primaryKey: true },
   title: { type: DataTypes.STRING },
-  heroText: { type: DataTypes.TEXT },
-  aboutText: { type: DataTypes.TEXT },
-  contactEmail: { type: DataTypes.STRING },
-  contactPhone: { type: DataTypes.STRING },
-  address: { type: DataTypes.STRING },
-  isActive: { type: DataTypes.BOOLEAN }
+  heroBadge: { type: DataTypes.STRING },
+  heroTitle: { type: DataTypes.TEXT },
+  heroSubtitle: { type: DataTypes.TEXT },
+  heroImageUrl: { type: DataTypes.TEXT },
+  heroFeatures: { type: DataTypes.JSONB },
+  aboutBadge: { type: DataTypes.STRING },
+  aboutTitle: { type: DataTypes.STRING },
+  aboutDescription: { type: DataTypes.TEXT },
+  aboutImageUrl: { type: DataTypes.TEXT },
+  visionTitle: { type: DataTypes.STRING },
+  visionDescription: { type: DataTypes.TEXT },
+  missionTitle: { type: DataTypes.STRING },
+  missionDescription: { type: DataTypes.TEXT },
+  experienceYears: { type: DataTypes.STRING },
+  servicesTitle: { type: DataTypes.STRING },
+  servicesSubtitle: { type: DataTypes.TEXT },
+  services: { type: DataTypes.JSONB },
+  ctaTitle: { type: DataTypes.STRING },
+  ctaDescription: { type: DataTypes.TEXT },
+  ctaButtonText: { type: DataTypes.STRING },
+  ctaButtonLink: { type: DataTypes.STRING },
+  socialProofTitle: { type: DataTypes.STRING },
+  socialLinks: { type: DataTypes.JSONB },
+  isActive: { type: DataTypes.BOOLEAN },
+  updatedAt: { type: DataTypes.STRING }
 }, { tableName: 'site_content', timestamps: false });
 
 const AuditLog = sequelize.define('AuditLog', {
@@ -893,7 +914,7 @@ sequelize.sync({ alter: true })
   .catch(err => {
     console.error('\n❌ PostgreSQL Connection / Schema Sync Failed!');
     console.error('────────────────────────────────────────────────');
-    console.error(`Error: ${err.message}`);
+    console.error('Error:', err);
     console.error('👉 Server shutting down. Please check DATABASE_URL.');
     console.error('────────────────────────────────────────────────\n');
     process.exit(1);
