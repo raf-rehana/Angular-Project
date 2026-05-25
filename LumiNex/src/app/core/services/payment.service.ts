@@ -42,7 +42,7 @@ export interface PaymentInitResponse {
 @Injectable({ providedIn: 'root' })
 export class PaymentService {
   private dbUrl = `${environment.apiUrl}/payments`;
-  private backendPaymentUrl = `${environment.backendUrl}/payment`;
+  private backendPaymentUrl = `${environment.backendUrl}/api/payment`;
 
   constructor(private http: HttpClient) {}
 

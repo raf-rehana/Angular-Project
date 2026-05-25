@@ -30,4 +30,16 @@ export class NotificationBellComponent implements OnInit {
       this.notificationService.getAll(user.id).subscribe();
     }
   }
+
+  get viewAllLink(): string {
+    const user = this.authService.currentUser;
+    if (!user) return '/login';
+    if (user.role === 'SUPER_ADMIN' || user.role === 'ADMIN') {
+      return '/admin/notifications';
+    }
+    if (user.role === 'EMPLOYEE') {
+      return '/employee/notifications';
+    }
+    return '/client/notifications';
+  }
 }

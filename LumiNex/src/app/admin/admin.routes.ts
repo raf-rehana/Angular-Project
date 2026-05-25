@@ -14,6 +14,7 @@ import { AdminAuditLogsComponent } from './audit-logs/audit-logs';
 import { AdminKnowledgeBaseComponent } from './knowledge-base/knowledge-base';
 import { AdminAnalyticsComponent } from './analytics/analytics';
 import { AdminSettingsComponent } from './settings/settings';
+import { NotificationsComponent } from '../client/notifications/notifications';
 
 export const ADMIN_ROUTES: Routes = [
   { path: 'dashboard', component: AdminDashboard },
@@ -31,6 +32,7 @@ export const ADMIN_ROUTES: Routes = [
   { path: 'knowledge-base', component: AdminKnowledgeBaseComponent },
   { path: 'analytics', component: AdminAnalyticsComponent, data: { roles: ['SUPER_ADMIN'] } },
   { path: 'settings', component: AdminSettingsComponent, data: { roles: ['SUPER_ADMIN'] } },
+  { path: 'notifications', component: NotificationsComponent },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
 ];
 

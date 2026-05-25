@@ -466,10 +466,10 @@ app.post('/api/payment/init', async (req, res) => {
     currency: currency || 'BDT',
     tran_id,
 
-    success_url: `${BACKEND_URL}/payment/success`,
-    fail_url:    `${BACKEND_URL}/payment/fail`,
-    cancel_url:  `${BACKEND_URL}/payment/cancel`,
-    ipn_url:     `${BACKEND_URL}/payment/ipn`,
+    success_url: `${BACKEND_URL}/api/payment/success`,
+    fail_url:    `${BACKEND_URL}/api/payment/fail`,
+    cancel_url:  `${BACKEND_URL}/api/payment/cancel`,
+    ipn_url:     `${BACKEND_URL}/api/payment/ipn`,
 
     product_name:     planName || 'LumiNex Plan',
     product_category: 'Digital Services',
