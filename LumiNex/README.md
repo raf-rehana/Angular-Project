@@ -1,5 +1,7 @@
 # LumiNex SaaS Platform
 
+🌐 **Live Demo (Vercel):** [https://saas-luminex.vercel.app](https://saas-luminex.vercel.app)
+
 LumiNex is a comprehensive, premium SaaS platform designed to automate financial workflows and service management for startups and small businesses. It provides an end-to-end journey from service discovery to automated billing and task fulfillment.
 
 ## 🚀 Key Features

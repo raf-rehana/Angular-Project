@@ -282,6 +282,32 @@ const isProductionBackend = process.env.NODE_ENV === 'production' || (process.en
 const FRONTEND_URL = process.env.FRONTEND_URL || (isProductionBackend ? 'https://saas-luminex.vercel.app' : 'http://localhost:4200');
 const BACKEND_URL  = process.env.BACKEND_URL  || (isProductionBackend ? 'https://angular-project-2o3k.onrender.com' : 'http://localhost:4000');
 
+// Ensure public/uploads folder exists
+const uploadsDir = path.join(__dirname, 'public', 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
+function processBase64Avatar(body, prefixId) {
+  if (body && typeof body.avatar === 'string' && body.avatar.startsWith('data:image/')) {
+    try {
+      const matches = body.avatar.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+      if (matches && matches.length === 3) {
+        const ext = matches[1].split('/')[1] || 'jpg';
+        const base64Data = matches[2];
+        const filename = `avatar_${prefixId}_${Date.now()}.${ext}`;
+        const filePath = path.join(uploadsDir, filename);
+        
+        fs.writeFileSync(filePath, Buffer.from(base64Data, 'base64'));
+        body.avatar = `${BACKEND_URL}/uploads/${filename}`;
+        console.log(`💾 Saved base64 avatar to: ${body.avatar}`);
+      }
+    } catch (e) {
+      console.error('Failed to save base64 avatar:', e.message);
+    }
+  }
+}
+
 // ── Middleware ────────────────────────────────────────────────────────────────
 app.use(cors({
   origin: [
@@ -292,6 +318,7 @@ app.use(cors({
 }));
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
 
 // ── Socket.io Chat Logic ─────────────────────────────────────────────────────
 const connectedClients = new Map();
@@ -817,6 +844,10 @@ app.post('/api/:collection', async (req, res) => {
       data.id = String(data.id);
     }
 
+    if (collection === 'users') {
+      processBase64Avatar(data, data.id);
+    }
+
     const item = await Model.create(data);
     res.status(201).json(item);
   } catch (err) {
@@ -840,7 +871,12 @@ app.patch('/api/:collection/:id', async (req, res) => {
       return res.status(404).json({ error: 'Item not found' });
     }
 
-    await item.update(req.body);
+    const data = { ...req.body };
+    if (collection === 'users') {
+      processBase64Avatar(data, id);
+    }
+
+    await item.update(data);
     res.json(item);
   } catch (err) {
     console.error(`Error in PATCH /api/${collection}/${id}:`, err.message);
