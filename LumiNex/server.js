@@ -277,8 +277,10 @@ const SSL_BASE = IS_LIVE
   ? 'https://securepay.sslcommerz.com'
   : 'https://sandbox.sslcommerz.com';
 
-const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:4200';
-const BACKEND_URL  = process.env.BACKEND_URL  || 'http://localhost:4000';
+const isProductionBackend = process.env.NODE_ENV === 'production' || (process.env.DATABASE_URL && !process.env.DATABASE_URL.includes('localhost'));
+
+const FRONTEND_URL = process.env.FRONTEND_URL || (isProductionBackend ? 'https://saas-luminex.vercel.app' : 'http://localhost:4200');
+const BACKEND_URL  = process.env.BACKEND_URL  || (isProductionBackend ? 'https://angular-project-2o3k.onrender.com' : 'http://localhost:4000');
 
 // ── Middleware ────────────────────────────────────────────────────────────────
 app.use(cors({
