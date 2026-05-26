@@ -12,6 +12,12 @@ import { Subject } from 'rxjs';
   standalone: true,
   imports: [CommonModule, FormsModule, NgIf, NgFor],
   template: `
+    <!-- Floating Chat Trigger Button -->
+    <button class="chat-trigger-btn animate-bounce-slow" *ngIf="!isOpen && currentUser?.role === 'CLIENT'" (click)="openChat()">
+      <i class="bi bi-chat-left-text-fill"></i>
+    </button>
+
+    <!-- Chat Widget Window -->
     <div class="chat-widget" *ngIf="isOpen && currentUser?.role === 'CLIENT'">
       <!-- Chat Header -->
       <div class="chat-header">
@@ -68,6 +74,49 @@ import { Subject } from 'rxjs';
   `,
   styles: [
     `
+    .chat-trigger-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+      cursor: pointer;
+      z-index: 999;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .chat-trigger-btn:hover {
+      transform: scale(1.1) translateY(-3px);
+      box-shadow: 0 6px 25px rgba(102, 126, 234, 0.5);
+    }
+
+    .chat-trigger-btn i {
+      font-size: 1.5rem;
+    }
+
+    .animate-bounce-slow {
+      animation: bounce-slow 3s infinite;
+    }
+
+    @keyframes bounce-slow {
+      0%, 100% {
+        transform: translateY(0);
+        animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+      }
+      50% {
+        transform: translateY(-8px);
+        animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+      }
+    }
+
     .chat-widget {
       position: fixed;
       bottom: 20px;
@@ -313,6 +362,10 @@ export class ChatWidgetComponent implements OnInit, OnDestroy {
 
   closeChat(): void {
     this.chatService.toggleChat(false);
+  }
+
+  openChat(): void {
+    this.chatService.toggleChat(true);
   }
 
   toggleMinimize(): void {
