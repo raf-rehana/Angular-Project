@@ -13,6 +13,7 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
+app.enable('trust proxy');
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
@@ -283,13 +284,46 @@ const BACKEND_URL  = process.env.BACKEND_URL  || (isProductionBackend ? 'https:/
 
 function getFrontendUrl(req) {
   if (process.env.FRONTEND_URL) return process.env.FRONTEND_URL;
-  const host = req ? (req.headers['x-forwarded-host'] || req.get('host') || '') : '';
-  const isLocalhost = host.includes('localhost') || host.includes('127.0.0.1') || host.includes('::1');
-  const isProd = (host && !isLocalhost) || 
-                 process.env.NODE_ENV === 'production' || 
-                 process.env.RENDER === 'true' || 
-                 isProductionBackend;
-  return isProd ? 'https://saas-luminex.vercel.app' : 'http://localhost:4200';
+  
+  if (req) {
+    const host = req.headers['x-forwarded-host'] || req.get('host') || '';
+    const referer = req.headers.referer || '';
+    const origin = req.headers.origin || '';
+    const hostname = req.hostname || '';
+    
+    // Check if the request is originating from the production Vercel frontend or running on production Render backend
+    const isVercel = referer.includes('saas-luminex.vercel.app') || 
+                     origin.includes('saas-luminex.vercel.app') ||
+                     referer.includes('vercel.app') ||
+                     origin.includes('vercel.app');
+                     
+    const isRender = host.includes('render.com') || 
+                     hostname.includes('render.com') || 
+                     (process.env.RENDER && process.env.RENDER === 'true');
+                     
+    const isLocalhost = host.includes('localhost') || 
+                        host.includes('127.0.0.1') || 
+                        host.includes('::1') ||
+                        hostname.includes('localhost') ||
+                        hostname.includes('127.0.0.1');
+
+    if (isVercel || isRender || (!isLocalhost && (host || hostname))) {
+      console.log(`[getFrontendUrl] Production context detected. Host: "${host}", Hostname: "${hostname}", Referer: "${referer}", Origin: "${origin}". Redirecting to Vercel production site.`);
+      return 'https://saas-luminex.vercel.app';
+    }
+  }
+  
+  const isProductionBackend = process.env.NODE_ENV === 'production' || 
+                             (process.env.DATABASE_URL && !process.env.DATABASE_URL.includes('localhost')) ||
+                             (process.env.RENDER && process.env.RENDER === 'true');
+                             
+  if (isProductionBackend) {
+    console.log(`[getFrontendUrl] Production backend env detected. Redirecting to Vercel production site.`);
+    return 'https://saas-luminex.vercel.app';
+  }
+  
+  console.log(`[getFrontendUrl] Local/development context detected. Redirecting to http://localhost:4200.`);
+  return 'http://localhost:4200';
 }
 
 // Ensure public/uploads folder exists
