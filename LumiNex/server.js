@@ -476,7 +476,7 @@ app.get('/api/chat/online-employees', (req, res) => {
 });
 
 // ── POST /api/payment/init ───────────────────────────────────────────────────
-app.post('/api/payment/init', async (req, res) => {
+app.post(['/payment/init', '/api/payment/init'], async (req, res) => {
   const { 
     amount, currency, planId, paymentId, requestId, planName, 
     clientId, clientName, clientEmail, clientPhone, paymentMethod 
@@ -563,7 +563,7 @@ app.post('/api/payment/init', async (req, res) => {
 });
 
 // ── POST /api/payment/success ─────────────────────────────────────────────────
-app.post('/api/payment/success', async (req, res) => {
+app.post(['/payment/success', '/api/payment/success'], async (req, res) => {
   const { 
     tran_id, val_id, bank_tran_id, amount, currency,
     card_type, status,
@@ -649,21 +649,21 @@ app.post('/api/payment/success', async (req, res) => {
 });
 
 // ── POST /api/payment/fail ────────────────────────────────────────────────────
-app.post('/api/payment/fail', (req, res) => {
+app.post(['/payment/fail', '/api/payment/fail'], (req, res) => {
   const { tran_id } = req.body;
   console.log(`[FAIL] tran_id=${tran_id}`);
   res.redirect(`${FRONTEND_URL}/client/payments?status=failed&tran_id=${tran_id}`);
 });
 
 // ── POST /api/payment/cancel ──────────────────────────────────────────────────
-app.post('/api/payment/cancel', (req, res) => {
+app.post(['/payment/cancel', '/api/payment/cancel'], (req, res) => {
   const { tran_id } = req.body;
   console.log(`[CANCEL] tran_id=${tran_id}`);
   res.redirect(`${FRONTEND_URL}/client/payments?status=cancelled&tran_id=${tran_id}`);
 });
 
 // ── POST /api/payment/ipn ─────────────────────────────────────────────────────
-app.post('/api/payment/ipn', async (req, res) => {
+app.post(['/payment/ipn', '/api/payment/ipn'], async (req, res) => {
   const { tran_id, val_id, status, amount, value_a: clientId, value_b: requestId, value_c: planName, value_d: paymentId, card_type, cus_email } = req.body;
   console.log(`[IPN] tran_id=${tran_id} status=${status}`);
 
