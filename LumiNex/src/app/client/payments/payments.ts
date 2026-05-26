@@ -283,19 +283,28 @@ export class Payments implements OnInit, OnDestroy {
     if (this.invoiceGenerated) return;
     this.invoiceGenerated = true;
     
-    // Small delay to ensure UI reflects success before showing PDF
-    setTimeout(() => {
-      const mockPayment = {
-        id: this.tranId || 'INV-' + Date.now(),
-        clientId: this.authService.currentUser?.id || 'N/A',
-        client: this.authService.currentUser?.name || 'Client',
-        email: this.authService.currentUser?.email || '',
-        item: this.selectedPlanName || 'Service Payment',
-        amount: this.total || this.paidAmount,
-        date: new Date().toISOString().split('T')[0]
-      };
-      this.generateInvoice(mockPayment);
-    }, 1000);
+    let attempts = 0;
+    const interval = setInterval(() => {
+      attempts++;
+      const actualPayment = this.allPayments.find(p => String(p.tranId) === String(this.tranId));
+      
+      if (actualPayment) {
+        clearInterval(interval);
+        this.generateInvoice(actualPayment);
+      } else if (attempts >= 10) {
+        clearInterval(interval);
+        const mockPayment = {
+          id: this.tranId || 'INV-' + Date.now(),
+          clientId: this.authService.currentUser?.id || 'N/A',
+          client: this.authService.currentUser?.name || 'Client',
+          email: this.authService.currentUser?.email || '',
+          item: this.selectedPlanName || 'Subscription Plan',
+          amount: Number(this.paidAmount) || this.total,
+          date: new Date().toISOString().split('T')[0]
+        };
+        this.generateInvoice(mockPayment);
+      }
+    }, 300);
   }
 
   get methodLabel(): string {
