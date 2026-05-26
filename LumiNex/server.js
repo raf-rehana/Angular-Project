@@ -283,8 +283,9 @@ const BACKEND_URL  = process.env.BACKEND_URL  || (isProductionBackend ? 'https:/
 
 function getFrontendUrl(req) {
   if (process.env.FRONTEND_URL) return process.env.FRONTEND_URL;
-  const host = req ? (req.get('host') || '') : '';
-  const isProd = host.includes('render.com') || 
+  const host = req ? (req.headers['x-forwarded-host'] || req.get('host') || '') : '';
+  const isLocalhost = host.includes('localhost') || host.includes('127.0.0.1') || host.includes('::1');
+  const isProd = (host && !isLocalhost) || 
                  process.env.NODE_ENV === 'production' || 
                  process.env.RENDER === 'true' || 
                  isProductionBackend;
