@@ -126,8 +126,12 @@ const ThemeSettings = sequelize.define('ThemeSettings', {
   id: { type: DataTypes.STRING, primaryKey: true },
   primaryColor: { type: DataTypes.STRING },
   secondaryColor: { type: DataTypes.STRING },
+  accentColor: { type: DataTypes.STRING },
+  logoUrl: { type: DataTypes.TEXT },
   font: { type: DataTypes.STRING },
-  mode: { type: DataTypes.STRING }
+  fontFamily: { type: DataTypes.STRING },
+  mode: { type: DataTypes.STRING },
+  siteName: { type: DataTypes.STRING }
 }, { tableName: 'theme_settings', timestamps: false });
 
 const SiteContent = sequelize.define('SiteContent', {
