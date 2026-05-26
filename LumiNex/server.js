@@ -279,8 +279,17 @@ const SSL_BASE = IS_LIVE
 
 const isProductionBackend = process.env.NODE_ENV === 'production' || (process.env.DATABASE_URL && !process.env.DATABASE_URL.includes('localhost'));
 
-const FRONTEND_URL = process.env.FRONTEND_URL || (isProductionBackend ? 'https://saas-luminex.vercel.app' : 'http://localhost:4200');
 const BACKEND_URL  = process.env.BACKEND_URL  || (isProductionBackend ? 'https://angular-project-2o3k.onrender.com' : 'http://localhost:4000');
+
+function getFrontendUrl(req) {
+  if (process.env.FRONTEND_URL) return process.env.FRONTEND_URL;
+  const host = req ? (req.get('host') || '') : '';
+  const isProd = host.includes('render.com') || 
+                 process.env.NODE_ENV === 'production' || 
+                 process.env.RENDER === 'true' || 
+                 isProductionBackend;
+  return isProd ? 'https://saas-luminex.vercel.app' : 'http://localhost:4200';
+}
 
 // Ensure public/uploads folder exists
 const uploadsDir = path.join(__dirname, 'public', 'uploads');
@@ -585,7 +594,7 @@ app.post(['/payment/success', '/api/payment/success'], async (req, res) => {
     console.log(`[VALIDATE] status=${v.status}`);
 
     if (v.status !== 'VALID' && v.status !== 'VALIDATED') {
-      return res.redirect(`${FRONTEND_URL}/client/payments?status=failed&tran_id=${tran_id}&reason=validation_failed`);
+      return res.redirect(`${getFrontendUrl(req)}/client/payments?status=failed&tran_id=${tran_id}&reason=validation_failed`);
     }
   } catch (e) {
     console.warn('Validation request failed (proceeding anyway):', e.message);
@@ -645,21 +654,21 @@ app.post(['/payment/success', '/api/payment/success'], async (req, res) => {
     console.error('[DB] Failed to save/update payment:', e.message);
   }
 
-  res.redirect(`${FRONTEND_URL}/client/payments?status=success&tran_id=${tran_id}&amount=${amount}`);
+  res.redirect(`${getFrontendUrl(req)}/client/payments?status=success&tran_id=${tran_id}&amount=${amount}`);
 });
 
 // ── POST /api/payment/fail ────────────────────────────────────────────────────
 app.post(['/payment/fail', '/api/payment/fail'], (req, res) => {
   const { tran_id } = req.body;
   console.log(`[FAIL] tran_id=${tran_id}`);
-  res.redirect(`${FRONTEND_URL}/client/payments?status=failed&tran_id=${tran_id}`);
+  res.redirect(`${getFrontendUrl(req)}/client/payments?status=failed&tran_id=${tran_id}`);
 });
 
 // ── POST /api/payment/cancel ──────────────────────────────────────────────────
 app.post(['/payment/cancel', '/api/payment/cancel'], (req, res) => {
   const { tran_id } = req.body;
   console.log(`[CANCEL] tran_id=${tran_id}`);
-  res.redirect(`${FRONTEND_URL}/client/payments?status=cancelled&tran_id=${tran_id}`);
+  res.redirect(`${getFrontendUrl(req)}/client/payments?status=cancelled&tran_id=${tran_id}`);
 });
 
 // ── POST /api/payment/ipn ─────────────────────────────────────────────────────
@@ -944,7 +953,7 @@ sequelize.sync({ alter: true })
       console.log(`   Port    : http://localhost:${PORT}`);
       console.log(`   Mode    : ${IS_LIVE ? '🔴 LIVE' : '🟡 SANDBOX'}`);
       console.log(`   Store   : ${STORE_ID}`);
-      console.log(`   Frontend: ${FRONTEND_URL}`);
+      console.log(`   Frontend: ${getFrontendUrl()}`);
       console.log('──────────────────────────────────────────\n');
       console.log('💬 Chat & Database Services Ready');
     });
