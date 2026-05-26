@@ -282,9 +282,34 @@ const SSL_BASE = IS_LIVE
   ? 'https://securepay.sslcommerz.com'
   : 'https://sandbox.sslcommerz.com';
 
-const isProductionBackend = process.env.NODE_ENV === 'production' || (process.env.DATABASE_URL && !process.env.DATABASE_URL.includes('localhost'));
+function getBackendUrl(req) {
+  if (process.env.BACKEND_URL) return process.env.BACKEND_URL;
+  
+  if (req) {
+    const host = req.headers['x-forwarded-host'] || req.get('host') || '';
+    const protocol = req.headers['x-forwarded-proto'] || (req.secure ? 'https' : 'http');
+    
+    const isLocalhost = host.includes('localhost') || 
+                        host.includes('127.0.0.1') || 
+                        host.includes('::1');
+                        
+    if (!isLocalhost && host) {
+      return `${protocol}://${host}`;
+    }
+  }
+  
+  const isProductionBackend = process.env.NODE_ENV === 'production' || 
+                             (process.env.DATABASE_URL && !process.env.DATABASE_URL.includes('localhost')) ||
+                             (process.env.RENDER && process.env.RENDER === 'true');
+                             
+  if (isProductionBackend) {
+    return 'https://angular-project-2o3k.onrender.com';
+  }
+  
+  return 'http://localhost:4000';
+}
 
-const BACKEND_URL  = process.env.BACKEND_URL  || (isProductionBackend ? 'https://angular-project-2o3k.onrender.com' : 'http://localhost:4000');
+const BACKEND_URL = getBackendUrl();
 
 function getFrontendUrl(req) {
   if (process.env.FRONTEND_URL) return process.env.FRONTEND_URL;
@@ -336,7 +361,7 @@ if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
 
-function processBase64Avatar(body, prefixId) {
+function processBase64Avatar(req, body, prefixId) {
   if (body && typeof body.avatar === 'string' && body.avatar.startsWith('data:image/')) {
     try {
       const matches = body.avatar.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
@@ -347,7 +372,8 @@ function processBase64Avatar(body, prefixId) {
         const filePath = path.join(uploadsDir, filename);
         
         fs.writeFileSync(filePath, Buffer.from(base64Data, 'base64'));
-        body.avatar = `${BACKEND_URL}/uploads/${filename}`;
+        const activeBackendUrl = req ? getBackendUrl(req) : BACKEND_URL;
+        body.avatar = `${activeBackendUrl}/uploads/${filename}`;
         console.log(`💾 Saved base64 avatar to: ${body.avatar}`);
       }
     } catch (e) {
@@ -535,6 +561,7 @@ app.post(['/payment/init', '/api/payment/init'], async (req, res) => {
   }
 
   const tran_id = `LNX-${uuidv4().split('-')[0].toUpperCase()}-${Math.floor(100 + Math.random() * 900)}`;
+  const activeBackendUrl = getBackendUrl(req);
 
   const payload = new URLSearchParams({
     store_id:    STORE_ID,
@@ -543,10 +570,10 @@ app.post(['/payment/init', '/api/payment/init'], async (req, res) => {
     currency: currency || 'BDT',
     tran_id,
 
-    success_url: `${BACKEND_URL}/api/payment/success`,
-    fail_url:    `${BACKEND_URL}/api/payment/fail`,
-    cancel_url:  `${BACKEND_URL}/api/payment/cancel`,
-    ipn_url:     `${BACKEND_URL}/api/payment/ipn`,
+    success_url: `${activeBackendUrl}/api/payment/success`,
+    fail_url:    `${activeBackendUrl}/api/payment/fail`,
+    cancel_url:  `${activeBackendUrl}/api/payment/cancel`,
+    ipn_url:     `${activeBackendUrl}/api/payment/ipn`,
 
     product_name:     planName || 'LumiNex Plan',
     product_category: 'Digital Services',
@@ -893,7 +920,7 @@ app.post('/api/:collection', async (req, res) => {
     }
 
     if (collection === 'users') {
-      processBase64Avatar(data, data.id);
+      processBase64Avatar(req, data, data.id);
     }
 
     const item = await Model.create(data);
@@ -921,7 +948,7 @@ app.patch('/api/:collection/:id', async (req, res) => {
 
     const data = { ...req.body };
     if (collection === 'users') {
-      processBase64Avatar(data, id);
+      processBase64Avatar(req, data, id);
     }
 
     await item.update(data);
