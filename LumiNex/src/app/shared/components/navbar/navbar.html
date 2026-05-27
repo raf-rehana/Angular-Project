@@ -1,4 +1,4 @@
-<nav class="fixed top-0 left-0 right-0 z-[1050] w-full transition-all duration-300 bg-slate-900 border-b border-slate-800 shadow-sm">
+<nav class="fixed top-0 left-0 right-0 z-[1050] w-full transition-all duration-300 bg-white border-b border-gray-200 shadow-sm">
   <div class="container mx-auto px-4 md:px-6">
     <div class="flex h-16 md:h-20 items-center justify-between">
       
@@ -10,26 +10,26 @@
             <div class="absolute inset-0 bg-gradient-to-tr from-primary-600/20 to-transparent"></div>
           </div>
           <div class="flex flex-col -space-y-1">
-            <span class="text-xl font-black text-white tracking-tight">{{theme.siteName}}</span>
-            <span class="text-[10px] font-bold text-violet-300 uppercase tracking-widest">Premium Startup Hub</span>
+            <span class="text-xl font-black text-slate-900 tracking-tight">{{theme.siteName}}</span>
+            <span class="text-[10px] font-bold text-primary-600 uppercase tracking-widest">Premium Startup Hub</span>
           </div>
         </a>
 
         <!-- Desktop Menu -->
         <div class="hidden lg:flex items-center gap-8">
-          <a class="relative text-sm font-bold text-slate-300 hover:text-white transition-colors py-2 group no-underline" routerLink="/" routerLinkActive="text-primary-600" [routerLinkActiveOptions]="{exact: true}">
+          <a class="relative text-sm font-bold text-slate-600 hover:text-primary-600 transition-colors py-2 group no-underline" routerLink="/" routerLinkActive="text-primary-600" [routerLinkActiveOptions]="{exact: true}">
             Home
           </a>
-          <a class="relative text-sm font-bold text-slate-300 hover:text-white transition-colors py-2 group no-underline" routerLink="/services" routerLinkActive="text-primary-600">
+          <a class="relative text-sm font-bold text-slate-600 hover:text-primary-600 transition-colors py-2 group no-underline" routerLink="/services" routerLinkActive="text-primary-600">
             Services
           </a>
-          <a class="relative text-sm font-bold text-slate-300 hover:text-white transition-colors py-2 group no-underline" routerLink="/packages" routerLinkActive="text-primary-600">
+          <a class="relative text-sm font-bold text-slate-600 hover:text-primary-600 transition-colors py-2 group no-underline" routerLink="/packages" routerLinkActive="text-primary-600">
             Packages
           </a>
-          <a class="relative text-sm font-bold text-slate-300 hover:text-white transition-colors py-2 group no-underline" routerLink="/about" routerLinkActive="text-primary-600">
+          <a class="relative text-sm font-bold text-slate-600 hover:text-primary-600 transition-colors py-2 group no-underline" routerLink="/about" routerLinkActive="text-primary-600">
             About Us
           </a>
-          <a class="relative text-sm font-bold text-slate-300 hover:text-white transition-colors py-2 group no-underline" routerLink="/contact" routerLinkActive="text-primary-600">
+          <a class="relative text-sm font-bold text-slate-600 hover:text-primary-600 transition-colors py-2 group no-underline" routerLink="/contact" routerLinkActive="text-primary-600">
             Contact
           </a>
         </div>
@@ -38,19 +38,19 @@
       <!-- Right Content -->
       <div class="flex items-center gap-4">
         <div class="hidden md:flex items-center" *ngIf="authService.isLoggedIn()">
-          <app-notification-bell iconClass="text-white"></app-notification-bell>
+          <app-notification-bell iconClass="text-slate-700"></app-notification-bell>
         </div>
 
         <div class="relative" *ngIf="authService.currentUser$ | async as user; else loginLink">
-          <button class="flex items-center gap-2.5 p-1 rounded-full hover:bg-slate-800 transition-all border border-transparent hover:border-slate-700" id="userDropdown" data-bs-toggle="dropdown">
+          <button class="flex items-center gap-2.5 p-1 rounded-full hover:bg-gray-100 transition-all border border-transparent hover:border-gray-200" id="userDropdown" data-bs-toggle="dropdown">
             <div class="w-8 h-8 rounded-full bg-primary-600 text-white font-bold flex items-center justify-center overflow-hidden shadow-sm">
               <img *ngIf="user.avatar; else initialAvatar" [src]="user.avatar" class="w-full h-full object-cover">
               <ng-template #initialAvatar>
                 {{ user.name.charAt(0) | uppercase }}
               </ng-template>
             </div>
-            <span class="hidden md:inline text-sm font-bold text-white pr-1">{{ user.name }}</span>
-            <i class="bi bi-chevron-down text-[10px] text-slate-400"></i>
+            <span class="hidden md:inline text-sm font-bold text-slate-700 pr-1">{{ user.name }}</span>
+            <i class="bi bi-chevron-down text-[10px] text-slate-500"></i>
           </button>
           <ul class="dropdown-menu dropdown-menu-end shadow-premium border-0 mt-3 rounded-2xl p-2 min-w-[220px] animate-fade-in">
             <ng-container *ngIf="user.role === 'CLIENT'">
@@ -70,13 +70,13 @@
 
         <ng-template #loginLink>
           <div class="flex items-center gap-2">
-            <a class="hidden sm:inline-flex px-5 py-2.5 text-sm font-bold text-slate-300 hover:text-white transition-colors no-underline" routerLink="/login">Sign In</a>
-            <a class="inline-flex px-6 py-2.5 bg-primary-600 text-white text-sm font-bold rounded-full shadow-sm hover:bg-primary-500 hover:shadow-lg transition-all active:scale-95" routerLink="/register">Get Started</a>
+            <a class="hidden sm:inline-flex px-5 py-2.5 text-sm font-bold text-slate-600 hover:text-primary-600 transition-colors no-underline" routerLink="/login">Sign In</a>
+            <a class="inline-flex px-6 py-2 bg-primary-600 text-white text-sm font-bold rounded-md shadow-sm hover:bg-primary-700 hover:shadow-md transition-all active:scale-95" routerLink="/register">Get Started</a>
           </div>
         </ng-template>
 
         <!-- Mobile Menu Toggle -->
-        <button class="lg:hidden p-2 text-white hover:bg-slate-800 rounded-xl" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+        <button class="lg:hidden p-2 text-slate-800 hover:bg-gray-100 rounded-md" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
           <i class="bi bi-list text-2xl"></i>
         </button>
       </div>

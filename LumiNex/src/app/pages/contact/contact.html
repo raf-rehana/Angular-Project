@@ -5,37 +5,31 @@
       <div class="row g-5 align-items-center">
         <!-- Contact Info -->
         <div class="col-lg-5">
-          <div class="badge bg-soft-primary text-primary px-3 py-2 rounded-pill mb-3 fw-bold">GET IN TOUCH</div>
-          <h1 class="display-4 fw-bold text-dark mb-4">Let's talk about your next big project.</h1>
-          <p class="lead text-secondary mb-5">Have a question or need a custom solution? Our team of experts is ready to help you scale your business operations.</p>
+        <div class="col-lg-5">
+          <h1 class="fw-bold text-dark mb-3">Contact Us</h1>
+          <p class="text-secondary mb-5">Have a question or need a custom solution? Reach out to our team.</p>
           
           <div class="contact-cards">
-            <div class="card border-0 bg-light rounded-4 p-4 mb-3 d-flex flex-row align-items-center">
-              <div class="icon-circle bg-primary text-white me-3">
-                <i class="bi bi-envelope-fill"></i>
-              </div>
+            <div class="mb-4 d-flex align-items-center">
+              <i class="bi bi-envelope-fill text-secondary fs-4 me-3"></i>
               <div>
-                <h6 class="fw-bold mb-0">Email Support</h6>
+                <h6 class="fw-bold mb-0">Email</h6>
                 <p class="text-secondary small mb-0">hello@luminex.com</p>
               </div>
             </div>
             
-            <div class="card border-0 bg-light rounded-4 p-4 mb-3 d-flex flex-row align-items-center">
-              <div class="icon-circle bg-success text-white me-3">
-                <i class="bi bi-telephone-fill"></i>
-              </div>
+            <div class="mb-4 d-flex align-items-center">
+              <i class="bi bi-telephone-fill text-secondary fs-4 me-3"></i>
               <div>
-                <h6 class="fw-bold mb-0">Phone Number</h6>
+                <h6 class="fw-bold mb-0">Phone</h6>
                 <p class="text-secondary small mb-0">+880 1605 142112</p>
               </div>
             </div>
             
-            <div class="card border-0 bg-light rounded-4 p-4 d-flex flex-row align-items-center">
-              <div class="icon-circle bg-warning text-white me-3">
-                <i class="bi bi-geo-alt-fill"></i>
-              </div>
+            <div class="mb-4 d-flex align-items-center">
+              <i class="bi bi-geo-alt-fill text-secondary fs-4 me-3"></i>
               <div>
-                <h6 class="fw-bold mb-0">Our Office</h6>
+                <h6 class="fw-bold mb-0">Office</h6>
                 <p class="text-secondary small mb-0">Tech Plaza, Sector 7, Uttara, Dhaka</p>
               </div>
             </div>
@@ -44,53 +38,45 @@
 
         <!-- Contact Form -->
         <div class="col-lg-7">
-          <div class="card border-0 shadow-lg rounded-5 p-4 p-md-5">
+          <div class="card border border-light shadow-sm rounded-md p-4">
             <h3 class="fw-bold text-dark mb-4">Send us a message</h3>
             
             <form #contactForm="ngForm" (ngSubmit)="submitForm()">
-              <div class="row g-4">
+              <div class="row g-3">
                 <div class="col-md-6">
-                  <div class="form-floating">
-                    <input type="text" class="form-control border-0 bg-light rounded-3" id="fullName" placeholder="Your Name" required name="name" [(ngModel)]="formData.name">
-                    <label for="fullName" class="text-muted">Full Name</label>
-                  </div>
+                  <label for="fullName" class="form-label text-muted small fw-bold">Full Name</label>
+                  <input type="text" class="form-control border-0 bg-light rounded-md py-2" id="fullName" required name="name" [(ngModel)]="formData.name">
                 </div>
                 <div class="col-md-6">
-                  <div class="form-floating">
-                    <input type="email" class="form-control border-0 bg-light rounded-3" id="email" placeholder="name@example.com" required name="email" [(ngModel)]="formData.email">
-                    <label for="email" class="text-muted">Email Address</label>
-                  </div>
+                  <label for="email" class="form-label text-muted small fw-bold">Email Address</label>
+                  <input type="email" class="form-control border-0 bg-light rounded-md py-2" id="email" required name="email" [(ngModel)]="formData.email">
                 </div>
                 <div class="col-12">
-                  <div class="form-floating">
-                    <select class="form-select border-0 bg-light rounded-3" id="service" name="service" [(ngModel)]="formData.service">
-                      <option value="Web Development">Web Development</option>
-                      <option value="Graphic Design">Graphic Design</option>
-                      <option value="Digital Marketing">Digital Marketing</option>
-                      <option value="Consultancy">Business Consultancy</option>
-                    </select>
-                    <label for="service" class="text-muted">Service Interested In</label>
-                  </div>
+                  <label for="service" class="form-label text-muted small fw-bold">Service Interested In</label>
+                  <select class="form-select border-0 bg-light rounded-md py-2" id="service" name="service" [(ngModel)]="formData.service">
+                    <option value="Web Development">Web Development</option>
+                    <option value="Graphic Design">Graphic Design</option>
+                    <option value="Digital Marketing">Digital Marketing</option>
+                    <option value="Consultancy">Business Consultancy</option>
+                  </select>
                 </div>
                 <div class="col-12">
-                  <div class="form-floating">
-                    <textarea class="form-control border-0 bg-light rounded-3" placeholder="Leave a message here" id="message" style="height: 150px" required name="message" [(ngModel)]="formData.message"></textarea>
-                    <label for="message" class="text-muted">Tell us about your needs...</label>
-                  </div>
+                  <label for="message" class="form-label text-muted small fw-bold">Message</label>
+                  <textarea class="form-control border-0 bg-light rounded-md py-2" id="message" style="height: 120px" required name="message" [(ngModel)]="formData.message"></textarea>
                 </div>
-                <div class="col-12">
-                  <button type="submit" class="btn btn-primary btn-lg w-100 rounded-pill py-3 fw-bold shadow-sm" [disabled]="!contactForm.form.valid">
-                    Send Message <i class="bi bi-send-fill ms-2"></i>
+                <div class="col-12 mt-4">
+                  <button type="submit" class="btn btn-primary rounded-md px-4 py-2 fw-bold shadow-sm" [disabled]="!contactForm.form.valid">
+                    Send Message
                   </button>
                 </div>
               </div>
             </form>
             
-            <div class="alert alert-success border-0 rounded-4 mt-4 py-3 d-flex align-items-center" *ngIf="isSubmitted">
-              <i class="bi bi-check-circle-fill fs-4 me-3"></i>
+            <div class="alert alert-success border-0 rounded-md mt-4 py-3 d-flex align-items-center" *ngIf="isSubmitted">
+              <i class="bi bi-check-circle-fill me-3"></i>
               <div>
-                <div class="fw-bold">Success!</div>
-                <div class="small">Thank you, {{ formData.name }}! We've received your message and will get back to you within 24 hours.</div>
+                <div class="fw-bold">Message sent</div>
+                <div class="small">Thank you, {{ formData.name }}. We will get back to you shortly.</div>
               </div>
             </div>
           </div>

@@ -1,42 +1,11 @@
 <div class="auth-container bg-light d-flex align-items-center justify-content-center min-vh-100 py-5">
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-md-11 col-lg-10 col-xl-9">
-        <div class="card border-0 shadow-lg rounded-5 overflow-hidden">
+      <div class="col-md-8 col-lg-6 col-xl-5">
+        <div class="card border border-light shadow-sm rounded-md overflow-hidden">
           <div class="row g-0">
-            <!-- Left Info Panel -->
-            <div class="col-md-4 bg-primary text-white d-none d-md-flex flex-column justify-content-center p-5 text-center">
-              <div class="mb-5">
-                <div class="bg-white rounded-3 d-inline-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 60px; height: 60px;">
-                  <i class="bi bi-rocket-takeoff text-primary fs-2"></i>
-                </div>
-                <h3 class="fw-bold">LumiNex</h3>
-                <p class="small opacity-75">Scale your project with confidence.</p>
-              </div>
-
-              <!-- Progress Steps -->
-              <div class="registration-steps text-start">
-                <div class="step-item d-flex align-items-center mb-4" [class.active]="currentStep >= 1">
-                  <div class="step-num me-3 rounded-circle d-flex align-items-center justify-content-center fw-bold" [class.bg-white]="currentStep >= 1" [class.text-primary]="currentStep >= 1" [class.border]="currentStep < 1">1</div>
-                  <div class="small fw-bold">Company Info</div>
-                </div>
-                <div class="step-item d-flex align-items-center mb-4" [class.active]="currentStep >= 2">
-                  <div class="step-num me-3 rounded-circle d-flex align-items-center justify-content-center fw-bold" [class.bg-white]="currentStep >= 2" [class.text-primary]="currentStep >= 2" [class.border]="currentStep < 2">2</div>
-                  <div class="small fw-bold">Location</div>
-                </div>
-                <div class="step-item d-flex align-items-center mb-4" [class.active]="currentStep >= 3">
-                  <div class="step-num me-3 rounded-circle d-flex align-items-center justify-content-center fw-bold" [class.bg-white]="currentStep >= 3" [class.text-primary]="currentStep >= 3" [class.border]="currentStep < 3">3</div>
-                  <div class="small fw-bold">Account Setup</div>
-                </div>
-                <div class="step-item d-flex align-items-center" [class.active]="success">
-                  <div class="step-num me-3 rounded-circle d-flex align-items-center justify-content-center fw-bold" [class.bg-white]="success" [class.text-primary]="success" [class.border]="!success">4</div>
-                  <div class="small fw-bold">Done</div>
-                </div>
-              </div>
-            </div>
-
             <!-- Register Form Panel -->
-            <div class="col-md-8 bg-white p-5">
+            <div class="col-12 bg-white p-4 p-md-5">
               <div class="mb-4 d-flex justify-content-between align-items-center">
                 <a routerLink="/" class="text-decoration-none text-secondary small d-flex align-items-center fw-medium">
                   <i class="bi bi-arrow-left me-2"></i> Back to Website
@@ -58,7 +27,7 @@
                     <label class="form-label fw-bold small text-muted">Company Name</label>
                     <div class="input-group">
                       <span class="input-group-text bg-light border-0"><i class="bi bi-building text-muted"></i></span>
-                      <input type="text" class="form-control bg-light border-0 py-2" formControlName="companyName" placeholder="TechFlow Inc.">
+                      <input type="text" class="form-control bg-light border-0 py-2" formControlName="companyName">
                     </div>
                   </div>
 
@@ -75,7 +44,7 @@
                   </div>
 
                   <div class="d-grid pt-3">
-                    <button type="button" class="btn btn-primary rounded-pill py-3 fw-bold text-white shadow" (click)="nextStep()">
+                    <button type="button" class="btn btn-primary rounded-md py-2 fw-bold text-white shadow-sm" (click)="nextStep()">
                       Next Step <i class="bi bi-arrow-right ms-2"></i>
                     </button>
                   </div>
@@ -119,12 +88,12 @@
 
                   <div class="mb-4">
                     <label class="form-label fw-bold small text-muted">Village / Street Address</label>
-                    <input type="text" class="form-control bg-light border-0 py-2" formControlName="village" placeholder="House no, Road, Area...">
+                    <input type="text" class="form-control bg-light border-0 py-2" formControlName="village">
                   </div>
 
                   <div class="d-flex gap-3">
-                    <button type="button" class="btn btn-light rounded-pill px-4 fw-bold" (click)="prevStep()">Back</button>
-                    <button type="button" class="btn btn-primary flex-grow-1 rounded-pill py-3 fw-bold text-white shadow" (click)="nextStep()">
+                    <button type="button" class="btn btn-light rounded-md px-3 py-2 fw-bold" (click)="prevStep()">Back</button>
+                    <button type="button" class="btn btn-primary flex-grow-1 rounded-md py-2 fw-bold text-white shadow-sm" (click)="nextStep()">
                       Next Step <i class="bi bi-arrow-right ms-2"></i>
                     </button>
                   </div>
@@ -134,12 +103,12 @@
                 <div *ngIf="currentStep === 3 && !success" class="animate-fade-in">
                   <div class="mb-3">
                     <label class="form-label fw-bold small text-muted">Full Name</label>
-                    <input type="text" class="form-control bg-light border-0 py-2" formControlName="name" placeholder="John Doe">
+                    <input type="text" class="form-control bg-light border-0 py-2" formControlName="name">
                   </div>
 
                   <div class="mb-3">
                     <label class="form-label fw-bold small text-muted">Email Address</label>
-                    <input type="email" class="form-control bg-light border-0 py-2" formControlName="email" placeholder="name@company.com">
+                    <input type="email" class="form-control bg-light border-0 py-2" formControlName="email">
                   </div>
 
                   <div class="mb-3">
@@ -148,7 +117,7 @@
                       <select class="form-select bg-light border-0 py-2" style="max-width: 120px;" formControlName="countryCode">
                         <option *ngFor="let c of countries" [value]="c.code">{{ c.flag }} {{ c.code }}</option>
                       </select>
-                      <input type="text" class="form-control bg-light border-0 py-2" formControlName="phone" placeholder="1XXX-XXXXXX">
+                      <input type="text" class="form-control bg-light border-0 py-2" formControlName="phone">
                     </div>
                   </div>
 
@@ -156,7 +125,7 @@
                     <label class="form-label fw-bold small text-muted">Password</label>
                     <div class="input-group">
                       <span class="input-group-text bg-light border-0"><i class="bi bi-lock text-muted"></i></span>
-                      <input [type]="showPassword ? 'text' : 'password'" class="form-control bg-light border-0 py-2" formControlName="password" placeholder="••••••••">
+                      <input [type]="showPassword ? 'text' : 'password'" class="form-control bg-light border-0 py-2" formControlName="password">
                       <button type="button" class="btn bg-light border-0" (click)="showPassword = !showPassword">
                         <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
                       </button>
@@ -168,8 +137,8 @@
                   </div>
 
                   <div class="d-flex gap-3">
-                    <button type="button" class="btn btn-light rounded-pill px-4 fw-bold" (click)="prevStep()">Back</button>
-                    <button type="submit" class="btn btn-primary flex-grow-1 rounded-pill py-3 fw-bold text-white shadow" [disabled]="loading || form.invalid">
+                    <button type="button" class="btn btn-light rounded-md px-3 py-2 fw-bold" (click)="prevStep()">Back</button>
+                    <button type="submit" class="btn btn-primary flex-grow-1 rounded-md py-2 fw-bold text-white shadow-sm" [disabled]="loading || form.invalid">
                       <span *ngIf="!loading">Complete Registration</span>
                       <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
                     </button>

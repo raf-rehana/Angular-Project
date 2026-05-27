@@ -4,9 +4,9 @@
 
 /* Dynamic Theme Variables */
 :root {
-  --primary-color: #4f46e5;
+  --primary-color: #b07d50;
   --accent-color: #6c757d;
-  --font-family: 'Roboto', sans-serif;
+  --font-family: 'Oswald', sans-serif;
 }
 
 body {
